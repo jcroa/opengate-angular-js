@@ -1,0 +1,24 @@
+{
+    "name": "opengate-angular-js",
+    "version": "0.0.1",
+    "authors": ["amplia-iiot"],
+    "description": "OpengateUX angular extra directives and services",
+    "license": "",
+    "homepage": "",
+    "dependencies": {
+        "angular": "^1.5.0",
+        "opengate-js": "amplia-iiot/opengate-js#1.x.x",
+        "q": "^v1.4.1"
+    },
+    "ignore": [
+        "**/.*",
+        "node_modules",
+        "bower_components",
+        "tests"
+    ],
+    "devDependencies": {
+        "mocha": "^2.5.3",
+        "chai": "^3.5.0",
+        "angular-mocks": "^v1.5.10"
+    }
+}

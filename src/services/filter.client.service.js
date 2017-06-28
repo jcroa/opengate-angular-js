@@ -1,6 +1,6 @@
 'use strict';
 
-// PasswordValidator service used for testing the password strength
+// Filter service
 angular.module('opengate-angular-js')
     .factory('Filter', ['$window', '$sce', '$q',
         function($window, $sce, $q) {

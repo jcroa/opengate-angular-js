@@ -40,6 +40,7 @@
         "jshint-stylish": "^1.0.1",
         "ng-annotate-adf-plugin": "^0.1.2",
         "wiredep": "~2.2.2",
-        "yargs": "^6.6.0"
+        "yargs": "^6.6.0",
+        "gulp-mocha-phantomjs": "^0.11.0"
     }
 }

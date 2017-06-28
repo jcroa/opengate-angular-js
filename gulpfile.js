@@ -6,6 +6,7 @@ var del = require('del');
 var jsReporter = require('jshint-stylish');
 var annotateAdfPlugin = require('ng-annotate-adf-plugin');
 var pkg = require('./package.json');
+var mochaPhantomJS = require('gulp-mocha-phantomjs');
 
 var annotateOptions = {
     plugin: [
@@ -43,7 +44,7 @@ gulp.task('templates', function() {
 });
 
 gulp.task('sample', ['templates'], function() {
-    var files = gulp.src(['src/**/*.js', 'src/**/*.css', 'src/**/*.less', '.tmp/dist/*.js'])
+    var files = gulp.src(['src/**/*.js', 'src/**/*.css', 'src/*.less', '.tmp/dist/*.js'])
         .pipe($.if('*.js', $.angularFilesort()));
 
     gulp.src('sample/index.html')
@@ -70,14 +71,32 @@ gulp.task('serve', ['watch', 'sample'], function() {
     });
 });
 
+gulp.task('test', function() {
+    return gulp
+        .src('test/opengate-angular-js.test.html')
+        .pipe(mochaPhantomJS({
+            reporter: 'spec',
+            phantomjs: {
+                useColors: true
+            }
+        }))
+        .on('error', function() {
+            testFailed = true;
+        });
+});
+
 /** build **/
+
+gulp.task('assets', ['clean'], function() {
+    compileCSS();
+    compileJS();
+});
 
 gulp.task('css', function() {
     compileCSS();
 });
 
 gulp.task('js', function() {
-
     compileJS();
 });
 
@@ -98,7 +117,7 @@ function compileJS() {
 }
 
 function compileCSS() {
-    return gulp.src(['src/**/*.css', 'src/**/*.less'])
+    return gulp.src(['src/**/*.css', 'src/*.less'])
         .pipe($.if('*.less', $.less()))
         .pipe($.concat(pkg.name + '.css'))
         .pipe(ver())

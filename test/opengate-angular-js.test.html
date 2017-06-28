@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Testing opengate javascript api module angular</title>
+    <!-- library scripts -->
+    <script src="../bower_components/mocha/mocha.js"></script>
+    <script src="../bower_components/chai/chai.js"></script>
+    <script src="../bower_components/angular/angular.js"></script>
+    <script src="../bower_components/opengate-js/dist/opengate-api-bower-1.10.1.js"></script>
+    <script src="../dist/opengate-angular-js-0.0.1.js"></script>
+    <script>
+        mocha.setup('bdd');
+    </script>
+    <script src="../bower_components/angular-mocks/angular-mocks.js"></script>
+    <!-- project scripts -->
+    <script>
+        angular.module('app', ['$ogapi']);
+    </script>
+    <script src="opengate-angular-js.spec.js"></script>
+</head>
+
+<body>
+    <div class="container" style="margin-top:30px;">
+        <h1>Testing opengate javascript api module angular</h1>
+        <div id="mocha"></div>
+    </div>
+    <script>
+        mocha.run();
+    </script>
+</body>
+
+</html>

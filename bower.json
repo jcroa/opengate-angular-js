@@ -10,6 +10,9 @@
         "opengate-js": "amplia-iiot/opengate-js#1.x.x",
         "q": "^v1.4.1"
     },
+    "main": [
+        "dist/opengate-angular-js.js"
+    ],
     "ignore": [
         "**/.*",
         "node_modules",

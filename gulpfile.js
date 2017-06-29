@@ -132,7 +132,7 @@ gulp.task('clean', function(cb) {
     del(['dist', '.tmp'], cb);
 });
 
-gulp.task('default', ['css', 'js']);
+gulp.task('default', ['assets']);
 
 // dependencies 
 var ver = require('gulp-ver'),

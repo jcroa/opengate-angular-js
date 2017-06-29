@@ -6,7 +6,7 @@ angular.module("opengate-angular-js").run(["$templateCache", function($templateC
 
 
 angular.module('opengate-angular-js')
-    .service("$ogapi", function() {
+    .service('$ogapi', function() {
         function OgApiService() {
             var ogapi = undefined;
             this.api = function() {

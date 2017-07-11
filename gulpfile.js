@@ -188,7 +188,7 @@ gulp.task('checkout:master:increase', ['commit:increase:version'], function(cb) 
     })
 });
 gulp.task('merge:master:increase', ['checkout:master:increase'], function(cb) {
-    git.merge(temporalBranchRelease(), { args: "--squash" }, function(err) {
+    git.merge(temporalBranchRelease(), function(err) {
         cb(err);
     });
 })

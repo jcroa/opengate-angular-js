@@ -134,6 +134,7 @@ var ver = require('gulp-ver'),
     git = require('gulp-git'),
     bump = require('gulp-bump'),
     argv = require('yargs').argv,
+    runSequence = require('run-sequence'),
     ext_replace = require('gulp-ext-replace'),
     tag_version = require('gulp-tag-version');
 
@@ -153,31 +154,27 @@ var ver = require('gulp-ver'),
  */
 
 //STEP 1 
-gulp.task('create:release:branch', ['clean'], function(cb) {
+gulp.task('create:release:branch', function(cb) {
     git.checkout(temporalBranchRelease(), { args: '-b' }, function(err) {
         cb(err);
     })
 });
 
 // STEP 2
-gulp.task('compile:js', ['increase:version'], function() {
-    return compileJS();
-})
 
-gulp.task('compile:css', ['compile:js', 'increase:version'], function() {
-    return compileCSS();
-});
-
-gulp.task('increase:version', ['create:release:branch', 'clean'], function() {
+gulp.task('increase:version', ['create:release:branch'], function() {
     console.log(versionType());
     return increase(versionType());
 });
 
+gulp.task('build:all', function(cb) {
+    runSequence('clean', 'increase:version', 'js', 'css', cb);
+})
 
 // STEP 2
 
 // STEP 3 
-gulp.task('commit:increase:version', ['compile:css'], function() {
+gulp.task('commit:increase:version', ['build:all'], function() {
     return gulp.src(['dist', './bower.json', './package.json'])
         .pipe(git.add())
         .pipe(git.commit('release ' + versionType() + ' version:' + versionNumber()))

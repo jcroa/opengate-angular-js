@@ -2,7 +2,7 @@
 
 angular.module('opengate-angular-js')
     .directive('customUiSelect', ['$compile', 'Filter', function($compile, Filter) {
-        var button = angular.element('<div ng-click="complex()" style="cursor:pointer" class="custom-ui-select-button input-group-addon"><i class="fa fa-filter text-muted"></i></div>');
+        var button = angular.element('<div title="Toggle Advanced/Basic filter search" ng-click="complex()" style="cursor:pointer" class="custom-ui-select-button input-group-addon"><i class="fa fa-filter"></i><i class="filter-icon fa fa-bold text-muted"></i></div>');
         var container = angular.element('<div class="custom-ui-select-container input-group"></div>');
 
         var isEmpty = function(value) {
@@ -80,11 +80,13 @@ angular.module('opengate-angular-js')
                     if ($scope._complex) {
                         $element.css('display', '').removeClass('custom-ui-select-hide');
                         $attrs.$$cloneElement.css('display', 'none').addClass('custom-ui-select-hide');
-                        $attrs.$$button.querySelectorAll('.fa-filter').removeClass('text-muted').addClass('text-primary');
+                        //$attrs.$$button.querySelectorAll('.fa-filter').removeClass('text-muted').addClass('text-primary');
+                        $attrs.$$button.querySelectorAll('.filter-icon').removeClass('fa-bold').removeClass('text-muted').addClass('fa-font').addClass('text-primary');
                     } else {
                         $element.css('display', 'none').addClass('custom-ui-select-hide');
                         $attrs.$$cloneElement.css('display', '').removeClass('custom-ui-select-hide');
-                        $attrs.$$button.querySelectorAll('.fa-filter').addClass('text-muted').removeClass('text-primary');
+                        //$attrs.$$button.querySelectorAll('.fa-filter').addClass('text-muted').removeClass('text-primary');
+                        $attrs.$$button.querySelectorAll('.filter-icon').removeClass('fa-font').addClass('text-muted').addClass('fa-bold').removeClass('text-primary');
                     }
                 };
 
@@ -92,9 +94,25 @@ angular.module('opengate-angular-js')
                     return null;
                 };
 
+                // Retraso de la peticion de recarga para no saturar (OUW-431)
+                var lastTimeout = null;
+
                 function _loadCollection(builder, collection, id, filter) {
+                    if (lastTimeout) clearTimeout(lastTimeout);
+
+                    lastTimeout = setTimeout(function() { _loadCollectionTimeout(builder, collection, id, filter); }, 500);
+                }
+
+                function _loadCollectionTimeout(builder, collection, id, filter) {
+                    $attrs.$$button.querySelectorAll('.filter-icon').removeClass('fa-bold').removeClass('fa-font').addClass('fa-spinner').addClass('fa-spin');
                     builder.limit(1000).filter(filter).build().execute().then(
                         function(data) {
+                            if ($scope._complex) {
+                                $attrs.$$button.querySelectorAll('.filter-icon').removeClass('fa-spinner').removeClass('fa-spin').addClass('fa-font');
+                            } else {
+                                $attrs.$$button.querySelectorAll('.filter-icon').removeClass('fa-spinner').removeClass('fa-spin').addClass('fa-bold');
+                            }
+
                             if (data.statusCode === 200) {
                                 //obj.selected = null;
                                 var datas = [];
@@ -123,7 +141,9 @@ angular.module('opengate-angular-js')
                             }
                             $scope.$apply();
                         }
-                    );
+                    ).catch(function(err) {
+                        $attrs.$$button.querySelectorAll('.filter-icon').removeClass('fa-spinner').removeClass('fa-spin').addClass('fa-filter');
+                    });
                 }
             },
             compile: function(templateElement, templateAttributes) {

@@ -22,13 +22,13 @@ var templateOptions = {
 /** lint **/
 
 gulp.task('csslint', function() {
-    gulp.src('src/**/*.css')
+    return gulp.src('src/**/*.css')
         .pipe($.csslint())
         .pipe($.csslint.reporter());
 });
 
 gulp.task('jslint', function() {
-    gulp.src('src/**/*.js')
+    return gulp.src('src/**/*.js')
         .pipe($.jshint())
         .pipe($.jshint.reporter(jsReporter));
 });
@@ -47,7 +47,7 @@ gulp.task('sample', ['templates'], function() {
     var files = gulp.src(['src/**/*.js', 'src/**/*.css', 'src/*.less', '.tmp/dist/*.js'])
         .pipe($.if('*.js', $.angularFilesort()));
 
-    gulp.src('sample/index.html')
+    return gulp.src('sample/index.html')
         .pipe(wiredep({
             directory: './components/',
             bowerJson: require('./bower.json'),
@@ -60,11 +60,11 @@ gulp.task('sample', ['templates'], function() {
 });
 
 gulp.task('watch', function() {
-    gulp.watch(['src/**'], ['sample']);
+    return gulp.watch(['src/**'], ['sample']);
 });
 
 gulp.task('serve', ['watch', 'sample'], function() {
-    connect.server({
+    return connect.server({
         root: ['.tmp/dist', '.'],
         livereload: true,
         port: 9002
@@ -87,17 +87,12 @@ gulp.task('test', function() {
 
 /** build **/
 
-gulp.task('assets', ['clean'], function() {
-    compileCSS();
-    compileJS();
-});
-
 gulp.task('css', function() {
-    compileCSS();
+    return compileCSS();
 });
 
 gulp.task('js', function() {
-    compileJS();
+    return compileJS();
 });
 
 function compileJS() {
@@ -132,7 +127,7 @@ gulp.task('clean', function(cb) {
     del(['dist', '.tmp'], cb);
 });
 
-gulp.task('default', ['assets']);
+gulp.task('default', ['css', 'js']);
 
 // dependencies 
 var ver = require('gulp-ver'),

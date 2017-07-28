@@ -1,0 +1,20 @@
+<div class="form-group" mass-autocomplete>
+    <label class="custom-ui-select-label">Entity Key</label>
+    <ui-select custom-ui-select-config="$ctrl.ownConfig" name="entity" ng-model="$ctrl.entity" theme="bootstrap" title="Choose a entity"
+        custom-ui-select multiple="$ctrl.multiple" custom-mass-autocomplete-item="$ctrl.ownConfig" on-select="$ctrl.entitySelected($item, $model)"
+        on-remove="$ctrl.entityRemove($item, $model)" ng-required="$ctrl.isRequired">
+        <ui-select-match placeholder="Choose a entity" allow-clear="true">
+            {{$item.id}}
+        </ui-select-match>
+        <ui-select-choices repeat="entity in $ctrl.ownConfig.collection track by $index">
+            <div>
+                <span ng-bind-html="entity.id | highlight: $select.search"></span>
+            </div>
+            <small>
+                    <div ng-if="entity.provision.type">Sub-type: <span ng-bind-html="''+entity.provision.type | highlight: $select.search"></span></div>
+                    <div ng-if="entity.provision.specificType">Specific type: <span ng-bind-html="entity.provision.specificType | highlight: $select.search"></span></div>
+                    <div ng-if="entity.provision.operationalStatus">Operational status: <span ng-bind-html="''+entity.provision.operationalStatus | highlight: $select.search"></span></div>
+                </small>
+        </ui-select-choices>
+    </ui-select>
+</div>

@@ -2,7 +2,10 @@
 
 
 angular.module('opengate-angular-js', []);
-angular.module("opengate-angular-js").run(["$templateCache", function($templateCache) {$templateCache.put("views/window-time.select.view.html","<div class=window-time-container><button type=button class=\"btn btn-xs\" ng-class=oneDayClass ng-click=oneDay()>Last day</button> <button type=button class=\"btn btn-xs\" ng-class=oneWeekClass ng-click=oneWeek()>Last 7 days</button> <button type=button class=\"btn btn-xs\" ng-class=oneMonthClass ng-click=oneMonth()>Last 30 days</button> <button type=button class=\"btn btn-xs\" ng-class=customClass ng-click=custom()>Custom</button> <button type=button class=\"btn btn-xs btn-info\" ng-if=customEnabled ng-disabled=!!errorCustomWindow ng-click=applyCustom()>Apply</button> <button type=button class=\"btn btn-xs btn-info\" ng-if=filterApplied ng-click=clear()>Clear</button><div ng-if=customEnabled class=window-time-body><div class=row><div class=col-xs-12><p class=input-group><label class=control-label>From: {{fromDate | date:\'fullDate\'}}</label> <input readonly datepicker-options=fromOptions type=text class=form-control show-button-bar=false uib-datepicker-popup={{format}} ng-model=date.from is-open=fromPopup.opened ng-required=true close-text=Close ng-change=fromChange()> <span class=input-group-btn><a class=\"btn btn-sm\" ng-click=fromOpen()><i class=\"glyphicon glyphicon-calendar\"></i></a></span></p></div><div class=col-xs-12><div uib-timepicker max=fromMax ng-model=date.from show-meridian=false ng-change=fromChange()></div></div></div><div class=row><div class=col-xs-12><p class=input-group><label class=control-label>To: {{toDate | date:\'fullDate\'}}</label> <input readonly datepicker-options=toOptions type=text class=form-control show-button-bar=false uib-datepicker-popup={{format}} ng-model=date.to is-open=toPopup.opened ng-required=true close-text=Close ng-change=toChange()> <span class=input-group-btn><button type=button class=\"btn btn-sm\" ng-click=toOpen()><i class=\"glyphicon glyphicon-calendar\"></i></button></span></p></div><div class=col-xs-12><div uib-timepicker max=toMax min=toMin ng-model=date.to show-meridian=false ng-change=toChange()></div></div></div><alert type=danger ng-show=errorCustomWindow class=text-danger style=\"display: block;text-align: center;\"><span ng-bind=errorCustomWindow></span></alert></div></div>");}]);
+angular.module("opengate-angular-js").run(["$templateCache", function($templateCache) {$templateCache.put("views/custom.ui.select.entity.html","<div class=form-group mass-autocomplete><label class=custom-ui-select-label>Entity Key</label><ui-select custom-ui-select-config=$ctrl.ownConfig name=entity ng-model=$ctrl.entity theme=bootstrap title=\"Choose a entity\" custom-ui-select multiple=$ctrl.multiple custom-mass-autocomplete-item=$ctrl.ownConfig on-select=\"$ctrl.entitySelected($item, $model)\" on-remove=\"$ctrl.entityRemove($item, $model)\" ng-required=$ctrl.isRequired><ui-select-match placeholder=\"Choose a entity\" allow-clear=true>{{$item.id}}</ui-select-match><ui-select-choices repeat=\"entity in $ctrl.ownConfig.collection track by $index\"><div><span ng-bind-html=\"entity.id | highlight: $select.search\"></span></div><small><div ng-if=entity.provision.type>Sub-type: <span ng-bind-html=\"\'\'+entity.provision.type | highlight: $select.search\"></span></div><div ng-if=entity.provision.specificType>Specific type: <span ng-bind-html=\"entity.provision.specificType | highlight: $select.search\"></span></div><div ng-if=entity.provision.operationalStatus>Operational status: <span ng-bind-html=\"\'\'+entity.provision.operationalStatus | highlight: $select.search\"></span></div></small></ui-select-choices></ui-select></div>");
+$templateCache.put("views/custom.ui.select.helper.html","<div class=form-group ng-hide=$ctrl.have_helper_keys ng-transclude=input><label for={{$ctrl.id}}>{{$ctrl.labelText}}</label> <input class=form-control name={{$ctrl.name}} type=text id={{$ctrl.id}} ng-model=$ctrl.helperModel ng-required=$ctrl.required> <span class=help-inline ng-show=\"!$ctrl.helperModel && $ctrl.required\">{{$ctrl.labelError}}</span></div><div class=form-group ng-hide=!$ctrl.have_helper_keys><label for={{$ctrl.id}}>{{$ctrl.labelText}}</label><ui-select id={{$ctrl.id}} name={{$ctrl.name}} ng-model=$ctrl.helperModel theme=bootstrap title=\"Choose an option\" ng-required=$ctrl.required tagging=$ctrl.helperTagTransform tagging-label=false><ui-select-match placeholder=\"Choose an option\">{{$select.selected.value}}</ui-select-match><ui-select-choices repeat=\"parameter.value as (key, parameter) in $ctrl.$helper_keys | filter: $select.search\"><span ng-bind-html=\"parameter.key | highlight: $select.search\"></span>: <small ng-bind-html=\"parameter.value | highlight: $select.search\"></small></ui-select-choices></ui-select><span class=help-inline ng-show=\"!$ctrl.helperModel && $ctrl.required\">Field is required</span></div>");
+$templateCache.put("views/helper.view.html","<style>\r\n    .row-eq-height {\r\n        display: -webkit-box;\r\n        display: -webkit-flex;\r\n        display: -ms-flexbox;\r\n        display: flex;\r\n    }\r\n\r\n    .vcenter {\r\n        display: -webkit-box;\r\n        display: -webkit-flex;\r\n        display: -ms-flexbox;\r\n        display: flex;\r\n        flex-direction: column;\r\n        justify-content: center;\r\n    }\r\n\r\n    .top-buffer {\r\n        margin-top: 25px;\r\n    }\r\n\r\n    .custom-ui-select-label {\r\n        display: none;\r\n    }\r\n\r\n    .without-padding-top .form-group {\r\n        margin-top: 0 !important;\r\n    }\r\n\r\n    .without-padding-top.modal-body h4 {\r\n        padding-bottom: 0px;\r\n    }\r\n</style><div class=\"row row-eq-height\"><div class=\"helper-container col-xs-10\" ng-transclude></div><div class=\"col-xs-2 vcenter\"><a class=\"btn btn-default ux-txt-success pointer\" ng-href ng-click=$helper.open() ng-switch=$helper.mode><span ng-switch-when=button><i ng-class=$helper.helperButton aria-hidden=true></i></span> <span ng-switch-when=title>{{$helper.helperTitle}}</span> <span ng-switch-when=title_button><i ng-class=$helper.helperButton aria-hidden=true></i>{{$helper.helperTitle}}</span> <span ng-switch-default><i ng-if=\"!$helper.helperTitle && !$helper.helperButton\" class=\"fa fa-lg fa-files-o\" aria-hidden=true></i></span></a></div></div><script type=text/ng-template id=helper.view.modal.html><div class=\"modal-header\"> <h4 class=\"modal-title\">Helper</h4> </div> <div class=\"modal-body without-padding-top\"> <uib-accordion close-others=\"true\"> <div uib-accordion-group is-open=\"$ctrl.mapIsOpen\" is-disabled=\"$ctrl.helper_exclusive ? !$ctrl.mapIsExclusive : false\"> <div uib-accordion-heading>Map</div> <div class=\"row row-eq-height\" ng-if=\"$ctrl.mapIsOpen\"> <div class=\"col-xs-10\"> <div class=\"form-group leaflet-container\"> <leaflet id=\"map-marker\" lf-center=\"$ctrl.map.center\" event-broadcast=\"$ctrl.map.events\" markers=\"$ctrl.map.markers\" width=\"100% \" height=\"300px\"></leaflet> </div> </div> <div class=\"col-xs-2 vcenter\"> <a class=\"top-buffer btn btn-default ux-txt-success pointer\" ng-class=\"{\'disabled\': !$ctrl.helper_keys.map}\" ng-click=\"$ctrl.ok(\'map\')\" ng-disabled=\"!$ctrl.helper_keys.map\"> <i class=\"fa fa-lg fa-files-o\"aria-hidden=\"true\" ></i> </a> </div> </div> </div> <div uib-accordion-group is-open=\"$ctrl.entityIsOpen\" is-disabled=\"$ctrl.helper_exclusive ? !$ctrl.entityIsExclusive : false\"> <div uib-accordion-heading>Entity</div> <div class=\"row row-eq-height\"> <div class=\"col-xs-10\"> <custom-ui-select-entity on-select-item=\"onSelectEntityKey($item, $model)\" on-remove=\"onDeleteEntityKey()\" entity=\"$ctrl.entity.selected\" multiple=\"false\"> </custom-ui-select-entity> </div> <div class=\"col-xs-2 vcenter\"> <a class=\"top-buffer btn btn-default ux-txt-success pointer\" ng-class=\"{\'disabled\': !$ctrl.helper_keys.entity}\" ng-click=\"$ctrl.ok(\'entity\')\" ng-disabled=\"!$ctrl.helper_keys.entity\"> <i class=\"fa fa-lg fa-files-o\" aria-hidden=\"true\" ></i> </a> </div> </div> </div> </uib-accordion> </div> <div class=\"modal-footer\"> <button class=\"btn btn-warning\" type=\"button\" ng-click=\"$ctrl.cancel()\">Cancel</button> </div></script>");
+$templateCache.put("views/window-time.select.view.html","<div class=window-time-container><button type=button class=\"btn btn-xs\" ng-class=oneDayClass ng-click=oneDay()>Last day</button> <button type=button class=\"btn btn-xs\" ng-class=oneWeekClass ng-click=oneWeek()>Last 7 days</button> <button type=button class=\"btn btn-xs\" ng-class=oneMonthClass ng-click=oneMonth()>Last 30 days</button> <button type=button class=\"btn btn-xs\" ng-class=customClass ng-click=custom()>Custom</button> <button type=button class=\"btn btn-xs btn-info\" ng-if=customEnabled ng-disabled=!!errorCustomWindow ng-click=applyCustom()>Apply</button> <button type=button class=\"btn btn-xs btn-info\" ng-if=filterApplied ng-click=clear()>Clear</button><div ng-if=customEnabled class=window-time-body><div class=row><div class=col-xs-12><p class=input-group><label class=control-label>From: {{fromDate | date:\'fullDate\'}}</label> <input readonly datepicker-options=fromOptions type=text class=form-control show-button-bar=false uib-datepicker-popup={{format}} ng-model=date.from is-open=fromPopup.opened ng-required=true close-text=Close ng-change=fromChange()> <span class=input-group-btn><a class=\"btn btn-sm\" ng-click=fromOpen()><i class=\"glyphicon glyphicon-calendar\"></i></a></span></p></div><div class=col-xs-12><div uib-timepicker max=fromMax ng-model=date.from show-meridian=false ng-change=fromChange()></div></div></div><div class=row><div class=col-xs-12><p class=input-group><label class=control-label>To: {{toDate | date:\'fullDate\'}}</label> <input readonly datepicker-options=toOptions type=text class=form-control show-button-bar=false uib-datepicker-popup={{format}} ng-model=date.to is-open=toPopup.opened ng-required=true close-text=Close ng-change=toChange()> <span class=input-group-btn><button type=button class=\"btn btn-sm\" ng-click=toOpen()><i class=\"glyphicon glyphicon-calendar\"></i></button></span></p></div><div class=col-xs-12><div uib-timepicker max=toMax min=toMin ng-model=date.to show-meridian=false ng-change=toChange()></div></div></div><alert type=danger ng-show=errorCustomWindow class=text-danger style=\"display: block;text-align: center;\"><span ng-bind=errorCustomWindow></span></alert></div></div>");}]);
 
 angular.module('opengate-angular-js').service('$oguxThemes', [
     function () {
@@ -1254,4 +1257,242 @@ angular.module('opengate-angular-js')
                 };
             }
         };
-    }]);})(window);
+    }]);
+/**
+ * Created by Monica on 12/09/2016.
+ */
+
+
+var _wizard = angular.module('opengate-angular-js');
+
+_wizard.component('helperDialog', {
+    transclude: true,
+    templateUrl: 'views/helper.view.html',
+    controller: function ($scope, $element, $attrs, $uibModal) {
+        var $helper = this;
+        $helper.mode = 'default';
+        if ($helper.helperTitle) {
+            $helper.mode = 'title';
+            if ($helper.helperButton) {
+                $helper.mode = 'title_button';
+            }
+        } else if ($helper.helperButton) {
+            $helper.mode = 'button';
+        }
+
+        $helper.open = function () {
+
+            var modalInstance = $uibModal.open({
+                animation: true,
+                ariaLabelledBy: 'modal-title',
+                ariaDescribedBy: 'modal-body',
+                templateUrl: 'helper.view.modal.html',
+                controller: function ($scope, $uibModalInstance, helper_id, helper_exclusive) {
+                    var $ctrl = this;
+                    $ctrl.helper_id = helper_id;
+                    $ctrl[helper_id + 'IsOpen'] = true;
+                    $ctrl[helper_id + 'IsExclusive'] = $ctrl.helper_exclusive = helper_exclusive;
+                    $ctrl.helper_keys = {};
+                    var events = [];
+
+                    //config map helper
+                    $ctrl.map = {
+                        center: {
+                            lat: 40.095,
+                            lng: -3.823,
+                            zoom: 4
+                        },
+                        markers: {},
+                        events: {
+                            markers: {
+                                enable: ['dragend', 'click'],
+                                logic: 'emit'
+                            },
+                            map: {
+                                enable: ['click'],
+                                logic: 'emit'
+                            }
+                        }
+                    };
+
+                    function setPosition(lat, lng) {
+                        $ctrl.helper_keys['map'] = {
+                            latitude: lat,
+                            longitude: lng
+                        };
+                    };
+
+                    events.push(
+                        $scope.$on('leafletDirectiveMarker.map-marker.click', function (event, args) {
+                            delete $ctrl.helper_keys.map;
+                            $ctrl.map.markers = {};
+                        }),
+                        $scope.$on('leafletDirectiveMap.map-marker.click', function (event, args) {
+                            var latlng = args.leafletEvent.latlng;
+                            $ctrl.map.markers = {
+                                marker: {
+                                    lat: latlng.lat,
+                                    lng: latlng.lng,
+                                    draggable: true,
+                                    focus: true,
+                                    message: 'Drag me to move. Click me to remove'
+                                }
+                            };
+                            setPosition(latlng.lat, latlng.lng);
+                        }),
+                        $scope.$on('leafletDirectiveMarker.map-marker.dragend', function (event, args) {
+                            var point = args.leafletEvent.target._leaflet_events.dragend[0].context._latlng;
+                            setPosition(point.lat, point.lng);
+                        })
+                    );
+
+                    //config entity
+                    $ctrl.entity = {};
+                    $scope.onSelectEntityKey = function ($item, $model) {
+                        $ctrl.helper_keys['entity'] = { entityKey: $item.id };
+                    };
+
+                    $scope.onDeleteEntityKey = function () {
+                        delete $ctrl.helper_keys.entity;
+                    };
+
+                    //Modal methods
+                    $ctrl.ok = function (helper) {
+                        $uibModalInstance.close($ctrl.helper_keys[helper]);
+                    };
+                    $ctrl.cancel = function () {
+                        $uibModalInstance.dismiss('cancel');
+                    };
+
+                    //clear evetns
+                    $scope.$on('destroy', function () {
+                        for (var eventToDestroy in events) {
+                            eventToDestroy();
+                        }
+                    });
+                },
+                controllerAs: '$ctrl',
+                resolve: {
+                    helper_id: function () {
+                        return $helper.helperId;
+                    },
+                    helper_exclusive: function () {
+                        return $helper.helperExclusive === "true";
+                    }
+                }
+            });
+            //Send result
+            modalInstance.result.then(function (helper_result) {
+                if (helper_result) {
+                    $helper.selected = angular.fromJson(helper_result);
+                    if ($helper.onCopy)
+                        $helper.onCopy({ $helper_keys: helper_result });
+
+                } else {
+                    console.warn("Nothing selected on modal");
+                }
+            }, function () { });
+        };
+    },
+    controllerAs: '$helper',
+    bindings: {
+        onCopy: '&',
+        helperId: '@',
+        helperButton: '@',
+        helperTitle: '@',
+        helperExclusive: '@',
+        modalTemplate: '@',
+        modalController: '@'
+    }
+});
+
+
+
+angular.module('opengate-angular-js').component('helperUiSelect', {
+
+    templateUrl: 'views/custom.ui.select.helper.html',
+    transclude: {
+        input: '?helperUiSelectInput'
+        //,custom: '?helperUiSelectCustom'
+    },
+    require: {
+        helperCtrl: '^^helperDialog'
+    },
+    controller: function ($scope, $element, $attrs) {
+        var $ctrl = this;
+        $ctrl.$helper_keys = {};
+        $ctrl.labelError = $ctrl.labelError ? $ctrl.labelError : 'Parameter is required';
+        $ctrl.labelText = $ctrl.labelText ? $ctrl.labelText : 'Parameter';
+
+        $ctrl.helperTagTransform = function (newTag) {
+            return { key: 'custom', value: newTag };
+        }
+
+        $ctrl._onCopy = function (copy_obj) {
+            $ctrl.$helper_keys = copy_obj.$helper_keys;
+            $ctrl.have_helper_keys = true;
+            if ($ctrl.helperModel && $ctrl.helperModel.length > 0) {
+                $ctrl.$helper_keys['default'] = $ctrl.helperModel;
+            }
+        }
+
+        $ctrl.$onInit = function () {
+            $ctrl.helperCtrl.onCopy = $ctrl._onCopy;
+            $ctrl.have_helper_keys = false;
+        };
+
+    },
+    bindings: {
+        id: '@',
+        name: '@',
+        labelText: '@',
+        helperModel: '=',
+        required: '@',
+        multiple: '@',
+        labelError: '@'
+    }
+
+});
+
+
+angular.module('opengate-angular-js').component('customUiSelectEntity', {
+
+    templateUrl: 'views/custom.ui.select.entity.html',
+    controller: function ($scope, $element, $attrs, $api) {
+        var ctrl = this;
+
+        ctrl.ownConfig = {
+            builder: $api().devicesSearchBuilder().onCollected().onProvisioned(),
+            filter: function (search) {
+                return {
+                    'or': [
+                        { 'like': { 'entityId': search } },
+                        { 'like': { 'entityType': search } }
+                    ]
+                };
+            },
+            rootKey: 'devices',
+            collection: [],
+            customSelectors: $api().devicesSearchBuilder().onCollected().onProvisioned()
+        };
+
+        ctrl.entitySelected = function ($item, $model) {
+            var return_obj = {};
+            return_obj['$item'] = $item;
+            return_obj['$model'] = $model;
+            ctrl.onSelectItem(return_obj);
+        };
+
+        ctrl.entityRemove = function ($item, $model) {
+            ctrl.onRemove($item, $model);
+        };
+    },
+    bindings: {
+        onSelectItem: '&',
+        onRemove: '&',
+        entity: '=',
+        multiple: '@',
+        isRequired: '@'
+    }
+
+});})(window);

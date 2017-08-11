@@ -1,7 +1,7 @@
 'use strict';
 
 
-angular.module('opengate-angular-js').controller('helperUiSelectController', ['$scope', '$element', '$attrs', '$api', function($scope, $element, $attrs, $api) {
+angular.module('opengate-angular-js').controller('customUiSelectEntityController', ['$scope', '$element', '$attrs', '$api', function($scope, $element, $attrs, $api) {
     var ctrl = this;
     ctrl.ownConfig = {
         builder: $api().devicesSearchBuilder().onCollected().onProvisioned(),
@@ -33,7 +33,7 @@ angular.module('opengate-angular-js').controller('helperUiSelectController', ['$
 angular.module('opengate-angular-js').component('customUiSelectEntity', {
 
     templateUrl: 'views/custom.ui.select.entity.html',
-    controller: 'helperUiSelectController',
+    controller: 'customUiSelectEntityController',
     bindings: {
         onSelectItem: '&',
         onRemove: '&',

@@ -23,7 +23,7 @@ angular.module('opengate-angular-js').controller('helperUiSelectController', ['$
         $ctrl.have_helper_keys = false;
     };
 
-}])
+}]);
 
 angular.module('opengate-angular-js').component('helperUiSelect', {
     templateUrl: 'views/custom.ui.select.helper.html',

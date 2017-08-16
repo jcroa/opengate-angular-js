@@ -1,6 +1,6 @@
 'use strict';
 angular.module('opengate-angular-js').service('$oguxThemes', [
-    function () {
+    function() {
         var themeCompositionTheme = 'light';
         var themeCompositionColor = 'orange';
         var themeComposition = themeCompositionTheme + ' ' + themeCompositionColor;
@@ -145,7 +145,7 @@ angular.module('opengate-angular-js').service('$oguxThemes', [
                 'name': 'Blue Grey',
                 'theme': ['light', 'default']
             },
-            'rgbagrey': {
+            'darkgrey': {
                 'id': 'darkgrey',
                 'sample': '#2D2D2D',
                 'rgba': 'rgba(45, 45, 45, 0.5)',
@@ -155,41 +155,41 @@ angular.module('opengate-angular-js').service('$oguxThemes', [
         };
 
         return {
-            setThemeComposition: function (_themeComposition) {
+            setThemeComposition: function(_themeComposition) {
                 themeComposition = _themeComposition;
                 var tc = themeComposition.split(' ');
                 themeCompositionTheme = tc[0];
                 themeCompositionColor = tc[1];
             },
-            colors: function () {
+            colors: function() {
                 return colorThemes;
             },
-            themes: function () {
+            themes: function() {
                 return themes;
             },
-            getColorConfig: function (colorId) {
+            getColorConfig: function(colorId) {
                 if (colorThemes[colorId]) {
                     return colorThemes[colorId];
                 } else {
                     return undefined;
                 }
             },
-            getColorsKeys: function () {
+            getColorsKeys: function() {
                 return Object.keys(colorThemes);
             },
-            colorsByTheme: function (theme) {
+            colorsByTheme: function(theme) {
                 var themeColors = [];
-                angular.forEach(colorThemes, function (config, color) {
+                angular.forEach(colorThemes, function(config, color) {
                     if (config.theme.indexOf(theme) !== -1) {
                         themeColors.push(config);
                     }
                 });
                 return themeColors;
             },
-            getThemeFromThemeComposition: function () {
+            getThemeFromThemeComposition: function() {
                 return themeCompositionTheme;
             },
-            getColorFromThemeComposition: function () {
+            getColorFromThemeComposition: function() {
                 return colorThemes[themeCompositionColor];
             }
         };

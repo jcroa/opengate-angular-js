@@ -126,4 +126,11 @@ angular.module('opengate-angular-js')
                 return input;
             }
         };
+    }).filter('compactid', function() {
+        return function(input) {
+            if (input && input.indexOf('.') > -1) {
+                return input.substring(input.lastIndexOf('.') + 1);
+            }
+            return input;
+        };
     });

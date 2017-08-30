@@ -1,19 +1,17 @@
 <div class="form-group" mass-autocomplete>
     <label class="custom-ui-select-label">Entity Key</label>
-    <ui-select custom-ui-select-config="$ctrl.ownConfig" name="entity" ng-model="$ctrl.entity" theme="bootstrap" title="Choose a entity"
-        custom-ui-select multiple="$ctrl.multiple" custom-mass-autocomplete-item="$ctrl.ownConfig" on-select="$ctrl.entitySelected($item, $model)"
+    <ui-select custom-ui-select-config="$ctrl.ownConfig" name="entity" ng-model="$ctrl.entity" theme="bootstrap" title="Choose a entity" custom-ui-select multiple="$ctrl.multiple" custom-mass-autocomplete-item="$ctrl.ownConfig" on-select="$ctrl.entitySelected($item, $model)"
         on-remove="$ctrl.entityRemove($item, $model)" ng-required="$ctrl.isRequired">
         <ui-select-match placeholder="Choose a entity" allow-clear="true">
-            {{$item.id}}
+            {{$item.provision.administration.identifier}}
         </ui-select-match>
-        <ui-select-choices repeat="entity in $ctrl.ownConfig.collection track by $index">
-            <div>
-                <span ng-bind-html="entity.id | highlight: $select.search"></span>
-            </div>
+        <ui-select-choices repeat="entityData in $ctrl.ownConfig.collection track by $index">
+            <span ng-bind-html="entityData.provision.administration.identifier | highlight: $select.search"></span>
             <small>
-                    <div ng-if="entity.provision.type">Sub-type: <span ng-bind-html="''+entity.provision.type | highlight: $select.search"></span></div>
-                    <div ng-if="entity.provision.specificType">Specific type: <span ng-bind-html="entity.provision.specificType | highlight: $select.search"></span></div>
-                    <div ng-if="entity.provision.operationalStatus">Operational status: <span ng-bind-html="''+entity.provision.operationalStatus | highlight: $select.search"></span></div>
+                    <div ng-if="entityData.provision.device.specificType._current.value">Specific type: <span ng-bind-html="entityData.provision.device.specificType._current.value | highlight: $select.search"></span></div>
+                    <div ng-if="entityData.provision.device.operationalStatus._current.value">Operational status: <span ng-bind-html="''+entityData.provision.device.operationalStatus._current.value | highlight: $select.search"></span></div>
+                    <div ng-if="!entityData.provision.device.specificType && entityData.provision.device.communicationsModule[0].subscriber.specificType._current.value">Specific type: <span ng-bind-html="entityData.provision.device.communicationsModule[0].subscriber.specificType._current.value | highlight: $select.search"></span></div>
+                    <div ng-if="!entityData.provision.device.specificType && entityData.provision.device.communicationsModule[0].subscription.specificType._current.value">Specific type: <span ng-bind-html="entityData.provision.device.communicationsModule[0].subscriber.specificType._current.value | highlight: $select.search"></span></div>
                 </small>
         </ui-select-choices>
     </ui-select>

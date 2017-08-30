@@ -111,7 +111,8 @@ _wizard.controller('helperDialogModalController', ['$scope', '$uibModalInstance'
     //config entity
     $ctrl.entity = {};
     $scope.onSelectEntityKey = function($item, $model) {
-        $ctrl.helper_keys['entity'] = { entityKey: $item.id };
+        // $ctrl.helper_keys['entity'] = { entityKey: $item.id };
+        $ctrl.helper_keys['entity'] = { entityKey: $item.provision.administration.identifier };
     };
 
     $scope.onDeleteEntityKey = function() {

@@ -119,9 +119,14 @@ angular.module('opengate-angular-js')
         };
     })
     .filter('textlength', function() {
-        return function(input) {
-            if (input && input.length > 30) {
-                return input.substring(0, 30) + '...';
+        return function(input, optional1) {
+            var maxLength = 30;
+            if (optional1 && angular.isNumber(optional1)) {
+                maxLength = optional1;
+            }
+
+            if (input && input.length > maxLength) {
+                return input.substring(0, maxLength) + '...';
             } else {
                 return input;
             }

@@ -108,6 +108,16 @@ _wizard.controller('helperDialogModalController', ['$scope', '$uibModalInstance'
         })
     );
 
+    //config datastream
+    $ctrl.datastream = {};
+    $scope.onSelectDatastreamKey = function($item, $model) {
+        $ctrl.helper_keys['datastream'] = { datastreamId: $item.id };
+    };
+
+    $scope.onDeleteDatastreamKey = function() {
+        delete $ctrl.helper_keys.datastream;
+    };
+
     //config entity
     $ctrl.entity = {};
     $scope.onSelectEntityKey = function($item, $model) {

@@ -6,12 +6,6 @@ angular.module('opengate-angular-js').controller('customUiSelectEntityController
     ctrl.ownConfig = {
         builder: $api().devicesSearchBuilder(),
         filter: function(search) {
-            // return {
-            //     'or': [
-            //         { 'like': { 'entityId': search } },
-            //         { 'like': { 'entityType': search } }
-            //     ]
-            // };
             return {
                 'or': [
                     { 'like': { 'provision.administration.identifier': search } },

@@ -1586,7 +1586,7 @@ angular.module('opengate-angular-js').controller('customUiSelectDatastreamContro
             return {
                 'or': [
                     //{ 'like': { 'datamodel.categories.datastreams.id': search } },
-                    { 'like': { 'datamodel.categories.datastreams.name': search } }
+                    { 'like': { 'datamodels.categories.datastreams.name': search } }
                     //{ 'like': { 'datamodel.identifier': search } },
                     //{ 'like': { 'datamodel.name': search } },
                     //{ 'like': { 'datamodel.description': search } },
@@ -1610,9 +1610,9 @@ angular.module('opengate-angular-js').controller('customUiSelectDatastreamContro
                 };
                 angular.forEach(categories, function(category, key) {
                     var datastreams = category.datastreams;
-                    var _category = { name: category.name };
+                    var _category = { identifier: category.identifier };
                     angular.forEach(datastreams.filter(function(ds) {
-                        return (ds.id.indexOf(ctrl.lastSearch) > -1 && !!ctrl.lastSearch.length) || !ctrl.lastSearch;
+                        return (ds.identifier.indexOf(ctrl.lastSearch) > -1 && !!ctrl.lastSearch.length) || !ctrl.lastSearch;
                     }), function(datastream, key) {
                         var _datastream = angular.copy(datastream);
                         _datastream.datamodel = _datamodel;

@@ -23,7 +23,7 @@ angular.module('opengate-angular-js').controller('customUiSelectDatastreamContro
         rootKey: 'datamodels',
         collection: [],
         processingData: function(data, collection) {
-            if (!ctrl.lastSearch) return;
+            //if (!ctrl.lastSearch) return;
             var _datastreams = [];
             var datamodels = data.data.datamodels;
             angular.forEach(datamodels, function(datamodel, key) {
@@ -37,14 +37,16 @@ angular.module('opengate-angular-js').controller('customUiSelectDatastreamContro
                 angular.forEach(categories, function(category, key) {
                     var datastreams = category.datastreams;
                     var _category = { identifier: category.identifier };
-                    angular.forEach(datastreams.filter(function(ds) {
-                        return (ds.identifier.indexOf(ctrl.lastSearch) > -1 && !!ctrl.lastSearch.length) || !ctrl.lastSearch;
-                    }), function(datastream, key) {
-                        var _datastream = angular.copy(datastream);
-                        _datastream.datamodel = _datamodel;
-                        _datastream.category = _category;
-                        _datastreams.push(_datastream);
-                    });
+                    angular.forEach(datastreams
+                        .filter(function(ds) {
+                            return (ds.identifier.indexOf(ctrl.lastSearch) > -1 && !!ctrl.lastSearch.length) || !ctrl.lastSearch;
+                        }),
+                        function(datastream, key) {
+                            var _datastream = angular.copy(datastream);
+                            _datastream.datamodel = _datamodel;
+                            _datastream.category = _category;
+                            _datastreams.push(_datastream);
+                        });
                 });
             });
             angular.copy(_datastreams, collection);

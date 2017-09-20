@@ -2,7 +2,7 @@
 
 
 angular.module('opengate-angular-js', []);
-angular.module("opengate-angular-js").run(["$templateCache", function($templateCache) {$templateCache.put("views/custom.ui.select.datastream.html","<div class=form-group mass-autocomplete><label class=custom-ui-select-label>Datastream Id</label><ui-select custom-ui-select-config=$ctrl.ownConfig name=datastream ng-model=$ctrl.datastream theme=bootstrap title=\"Choose a datastream\" custom-ui-select multiple=$ctrl.multiple custom-mass-autocomplete-item=$ctrl.ownConfig on-select=\"$ctrl.datastreamSelected($item, $model)\" on-remove=\"$ctrl.datastreamRemove($item, $model)\" ng-required=$ctrl.isRequired><ui-select-match placeholder=\"Choose a datastream\" allow-clear=true>{{$item.id}}</ui-select-match><ui-select-choices repeat=\"ds in $ctrl.ownConfig.collection track by $index\"><div><span ng-bind-html=\"ds.id | highlight: $select.search\"></span> - <span ng-bind-html=\"ds.name | highlight: $select.search\"></span></div><small><div ng-if=ds.category.name>Category: <span ng-bind-html=\"ds.category.name | highlight: $select.search\"></span></div><div ng-if=ds.feed>Feed: <span ng-bind-html=\"ds.feed | highlight: $select.search\"></span></div><div ng-if=ds.datamodel><div>Datamodel:</div><div>- Id: <span ng-bind-html=\"ds.datamodel.identifier | highlight: $select.search\"></span><div>- Organization: <span ng-bind-html=\"ds.datamodel.organization | highlight: $select.search\"></span><div>- Name: <span ng-bind-html=\"ds.datamodel.name | highlight: $select.search\"></span><div>- Description: <span ng-bind-html=\"ds.datamodel.description | highlight: $select.search\"></span><div>- Version: <span ng-bind-html=\"ds.datamodel.version | highlight: $select.search\"></span></div></div></div></div></div></div></small></ui-select-choices></ui-select></div>");
+angular.module("opengate-angular-js").run(["$templateCache", function($templateCache) {$templateCache.put("views/custom.ui.select.datastream.html","<div class=form-group mass-autocomplete><label class=custom-ui-select-label>Datastream Id</label><ui-select custom-ui-select-config=$ctrl.ownConfig name=datastream ng-model=$ctrl.datastream theme=bootstrap title=\"Choose a datastream\" custom-ui-select multiple=$ctrl.multiple custom-mass-autocomplete-item=$ctrl.ownConfig on-select=\"$ctrl.datastreamSelected($item, $model)\" on-remove=\"$ctrl.datastreamRemove($item, $model)\" ng-required=$ctrl.isRequired><ui-select-match placeholder=\"Choose a datastream\" allow-clear=true>{{$item.identifier}}</ui-select-match><ui-select-choices repeat=\"ds in $ctrl.ownConfig.collection track by $index\"><div><span ng-bind-html=\"ds.id | highlight: $select.search\"></span> - <span ng-bind-html=\"ds.name | highlight: $select.search\"></span></div><small><div ng-if=ds.category.name>Category: <span ng-bind-html=\"ds.category.name | highlight: $select.search\"></span></div><div ng-if=ds.feed>Feed: <span ng-bind-html=\"ds.feed | highlight: $select.search\"></span></div><div ng-if=ds.datamodel><div>Datamodel:</div><div>- Id: <span ng-bind-html=\"ds.datamodel.identifier | highlight: $select.search\"></span><div>- Organization: <span ng-bind-html=\"ds.datamodel.organization | highlight: $select.search\"></span><div>- Name: <span ng-bind-html=\"ds.datamodel.name | highlight: $select.search\"></span><div>- Description: <span ng-bind-html=\"ds.datamodel.description | highlight: $select.search\"></span><div>- Version: <span ng-bind-html=\"ds.datamodel.version | highlight: $select.search\"></span></div></div></div></div></div></div></small></ui-select-choices></ui-select></div>");
 $templateCache.put("views/custom.ui.select.entity.html","<div class=form-group mass-autocomplete><label class=custom-ui-select-label>Entity Key</label><ui-select custom-ui-select-config=$ctrl.ownConfig name=entity ng-model=$ctrl.entity theme=bootstrap title=\"Choose a entity\" custom-ui-select multiple=$ctrl.multiple custom-mass-autocomplete-item=$ctrl.ownConfig on-select=\"$ctrl.entitySelected($item, $model)\" on-remove=\"$ctrl.entityRemove($item, $model)\" ng-required=$ctrl.isRequired><ui-select-match placeholder=\"Choose a entity\" allow-clear=true>{{$item.provision.administration.identifier}}</ui-select-match><ui-select-choices repeat=\"entityData in $ctrl.ownConfig.collection track by $index\"><span ng-bind-html=\"entityData.provision.administration.identifier | highlight: $select.search\"></span> <small><div ng-if=entityData.provision.device.specificType._current.value>Specific type: <span ng-bind-html=\"entityData.provision.device.specificType._current.value | highlight: $select.search\"></span></div><div ng-if=entityData.provision.device.operationalStatus._current.value>Operational status: <span ng-bind-html=\"\'\'+entityData.provision.device.operationalStatus._current.value | highlight: $select.search\"></span></div><div ng-if=\"!entityData.provision.device.specificType && entityData.provision.device.communicationsModule[0].subscriber.specificType._current.value\">Specific type: <span ng-bind-html=\"entityData.provision.device.communicationsModule[0].subscriber.specificType._current.value | highlight: $select.search\"></span></div><div ng-if=\"!entityData.provision.device.specificType && entityData.provision.device.communicationsModule[0].subscription.specificType._current.value\">Specific type: <span ng-bind-html=\"entityData.provision.device.communicationsModule[0].subscriber.specificType._current.value | highlight: $select.search\"></span></div></small></ui-select-choices></ui-select></div>");
 $templateCache.put("views/custom.ui.select.helper.html","<div class=form-group ng-hide=$ctrl.have_helper_keys ng-transclude=input><label for={{$ctrl.id}}>{{$ctrl.labelText}}</label> <input class=form-control name={{$ctrl.name}} type=text id={{$ctrl.id}} ng-model=$ctrl.helperModel ng-required=$ctrl.required> <span class=help-inline ng-show=\"!$ctrl.helperModel && $ctrl.required\">{{$ctrl.labelError}}</span></div><div class=form-group ng-hide=!$ctrl.have_helper_keys><label for={{$ctrl.id}}>{{$ctrl.labelText}}</label><ui-select id={{$ctrl.id}} name={{$ctrl.name}} ng-model=$ctrl.helperModel theme=bootstrap title=\"Choose an option\" ng-required=$ctrl.required tagging=$ctrl.helperTagTransform tagging-label=false><ui-select-match placeholder=\"Choose an option\">{{$select.selected.value}}</ui-select-match><ui-select-choices repeat=\"parameter.value as (key, parameter) in $ctrl.$helper_keys | filter: $select.search\"><span ng-bind-html=\"parameter.key | highlight: $select.search\"></span>: <small ng-bind-html=\"parameter.value | highlight: $select.search\"></small></ui-select-choices></ui-select><span class=help-inline ng-show=\"!$ctrl.helperModel && $ctrl.required\">Field is required</span></div>");
 $templateCache.put("views/helper.view.html","<style>\n.row-eq-height {\n    display: -webkit-box;\n    display: -webkit-flex;\n    display: -ms-flexbox;\n    display: flex;\n}\n\n.vcenter {\n    display: -webkit-box;\n    display: -webkit-flex;\n    display: -ms-flexbox;\n    display: flex;\n    flex-direction: column;\n    justify-content: center;\n}\n\n.top-buffer {\n    margin-top: 25px;\n}\n\n.custom-ui-select-label {\n    display: none;\n}\n\n.without-padding-top .form-group {\n    margin-top: 0 !important;\n}\n\n.without-padding-top.modal-body h4 {\n    padding-bottom: 0px;\n}\n</style><div class=\"row row-eq-height\"><div class=\"helper-container col-xs-10\" ng-transclude></div><div class=\"col-xs-2 vcenter\"><a class=\"btn btn-default ux-txt-success pointer\" ng-href ng-click=$helper.open() ng-switch=$helper.mode><span ng-switch-when=button><i ng-class=$helper.helperButton aria-hidden=true></i></span> <span ng-switch-when=title>{{$helper.helperTitle}}</span> <span ng-switch-when=title_button><i ng-class=$helper.helperButton aria-hidden=true></i>{{$helper.helperTitle}}</span> <span ng-switch-default><i ng-if=\"!$helper.helperTitle && !$helper.helperButton\" class=\"fa fa-lg fa-files-o\" aria-hidden=true></i></span></a></div></div><script type=text/ng-template id=helper.view.modal.html><div class=\"modal-header\"> <h4 class=\"modal-title\">Helper</h4> </div> <div class=\"modal-body without-padding-top\"> <uib-accordion close-others=\"true\"> <div uib-accordion-group is-open=\"$ctrl.mapIsOpen\" is-disabled=\"$ctrl.helper_exclusive ? !$ctrl.mapIsExclusive : false\" class=\"map-option\"> <div uib-accordion-heading>Map</div> <div class=\"row row-eq-height\" ng-if=\"$ctrl.mapIsOpen\"> <div class=\"col-xs-10\"> <div class=\"form-group leaflet-container\"> <leaflet id=\"map-marker\" lf-center=\"$ctrl.map.center\" event-broadcast=\"$ctrl.map.events\" markers=\"$ctrl.map.markers\" width=\"100% \" height=\"300px\"></leaflet> </div> </div> <div class=\"col-xs-2 vcenter\"> <a class=\"top-buffer btn btn-default ux-txt-success pointer\" ng-class=\"{\'disabled\': !$ctrl.helper_keys.map}\" ng-click=\"$ctrl.ok(\'map\')\" ng-disabled=\"!$ctrl.helper_keys.map\"> <i class=\"fa fa-lg fa-files-o\"aria-hidden=\"true\" ></i> </a> </div> </div> </div> <div uib-accordion-group is-open=\"$ctrl.entityIsOpen\" is-disabled=\"$ctrl.helper_exclusive ? !$ctrl.entityIsExclusive : false\" class=\"entity-option\"> <div uib-accordion-heading>Entity</div> <div class=\"row row-eq-height\"> <div class=\"col-xs-10\"> <custom-ui-select-entity on-select-item=\"onSelectEntityKey($item, $model)\" on-remove=\"onDeleteEntityKey()\" entity=\"$ctrl.entity.selected\" multiple=\"false\"> </custom-ui-select-entity> </div> <div class=\"col-xs-2 vcenter\"> <a class=\"top-buffer btn btn-default ux-txt-success pointer\" ng-class=\"{\'disabled\': !$ctrl.helper_keys.entity}\" ng-click=\"$ctrl.ok(\'entity\')\" ng-disabled=\"!$ctrl.helper_keys.entity\"> <i class=\"fa fa-lg fa-files-o\" aria-hidden=\"true\" ></i> </a> </div> </div> <div class=\"row row-eq-height\"> <div class=\"col-xs-10\"> <custom-ui-select-datastream on-select-item=\"onSelectDatastreamKey($item, $model)\" on-remove=\"onDeleteDatastreamKey()\" entity=\"$ctrl.datastream.selected\" multiple=\"false\"> </custom-ui-select-datastream> </div> <div class=\"col-xs-2 vcenter\"> <a class=\"top-buffer btn btn-default ux-txt-success pointer\" ng-class=\"{\'disabled\': !$ctrl.helper_keys.datastream}\" ng-click=\"$ctrl.ok(\'datastream\')\" ng-disabled=\"!$ctrl.helper_keys.datastream\"> <i class=\"fa fa-lg fa-files-o\" aria-hidden=\"true\" ></i> </a> </div> </div> </div> </uib-accordion> </div> <div class=\"modal-footer\"> <button class=\"btn btn-warning\" type=\"button\" ng-click=\"$ctrl.cancel()\">Cancel</button> </div></script>");
@@ -703,147 +703,6 @@ DataUrlFormatter.prototype.format = function(value) {
 
 function DataUrlFormatter() {}
 
-
-angular.module('opengate-angular-js')
-    .filter('humanize', ['$window', function($window) {
-        function hasNumber(myString) {
-            return (/\d/.test(myString));
-        }
-
-        return function(input, optional1, optional2) {
-
-            var output = input;
-
-
-            if ($window.S(output).indexOf('$') !== -1) {
-                output = $window.S(output).strip('$').s;
-            }
-            if (angular.isString(output) && !hasNumber(output)) {
-                output = $window.S(output).humanize().s;
-            }
-
-            return output;
-
-        };
-
-    }])
-    .filter('communicationsInterface', function() {
-        return function(input) {
-
-            var output = input;
-
-            switch (output) {
-                case 'COMMUNICATIONS_MODULE':
-                    return 'Communications module';
-                case 'SUBSCRIPTION':
-                    return 'Mobile line';
-                case 'SUBSCRIBER':
-                    return 'SIM';
-                case 'HOME_OPERATOR':
-                    return 'Home Operator';
-                case 'REGISTER_OPERATOR':
-                    return 'Register Operator';
-                case 'ADDRESS':
-                    return 'IP';
-                case 'SOFTWARE':
-                    return 'Software';
-                case 'HARDWARE':
-                    return 'Hardware';
-                case 'entityKey':
-                    return 'Identifier';
-                default:
-                    return output;
-            }
-        };
-    })
-    .filter('dateNames', function() {
-        var days = {
-            'MON': 'Monday',
-            'TUE': 'Tuesday',
-            'WED': 'Wednesday',
-            'THU': 'Thursday',
-            'FRI': 'Friday',
-            'SAT': 'Saturday',
-            'SUN': 'Sunday'
-        };
-        var months = {
-            'JAN': 'January',
-            'FEB': 'February',
-            'MAR': 'March',
-            'APR': 'April',
-            'MAY': 'May',
-            'JUN': 'June',
-            'JUL': 'July',
-            'AUG': 'August',
-            'SEP': 'September',
-            'OCT': 'October',
-            'NOV': 'November',
-            'DEC': 'December'
-        };
-
-        return function(input) {
-            return (days[input] || months[input]) || input;
-        };
-    })
-
-.filter('icons', function() {
-        return function(input, optional1, optional2) {
-            var output = 'fa fa-info';
-            if (input === 'list') {
-                output = 'fa fa-list';
-            }
-            if (input === 'ban') {
-                output = 'fa fa-ban';
-            }
-            if (input === 'laptop') {
-                output = 'fa fa-laptop';
-            }
-            if (input === 'spin') {
-                output = 'fa fa-spinner fa-spin';
-            }
-            if (input === 'unit') {
-                output = 'fa fa-plus-square';
-            }
-            if (input === 'tags') {
-                output = 'fa fa-tags';
-            }
-            return output;
-        };
-
-    })
-    .filter('codeErrors', function() {
-        var errors = {
-            '1004': 'At least one valid reference to an entity is required',
-            '1005': 'At least one valid reference to an entity is required',
-            '1017': 'Tag is not valid. Please, check it.'
-        };
-
-        return function(input) {
-            return { code: input.code, message: errors[input.code] || input.message };
-        };
-    })
-    .filter('textlength', function() {
-        return function(input, optional1) {
-            var maxLength = 30;
-            if (optional1 && angular.isNumber(optional1)) {
-                maxLength = optional1;
-            }
-
-            if (input && input.length > maxLength) {
-                return input.substring(0, maxLength) + '...';
-            } else {
-                return input;
-            }
-        };
-    }).filter('compactid', function() {
-        return function(input) {
-            if (input && input.indexOf('.') > -1) {
-                return input.substring(input.lastIndexOf('.') + 1);
-            }
-            return input;
-        };
-    });
-
 angular.module('opengate-angular-js').directive('windowTimeSelect', function() { // ['$scope', '$compile'], function($scope, $compile) {
 
 
@@ -1374,6 +1233,147 @@ angular.module('opengate-angular-js')
             }
         };
     }]);
+
+
+angular.module('opengate-angular-js')
+    .filter('humanize', ['$window', function($window) {
+        function hasNumber(myString) {
+            return (/\d/.test(myString));
+        }
+
+        return function(input, optional1, optional2) {
+
+            var output = input;
+
+
+            if ($window.S(output).indexOf('$') !== -1) {
+                output = $window.S(output).strip('$').s;
+            }
+            if (angular.isString(output) && !hasNumber(output)) {
+                output = $window.S(output).humanize().s;
+            }
+
+            return output;
+
+        };
+
+    }])
+    .filter('communicationsInterface', function() {
+        return function(input) {
+
+            var output = input;
+
+            switch (output) {
+                case 'COMMUNICATIONS_MODULE':
+                    return 'Communications module';
+                case 'SUBSCRIPTION':
+                    return 'Mobile line';
+                case 'SUBSCRIBER':
+                    return 'SIM';
+                case 'HOME_OPERATOR':
+                    return 'Home Operator';
+                case 'REGISTER_OPERATOR':
+                    return 'Register Operator';
+                case 'ADDRESS':
+                    return 'IP';
+                case 'SOFTWARE':
+                    return 'Software';
+                case 'HARDWARE':
+                    return 'Hardware';
+                case 'entityKey':
+                    return 'Identifier';
+                default:
+                    return output;
+            }
+        };
+    })
+    .filter('dateNames', function() {
+        var days = {
+            'MON': 'Monday',
+            'TUE': 'Tuesday',
+            'WED': 'Wednesday',
+            'THU': 'Thursday',
+            'FRI': 'Friday',
+            'SAT': 'Saturday',
+            'SUN': 'Sunday'
+        };
+        var months = {
+            'JAN': 'January',
+            'FEB': 'February',
+            'MAR': 'March',
+            'APR': 'April',
+            'MAY': 'May',
+            'JUN': 'June',
+            'JUL': 'July',
+            'AUG': 'August',
+            'SEP': 'September',
+            'OCT': 'October',
+            'NOV': 'November',
+            'DEC': 'December'
+        };
+
+        return function(input) {
+            return (days[input] || months[input]) || input;
+        };
+    })
+
+.filter('icons', function() {
+        return function(input, optional1, optional2) {
+            var output = 'fa fa-info';
+            if (input === 'list') {
+                output = 'fa fa-list';
+            }
+            if (input === 'ban') {
+                output = 'fa fa-ban';
+            }
+            if (input === 'laptop') {
+                output = 'fa fa-laptop';
+            }
+            if (input === 'spin') {
+                output = 'fa fa-spinner fa-spin';
+            }
+            if (input === 'unit') {
+                output = 'fa fa-plus-square';
+            }
+            if (input === 'tags') {
+                output = 'fa fa-tags';
+            }
+            return output;
+        };
+
+    })
+    .filter('codeErrors', function() {
+        var errors = {
+            '1004': 'At least one valid reference to an entity is required',
+            '1005': 'At least one valid reference to an entity is required',
+            '1017': 'Tag is not valid. Please, check it.'
+        };
+
+        return function(input) {
+            return { code: input.code, message: errors[input.code] || input.message };
+        };
+    })
+    .filter('textlength', function() {
+        return function(input, optional1) {
+            var maxLength = 30;
+            if (optional1 && angular.isNumber(optional1)) {
+                maxLength = optional1;
+            }
+
+            if (input && input.length > maxLength) {
+                return input.substring(0, maxLength) + '...';
+            } else {
+                return input;
+            }
+        };
+    }).filter('compactid', function() {
+        return function(input) {
+            if (input && input.indexOf('.') > -1) {
+                return input.substring(input.lastIndexOf('.') + 1);
+            }
+            return input;
+        };
+    });
 /**
  * Created by Monica on 12/09/2016.
  */
@@ -1656,7 +1656,7 @@ angular.module('opengate-angular-js').controller('customUiSelectDatastreamContro
         rootKey: 'datamodels',
         collection: [],
         processingData: function(data, collection) {
-            if (!ctrl.lastSearch) return;
+            //if (!ctrl.lastSearch) return;
             var _datastreams = [];
             var datamodels = data.data.datamodels;
             angular.forEach(datamodels, function(datamodel, key) {
@@ -1670,14 +1670,16 @@ angular.module('opengate-angular-js').controller('customUiSelectDatastreamContro
                 angular.forEach(categories, function(category, key) {
                     var datastreams = category.datastreams;
                     var _category = { identifier: category.identifier };
-                    angular.forEach(datastreams.filter(function(ds) {
-                        return (ds.identifier.indexOf(ctrl.lastSearch) > -1 && !!ctrl.lastSearch.length) || !ctrl.lastSearch;
-                    }), function(datastream, key) {
-                        var _datastream = angular.copy(datastream);
-                        _datastream.datamodel = _datamodel;
-                        _datastream.category = _category;
-                        _datastreams.push(_datastream);
-                    });
+                    angular.forEach(datastreams
+                        .filter(function(ds) {
+                            return (ds.identifier.indexOf(ctrl.lastSearch) > -1 && !!ctrl.lastSearch.length) || !ctrl.lastSearch;
+                        }),
+                        function(datastream, key) {
+                            var _datastream = angular.copy(datastream);
+                            _datastream.datamodel = _datamodel;
+                            _datastream.category = _category;
+                            _datastreams.push(_datastream);
+                        });
                 });
             });
             angular.copy(_datastreams, collection);

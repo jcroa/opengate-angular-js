@@ -1,11 +1,11 @@
 'use strict';
 
 
-angular.module('opengate-angular-js').controller('customUiSelectDatastreamController', ['$scope', '$element', '$attrs', '$api', function($scope, $element, $attrs, $api) {
+angular.module('opengate-angular-js').controller('customUiSelectDatastreamController', ['$scope', '$element', '$attrs', '$api', function ($scope, $element, $attrs, $api) {
     var ctrl = this;
     ctrl.ownConfig = {
         builder: $api().datamodelsSearchBuilder(),
-        filter: function(search) {
+        filter: function (search) {
             ctrl.lastSearch = search;
             if (!search)
                 return {};
@@ -22,11 +22,11 @@ angular.module('opengate-angular-js').controller('customUiSelectDatastreamContro
         },
         rootKey: 'datamodels',
         collection: [],
-        processingData: function(data, collection) {
+        processingData: function (data, collection) {
             //if (!ctrl.lastSearch) return;
             var _datastreams = [];
             var datamodels = data.data.datamodels;
-            angular.forEach(datamodels, function(datamodel, key) {
+            angular.forEach(datamodels, function (datamodel, key) {
                 var categories = datamodel.categories;
                 var _datamodel = {
                     identifier: datamodel.identifier,
@@ -34,14 +34,14 @@ angular.module('opengate-angular-js').controller('customUiSelectDatastreamContro
                     name: datamodel.name,
                     organization: datamodel.organizationName
                 };
-                angular.forEach(categories, function(category, key) {
+                angular.forEach(categories, function (category, key) {
                     var datastreams = category.datastreams;
                     var _category = { identifier: category.identifier };
                     angular.forEach(datastreams
-                        .filter(function(ds) {
+                        .filter(function (ds) {
                             return (ds.identifier.indexOf(ctrl.lastSearch) > -1 && !!ctrl.lastSearch.length) || !ctrl.lastSearch;
                         }),
-                        function(datastream, key) {
+                        function (datastream, key) {
                             var _datastream = angular.copy(datastream);
                             _datastream.datamodel = _datamodel;
                             _datastream.category = _category;
@@ -54,14 +54,14 @@ angular.module('opengate-angular-js').controller('customUiSelectDatastreamContro
         customSelectors: $api().datamodelsSearchBuilder()
     };
 
-    ctrl.datastreamSelected = function($item, $model) {
+    ctrl.datastreamSelected = function ($item, $model) {
         var return_obj = {};
         return_obj['$item'] = $item;
         return_obj['$model'] = $model;
         ctrl.onSelectItem(return_obj);
     };
 
-    ctrl.datastreamRemove = function($item, $model) {
+    ctrl.datastreamRemove = function ($item, $model) {
         ctrl.onRemove($item, $model);
     };
 }]);

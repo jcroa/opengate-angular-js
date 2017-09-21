@@ -1,38 +1,5 @@
-<style>
-.row-eq-height {
-    display: -webkit-box;
-    display: -webkit-flex;
-    display: -ms-flexbox;
-    display: flex;
-}
-
-.vcenter {
-    display: -webkit-box;
-    display: -webkit-flex;
-    display: -ms-flexbox;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-}
-
-.top-buffer {
-    margin-top: 25px;
-}
-
-.custom-ui-select-label {
-    display: none;
-}
-
-.without-padding-top .form-group {
-    margin-top: 0 !important;
-}
-
-.without-padding-top.modal-body h4 {
-    padding-bottom: 0px;
-}
-</style>
 <div class="row row-eq-height">
-    <div class="helper-container col-xs-10" ng-transclude></div>
+    <div class="container col-xs-10" ng-transclude></div>
     <div class="col-xs-2 vcenter">
         <a class="btn btn-default ux-txt-success pointer" ng-href="" ng-click="$helper.open()" ng-switch="$helper.mode">
             <span ng-switch-when="button"><i ng-class="$helper.helperButton" aria-hidden="true"></i></span>
@@ -53,36 +20,43 @@
                 <div class="row row-eq-height" ng-if="$ctrl.mapIsOpen">
                     <div class="col-xs-10">
                         <div class="form-group leaflet-container">
-                            <leaflet id="map-marker" lf-center="$ctrl.map.center" event-broadcast="$ctrl.map.events" markers="$ctrl.map.markers" width="100% " height="300px"></leaflet>
+                            <leaflet id="map-marker" lf-center="$ctrl.map.center" event-broadcast="$ctrl.map.events" markers="$ctrl.map.markers" width="100% "
+                                height="300px"></leaflet>
                         </div>
                     </div>
                     <div class="col-xs-2 vcenter">
-                        <a class="top-buffer btn btn-default ux-txt-success pointer" ng-class="{'disabled': !$ctrl.helper_keys.map}" ng-click="$ctrl.ok('map')" ng-disabled="!$ctrl.helper_keys.map">
+                        <a class="top-buffer btn btn-default ux-txt-success pointer" ng-class="{'disabled': !$ctrl.helper_keys.map}" ng-click="$ctrl.ok('map')"
+                            ng-disabled="!$ctrl.helper_keys.map">
                 <i class="fa fa-lg fa-files-o"aria-hidden="true" ></i>
                     </a>
                     </div>
                 </div>
             </div>
-            <div uib-accordion-group is-open="$ctrl.entityIsOpen" is-disabled="$ctrl.helper_exclusive ? !$ctrl.entityIsExclusive : false" class="entity-option">
+            <div uib-accordion-group is-open="$ctrl.entityIsOpen || $ctrl.datastreamIsOpen" is-disabled="$ctrl.helper_exclusive ? (!$ctrl.entityIsExclusive && !$ctrl.datastreamIsExclusive): false"
+                class="entity-option">
                 <div uib-accordion-heading>Entity</div>
                 <div class="row row-eq-height">
                     <div class="col-xs-10">
-                        <custom-ui-select-entity on-select-item="onSelectEntityKey($item, $model)" on-remove="onDeleteEntityKey()" entity="$ctrl.entity.selected" multiple="false">
+                        <custom-ui-select-entity on-select-item="onSelectEntityKey($item, $model)" on-remove="onDeleteEntityKey()" entity="$ctrl.entity.selected"
+                            multiple="false">
                         </custom-ui-select-entity>
                     </div>
                     <div class="col-xs-2 vcenter">
-                        <a class="top-buffer btn btn-default ux-txt-success pointer" ng-class="{'disabled': !$ctrl.helper_keys.entity}" ng-click="$ctrl.ok('entity')" ng-disabled="!$ctrl.helper_keys.entity">
+                        <a class="top-buffer btn btn-default ux-txt-success pointer" ng-class="{'disabled': !$ctrl.helper_keys.entity}" ng-click="$ctrl.ok('entity')"
+                            ng-disabled="!$ctrl.helper_keys.entity">
                 <i class="fa fa-lg fa-files-o" aria-hidden="true" ></i>
                 </a>
                     </div>
                 </div>
                 <div class="row row-eq-height">
                     <div class="col-xs-10">
-                        <custom-ui-select-datastream on-select-item="onSelectDatastreamKey($item, $model)" on-remove="onDeleteDatastreamKey()" entity="$ctrl.datastream.selected" multiple="false">
+                        <custom-ui-select-datastream on-select-item="onSelectDatastreamKey($item, $model)" on-remove="onDeleteDatastreamKey()" datastream="$ctrl.datastream.selected"
+                            multiple="false">
                         </custom-ui-select-datastream>
                     </div>
                     <div class="col-xs-2 vcenter">
-                        <a class="top-buffer btn btn-default ux-txt-success pointer" ng-class="{'disabled': !$ctrl.helper_keys.datastream}" ng-click="$ctrl.ok('datastream')" ng-disabled="!$ctrl.helper_keys.datastream">
+                        <a class="top-buffer btn btn-default ux-txt-success pointer" ng-class="{'disabled': !$ctrl.helper_keys.datastream}" ng-click="$ctrl.ok('datastream')"
+                            ng-disabled="!$ctrl.helper_keys.datastream">
                 <i class="fa fa-lg fa-files-o" aria-hidden="true" ></i>
                 </a>
                     </div>

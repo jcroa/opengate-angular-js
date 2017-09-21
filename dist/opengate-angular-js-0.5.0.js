@@ -1,11 +1,14 @@
 (function(window, undefined) {'use strict';
 
 
-angular.module('opengate-angular-js', []);
-angular.module("opengate-angular-js").run(["$templateCache", function($templateCache) {$templateCache.put("views/custom.ui.select.datastream.html","<div class=form-group mass-autocomplete><label class=custom-ui-select-label>Datastream Id</label><ui-select custom-ui-select-config=$ctrl.ownConfig name=datastream ng-model=$ctrl.datastream theme=bootstrap title=\"Choose a datastream\" custom-ui-select multiple=$ctrl.multiple custom-mass-autocomplete-item=$ctrl.ownConfig on-select=\"$ctrl.datastreamSelected($item, $model)\" on-remove=\"$ctrl.datastreamRemove($item, $model)\" ng-required=$ctrl.isRequired><ui-select-match placeholder=\"Choose a datastream\" allow-clear=true>{{$item.identifier}}</ui-select-match><ui-select-choices repeat=\"ds in $ctrl.ownConfig.collection track by $index\"><div><span ng-bind-html=\"ds.id | highlight: $select.search\"></span> - <span ng-bind-html=\"ds.name | highlight: $select.search\"></span></div><small><div ng-if=ds.category.name>Category: <span ng-bind-html=\"ds.category.name | highlight: $select.search\"></span></div><div ng-if=ds.feed>Feed: <span ng-bind-html=\"ds.feed | highlight: $select.search\"></span></div><div ng-if=ds.datamodel><div>Datamodel:</div><div>- Id: <span ng-bind-html=\"ds.datamodel.identifier | highlight: $select.search\"></span><div>- Organization: <span ng-bind-html=\"ds.datamodel.organization | highlight: $select.search\"></span><div>- Name: <span ng-bind-html=\"ds.datamodel.name | highlight: $select.search\"></span><div>- Description: <span ng-bind-html=\"ds.datamodel.description | highlight: $select.search\"></span><div>- Version: <span ng-bind-html=\"ds.datamodel.version | highlight: $select.search\"></span></div></div></div></div></div></div></small></ui-select-choices></ui-select></div>");
-$templateCache.put("views/custom.ui.select.entity.html","<div class=form-group mass-autocomplete><label class=custom-ui-select-label>Entity Key</label><ui-select custom-ui-select-config=$ctrl.ownConfig name=entity ng-model=$ctrl.entity theme=bootstrap title=\"Choose a entity\" custom-ui-select multiple=$ctrl.multiple custom-mass-autocomplete-item=$ctrl.ownConfig on-select=\"$ctrl.entitySelected($item, $model)\" on-remove=\"$ctrl.entityRemove($item, $model)\" ng-required=$ctrl.isRequired><ui-select-match placeholder=\"Choose a entity\" allow-clear=true>{{$item.provision.administration.identifier}}</ui-select-match><ui-select-choices repeat=\"entityData in $ctrl.ownConfig.collection track by $index\"><span ng-bind-html=\"entityData.provision.administration.identifier | highlight: $select.search\"></span> <small><div ng-if=entityData.provision.device.specificType._current.value>Specific type: <span ng-bind-html=\"entityData.provision.device.specificType._current.value | highlight: $select.search\"></span></div><div ng-if=entityData.provision.device.operationalStatus._current.value>Operational status: <span ng-bind-html=\"\'\'+entityData.provision.device.operationalStatus._current.value | highlight: $select.search\"></span></div><div ng-if=\"!entityData.provision.device.specificType && entityData.provision.device.communicationsModule[0].subscriber.specificType._current.value\">Specific type: <span ng-bind-html=\"entityData.provision.device.communicationsModule[0].subscriber.specificType._current.value | highlight: $select.search\"></span></div><div ng-if=\"!entityData.provision.device.specificType && entityData.provision.device.communicationsModule[0].subscription.specificType._current.value\">Specific type: <span ng-bind-html=\"entityData.provision.device.communicationsModule[0].subscriber.specificType._current.value | highlight: $select.search\"></span></div></small></ui-select-choices></ui-select></div>");
+angular.module('opengate-angular-js', ['schemaForm']);
+angular.module("opengate-angular-js").run(["$templateCache", function($templateCache) {$templateCache.put("views/custom.ui.select.datastream.html","<div class=form-group mass-autocomplete><label class=custom-ui-select-label>Datastream Id</label><ui-select custom-ui-select-config=$ctrl.ownConfig name=datastream ng-model=$ctrl.datastream theme=bootstrap title=\"Choose a datastream\" custom-ui-select multiple=$ctrl.multiple custom-mass-autocomplete-item=$ctrl.ownConfig on-select=\"$ctrl.datastreamSelected($item, $model)\" on-remove=\"$ctrl.datastreamRemove($item, $model)\" ng-required=$ctrl.isRequired><ui-select-match placeholder=\"Choose a datastream\" allow-clear=true>{{$item.identifier}}</ui-select-match><ui-select-choices repeat=\"ds in $ctrl.ownConfig.collection track by $index\"><div><span ng-bind-html=\"ds.identifier | highlight: $select.search\"></span> - <span ng-bind-html=\"ds.name | highlight: $select.search\"></span></div><small><div ng-if=ds.category.name>Category: <span ng-bind-html=\"ds.category.name | highlight: $select.search\"></span></div><div ng-if=ds.feed>Feed: <span ng-bind-html=\"ds.feed | highlight: $select.search\"></span></div><div ng-if=ds.datamodel><div>Datamodel:</div><div>- Id: <span ng-bind-html=\"ds.datamodel.identifier | highlight: $select.search\"></span><div>- Organization: <span ng-bind-html=\"ds.datamodel.organization | highlight: $select.search\"></span><div>- Name: <span ng-bind-html=\"ds.datamodel.name | highlight: $select.search\"></span><div>- Description: <span ng-bind-html=\"ds.datamodel.description | highlight: $select.search\"></span><div>- Version: <span ng-bind-html=\"ds.datamodel.version | highlight: $select.search\"></span></div></div></div></div></div></div></small></ui-select-choices></ui-select></div>");
+$templateCache.put("views/custom.ui.select.entity.html","<div class=form-group mass-autocomplete><label class=custom-ui-select-label>Entity Key</label><ui-select custom-ui-select-config=$ctrl.ownConfig name=entity ng-model=$ctrl.entity theme=bootstrap title=\"Choose a entity\" custom-ui-select multiple=$ctrl.multiple custom-mass-autocomplete-item=$ctrl.ownConfig on-select=\"$ctrl.entitySelected($item, $model)\" on-remove=\"$ctrl.entityRemove($item, $model)\" ng-required=$ctrl.isRequired><ui-select-match placeholder=\"Choose a entity\" allow-clear=true>{{$item.provision.administration.identifier._current.value}}</ui-select-match><ui-select-choices repeat=\"entityData in $ctrl.ownConfig.collection track by $index\"><span ng-bind-html=\"entityData.provision.administration.identifier._current.value | highlight: $select.search\"></span> <small><div ng-if=entityData.provision.device.specificType._current.value>Specific type: <span ng-bind-html=\"entityData.provision.device.specificType._current.value | highlight: $select.search\"></span></div><div ng-if=entityData.provision.device.operationalStatus._current.value>Operational status: <span ng-bind-html=\"\'\'+entityData.provision.device.operationalStatus._current.value | highlight: $select.search\"></span></div><div ng-if=\"!entityData.provision.device.specificType && entityData.provision.device.communicationsModule[0].subscriber.specificType._current.value\">Specific type: <span ng-bind-html=\"entityData.provision.device.communicationsModule[0].subscriber.specificType._current.value | highlight: $select.search\"></span></div><div ng-if=\"!entityData.provision.device.specificType && entityData.provision.device.communicationsModule[0].subscription.specificType._current.value\">Specific type: <span ng-bind-html=\"entityData.provision.device.communicationsModule[0].subscriber.specificType._current.value | highlight: $select.search\"></span></div></small></ui-select-choices></ui-select></div>");
 $templateCache.put("views/custom.ui.select.helper.html","<div class=form-group ng-hide=$ctrl.have_helper_keys ng-transclude=input><label for={{$ctrl.id}}>{{$ctrl.labelText}}</label> <input class=form-control name={{$ctrl.name}} type=text id={{$ctrl.id}} ng-model=$ctrl.helperModel ng-required=$ctrl.required> <span class=help-inline ng-show=\"!$ctrl.helperModel && $ctrl.required\">{{$ctrl.labelError}}</span></div><div class=form-group ng-hide=!$ctrl.have_helper_keys><label for={{$ctrl.id}}>{{$ctrl.labelText}}</label><ui-select id={{$ctrl.id}} name={{$ctrl.name}} ng-model=$ctrl.helperModel theme=bootstrap title=\"Choose an option\" ng-required=$ctrl.required tagging=$ctrl.helperTagTransform tagging-label=false><ui-select-match placeholder=\"Choose an option\">{{$select.selected.value}}</ui-select-match><ui-select-choices repeat=\"parameter.value as (key, parameter) in $ctrl.$helper_keys | filter: $select.search\"><span ng-bind-html=\"parameter.key | highlight: $select.search\"></span>: <small ng-bind-html=\"parameter.value | highlight: $select.search\"></small></ui-select-choices></ui-select><span class=help-inline ng-show=\"!$ctrl.helperModel && $ctrl.required\">Field is required</span></div>");
-$templateCache.put("views/helper.view.html","<style>\n.row-eq-height {\n    display: -webkit-box;\n    display: -webkit-flex;\n    display: -ms-flexbox;\n    display: flex;\n}\n\n.vcenter {\n    display: -webkit-box;\n    display: -webkit-flex;\n    display: -ms-flexbox;\n    display: flex;\n    flex-direction: column;\n    justify-content: center;\n}\n\n.top-buffer {\n    margin-top: 25px;\n}\n\n.custom-ui-select-label {\n    display: none;\n}\n\n.without-padding-top .form-group {\n    margin-top: 0 !important;\n}\n\n.without-padding-top.modal-body h4 {\n    padding-bottom: 0px;\n}\n</style><div class=\"row row-eq-height\"><div class=\"helper-container col-xs-10\" ng-transclude></div><div class=\"col-xs-2 vcenter\"><a class=\"btn btn-default ux-txt-success pointer\" ng-href ng-click=$helper.open() ng-switch=$helper.mode><span ng-switch-when=button><i ng-class=$helper.helperButton aria-hidden=true></i></span> <span ng-switch-when=title>{{$helper.helperTitle}}</span> <span ng-switch-when=title_button><i ng-class=$helper.helperButton aria-hidden=true></i>{{$helper.helperTitle}}</span> <span ng-switch-default><i ng-if=\"!$helper.helperTitle && !$helper.helperButton\" class=\"fa fa-lg fa-files-o\" aria-hidden=true></i></span></a></div></div><script type=text/ng-template id=helper.view.modal.html><div class=\"modal-header\"> <h4 class=\"modal-title\">Helper</h4> </div> <div class=\"modal-body without-padding-top\"> <uib-accordion close-others=\"true\"> <div uib-accordion-group is-open=\"$ctrl.mapIsOpen\" is-disabled=\"$ctrl.helper_exclusive ? !$ctrl.mapIsExclusive : false\" class=\"map-option\"> <div uib-accordion-heading>Map</div> <div class=\"row row-eq-height\" ng-if=\"$ctrl.mapIsOpen\"> <div class=\"col-xs-10\"> <div class=\"form-group leaflet-container\"> <leaflet id=\"map-marker\" lf-center=\"$ctrl.map.center\" event-broadcast=\"$ctrl.map.events\" markers=\"$ctrl.map.markers\" width=\"100% \" height=\"300px\"></leaflet> </div> </div> <div class=\"col-xs-2 vcenter\"> <a class=\"top-buffer btn btn-default ux-txt-success pointer\" ng-class=\"{\'disabled\': !$ctrl.helper_keys.map}\" ng-click=\"$ctrl.ok(\'map\')\" ng-disabled=\"!$ctrl.helper_keys.map\"> <i class=\"fa fa-lg fa-files-o\"aria-hidden=\"true\" ></i> </a> </div> </div> </div> <div uib-accordion-group is-open=\"$ctrl.entityIsOpen\" is-disabled=\"$ctrl.helper_exclusive ? !$ctrl.entityIsExclusive : false\" class=\"entity-option\"> <div uib-accordion-heading>Entity</div> <div class=\"row row-eq-height\"> <div class=\"col-xs-10\"> <custom-ui-select-entity on-select-item=\"onSelectEntityKey($item, $model)\" on-remove=\"onDeleteEntityKey()\" entity=\"$ctrl.entity.selected\" multiple=\"false\"> </custom-ui-select-entity> </div> <div class=\"col-xs-2 vcenter\"> <a class=\"top-buffer btn btn-default ux-txt-success pointer\" ng-class=\"{\'disabled\': !$ctrl.helper_keys.entity}\" ng-click=\"$ctrl.ok(\'entity\')\" ng-disabled=\"!$ctrl.helper_keys.entity\"> <i class=\"fa fa-lg fa-files-o\" aria-hidden=\"true\" ></i> </a> </div> </div> <div class=\"row row-eq-height\"> <div class=\"col-xs-10\"> <custom-ui-select-datastream on-select-item=\"onSelectDatastreamKey($item, $model)\" on-remove=\"onDeleteDatastreamKey()\" entity=\"$ctrl.datastream.selected\" multiple=\"false\"> </custom-ui-select-datastream> </div> <div class=\"col-xs-2 vcenter\"> <a class=\"top-buffer btn btn-default ux-txt-success pointer\" ng-class=\"{\'disabled\': !$ctrl.helper_keys.datastream}\" ng-click=\"$ctrl.ok(\'datastream\')\" ng-disabled=\"!$ctrl.helper_keys.datastream\"> <i class=\"fa fa-lg fa-files-o\" aria-hidden=\"true\" ></i> </a> </div> </div> </div> </uib-accordion> </div> <div class=\"modal-footer\"> <button class=\"btn btn-warning\" type=\"button\" ng-click=\"$ctrl.cancel()\">Cancel</button> </div></script>");
+$templateCache.put("views/helper.view.html","<div class=\"row row-eq-height\"><div class=\"container col-xs-10\" ng-transclude></div><div class=\"col-xs-2 vcenter\"><a class=\"btn btn-default ux-txt-success pointer\" ng-href ng-click=$helper.open() ng-switch=$helper.mode><span ng-switch-when=button><i ng-class=$helper.helperButton aria-hidden=true></i></span> <span ng-switch-when=title>{{$helper.helperTitle}}</span> <span ng-switch-when=title_button><i ng-class=$helper.helperButton aria-hidden=true></i>{{$helper.helperTitle}}</span> <span ng-switch-default><i ng-if=\"!$helper.helperTitle && !$helper.helperButton\" class=\"fa fa-lg fa-files-o\" aria-hidden=true></i></span></a></div></div><script type=text/ng-template id=helper.view.modal.html><div class=\"modal-header\"> <h4 class=\"modal-title\">Helper</h4> </div> <div class=\"modal-body without-padding-top\"> <uib-accordion close-others=\"true\"> <div uib-accordion-group is-open=\"$ctrl.mapIsOpen\" is-disabled=\"$ctrl.helper_exclusive ? !$ctrl.mapIsExclusive : false\" class=\"map-option\"> <div uib-accordion-heading>Map</div> <div class=\"row row-eq-height\" ng-if=\"$ctrl.mapIsOpen\"> <div class=\"col-xs-10\"> <div class=\"form-group leaflet-container\"> <leaflet id=\"map-marker\" lf-center=\"$ctrl.map.center\" event-broadcast=\"$ctrl.map.events\" markers=\"$ctrl.map.markers\" width=\"100% \" height=\"300px\"></leaflet> </div> </div> <div class=\"col-xs-2 vcenter\"> <a class=\"top-buffer btn btn-default ux-txt-success pointer\" ng-class=\"{\'disabled\': !$ctrl.helper_keys.map}\" ng-click=\"$ctrl.ok(\'map\')\" ng-disabled=\"!$ctrl.helper_keys.map\"> <i class=\"fa fa-lg fa-files-o\"aria-hidden=\"true\" ></i> </a> </div> </div> </div> <div uib-accordion-group is-open=\"$ctrl.entityIsOpen || $ctrl.datastreamIsOpen\" is-disabled=\"$ctrl.helper_exclusive ? (!$ctrl.entityIsExclusive && !$ctrl.datastreamIsExclusive): false\" class=\"entity-option\"> <div uib-accordion-heading>Entity</div> <div class=\"row row-eq-height\"> <div class=\"col-xs-10\"> <custom-ui-select-entity on-select-item=\"onSelectEntityKey($item, $model)\" on-remove=\"onDeleteEntityKey()\" entity=\"$ctrl.entity.selected\" multiple=\"false\"> </custom-ui-select-entity> </div> <div class=\"col-xs-2 vcenter\"> <a class=\"top-buffer btn btn-default ux-txt-success pointer\" ng-class=\"{\'disabled\': !$ctrl.helper_keys.entity}\" ng-click=\"$ctrl.ok(\'entity\')\" ng-disabled=\"!$ctrl.helper_keys.entity\"> <i class=\"fa fa-lg fa-files-o\" aria-hidden=\"true\" ></i> </a> </div> </div> <div class=\"row row-eq-height\"> <div class=\"col-xs-10\"> <custom-ui-select-datastream on-select-item=\"onSelectDatastreamKey($item, $model)\" on-remove=\"onDeleteDatastreamKey()\" datastream=\"$ctrl.datastream.selected\" multiple=\"false\"> </custom-ui-select-datastream> </div> <div class=\"col-xs-2 vcenter\"> <a class=\"top-buffer btn btn-default ux-txt-success pointer\" ng-class=\"{\'disabled\': !$ctrl.helper_keys.datastream}\" ng-click=\"$ctrl.ok(\'datastream\')\" ng-disabled=\"!$ctrl.helper_keys.datastream\"> <i class=\"fa fa-lg fa-files-o\" aria-hidden=\"true\" ></i> </a> </div> </div> </div> </uib-accordion> </div> <div class=\"modal-footer\"> <button class=\"btn btn-warning\" type=\"button\" ng-click=\"$ctrl.cancel()\">Cancel</button> </div></script>");
+$templateCache.put("views/schema.form.datastream.template.html","<div><custom-ui-select-datastream on-select-item=\"onSelectDatastreamKey($item, $model)\" on-remove=onDeleteDatastreamKey() datastream=$$value$$ multiple=false></custom-ui-select-datastream></div>");
+$templateCache.put("views/schema.form.entity.template.html","<div><custom-ui-select-entity on-select-item=\"onSelectEntityKey($item, $model)\" on-remove=onDeleteEntityKey() entity=$$value$$ multiple=false></custom-ui-select-entity></div>");
+$templateCache.put("views/schema.form.helper.template.html","<div class=form-group><helper-dialog helper-id={{form.helperid}} helper-exclusive={{form.exclusive}}><helper-ui-select id={{form.id}} name={{form.name}} label-text={{form.title}} helper-model=$$value$$ label-error={{form.labelerror}} required={{form.required}}><helper-ui-select-input><label for={{form.name}}>{{form.title}}</label> <input class=form-control name={{form.name}} type=text id={{form.id}} ng-model=$$value$$ ng-required=form.required></helper-ui-select-input></helper-ui-select></helper-dialog></div>");
 $templateCache.put("views/window-time.select.view.html","<div class=window-time-container><button type=button class=\"btn btn-xs\" ng-class=oneDayClass ng-click=oneDay()>Last day</button> <button type=button class=\"btn btn-xs\" ng-class=oneWeekClass ng-click=oneWeek()>Last 7 days</button> <button type=button class=\"btn btn-xs\" ng-class=oneMonthClass ng-click=oneMonth()>Last 30 days</button> <button type=button class=\"btn btn-xs\" ng-class=customClass ng-click=custom()>Custom</button> <button type=button class=\"btn btn-xs btn-info\" ng-if=customEnabled ng-disabled=!!errorCustomWindow ng-click=applyCustom()>Apply</button> <button type=button class=\"btn btn-xs btn-info\" ng-if=filterApplied ng-click=clear()>Clear</button><div ng-if=customEnabled class=window-time-body><div class=row><div class=col-xs-12><p class=input-group><label class=control-label>From: {{fromDate | date:\'fullDate\'}}</label> <input readonly datepicker-options=fromOptions type=text class=form-control show-button-bar=false uib-datepicker-popup={{format}} ng-model=date.from is-open=fromPopup.opened ng-required=true close-text=Close ng-change=fromChange()> <span class=input-group-btn><a class=\"btn btn-sm\" ng-click=fromOpen()><i class=\"glyphicon glyphicon-calendar\"></i></a></span></p></div><div class=col-xs-12><div uib-timepicker max=fromMax ng-model=date.from show-meridian=false ng-change=fromChange()></div></div></div><div class=row><div class=col-xs-12><p class=input-group><label class=control-label>To: {{toDate | date:\'fullDate\'}}</label> <input readonly datepicker-options=toOptions type=text class=form-control show-button-bar=false uib-datepicker-popup={{format}} ng-model=date.to is-open=toPopup.opened ng-required=true close-text=Close ng-change=toChange()> <span class=input-group-btn><button type=button class=\"btn btn-sm\" ng-click=toOpen()><i class=\"glyphicon glyphicon-calendar\"></i></button></span></p></div><div class=col-xs-12><div uib-timepicker max=toMax min=toMin ng-model=date.to show-meridian=false ng-change=toChange()></div></div></div><alert type=danger ng-show=errorCustomWindow class=text-danger style=\"display: block;text-align: center;\"><span ng-bind=errorCustomWindow></span></alert></div></div>");}]);
 
 angular.module('opengate-angular-js').service('$oguxThemes', [
@@ -703,6 +706,147 @@ DataUrlFormatter.prototype.format = function(value) {
 
 function DataUrlFormatter() {}
 
+
+angular.module('opengate-angular-js')
+    .filter('humanize', ['$window', function($window) {
+        function hasNumber(myString) {
+            return (/\d/.test(myString));
+        }
+
+        return function(input, optional1, optional2) {
+
+            var output = input;
+
+
+            if ($window.S(output).indexOf('$') !== -1) {
+                output = $window.S(output).strip('$').s;
+            }
+            if (angular.isString(output) && !hasNumber(output)) {
+                output = $window.S(output).humanize().s;
+            }
+
+            return output;
+
+        };
+
+    }])
+    .filter('communicationsInterface', function() {
+        return function(input) {
+
+            var output = input;
+
+            switch (output) {
+                case 'COMMUNICATIONS_MODULE':
+                    return 'Communications module';
+                case 'SUBSCRIPTION':
+                    return 'Mobile line';
+                case 'SUBSCRIBER':
+                    return 'SIM';
+                case 'HOME_OPERATOR':
+                    return 'Home Operator';
+                case 'REGISTER_OPERATOR':
+                    return 'Register Operator';
+                case 'ADDRESS':
+                    return 'IP';
+                case 'SOFTWARE':
+                    return 'Software';
+                case 'HARDWARE':
+                    return 'Hardware';
+                case 'entityKey':
+                    return 'Identifier';
+                default:
+                    return output;
+            }
+        };
+    })
+    .filter('dateNames', function() {
+        var days = {
+            'MON': 'Monday',
+            'TUE': 'Tuesday',
+            'WED': 'Wednesday',
+            'THU': 'Thursday',
+            'FRI': 'Friday',
+            'SAT': 'Saturday',
+            'SUN': 'Sunday'
+        };
+        var months = {
+            'JAN': 'January',
+            'FEB': 'February',
+            'MAR': 'March',
+            'APR': 'April',
+            'MAY': 'May',
+            'JUN': 'June',
+            'JUL': 'July',
+            'AUG': 'August',
+            'SEP': 'September',
+            'OCT': 'October',
+            'NOV': 'November',
+            'DEC': 'December'
+        };
+
+        return function(input) {
+            return (days[input] || months[input]) || input;
+        };
+    })
+
+.filter('icons', function() {
+        return function(input, optional1, optional2) {
+            var output = 'fa fa-info';
+            if (input === 'list') {
+                output = 'fa fa-list';
+            }
+            if (input === 'ban') {
+                output = 'fa fa-ban';
+            }
+            if (input === 'laptop') {
+                output = 'fa fa-laptop';
+            }
+            if (input === 'spin') {
+                output = 'fa fa-spinner fa-spin';
+            }
+            if (input === 'unit') {
+                output = 'fa fa-plus-square';
+            }
+            if (input === 'tags') {
+                output = 'fa fa-tags';
+            }
+            return output;
+        };
+
+    })
+    .filter('codeErrors', function() {
+        var errors = {
+            '1004': 'At least one valid reference to an entity is required',
+            '1005': 'At least one valid reference to an entity is required',
+            '1017': 'Tag is not valid. Please, check it.'
+        };
+
+        return function(input) {
+            return { code: input.code, message: errors[input.code] || input.message };
+        };
+    })
+    .filter('textlength', function() {
+        return function(input, optional1) {
+            var maxLength = 30;
+            if (optional1 && angular.isNumber(optional1)) {
+                maxLength = optional1;
+            }
+
+            if (input && input.length > maxLength) {
+                return input.substring(0, maxLength) + '...';
+            } else {
+                return input;
+            }
+        };
+    }).filter('compactid', function() {
+        return function(input) {
+            if (input && input.indexOf('.') > -1) {
+                return input.substring(input.lastIndexOf('.') + 1);
+            }
+            return input;
+        };
+    });
+
 angular.module('opengate-angular-js').directive('windowTimeSelect', function() { // ['$scope', '$compile'], function($scope, $compile) {
 
 
@@ -994,15 +1138,16 @@ angular.module('opengate-angular-js').directive('disallowSpaces', function() {
 
 
 angular.module('opengate-angular-js')
-    .directive('customUiSelect', ['$compile', 'Filter', function($compile, Filter) {
+    .directive('customUiSelect', ['$compile', 'Filter', function ($compile, Filter) {
         var button = angular.element('<div title="Toggle Advanced/Basic filter search" ng-click="complex()" style="cursor:pointer" class="custom-ui-select-button input-group-addon"><i class="fa fa-filter"></i><i class="filter-icon fa fa-bold text-muted"></i></div>');
         var container = angular.element('<div class="custom-ui-select-container input-group"></div>');
+        var style = angular.element('<style title="custom-ui-select-no-multiple">.custom-ui-select-no-multiple .ui-select-search[placeholder=""]{display:none}</style>');
 
-        var isEmpty = function(value) {
+        var isEmpty = function (value) {
             return !value || value.trim().length === 0;
         };
 
-        var setRefresh = function(obj, fnc) {
+        var setRefresh = function (obj, fnc) {
             var choices = obj.querySelectorAll('ui-select-choices');
             choices.attr('refresh', fnc);
             choices.attr('refresh-delay', '0');
@@ -1012,7 +1157,7 @@ angular.module('opengate-angular-js')
             require: 'uiSelect',
             scope: true,
             bindToController: true,
-            controller: ["$scope", "$element", "$attrs", function($scope, $element, $attrs) {
+            controller: ["$scope", "$element", "$attrs", function ($scope, $element, $attrs) {
                 var uiConfig = getConfig();
 
                 function processFilter(_filter) {
@@ -1031,7 +1176,7 @@ angular.module('opengate-angular-js')
                         return $scope[$attrs.customUiSelectConfig];
                     } else {
                         var config = $scope;
-                        configPath.forEach(function(path) {
+                        configPath.forEach(function (path) {
                             config = config[path];
                         });
                         return config;
@@ -1039,10 +1184,10 @@ angular.module('opengate-angular-js')
                 }
 
                 //Filtro asistido con mass-autocomplete
-                $scope.complexfilter = function(search) {
+                $scope.complexfilter = function (search) {
                     //console.log(search);
                     Filter.parseQuery(search || '')
-                        .then(function(data) {
+                        .then(function (data) {
                             var filter = data.filter;
                             //Solo filtramos si no se trata de un filtro vacio
                             if (Object.keys(filter).length > 0) {
@@ -1054,7 +1199,7 @@ angular.module('opengate-angular-js')
                                 uiConfig.collection.splice(0, uiConfig.collection.length);
                             }
                         })
-                        .catch(function(err) {
+                        .catch(function (err) {
                             //Si el filtro no es valido borramos la lista de opciones del ui-select
                             //$scope.filter.error = err;
                             uiConfig.collection.splice(0, uiConfig.collection.length);
@@ -1063,12 +1208,12 @@ angular.module('opengate-angular-js')
                 };
 
                 //Filtro simple con or-like
-                $scope.asyncfilter = function(search) {
+                $scope.asyncfilter = function (search) {
                     _loadCollection(uiConfig.builder, uiConfig.collection, uiConfig.rootKey, processFilter(uiConfig.filter(search)));
                 };
 
                 $scope._complex = $attrs.$$button.querySelectorAll('.fa-filter').hasClass('text-primary');
-                $scope.complex = function() {
+                $scope.complex = function () {
                     $scope._complex = !$scope._complex;
                     if ($scope._complex) {
                         $element.css('display', '').removeClass('custom-ui-select-hide');
@@ -1083,7 +1228,7 @@ angular.module('opengate-angular-js')
                     }
                 };
 
-                $scope.customUiTagTransform = function(value) {
+                $scope.customUiTagTransform = function (value) {
                     return null;
                 };
 
@@ -1093,13 +1238,13 @@ angular.module('opengate-angular-js')
                 function _loadCollection(builder, collection, id, filter) {
                     if (lastTimeout) clearTimeout(lastTimeout);
 
-                    lastTimeout = setTimeout(function() { _loadCollectionTimeout(builder, collection, id, filter); }, 500);
+                    lastTimeout = setTimeout(function () { _loadCollectionTimeout(builder, collection, id, filter); }, 500);
                 }
 
                 function _loadCollectionTimeout(builder, collection, id, filter) {
                     $attrs.$$button.querySelectorAll('.filter-icon').removeClass('fa-bold').removeClass('fa-font').addClass('fa-spinner').addClass('fa-spin');
                     builder.limit(1000).filter(filter).build().execute().then(
-                        function(data) {
+                        function (data) {
                             if ($scope._complex) {
                                 $attrs.$$button.querySelectorAll('.filter-icon').removeClass('fa-spinner').removeClass('fa-spin').addClass('fa-font');
                             } else {
@@ -1116,7 +1261,7 @@ angular.module('opengate-angular-js')
                                 }
                                 var _collection = [];
                                 if (!angular.isArray(datas)) {
-                                    angular.forEach(datas, function(data, key) {
+                                    angular.forEach(datas, function (data, key) {
                                         _collection.push(data);
                                     });
                                 } else {
@@ -1134,12 +1279,12 @@ angular.module('opengate-angular-js')
                             }
                             $scope.$apply();
                         }
-                    ).catch(function(err) {
+                    ).catch(function (err) {
                         $attrs.$$button.querySelectorAll('.filter-icon').removeClass('fa-spinner').removeClass('fa-spin').addClass('fa-filter');
                     });
                 }
             }],
-            compile: function(templateElement, templateAttributes) {
+            compile: function (templateElement, templateAttributes) {
                 templateAttributes.$$button = button.clone();
                 templateAttributes.$$container = container.clone();
                 var simple = templateAttributes.multiple !== 'true';
@@ -1150,6 +1295,8 @@ angular.module('opengate-angular-js')
                     templateAttributes.limit = '1';
                     templateAttributes.searchEnabled = '!$select.selected || $select.selected.length === 0';
                     templateElement.attr('search-enabled', '!$select.selected || $select.selected.length === 0');
+                    templateElement.addClass('custom-ui-select-no-multiple');
+                    templateAttributes.$$style = style.clone();
                 }
 
                 if (!taggFunction || taggFunction.trim().length === 0) {
@@ -1174,6 +1321,11 @@ angular.module('opengate-angular-js')
                 return function link($scope, $element, $attrs, $select) {
                     var maus = 'mass-autocomplete-ui-select';
                     var aus = 'async-ui-select';
+
+                    var head = angular.element('html head');
+                    if ($attrs.$$style && head.find('style[title="custom-ui-select-no-multiple"]').length === 0)
+                        head.append($attrs.$$style);
+
                     if ($attrs.customMassAutocompleteItem) {
                         $element.addClass(maus);
                         var massAutocompleteItem = getMassAutocompleteItem();
@@ -1189,9 +1341,10 @@ angular.module('opengate-angular-js')
                         $attrs.$$container.empty();
                         $element.before($attrs.$$container);
                         $element.detach();
+
                         $attrs.$$container.append($element);
                         var template = $attrs.$$templateElement.clone();
-                        var _cloneElement = $compile(template)($scope, function(clonedElement, $scope) {
+                        var _cloneElement = $compile(template)($scope, function (clonedElement, $scope) {
                             $attrs.$$container.append(clonedElement);
                         });
                         _cloneElement.addClass(aus);
@@ -1202,10 +1355,10 @@ angular.module('opengate-angular-js')
                         $element.css('display', 'none').addClass('custom-ui-select-hide');
 
                         var keys = [];
-                        $attrs.$$container.bind('keydown', function(e) {
+                        $attrs.$$container.bind('keydown', function (e) {
                             keys.push(e.keyCode);
                         });
-                        $attrs.$$container.bind('keyup', function(e) {
+                        $attrs.$$container.bind('keyup', function (e) {
                             if (keys.length > 0) {
                                 if (angular.equals(keys, [17, 18, 70])) {
                                     $scope.complex();
@@ -1223,7 +1376,7 @@ angular.module('opengate-angular-js')
                             return $scope[$attrs.customMassAutocompleteItem];
                         } else {
                             var config = $scope;
-                            configPath.forEach(function(path) {
+                            configPath.forEach(function (path) {
                                 config = config[path];
                             });
                             return config;
@@ -1233,147 +1386,56 @@ angular.module('opengate-angular-js')
             }
         };
     }]);
+angular.module('opengate-angular-js').config(["schemaFormProvider", "schemaFormDecoratorsProvider", "sfPathProvider", "sfBuilderProvider", function (schemaFormProvider, schemaFormDecoratorsProvider, sfPathProvider, sfBuilderProvider) {
 
+    var helper = function (name, schema, options) {
+        if (schema.type === 'string' && schema.format == 'helperdialog') {
+            var f = schemaFormProvider.stdFormObj(name, schema, options);
+            f.key = options.path;
+            f.type = 'helperdialog';
 
-angular.module('opengate-angular-js')
-    .filter('humanize', ['$window', function($window) {
-        function hasNumber(myString) {
-            return (/\d/.test(myString));
+            options.lookup[sfPathProvider.stringify(options.path)] = f;
+            return f;
         }
+    };
 
-        return function(input, optional1, optional2) {
+    schemaFormProvider.defaults.string.unshift(helper);
 
-            var output = input;
+    schemaFormDecoratorsProvider.defineAddOn(
+        'bootstrapDecorator',         // Name of the decorator you want to add to.
+        'helperdialog',                    // Form type that should render this add-on
+        'views/schema.form.helper.template.html',    // Template name in $templateCache
+        sfBuilderProvider.stdBuilders // List of builder functions to apply.
+    );
 
+    var customUiSelect = function (name, schema, options) {
+        if (schema.type === 'string' && schema.format == 'customuiselect') {
+            var f = schemaFormProvider.stdFormObj(name, schema, options);
+            f.key = options.path;
+            f.type = (schema.properties && schema.properties.type) ? schema.properties.type : 'string';
+            options.lookup[sfPathProvider.stringify(options.path)] = f;
+            return f;
+        }
+    };
 
-            if ($window.S(output).indexOf('$') !== -1) {
-                output = $window.S(output).strip('$').s;
-            }
-            if (angular.isString(output) && !hasNumber(output)) {
-                output = $window.S(output).humanize().s;
-            }
+    schemaFormProvider.defaults.string.unshift(customUiSelect);
 
-            return output;
+    schemaFormDecoratorsProvider.defineAddOn(
+        'bootstrapDecorator',         // Name of the decorator you want to add to.
+        'entity',                    // Form type that should render this add-on
+        'views/schema.form.entity.template.html',    // Template name in $templateCache
+        sfBuilderProvider.stdBuilders // List of builder functions to apply.
+    );
 
-        };
+    schemaFormDecoratorsProvider.defineAddOn(
+        'bootstrapDecorator',         // Name of the decorator you want to add to.
+        'datastream',                    // Form type that should render this add-on
+        'views/schema.form.datastream.template.html',    // Template name in $templateCache
+        sfBuilderProvider.stdBuilders // List of builder functions to apply.
+    );
 
-    }])
-    .filter('communicationsInterface', function() {
-        return function(input) {
+}]);
 
-            var output = input;
-
-            switch (output) {
-                case 'COMMUNICATIONS_MODULE':
-                    return 'Communications module';
-                case 'SUBSCRIPTION':
-                    return 'Mobile line';
-                case 'SUBSCRIBER':
-                    return 'SIM';
-                case 'HOME_OPERATOR':
-                    return 'Home Operator';
-                case 'REGISTER_OPERATOR':
-                    return 'Register Operator';
-                case 'ADDRESS':
-                    return 'IP';
-                case 'SOFTWARE':
-                    return 'Software';
-                case 'HARDWARE':
-                    return 'Hardware';
-                case 'entityKey':
-                    return 'Identifier';
-                default:
-                    return output;
-            }
-        };
-    })
-    .filter('dateNames', function() {
-        var days = {
-            'MON': 'Monday',
-            'TUE': 'Tuesday',
-            'WED': 'Wednesday',
-            'THU': 'Thursday',
-            'FRI': 'Friday',
-            'SAT': 'Saturday',
-            'SUN': 'Sunday'
-        };
-        var months = {
-            'JAN': 'January',
-            'FEB': 'February',
-            'MAR': 'March',
-            'APR': 'April',
-            'MAY': 'May',
-            'JUN': 'June',
-            'JUL': 'July',
-            'AUG': 'August',
-            'SEP': 'September',
-            'OCT': 'October',
-            'NOV': 'November',
-            'DEC': 'December'
-        };
-
-        return function(input) {
-            return (days[input] || months[input]) || input;
-        };
-    })
-
-.filter('icons', function() {
-        return function(input, optional1, optional2) {
-            var output = 'fa fa-info';
-            if (input === 'list') {
-                output = 'fa fa-list';
-            }
-            if (input === 'ban') {
-                output = 'fa fa-ban';
-            }
-            if (input === 'laptop') {
-                output = 'fa fa-laptop';
-            }
-            if (input === 'spin') {
-                output = 'fa fa-spinner fa-spin';
-            }
-            if (input === 'unit') {
-                output = 'fa fa-plus-square';
-            }
-            if (input === 'tags') {
-                output = 'fa fa-tags';
-            }
-            return output;
-        };
-
-    })
-    .filter('codeErrors', function() {
-        var errors = {
-            '1004': 'At least one valid reference to an entity is required',
-            '1005': 'At least one valid reference to an entity is required',
-            '1017': 'Tag is not valid. Please, check it.'
-        };
-
-        return function(input) {
-            return { code: input.code, message: errors[input.code] || input.message };
-        };
-    })
-    .filter('textlength', function() {
-        return function(input, optional1) {
-            var maxLength = 30;
-            if (optional1 && angular.isNumber(optional1)) {
-                maxLength = optional1;
-            }
-
-            if (input && input.length > maxLength) {
-                return input.substring(0, maxLength) + '...';
-            } else {
-                return input;
-            }
-        };
-    }).filter('compactid', function() {
-        return function(input) {
-            if (input && input.indexOf('.') > -1) {
-                return input.substring(input.lastIndexOf('.') + 1);
-            }
-            return input;
-        };
-    });
 /**
  * Created by Monica on 12/09/2016.
  */
@@ -1381,8 +1443,21 @@ angular.module('opengate-angular-js')
 
 var _wizard = angular.module('opengate-angular-js');
 
-_wizard.controller('helperDialogController', ['$scope', '$element', '$attrs', '$uibModal', function($scope, $element, $attrs, $uibModal) {
+_wizard.controller('helperDialogController', ['$scope', '$element', '$attrs', '$uibModal', function ($scope, $element, $attrs, $uibModal) {
     var $helper = this;
+    var style = angular.element('<style title="helper-dialog-style">'
+        + 'helper-dialog .row-eq-height,.helper-dialog .row-eq-height {display: -webkit-box;display: -webkit-flex;display: -ms-flexbox;display: flex;}'
+        + 'helper-dialog .vcenter,.helper-dialog .vcenter {display: -webkit-box;display: -webkit-flex;display: -ms-flexbox;display: flex;flex-direction: column;justify-content: center;}'
+        + '.helper-dialog .top-buffer {margin-top: 25px;}'
+        + '.helper-dialog .custom-ui-select-label {display: none;}'
+        + '.helper-dialog .without-padding-top .form-group {margin-top: 0 !important;}'
+        + '.helper-dialog .without-padding-top.modal-body h4 {padding-bottom: 0px;}'
+        + '</style>');
+
+    var head = angular.element('html head');
+    if (head.find('style[title="helper-dialog-style"]').length === 0)
+        head.append(style);
+
     $helper.mode = 'default';
     if ($helper.helperTitle) {
         $helper.mode = 'title';
@@ -1393,7 +1468,7 @@ _wizard.controller('helperDialogController', ['$scope', '$element', '$attrs', '$
         $helper.mode = 'button';
     }
 
-    $helper.open = function() {
+    $helper.open = function () {
 
         var modalInstance = $uibModal.open({
             animation: true,
@@ -1402,30 +1477,31 @@ _wizard.controller('helperDialogController', ['$scope', '$element', '$attrs', '$
             templateUrl: 'helper.view.modal.html',
             controller: 'helperDialogModalController',
             controllerAs: '$ctrl',
+            windowClass: 'helper-dialog',
             resolve: {
-                helper_id: function() {
+                helper_id: function () {
                     return $helper.helperId;
                 },
-                helper_exclusive: function() {
-                    return $helper.helperExclusive === "true";
+                helper_exclusive: function () {
+                    return $helper.helperExclusive === 'true';
                 }
             }
         });
         //Send result
-        modalInstance.result.then(function(helper_result) {
+        modalInstance.result.then(function (helper_result) {
             if (helper_result) {
                 $helper.selected = angular.fromJson(helper_result);
                 if ($helper.onCopy)
                     $helper.onCopy({ $helper_keys: helper_result });
 
             } else {
-                console.warn("Nothing selected on modal");
+                console.warn('Nothing selected on modal');
             }
-        }, function() {});
+        }, function () { });
     };
 }]);
 
-_wizard.controller('helperDialogModalController', ['$scope', '$uibModalInstance', 'helper_id', 'helper_exclusive', function($scope, $uibModalInstance, helper_id, helper_exclusive) {
+_wizard.controller('helperDialogModalController', ['$scope', '$uibModalInstance', 'helper_id', 'helper_exclusive', function ($scope, $uibModalInstance, helper_id, helper_exclusive) {
     var $ctrl = this;
     $ctrl.helper_id = helper_id;
     $ctrl[helper_id + 'IsOpen'] = true;
@@ -1461,11 +1537,11 @@ _wizard.controller('helperDialogModalController', ['$scope', '$uibModalInstance'
     };
 
     events.push(
-        $scope.$on('leafletDirectiveMarker.map-marker.click', function(event, args) {
+        $scope.$on('leafletDirectiveMarker.map-marker.click', function (event, args) {
             delete $ctrl.helper_keys.map;
             $ctrl.map.markers = {};
         }),
-        $scope.$on('leafletDirectiveMap.map-marker.click', function(event, args) {
+        $scope.$on('leafletDirectiveMap.map-marker.click', function (event, args) {
             var latlng = args.leafletEvent.latlng;
             $ctrl.map.markers = {
                 marker: {
@@ -1478,7 +1554,7 @@ _wizard.controller('helperDialogModalController', ['$scope', '$uibModalInstance'
             };
             setPosition(latlng.lat, latlng.lng);
         }),
-        $scope.$on('leafletDirectiveMarker.map-marker.dragend', function(event, args) {
+        $scope.$on('leafletDirectiveMarker.map-marker.dragend', function (event, args) {
             var point = args.leafletEvent.target._leaflet_events.dragend[0].context._latlng;
             setPosition(point.lat, point.lng);
         })
@@ -1486,35 +1562,37 @@ _wizard.controller('helperDialogModalController', ['$scope', '$uibModalInstance'
 
     //config datastream
     $ctrl.datastream = {};
-    $scope.onSelectDatastreamKey = function($item, $model) {
-        $ctrl.helper_keys['datastream'] = { datastreamId: $item.id };
+    $scope.onSelectDatastreamKey = function ($item, $model) {
+        $ctrl.helper_keys['datastream'] = { datastreamId: $item.identifier };
     };
 
-    $scope.onDeleteDatastreamKey = function() {
+    $scope.onDeleteDatastreamKey = function () {
         delete $ctrl.helper_keys.datastream;
     };
 
     //config entity
     $ctrl.entity = {};
-    $scope.onSelectEntityKey = function($item, $model) {
+    $scope.onSelectEntityKey = function ($item, $model) {
         // $ctrl.helper_keys['entity'] = { entityKey: $item.id };
-        $ctrl.helper_keys['entity'] = { entityKey: $item.provision.administration.identifier };
+        $ctrl.helper_keys['entity'] = {
+            entityKey: $item.provision.administration.identifier._current.value
+        };
     };
 
-    $scope.onDeleteEntityKey = function() {
+    $scope.onDeleteEntityKey = function () {
         delete $ctrl.helper_keys.entity;
     };
 
     //Modal methods
-    $ctrl.ok = function(helper) {
+    $ctrl.ok = function (helper) {
         $uibModalInstance.close($ctrl.helper_keys[helper]);
     };
-    $ctrl.cancel = function() {
+    $ctrl.cancel = function () {
         $uibModalInstance.dismiss('cancel');
     };
 
     //clear evetns
-    $scope.$on('destroy', function() {
+    $scope.$on('destroy', function () {
         for (var eventToDestroy in events) {
             eventToDestroy();
         }
@@ -1634,11 +1712,11 @@ angular.module('opengate-angular-js').component('customUiSelectEntity', {
 
 
 
-angular.module('opengate-angular-js').controller('customUiSelectDatastreamController', ['$scope', '$element', '$attrs', '$api', function($scope, $element, $attrs, $api) {
+angular.module('opengate-angular-js').controller('customUiSelectDatastreamController', ['$scope', '$element', '$attrs', '$api', function ($scope, $element, $attrs, $api) {
     var ctrl = this;
     ctrl.ownConfig = {
         builder: $api().datamodelsSearchBuilder(),
-        filter: function(search) {
+        filter: function (search) {
             ctrl.lastSearch = search;
             if (!search)
                 return {};
@@ -1655,11 +1733,11 @@ angular.module('opengate-angular-js').controller('customUiSelectDatastreamContro
         },
         rootKey: 'datamodels',
         collection: [],
-        processingData: function(data, collection) {
+        processingData: function (data, collection) {
             //if (!ctrl.lastSearch) return;
             var _datastreams = [];
             var datamodels = data.data.datamodels;
-            angular.forEach(datamodels, function(datamodel, key) {
+            angular.forEach(datamodels, function (datamodel, key) {
                 var categories = datamodel.categories;
                 var _datamodel = {
                     identifier: datamodel.identifier,
@@ -1667,14 +1745,14 @@ angular.module('opengate-angular-js').controller('customUiSelectDatastreamContro
                     name: datamodel.name,
                     organization: datamodel.organizationName
                 };
-                angular.forEach(categories, function(category, key) {
+                angular.forEach(categories, function (category, key) {
                     var datastreams = category.datastreams;
                     var _category = { identifier: category.identifier };
                     angular.forEach(datastreams
-                        .filter(function(ds) {
+                        .filter(function (ds) {
                             return (ds.identifier.indexOf(ctrl.lastSearch) > -1 && !!ctrl.lastSearch.length) || !ctrl.lastSearch;
                         }),
-                        function(datastream, key) {
+                        function (datastream, key) {
                             var _datastream = angular.copy(datastream);
                             _datastream.datamodel = _datamodel;
                             _datastream.category = _category;
@@ -1687,14 +1765,14 @@ angular.module('opengate-angular-js').controller('customUiSelectDatastreamContro
         customSelectors: $api().datamodelsSearchBuilder()
     };
 
-    ctrl.datastreamSelected = function($item, $model) {
+    ctrl.datastreamSelected = function ($item, $model) {
         var return_obj = {};
         return_obj['$item'] = $item;
         return_obj['$model'] = $model;
         ctrl.onSelectItem(return_obj);
     };
 
-    ctrl.datastreamRemove = function($item, $model) {
+    ctrl.datastreamRemove = function ($item, $model) {
         ctrl.onRemove($item, $model);
     };
 }]);

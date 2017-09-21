@@ -1,3 +1,3 @@
 'use strict';
 
-angular.module('opengate-angular-js', []);
+angular.module('opengate-angular-js', ['schemaForm']);

@@ -155,6 +155,7 @@ angular.module('opengate-angular-js').factory('Filter', ['$window', '$sce', '$q'
             var id, value, newFilter = {};
             if (parse_tree.type === 'BinaryExpression' && /\eq|\neq|\like|\gt|\lt|\gte|\lte|\=|\'<'|\'>'|\~|\!/.test(parse_tree.operator)) {
                 id = getId(parse_tree.left).split('.').reverse().join('.');
+                id = id.replace('.undefined', '[]');
                 value = parse_tree.right.name || parse_tree.right.value;
                 var op = getSimpleOperator(parse_tree.operator);
 

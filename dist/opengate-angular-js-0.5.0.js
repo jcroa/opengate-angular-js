@@ -314,6 +314,9 @@ CollectedJsonFinderHelper.prototype = new JsonFinderHelper();
 CollectedJsonFinderHelper.prototype.fields = Object.assign(
     CollectedJsonFinderHelper.prototype.fields, {
         'specificType': 'device.specificType',
+        'location': 'device.location',
+        'name': 'device.name',
+        'description': 'device.description',
         'subscriberIdentifier': 'device.communicationModules[].subscriber.identifier',
         'subscriberSerialNumber': 'device.communicationModules[].subscriber.serialNumber',
         'subscriberSpecificType': 'device.communicationModules[].subscriber.specificType',

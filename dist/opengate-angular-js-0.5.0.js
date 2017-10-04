@@ -304,7 +304,8 @@ JsonFinderHelper.prototype.fields = {
     'identifier': 'provision.administration.identifier',
     'organization': 'provision.administration.organization',
     'serviceGroup': 'provision.administration.serviceGroup',
-    'channel': 'provision.administration.channel'
+    'channel': 'provision.administration.channel',
+    'feed': 'provision.administration.defaultFeed'
 };
 
 function JsonFinderHelper() {}
@@ -317,6 +318,13 @@ CollectedJsonFinderHelper.prototype.fields = Object.assign(
         'location': 'device.location',
         'name': 'device.name',
         'description': 'device.description',
+        'operationalStatus': 'device.operationalStatus',
+        'serialNumber': 'device.serialNumber',
+        'identifier': 'device.identifier',
+        'model': 'device.model',
+        'software': 'device.software',
+        'trustedBoot': 'device.trustedBoot',
+
         'subscriberIdentifier': 'device.communicationModules[].subscriber.identifier',
         'subscriberSerialNumber': 'device.communicationModules[].subscriber.serialNumber',
         'subscriberSpecificType': 'device.communicationModules[].subscriber.specificType',
@@ -340,6 +348,8 @@ function CollectedJsonFinderHelper() {}
 ProvisionJsonFinderHelper.prototype = new CollectedJsonFinderHelper();
 ProvisionJsonFinderHelper.prototype.fields = Object.assign(
     ProvisionJsonFinderHelper.prototype.fields, {
+        'adState': 'provision.device.administrativeState',
+        'certificates': 'provision.device.certificates',
         'subscriberAdState': 'device.communicationModules[].subscriber.administrativeState',
         'subscriptionAdState': 'device.communicationModules[].subscription.administrativeState',
         'subscriberIcc': 'provision.device.communicationModules[].subscriber.mobile.icc'

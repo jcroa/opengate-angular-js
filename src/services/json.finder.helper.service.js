@@ -27,7 +27,8 @@ JsonFinderHelper.prototype.fields = {
     'organization': 'provision.administration.organization',
     'serviceGroup': 'provision.administration.serviceGroup',
     'channel': 'provision.administration.channel',
-    'feed': 'provision.administration.defaultFeed'
+    'feed': 'provision.administration.defaultFeed',
+    'resourceType': 'resourceType'
 };
 
 function JsonFinderHelper() {}

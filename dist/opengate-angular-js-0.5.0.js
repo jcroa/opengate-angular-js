@@ -280,7 +280,7 @@ angular.module('opengate-angular-js').service('$ogapiErrorParser', [
 
 angular.module('opengate-angular-js')
     .service('$jsonFinderHelper', ['jsonPath',
-        function(jsonPath) {
+        function (jsonPath) {
             JsonFinderHelper.prototype.jsonPath = jsonPath;
             return {
                 administration: new JsonFinderHelper(),
@@ -290,14 +290,14 @@ angular.module('opengate-angular-js')
         }
     ]);
 
-JsonFinderHelper.prototype.getPath = function(field) {
+JsonFinderHelper.prototype.getPath = function (field) {
     if (!this.fields[field]) throw new Error('Field <' + field + '> not found. Available:' + JSON.stringify(Object.keys(this.fields)));
     return this.fields[field].replace('[]', '[*]');
 };
-JsonFinderHelper.prototype.findOne = function(data, field) {
+JsonFinderHelper.prototype.findOne = function (data, field) {
     return this.findAll(data, field)[0];
 };
-JsonFinderHelper.prototype.findAll = function(data, field) {
+JsonFinderHelper.prototype.findAll = function (data, field) {
     return this.jsonPath(data, this.getPath(field) + '._current.value') || [];
 };
 JsonFinderHelper.prototype.fields = {
@@ -309,12 +309,12 @@ JsonFinderHelper.prototype.fields = {
     'resourceType': 'resourceType'
 };
 
-function JsonFinderHelper() {}
+function JsonFinderHelper() { }
 
 CollectedJsonFinderHelper.prototype = new JsonFinderHelper();
 
 CollectedJsonFinderHelper.prototype.fields = Object.assign(
-    CollectedJsonFinderHelper.prototype.fields, {
+    {}, {
         'specificType': 'device.specificType',
         'location': 'device.location',
         'name': 'device.name',
@@ -344,10 +344,10 @@ CollectedJsonFinderHelper.prototype.fields = Object.assign(
         'subscriptionRegisteredOperator': 'device.communicationModules[].subscription.mobile.registeredOperator'
     });
 
-function CollectedJsonFinderHelper() {}
+function CollectedJsonFinderHelper() { }
 
 ProvisionJsonFinderHelper.prototype = new CollectedJsonFinderHelper();
-ProvisionJsonFinderHelper.prototype.fields = Object.assign(
+ProvisionJsonFinderHelper.prototype.fields = Object.assign({},
     ProvisionJsonFinderHelper.prototype.fields, {
         'adState': 'provision.device.administrativeState',
         'certificates': 'provision.device.certificates',
@@ -357,7 +357,7 @@ ProvisionJsonFinderHelper.prototype.fields = Object.assign(
     });
 
 
-ProvisionJsonFinderHelper.prototype.getPath = function(field) {
+ProvisionJsonFinderHelper.prototype.getPath = function (field) {
     var path = JsonFinderHelper.prototype.getPath(field);
     if (!path.startsWith('provision.')) {
         path = 'provision.' + path;
@@ -365,7 +365,7 @@ ProvisionJsonFinderHelper.prototype.getPath = function(field) {
     return path;
 };
 
-function ProvisionJsonFinderHelper() {}
+function ProvisionJsonFinderHelper() { }
 
 
 /**

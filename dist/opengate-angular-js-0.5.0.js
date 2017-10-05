@@ -294,6 +294,10 @@ JsonFinderHelper.prototype.getPath = function(field) {
     if (!this.fields[field]) throw new Error('Field <' + field + '> not found. Available:' + JSON.stringify(Object.keys(this.fields)));
     return this.fields[field].replace('[]', '[*]');
 };
+JsonFinderHelper.prototype.getAmpliaPath = function(field) {
+    if (!this.fields[field]) throw new Error('Field <' + field + '> not found. Available:' + JSON.stringify(Object.keys(this.fields)));
+    return this.fields[field];
+};
 JsonFinderHelper.prototype.findOne = function(data, field) {
     return this.findAll(data, field)[0];
 };
@@ -324,6 +328,9 @@ CollectedJsonFinderHelper.prototype.fields = Object.assign(
         'model': 'device.model',
         'software': 'device.software',
         'trustedBoot': 'device.trustedBoot',
+
+        'commsModuleIdentifier': 'provision.device.communicationModules[].identifier',
+        'commsModuleImei': 'provision.device.communicationModules[].mobile.imei',
 
         'subscriberIdentifier': 'device.communicationModules[].subscriber.identifier',
         'subscriberSerialNumber': 'device.communicationModules[].subscriber.serialNumber',
@@ -358,6 +365,13 @@ ProvisionJsonFinderHelper.prototype.fields = Object.assign(
 
 ProvisionJsonFinderHelper.prototype.getPath = function(field) {
     var path = JsonFinderHelper.prototype.getPath(field);
+    if (!path.startsWith('provision.')) {
+        path = 'provision.' + path;
+    }
+    return path;
+};
+ProvisionJsonFinderHelper.prototype.getAmpliaPath = function(field) {
+    var path = JsonFinderHelper.prototype.getAmpliaPath(field);
     if (!path.startsWith('provision.')) {
         path = 'provision.' + path;
     }

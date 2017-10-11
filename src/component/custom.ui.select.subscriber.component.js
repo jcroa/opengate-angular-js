@@ -4,7 +4,7 @@
 angular.module('opengate-angular-js').controller('customUiSelectSubscriberController', ['$scope', '$element', '$attrs', '$api', function($scope, $element, $attrs, $api) {
     var ctrl = this;
     ctrl.ownConfig = {
-        builder: $api().subscribersSearchBuilder(),
+        builder: $api().subscribersSearchBuilder().provisioned(),
         filter: function(search) {
             return {
                 'or': [
@@ -15,7 +15,7 @@ angular.module('opengate-angular-js').controller('customUiSelectSubscriberContro
         },
         rootKey: 'devices',
         collection: [],
-        customSelectors: $api().subscribersSearchBuilder()
+        customSelectors: $api().subscribersSearchBuilder().provisioned()
     };
 
     ctrl.entitySelected = function($item, $model) {
@@ -32,7 +32,7 @@ angular.module('opengate-angular-js').controller('customUiSelectSubscriberContro
 
 angular.module('opengate-angular-js').component('customUiSelectSubscriber', {
 
-    templateUrl: 'views/custom.ui.select.entity.html',
+    templateUrl: 'views/custom.ui.select.subscriber.html',
     controller: 'customUiSelectSubscriberController',
     bindings: {
         onSelectItem: '&',

@@ -1,34 +1,37 @@
 'use strict';
 
 
-angular.module('opengate-angular-js').controller('customUiSelectSubscriptionController', ['$scope', '$element', '$attrs', '$api', function($scope, $element, $attrs, $api) {
-    var ctrl = this;
-    ctrl.ownConfig = {
-        builder: $api().subscriptionsSearchBuilder().provisioned(),
-        filter: function(search) {
-            return {
-                'or': [
-                    { 'like': { 'provision.device.communicationModules[].subscription.identifier': search } },
-                    { 'like': { 'device.communicationModules[].subscription.identifier': search } }
-                ]
-            };
-        },
-        rootKey: 'devices',
-        collection: [],
-        customSelectors: $api().subscriptionsSearchBuilder().provisioned()
-    };
+angular.module('opengate-angular-js').controller('customUiSelectSubscriptionController', ['$scope', '$element', '$attrs', '$api', '$entityExtractor',
+    function($scope, $element, $attrs, $api, $entityExtractor) {
+        var ctrl = this;
+        ctrl.ownConfig = {
+            builder: $api().subscriptionsSearchBuilder().provisioned(),
+            filter: function(search) {
+                return {
+                    'or': [
+                        { 'like': { 'provision.device.communicationModules[].subscription.identifier': search } },
+                        { 'like': { 'device.communicationModules[].subscription.identifier': search } }
+                    ]
+                };
+            },
+            rootKey: 'devices',
+            collection: [],
+            customSelectors: $api().subscriptionsSearchBuilder().provisioned(),
+            processingData: $entityExtractor.extractSubscriptions
+        };
 
-    ctrl.entitySelected = function($item, $model) {
-        var return_obj = {};
-        return_obj['$item'] = $item;
-        return_obj['$model'] = $model;
-        ctrl.onSelectItem(return_obj);
-    };
+        ctrl.entitySelected = function($item, $model) {
+            var return_obj = {};
+            return_obj['$item'] = $item;
+            return_obj['$model'] = $model;
+            ctrl.onSelectItem(return_obj);
+        };
 
-    ctrl.entityRemove = function($item, $model) {
-        ctrl.onRemove($item, $model);
-    };
-}]);
+        ctrl.entityRemove = function($item, $model) {
+            ctrl.onRemove($item, $model);
+        };
+    }
+]);
 
 angular.module('opengate-angular-js').component('customUiSelectSubscription', {
 

@@ -336,6 +336,7 @@ function CollectedJsonFinderHelper() {
             'trustedBoot': 'device.trustedBoot',
 
             'commsModuleIdentifier': 'provision.device.communicationModules[].identifier',
+            'commsModuleSpecificType': 'provision.device.communicationModules[].specificType',
             'commsModuleImei': 'provision.device.communicationModules[].mobile.imei',
 
             'subscriberIdentifier': 'device.communicationModules[].subscriber.identifier',

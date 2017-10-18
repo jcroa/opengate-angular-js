@@ -7,12 +7,34 @@ angular.module('opengate-angular-js').controller('customUiSelectSubscriptionCont
         ctrl.ownConfig = {
             builder: $api().subscriptionsSearchBuilder().provisioned(),
             filter: function(search) {
-                return {
+                var filter = {
                     'or': [
                         { 'like': { 'provision.device.communicationModules[].subscription.identifier': search } },
                         { 'like': { 'device.communicationModules[].subscription.identifier': search } }
                     ]
                 };
+                if (!!ctrl.specificType) {
+                    filter = {
+                        'and': [
+                            filter,
+                            {
+                                'or': [{
+                                        'eq': {
+                                            'device.communicationModules[].subscription.specificType': ctrl.specificType
+                                        }
+                                    },
+                                    {
+                                        'eq': {
+                                            'provision.device.communicationModules[].subscription.specificType': ctrl.specificType
+                                        }
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                }
+
+                return filter;
             },
             rootKey: 'devices',
             collection: [],
@@ -42,6 +64,7 @@ angular.module('opengate-angular-js').component('customUiSelectSubscription', {
         onRemove: '&',
         entity: '=',
         multiple: '@',
+        specificType: '@',
         isRequired: '@'
     }
 

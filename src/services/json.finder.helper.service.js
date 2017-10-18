@@ -7,7 +7,15 @@ angular.module('opengate-angular-js')
             return {
                 administration: new JsonFinderHelper(),
                 provisioned: new ProvisionJsonFinderHelper(),
-                collected: new CollectedJsonFinderHelper()
+                collected: new CollectedJsonFinderHelper(),
+                subscriber: {
+                    collected: new SubscriberCollectedJsonFinderHelper(),
+                    provisioned: new SubscriberProvisionJsonFinderHelper()
+                },
+                subscription: {
+                    collected: new SubscriptionCollectedJsonFinderHelper(),
+                    provisioned: new SubscriptionProvisionJsonFinderHelper()
+                }
             };
         }
     ]);
@@ -111,7 +119,37 @@ function ProvisionJsonFinderHelper() {
             }),
         writable: false
     });
-
-
-
 }
+
+
+SubscriberCollectedJsonFinderHelper.prototype = new CollectedJsonFinderHelper();
+SubscriberCollectedJsonFinderHelper.prototype.getPath = function(field) {
+    var path = CollectedJsonFinderHelper.prototype.getPath.call(this, field);
+    return path.replace('device.communicationModules[*].subscriber', '');
+};
+
+SubscriberProvisionJsonFinderHelper.prototype = new ProvisionJsonFinderHelper();
+SubscriberProvisionJsonFinderHelper.prototype.getPath = function(field) {
+    var path = ProvisionJsonFinderHelper.prototype.getPath.call(this, field);
+    return path.replace('device.communicationModules[*].subscriber', '');
+};
+
+SubscriptionCollectedJsonFinderHelper.prototype = new CollectedJsonFinderHelper();
+SubscriptionCollectedJsonFinderHelper.prototype.getPath = function(field) {
+    var path = CollectedJsonFinderHelper.prototype.getPath.call(this, field);
+    return path.replace('device.communicationModules[*].subscription', '');
+};
+
+SubscriptionProvisionJsonFinderHelper.prototype = new ProvisionJsonFinderHelper();
+SubscriptionProvisionJsonFinderHelper.prototype.getPath = function(field) {
+    var path = ProvisionJsonFinderHelper.prototype.getPath.call(this, field);
+    return path.replace('device.communicationModules[*].subscription', '');
+};
+
+function SubscriberProvisionJsonFinderHelper() {}
+
+function SubscriberCollectedJsonFinderHelper() {}
+
+function SubscriptionCollectedJsonFinderHelper() {}
+
+function SubscriptionProvisionJsonFinderHelper() {}

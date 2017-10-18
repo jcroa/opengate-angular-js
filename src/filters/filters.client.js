@@ -118,6 +118,22 @@ angular.module('opengate-angular-js')
             return { code: input.code, message: errors[input.code] || input.message };
         };
     })
+    .filter('wapiErrors', function() {
+        var errors = {
+            '-1': 'Connection problems',
+            '413': 'Upload size exceeded'
+        };
+
+        return function(status, partialMessage) {
+            var finalMessage = '';
+            if (!angular.isUndefined(partialMessage)) {
+                finalMessage = partialMessage + ' (' + (errors[status] ? errors[status] : 'Code: ' + status) + ')';
+            } else {
+                finalMessage = (errors[status] ? errors[status] : 'Code: ' + status);
+            }
+            return finalMessage;
+        };
+    })
     .filter('textlength', function() {
         return function(input, optional1) {
             var maxLength = 30;

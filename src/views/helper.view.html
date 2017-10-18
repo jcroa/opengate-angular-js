@@ -55,6 +55,34 @@
                     </div>
                 </div>
             </div>
+            <div uib-accordion-group is-open="$ctrl.subscriberIsOpen" class="entity-option" is-disabled="$ctrl.helper_exclusive ? (!$ctrl.entityIsExclusive && !$ctrl.subscriberIsExclusive): false">
+                <div uib-accordion-heading>Subscribers</div>
+                <div class="row row-eq-height">
+                    <div class="col-xs-10">
+                        <custom-ui-select-subscriber on-select-item="onSelectSubscriberKey($item, $model)" specific-type="{{$ctrl.specific_type}}" on-remove="onDeleteSubscriberKey()" entity="$ctrl.subscriber.selected" multiple="false">
+                        </custom-ui-select-subscriber>
+                    </div>
+                    <div class="col-xs-2 vcenter">
+                        <a class="top-buffer btn btn-default ux-txt-success pointer" ng-class="{'disabled': !$ctrl.helper_keys.subscriber}" ng-click="$ctrl.ok('subscriber')" ng-disabled="!$ctrl.helper_keys.subscriber">
+                            <i class="fa fa-lg fa-files-o" aria-hidden="true"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div uib-accordion-group is-open="$ctrl.subscriptionIsOpen" class="entity-option" is-disabled="$ctrl.helper_exclusive ? (!$ctrl.entityIsExclusive && !$ctrl.subscriptionIsExclusive): false">
+                <div uib-accordion-heading>Subscriptions</div>
+                <div class="row row-eq-height">
+                    <div class="col-xs-10">
+                        <custom-ui-select-subscription on-select-item="onSelectSubscriptionKey($item, $model)" specific-type="{{$ctrl.specific_type}}" on-remove="onDeleteSubscriptionKey()" entity="$ctrl.subscription.selected" multiple="false">
+                        </custom-ui-select-subscription>
+                    </div>
+                    <div class="col-xs-2 vcenter">
+                        <a class="top-buffer btn btn-default ux-txt-success pointer" ng-class="{'disabled': !$ctrl.helper_keys.subscription}" ng-click="$ctrl.ok('subscription')" ng-disabled="!$ctrl.helper_keys.subscription">
+                            <i class="fa fa-lg fa-files-o" aria-hidden="true"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
         </uib-accordion>
     </div>
     <div class="modal-footer">

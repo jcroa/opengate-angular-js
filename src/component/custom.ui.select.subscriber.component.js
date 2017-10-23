@@ -11,7 +11,8 @@ angular.module('opengate-angular-js').controller('customUiSelectSubscriberContro
                 var filter = {
                     'or': [
                         { 'like': { 'provision.device.communicationModules[].subscriber.identifier': search } },
-                        { 'like': { 'device.communicationModules[].subscriber.identifier': search } }
+                        { 'like': { 'device.communicationModules[].subscriber.identifier': search } },
+                        { 'like': { 'provision.device.communicationModules[].subscriber.mobile.icc': search } }
                     ]
                 };
                 if (!!ctrl.specificType) {
@@ -32,7 +33,7 @@ angular.module('opengate-angular-js').controller('customUiSelectSubscriberContro
                                 ]
                             }
                         ]
-                    }
+                    };
                 }
                 return filter;
             },
@@ -48,7 +49,6 @@ angular.module('opengate-angular-js').controller('customUiSelectSubscriberContro
             return_obj['$model'] = $model;
             ctrl.onSelectItem(return_obj);
         };
-
         ctrl.entityRemove = function($item, $model) {
             ctrl.onRemove($item, $model);
         };
@@ -56,7 +56,6 @@ angular.module('opengate-angular-js').controller('customUiSelectSubscriberContro
 ]);
 
 angular.module('opengate-angular-js').component('customUiSelectSubscriber', {
-
     templateUrl: 'views/custom.ui.select.subscriber.html',
     controller: 'customUiSelectSubscriberController',
     bindings: {
@@ -67,5 +66,4 @@ angular.module('opengate-angular-js').component('customUiSelectSubscriber', {
         specificType: '@',
         isRequired: '@'
     }
-
 });

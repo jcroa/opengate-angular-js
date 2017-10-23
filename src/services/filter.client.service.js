@@ -7,7 +7,7 @@ angular.module('opengate-angular-js').factory('Filter', ['$window', '$sce', '$q'
         //var customSelectors = [];
         var conditionSelectors = [];
         //var separators = [' ', '\n', '-', '!', '=', '~', '>', '<', '&', 'or', 'and', '(', ')', 'eq', 'neq', '==', 'like', 'gt', 'gte', 'lt', 'lte', '<=', '>='];
-        var separators = [' ', '\n', '-', '!', '=', '~', '>', '<', '&', 'or', 'and', ')', 'in', ','];
+        var separators = [' ', '\n', '-', '!', '=', '~', '>', '<', '&', 'or', 'and', ')', 'in', ',', 'neq'];
 
         function suggest_field(term, customSelectors) {
             var results = [];
@@ -132,6 +132,7 @@ angular.module('opengate-angular-js').factory('Filter', ['$window', '$sce', '$q'
                 $window.jsep.addBinaryOp('lte', 6);
                 $window.jsep.addBinaryOp('gte', 6);
                 $window.jsep.addBinaryOp('eq', 6);
+                $window.jsep.addBinaryOp('neq', 6);
                 $window.jsep.addBinaryOp(',', 6);
                 parse_tree = $window.jsep(string);
                 query.filter[parse_tree.operator] = [];

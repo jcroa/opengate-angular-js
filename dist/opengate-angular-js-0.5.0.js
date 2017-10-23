@@ -573,7 +573,7 @@ angular.module('opengate-angular-js').factory('Filter', ['$window', '$sce', '$q'
         //var customSelectors = [];
         var conditionSelectors = [];
         //var separators = [' ', '\n', '-', '!', '=', '~', '>', '<', '&', 'or', 'and', '(', ')', 'eq', 'neq', '==', 'like', 'gt', 'gte', 'lt', 'lte', '<=', '>='];
-        var separators = [' ', '\n', '-', '!', '=', '~', '>', '<', '&', 'or', 'and', ') '];
+        var separators = [' ', '\n', '-', '!', '=', '~', '>', '<', '&', 'or', 'and', ')', 'in', ','];
 
         function suggest_field(term, customSelectors) {
             var results = [];
@@ -689,7 +689,7 @@ angular.module('opengate-angular-js').factory('Filter', ['$window', '$sce', '$q'
                 $window.jsep.addBinaryOp('&&', 1);
                 $window.jsep.addBinaryOp('||', 2);
                 $window.jsep.addBinaryOp('or', 2);
-                $window.jsep.addBinaryOp('in', 3);
+                $window.jsep.addBinaryOp('in', 2);
                 $window.jsep.addBinaryOp('~', 6);
                 $window.jsep.addBinaryOp('=', 6);
 
@@ -698,8 +698,10 @@ angular.module('opengate-angular-js').factory('Filter', ['$window', '$sce', '$q'
                 $window.jsep.addBinaryOp('lte', 6);
                 $window.jsep.addBinaryOp('gte', 6);
                 $window.jsep.addBinaryOp('eq', 6);
+                $window.jsep.addBinaryOp(',', 6);
                 parse_tree = $window.jsep(string);
                 query.filter[parse_tree.operator] = [];
+     
                 query.filter = parseSimple(parse_tree);
                 defered.resolve(query);
             } catch (err) {
@@ -719,7 +721,7 @@ angular.module('opengate-angular-js').factory('Filter', ['$window', '$sce', '$q'
 
         function parseSimple(parse_tree) {
             var id, value, newFilter = {};
-            if (parse_tree.type === 'BinaryExpression' && /\eq|\neq|\like|\gt|\lt|\gte|\lte|\=|\'<'|\'>'|\~|\!/.test(parse_tree.operator)) {
+            if (parse_tree.type === 'BinaryExpression' && /\eq|\neq\like|\gt|\lt|\gte|\lte|\=|\'<'|\'>'|\~|\!/.test(parse_tree.operator)) {
                 id = getId(parse_tree.left).split('.').reverse().join('.');
                 id = id.replace('.undefined', '[]');
                 value = parse_tree.right.name || parse_tree.right.value;
@@ -733,8 +735,32 @@ angular.module('opengate-angular-js').factory('Filter', ['$window', '$sce', '$q'
                 newFilter[parse_tree.operator].push(parseSimple(parse_tree.right));
 
             }
+            else if (parse_tree.type === 'BinaryExpression' && /\in/.test(parse_tree.operator)) {
+                id = getId(parse_tree.left).split('.').reverse().join('.');
+                id = id.replace('.undefined', '[]');
+                var op = getSimpleOperator(parse_tree.operator);
+
+                newFilter[op] = {};
+                var ids= getSimpleValuesFromArray(parse_tree.right);
+                console.log(ids);
+                newFilter[op][id] =  ids;
+            }
+           
             return newFilter;
 
+        }
+        function getSimpleValuesFromArray(parser_tree){
+            var identifiers = [];
+  
+            if (parser_tree.type === 'Identifier') {
+                identifiers.push(parser_tree.name);
+            } else if (parser_tree.type === 'BinaryExpression' && /\,/.test(parser_tree.operator)) {
+                var left = getSimpleValuesFromArray(parser_tree.left);
+                var right = getSimpleValuesFromArray(parser_tree.right);
+                identifiers = left.concat(right);
+            }
+        
+            return identifiers;
         }
 
         function getId(parser_tree) {
@@ -1090,6 +1116,22 @@ angular.module('opengate-angular-js')
             return { code: input.code, message: errors[input.code] || input.message };
         };
     })
+    .filter('wapiErrors', function() {
+        var errors = {
+            '-1': 'Connection problems',
+            '413': 'Upload size exceeded'
+        };
+
+        return function(status, partialMessage) {
+            var finalMessage = '';
+            if (!angular.isUndefined(partialMessage)) {
+                finalMessage = partialMessage + ' (' + (errors[status] ? errors[status] : 'Code: ' + status) + ')';
+            } else {
+                finalMessage = (errors[status] ? errors[status] : 'Code: ' + status);
+            }
+            return finalMessage;
+        };
+    })
     .filter('textlength', function() {
         return function(input, optional1) {
             var maxLength = 30;
@@ -1111,56 +1153,6 @@ angular.module('opengate-angular-js')
             return input;
         };
     });
-angular.module('opengate-angular-js').config(["schemaFormProvider", "schemaFormDecoratorsProvider", "sfPathProvider", "sfBuilderProvider", function (schemaFormProvider, schemaFormDecoratorsProvider, sfPathProvider, sfBuilderProvider) {
-
-    var helper = function (name, schema, options) {
-        if (schema.type === 'string' && schema.format == 'helperdialog') {
-            var f = schemaFormProvider.stdFormObj(name, schema, options);
-            f.key = options.path;
-            f.type = 'helperdialog';
-
-            options.lookup[sfPathProvider.stringify(options.path)] = f;
-            return f;
-        }
-    };
-
-    schemaFormProvider.defaults.string.unshift(helper);
-
-    schemaFormDecoratorsProvider.defineAddOn(
-        'bootstrapDecorator',         // Name of the decorator you want to add to.
-        'helperdialog',                    // Form type that should render this add-on
-        'views/schema.form.helper.template.html',    // Template name in $templateCache
-        sfBuilderProvider.stdBuilders // List of builder functions to apply.
-    );
-
-    var customUiSelect = function (name, schema, options) {
-        if (schema.type === 'string' && schema.format == 'customuiselect') {
-            var f = schemaFormProvider.stdFormObj(name, schema, options);
-            f.key = options.path;
-            f.type = (schema.properties && schema.properties.type) ? schema.properties.type : 'string';
-            options.lookup[sfPathProvider.stringify(options.path)] = f;
-            return f;
-        }
-    };
-
-    schemaFormProvider.defaults.string.unshift(customUiSelect);
-
-    schemaFormDecoratorsProvider.defineAddOn(
-        'bootstrapDecorator',         // Name of the decorator you want to add to.
-        'entity',                    // Form type that should render this add-on
-        'views/schema.form.entity.template.html',    // Template name in $templateCache
-        sfBuilderProvider.stdBuilders // List of builder functions to apply.
-    );
-
-    schemaFormDecoratorsProvider.defineAddOn(
-        'bootstrapDecorator',         // Name of the decorator you want to add to.
-        'datastream',                    // Form type that should render this add-on
-        'views/schema.form.datastream.template.html',    // Template name in $templateCache
-        sfBuilderProvider.stdBuilders // List of builder functions to apply.
-    );
-
-}]);
-
 
 angular.module('opengate-angular-js').directive('windowTimeSelect', function() { // ['$scope', '$compile'], function($scope, $compile) {
 
@@ -1701,6 +1693,56 @@ angular.module('opengate-angular-js')
             }
         };
     }]);
+angular.module('opengate-angular-js').config(["schemaFormProvider", "schemaFormDecoratorsProvider", "sfPathProvider", "sfBuilderProvider", function (schemaFormProvider, schemaFormDecoratorsProvider, sfPathProvider, sfBuilderProvider) {
+
+    var helper = function (name, schema, options) {
+        if (schema.type === 'string' && schema.format == 'helperdialog') {
+            var f = schemaFormProvider.stdFormObj(name, schema, options);
+            f.key = options.path;
+            f.type = 'helperdialog';
+
+            options.lookup[sfPathProvider.stringify(options.path)] = f;
+            return f;
+        }
+    };
+
+    schemaFormProvider.defaults.string.unshift(helper);
+
+    schemaFormDecoratorsProvider.defineAddOn(
+        'bootstrapDecorator',         // Name of the decorator you want to add to.
+        'helperdialog',                    // Form type that should render this add-on
+        'views/schema.form.helper.template.html',    // Template name in $templateCache
+        sfBuilderProvider.stdBuilders // List of builder functions to apply.
+    );
+
+    var customUiSelect = function (name, schema, options) {
+        if (schema.type === 'string' && schema.format == 'customuiselect') {
+            var f = schemaFormProvider.stdFormObj(name, schema, options);
+            f.key = options.path;
+            f.type = (schema.properties && schema.properties.type) ? schema.properties.type : 'string';
+            options.lookup[sfPathProvider.stringify(options.path)] = f;
+            return f;
+        }
+    };
+
+    schemaFormProvider.defaults.string.unshift(customUiSelect);
+
+    schemaFormDecoratorsProvider.defineAddOn(
+        'bootstrapDecorator',         // Name of the decorator you want to add to.
+        'entity',                    // Form type that should render this add-on
+        'views/schema.form.entity.template.html',    // Template name in $templateCache
+        sfBuilderProvider.stdBuilders // List of builder functions to apply.
+    );
+
+    schemaFormDecoratorsProvider.defineAddOn(
+        'bootstrapDecorator',         // Name of the decorator you want to add to.
+        'datastream',                    // Form type that should render this add-on
+        'views/schema.form.datastream.template.html',    // Template name in $templateCache
+        sfBuilderProvider.stdBuilders // List of builder functions to apply.
+    );
+
+}]);
+
 /**
  * Created by Monica on 12/09/2016.
  */
@@ -2011,7 +2053,7 @@ angular.module('opengate-angular-js').controller('customUiSelectSubscriberContro
                                 ]
                             }
                         ]
-                    }
+                    };
                 }
                 return filter;
             },
@@ -2027,7 +2069,6 @@ angular.module('opengate-angular-js').controller('customUiSelectSubscriberContro
             return_obj['$model'] = $model;
             ctrl.onSelectItem(return_obj);
         };
-
         ctrl.entityRemove = function($item, $model) {
             ctrl.onRemove($item, $model);
         };
@@ -2035,7 +2076,6 @@ angular.module('opengate-angular-js').controller('customUiSelectSubscriberContro
 ]);
 
 angular.module('opengate-angular-js').component('customUiSelectSubscriber', {
-
     templateUrl: 'views/custom.ui.select.subscriber.html',
     controller: 'customUiSelectSubscriberController',
     bindings: {
@@ -2046,7 +2086,6 @@ angular.module('opengate-angular-js').component('customUiSelectSubscriber', {
         specificType: '@',
         isRequired: '@'
     }
-
 });
 
 

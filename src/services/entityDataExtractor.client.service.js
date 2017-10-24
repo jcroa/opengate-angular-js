@@ -76,7 +76,9 @@ angular.module('opengate-angular-js')
             if ((entityList && entityList.length > 0) || entityList && entityList.length > 0) {
                 angular.forEach(entityList, function(entityData, idx) {
                     var finalData = null;
+                    var entityIdentifier = null;
 
+                    // Provision data
                     if (entityData.provision.device && entityData.provision.device.communicationModules &&
                         entityData.provision.device.communicationModules.length > 0) {
                         // Recorrer cada uno de los item para sacar los de subscriber
@@ -91,10 +93,15 @@ angular.module('opengate-angular-js')
                                 }
 
                                 finalData.provision[element] = commData[element];
+
+                                if (finalData.provision[element].identifier) {
+                                    entityIdentifier = angular.copy(finalData.provision[element].identifier);
+                                }
                             }
                         });
                     }
 
+                    // Collection data
                     if (entityData.device && entityData.device.communicationModules &&
                         entityData.device.communicationModules.length > 0) {
                         // Recorrer cada uno de los item para sacar los de subscriber
@@ -107,6 +114,22 @@ angular.module('opengate-angular-js')
                                 finalData[element] = commData[element];
                             }
                         });
+                    }
+
+                    // completar informacion de caja si hay datos
+                    if (finalData[element] || finalData.provision[element]) {
+                        // Se coge el documento entero
+                        finalData['$device'] = entityData;
+
+                        // administration data
+                        if (entityData.provision.administration) {
+                            finalData.provision.administration = entityData.provision.administration;
+
+                            if (entityIdentifier) {
+                                finalData.provision.administration.identifier = entityIdentifier;
+                            }
+                        }
+
                     }
 
                     if (finalData) {

@@ -879,7 +879,9 @@ angular.module('opengate-angular-js')
             if ((entityList && entityList.length > 0) || entityList && entityList.length > 0) {
                 angular.forEach(entityList, function(entityData, idx) {
                     var finalData = null;
+                    var entityIdentifier = null;
 
+                    // Provision data
                     if (entityData.provision.device && entityData.provision.device.communicationModules &&
                         entityData.provision.device.communicationModules.length > 0) {
                         // Recorrer cada uno de los item para sacar los de subscriber
@@ -894,10 +896,15 @@ angular.module('opengate-angular-js')
                                 }
 
                                 finalData.provision[element] = commData[element];
+
+                                if (finalData.provision[element].identifier) {
+                                    entityIdentifier = angular.copy(finalData.provision[element].identifier);
+                                }
                             }
                         });
                     }
 
+                    // Collection data
                     if (entityData.device && entityData.device.communicationModules &&
                         entityData.device.communicationModules.length > 0) {
                         // Recorrer cada uno de los item para sacar los de subscriber
@@ -910,6 +917,22 @@ angular.module('opengate-angular-js')
                                 finalData[element] = commData[element];
                             }
                         });
+                    }
+
+                    // completar informacion de caja si hay datos
+                    if (finalData[element] || finalData.provision[element]) {
+                        // Se coge el documento entero
+                        finalData['$device'] = entityData;
+
+                        // administration data
+                        if (entityData.provision.administration) {
+                            finalData.provision.administration = entityData.provision.administration;
+
+                            if (entityIdentifier) {
+                                finalData.provision.administration.identifier = entityIdentifier;
+                            }
+                        }
+
                     }
 
                     if (finalData) {
@@ -1154,56 +1177,6 @@ angular.module('opengate-angular-js')
             return input;
         };
     });
-angular.module('opengate-angular-js').config(["schemaFormProvider", "schemaFormDecoratorsProvider", "sfPathProvider", "sfBuilderProvider", function (schemaFormProvider, schemaFormDecoratorsProvider, sfPathProvider, sfBuilderProvider) {
-
-    var helper = function (name, schema, options) {
-        if (schema.type === 'string' && schema.format == 'helperdialog') {
-            var f = schemaFormProvider.stdFormObj(name, schema, options);
-            f.key = options.path;
-            f.type = 'helperdialog';
-
-            options.lookup[sfPathProvider.stringify(options.path)] = f;
-            return f;
-        }
-    };
-
-    schemaFormProvider.defaults.string.unshift(helper);
-
-    schemaFormDecoratorsProvider.defineAddOn(
-        'bootstrapDecorator',         // Name of the decorator you want to add to.
-        'helperdialog',                    // Form type that should render this add-on
-        'views/schema.form.helper.template.html',    // Template name in $templateCache
-        sfBuilderProvider.stdBuilders // List of builder functions to apply.
-    );
-
-    var customUiSelect = function (name, schema, options) {
-        if (schema.type === 'string' && schema.format == 'customuiselect') {
-            var f = schemaFormProvider.stdFormObj(name, schema, options);
-            f.key = options.path;
-            f.type = (schema.properties && schema.properties.type) ? schema.properties.type : 'string';
-            options.lookup[sfPathProvider.stringify(options.path)] = f;
-            return f;
-        }
-    };
-
-    schemaFormProvider.defaults.string.unshift(customUiSelect);
-
-    schemaFormDecoratorsProvider.defineAddOn(
-        'bootstrapDecorator',         // Name of the decorator you want to add to.
-        'entity',                    // Form type that should render this add-on
-        'views/schema.form.entity.template.html',    // Template name in $templateCache
-        sfBuilderProvider.stdBuilders // List of builder functions to apply.
-    );
-
-    schemaFormDecoratorsProvider.defineAddOn(
-        'bootstrapDecorator',         // Name of the decorator you want to add to.
-        'datastream',                    // Form type that should render this add-on
-        'views/schema.form.datastream.template.html',    // Template name in $templateCache
-        sfBuilderProvider.stdBuilders // List of builder functions to apply.
-    );
-
-}]);
-
 
 angular.module('opengate-angular-js').directive('windowTimeSelect', function() { // ['$scope', '$compile'], function($scope, $compile) {
 
@@ -1744,6 +1717,56 @@ angular.module('opengate-angular-js')
             }
         };
     }]);
+angular.module('opengate-angular-js').config(["schemaFormProvider", "schemaFormDecoratorsProvider", "sfPathProvider", "sfBuilderProvider", function (schemaFormProvider, schemaFormDecoratorsProvider, sfPathProvider, sfBuilderProvider) {
+
+    var helper = function (name, schema, options) {
+        if (schema.type === 'string' && schema.format == 'helperdialog') {
+            var f = schemaFormProvider.stdFormObj(name, schema, options);
+            f.key = options.path;
+            f.type = 'helperdialog';
+
+            options.lookup[sfPathProvider.stringify(options.path)] = f;
+            return f;
+        }
+    };
+
+    schemaFormProvider.defaults.string.unshift(helper);
+
+    schemaFormDecoratorsProvider.defineAddOn(
+        'bootstrapDecorator',         // Name of the decorator you want to add to.
+        'helperdialog',                    // Form type that should render this add-on
+        'views/schema.form.helper.template.html',    // Template name in $templateCache
+        sfBuilderProvider.stdBuilders // List of builder functions to apply.
+    );
+
+    var customUiSelect = function (name, schema, options) {
+        if (schema.type === 'string' && schema.format == 'customuiselect') {
+            var f = schemaFormProvider.stdFormObj(name, schema, options);
+            f.key = options.path;
+            f.type = (schema.properties && schema.properties.type) ? schema.properties.type : 'string';
+            options.lookup[sfPathProvider.stringify(options.path)] = f;
+            return f;
+        }
+    };
+
+    schemaFormProvider.defaults.string.unshift(customUiSelect);
+
+    schemaFormDecoratorsProvider.defineAddOn(
+        'bootstrapDecorator',         // Name of the decorator you want to add to.
+        'entity',                    // Form type that should render this add-on
+        'views/schema.form.entity.template.html',    // Template name in $templateCache
+        sfBuilderProvider.stdBuilders // List of builder functions to apply.
+    );
+
+    schemaFormDecoratorsProvider.defineAddOn(
+        'bootstrapDecorator',         // Name of the decorator you want to add to.
+        'datastream',                    // Form type that should render this add-on
+        'views/schema.form.datastream.template.html',    // Template name in $templateCache
+        sfBuilderProvider.stdBuilders // List of builder functions to apply.
+    );
+
+}]);
+
 /**
  * Created by Monica on 12/09/2016.
  */

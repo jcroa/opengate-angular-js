@@ -19,8 +19,12 @@ angular.module('opengate-angular-js').service('$ogapiErrorParser', [
                         errorMessage += (error.data.errors[i].message || error.data.errors[i].description) + (errorSeparatorString ? errorSeparatorString : '\n');
                     }
                 } else if (error.data && error.data.length > 0) {
-                    for (var i = 0; i < error.data.length; i++) {
-                        errorMessage += error.data[i].description + (errorSeparatorString ? errorSeparatorString : '\n');
+                    if (angular.isArray(error.data)) {
+                        for (var i = 0; i < error.data.length; i++) {
+                            errorMessage += error.data[i].description + (errorSeparatorString ? errorSeparatorString : '\n');
+                        }
+                    } else {
+                        errorMessage = error.data;
                     }
                 } else {
                     errorMessage = error;
@@ -35,8 +39,12 @@ angular.module('opengate-angular-js').service('$ogapiErrorParser', [
                         errorMessage.push(error.data.errors[i].message);
                     }
                 } else if (error.data && error.data.length > 0) {
-                    for (var i = 0; i < error.data.length; i++) {
-                        errorMessage.push(error.data[i].description);
+                    if (angular.isArray(error.data)) {
+                        for (var i = 0; i < error.data.length; i++) {
+                            errorMessage.push(error.data[i].description);
+                        }
+                    } else {
+                        errorMessage.push(error.data[i]);
                     }
                 } else {
                     errorMessage.push(error.data);

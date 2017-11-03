@@ -1,6 +1,6 @@
 <div class="row row-eq-height">
-    <div class="container col-xs-10" ng-transclude></div>
-    <div class="col-xs-2 vcenter">
+    <div class="container col-md-9 col-xs-12" ng-transclude></div>
+    <div class="col-xs-12 col-md-3 vcenter">
         <a class="btn btn-default ux-txt-success pointer" ng-href="" ng-click="$helper.open()" ng-switch="$helper.mode">
             <span ng-switch-when="button"><i ng-class="$helper.helperButton" aria-hidden="true"></i></span>
             <span ng-switch-when="title">{{$helper.helperTitle}}</span>
@@ -9,6 +9,7 @@
         </a>
     </div>
 </div>
+
 <script type="text/ng-template" id="helper.view.modal.html">
     <div class="modal-header">
         <h4 class="modal-title">Helper</h4>

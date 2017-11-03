@@ -104,7 +104,14 @@ _wizard.controller('helperDialogModalController', ['$scope', '$uibModalInstance'
         if (helper_extra) {
             // configuración extra de mapa
             if (helper_extra.map) {
-                $ctrl.map = _.merge($ctrl.map, helper_extra.map);
+                var markers = {
+                    marker: {
+                        draggable: true,
+                        focus: true,
+                        message: 'Drag me to move. Click me to remove'
+                    }
+                };
+                $ctrl.map = _.merge($ctrl.map, helper_extra.map, markers);
             }
         }
 

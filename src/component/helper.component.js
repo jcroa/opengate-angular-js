@@ -49,6 +49,9 @@ _wizard.controller('helperDialogController', ['$scope', '$element', '$attrs', '$
                 },
                 specific_type: function() {
                     return $helper.specificType;
+                },
+                helper_extra: function() {
+                    return $helper.helperExtra;
                 }
             }
         });
@@ -66,124 +69,143 @@ _wizard.controller('helperDialogController', ['$scope', '$element', '$attrs', '$
     };
 }]);
 
-_wizard.controller('helperDialogModalController', ['$scope', '$uibModalInstance', 'helper_id', 'helper_exclusive', 'specific_type', function($scope, $uibModalInstance, helper_id, helper_exclusive, specific_type) {
-    var $ctrl = this;
-    $ctrl.helper_id = helper_id;
-    $ctrl[helper_id + 'IsOpen'] = true;
-    $ctrl[helper_id + 'IsExclusive'] = $ctrl.helper_exclusive = helper_exclusive;
-    $ctrl.helper_keys = {};
-    $ctrl.specific_type = specific_type;
-    var events = [];
+_wizard.controller('helperDialogModalController', ['$scope', '$uibModalInstance', 'helper_id', 'helper_exclusive', 'specific_type', 'helper_extra',
+    function($scope, $uibModalInstance, helper_id, helper_exclusive, specific_type, helper_extra) {
+        var $ctrl = this;
+        $ctrl.helper_extra = helper_extra;
+        $ctrl.helper_id = helper_id;
+        $ctrl[helper_id + 'IsOpen'] = true;
+        $ctrl[helper_id + 'IsExclusive'] = $ctrl.helper_exclusive = helper_exclusive;
+        $ctrl.helper_keys = {};
+        $ctrl.specific_type = specific_type;
+        var events = [];
 
-    //config map helper
-    $ctrl.map = {
-        center: {
-            lat: 40.095,
-            lng: -3.823,
-            zoom: 4
-        },
-        markers: {},
-        events: {
-            markers: {
-                enable: ['dragend', 'click'],
-                logic: 'emit'
+        //config map helper
+        $ctrl.map = {
+            center: {
+                lat: 40.095,
+                lng: -3.823,
+                zoom: 4
             },
-            map: {
-                enable: ['click'],
-                logic: 'emit'
+            markers: {},
+            events: {
+                markers: {
+                    enable: ['dragend', 'click'],
+                    logic: 'emit'
+                },
+                map: {
+                    enable: ['click'],
+                    logic: 'emit'
+                }
+            }
+        };
+
+        // contorl de elementos de entrada
+        if (helper_extra) {
+            // configuración extra de mapa
+            if (helper_extra.map) {
+                var markers = {
+                    marker: {
+                        draggable: true,
+                        focus: true,
+                        message: 'Drag me to move. Click me to remove'
+                    }
+                };
+                $ctrl.map = _.merge($ctrl.map, helper_extra.map, markers);
             }
         }
-    };
 
-    function setPosition(lat, lng) {
-        $ctrl.helper_keys['map'] = {
-            latitude: lat,
-            longitude: lng
-        };
-    };
-
-    events.push(
-        $scope.$on('leafletDirectiveMarker.map-marker.click', function(event, args) {
-            delete $ctrl.helper_keys.map;
-            $ctrl.map.markers = {};
-        }),
-        $scope.$on('leafletDirectiveMap.map-marker.click', function(event, args) {
-            var latlng = args.leafletEvent.latlng;
-            $ctrl.map.markers = {
-                marker: {
-                    lat: latlng.lat,
-                    lng: latlng.lng,
-                    draggable: true,
-                    focus: true,
-                    message: 'Drag me to move. Click me to remove'
-                }
+        function setPosition(lat, lng, zoom) {
+            $ctrl.helper_keys['map'] = {
+                latitude: lat,
+                longitude: lng,
+                zoom: zoom
             };
-            setPosition(latlng.lat, latlng.lng);
-        }),
-        $scope.$on('leafletDirectiveMarker.map-marker.dragend', function(event, args) {
-            var point = args.leafletEvent.target._leaflet_events.dragend[0].context._latlng;
-            setPosition(point.lat, point.lng);
-        })
-    );
-
-    //config datastream
-    $ctrl.datastream = {};
-    $scope.onSelectDatastreamKey = function($item, $model) {
-        $ctrl.helper_keys['datastream'] = { datastreamId: $item.identifier };
-    };
-
-    $scope.onDeleteDatastreamKey = function() {
-        delete $ctrl.helper_keys.datastream;
-    };
-
-    //config entity
-    $ctrl.entity = {};
-    $scope.onSelectEntityKey = function($item, $model) {
-        // $ctrl.helper_keys['entity'] = { entityKey: $item.id };
-        $ctrl.helper_keys['entity'] = {
-            entityKey: $item.provision.administration.identifier._current.value
         };
-    };
 
-    $scope.onDeleteEntityKey = function() {
-        delete $ctrl.helper_keys.entity;
-    };
+        events.push(
+            $scope.$on('leafletDirectiveMarker.map-marker.click', function(event, args) {
+                delete $ctrl.helper_keys.map;
+                $ctrl.map.markers = {};
+            }),
+            $scope.$on('leafletDirectiveMap.map-marker.click', function(event, args) {
+                var latlng = args.leafletEvent.latlng;
+                $ctrl.map.markers = {
+                    marker: {
+                        lat: latlng.lat,
+                        lng: latlng.lng,
+                        draggable: true,
+                        focus: true,
+                        message: 'Drag me to move. Click me to remove'
+                    }
+                };
+                setPosition(latlng.lat, latlng.lng, args.leafletObject._zoom);
+            }),
+            $scope.$on('leafletDirectiveMarker.map-marker.dragend', function(event, args) {
+                var point = args.leafletEvent.target._leaflet_events.dragend[0].context._latlng;
+                setPosition(point.lat, point.lng, args.leafletObject._zoom);
+            })
+        );
 
-    //config subscriber
-    $ctrl.subscriber = {};
-    $scope.onSelectSubscriberKey = function($item, $model) {
-        $ctrl.helper_keys['subscriber'] = $item;
-    };
+        //config datastream
+        $ctrl.datastream = {};
+        $scope.onSelectDatastreamKey = function($item, $model) {
+            $ctrl.helper_keys['datastream'] = { datastreamId: $item.identifier };
+        };
 
-    $scope.onDeleteSubscriberKey = function() {
-        delete $ctrl.helper_keys.subscriber;
-    };
+        $scope.onDeleteDatastreamKey = function() {
+            delete $ctrl.helper_keys.datastream;
+        };
 
-    //config entity
-    $ctrl.subscription = {};
-    $scope.onSelectSubscriptionKey = function($item, $model) {
-        $ctrl.helper_keys['subscription'] = $item;
-    };
+        //config entity
+        $ctrl.entity = {};
+        $scope.onSelectEntityKey = function($item, $model) {
+            // $ctrl.helper_keys['entity'] = { entityKey: $item.id };
+            $ctrl.helper_keys['entity'] = {
+                entityKey: $item.provision.administration.identifier._current.value
+            };
+        };
 
-    $scope.onDeleteSubscriptionKey = function() {
-        delete $ctrl.helper_keys.subscription;
-    };
+        $scope.onDeleteEntityKey = function() {
+            delete $ctrl.helper_keys.entity;
+        };
 
-    //Modal methods
-    $ctrl.ok = function(helper) {
-        $uibModalInstance.close($ctrl.helper_keys[helper]);
-    };
-    $ctrl.cancel = function() {
-        $uibModalInstance.dismiss('cancel');
-    };
+        //config subscriber
+        $ctrl.subscriber = {};
+        $scope.onSelectSubscriberKey = function($item, $model) {
+            $ctrl.helper_keys['subscriber'] = $item;
+        };
 
-    //clear evetns
-    $scope.$on('destroy', function() {
-        for (var eventToDestroy in events) {
-            eventToDestroy();
-        }
-    });
-}]);
+        $scope.onDeleteSubscriberKey = function() {
+            delete $ctrl.helper_keys.subscriber;
+        };
+
+        //config entity
+        $ctrl.subscription = {};
+        $scope.onSelectSubscriptionKey = function($item, $model) {
+            $ctrl.helper_keys['subscription'] = $item;
+        };
+
+        $scope.onDeleteSubscriptionKey = function() {
+            delete $ctrl.helper_keys.subscription;
+        };
+
+        //Modal methods
+        $ctrl.ok = function(helper) {
+            $uibModalInstance.close($ctrl.helper_keys[helper]);
+        };
+        $ctrl.cancel = function() {
+            $uibModalInstance.dismiss('cancel');
+        };
+
+        //clear evetns
+        $scope.$on('destroy', function() {
+            for (var eventToDestroy in events) {
+                eventToDestroy();
+            }
+        });
+    }
+]);
 
 
 _wizard.component('helperDialog', {
@@ -198,6 +220,7 @@ _wizard.component('helperDialog', {
         helperButton: '@',
         helperTitle: '@',
         helperExclusive: '@',
+        helperExtra: '<',
         modalTemplate: '@',
         modalController: '@'
     }

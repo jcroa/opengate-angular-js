@@ -7,7 +7,7 @@ angular.module('opengate-angular-js').factory('Filter', ['$window', '$sce', '$q'
         //var customSelectors = [];
         var conditionSelectors = [];
         //var separators = [' ', '\n', '-', '!', '=', '~', '>', '<', '&', 'or', 'and', '(', ')', 'eq', 'neq', '==', 'like', 'gt', 'gte', 'lt', 'lte', '<=', '>='];
-        var separators = [' ', '\n', '-', '!', '=', '~', '>', '<', '&', 'or', 'and', ')', 'in', ',', 'neq'];
+        var separators = [' ', '\n', '-', '!', '=', '~', '>', '<', '&', 'or', 'and', ')', 'in', ',', 'neq', 'like'];
 
         function suggest_field(term, customSelectors) {
             var results = [];
@@ -136,7 +136,7 @@ angular.module('opengate-angular-js').factory('Filter', ['$window', '$sce', '$q'
                 $window.jsep.addBinaryOp(',', 6);
                 parse_tree = $window.jsep(string);
                 query.filter[parse_tree.operator] = [];
-     
+
                 query.filter = parseSimple(parse_tree);
                 defered.resolve(query);
             } catch (err) {
@@ -156,7 +156,8 @@ angular.module('opengate-angular-js').factory('Filter', ['$window', '$sce', '$q'
 
         function parseSimple(parse_tree) {
             var id, value, newFilter = {};
-            if (parse_tree.type === 'BinaryExpression' && /\eq|\neq\like|\gt|\lt|\gte|\lte|\=|\'<'|\'>'|\~|\!/.test(parse_tree.operator)) {
+
+            if (parse_tree.type === 'BinaryExpression' && /\eq|\neq|\like|\gt|\lt|\gte|\lte|\=|\'<'|\'>'|\~|\!/.test(parse_tree.operator)) {
                 id = getId(parse_tree.left).split('.').reverse().join('.');
                 id = id.replace('.undefined', '[]');
                 value = parse_tree.right.name || parse_tree.right.value;
@@ -164,29 +165,29 @@ angular.module('opengate-angular-js').factory('Filter', ['$window', '$sce', '$q'
 
                 newFilter[op] = {};
                 newFilter[op][id] = value;
-            } else if (parse_tree.type === 'BinaryExpression' && /\or|\and/.test(parse_tree.operator)) {
+            } else if (parse_tree.type === 'BinaryExpression' && /or|and/.test(parse_tree.operator)) {
                 newFilter[parse_tree.operator] = [];
                 newFilter[parse_tree.operator].push(parseSimple(parse_tree.left));
                 newFilter[parse_tree.operator].push(parseSimple(parse_tree.right));
 
-            }
-            else if (parse_tree.type === 'BinaryExpression' && /\in/.test(parse_tree.operator)) {
+            } else if (parse_tree.type === 'BinaryExpression' && /\in/.test(parse_tree.operator)) {
                 id = getId(parse_tree.left).split('.').reverse().join('.');
                 id = id.replace('.undefined', '[]');
                 var op = getSimpleOperator(parse_tree.operator);
 
                 newFilter[op] = {};
-                var ids= getSimpleValuesFromArray(parse_tree.right);
+                var ids = getSimpleValuesFromArray(parse_tree.right);
                 console.log(ids);
-                newFilter[op][id] =  ids;
+                newFilter[op][id] = ids;
             }
-           
+
             return newFilter;
 
         }
-        function getSimpleValuesFromArray(parser_tree){
+
+        function getSimpleValuesFromArray(parser_tree) {
             var identifiers = [];
-  
+
             if (parser_tree.type === 'Identifier') {
                 identifiers.push(parser_tree.name);
             } else if (parser_tree.type === 'BinaryExpression' && /\,/.test(parser_tree.operator)) {
@@ -194,7 +195,7 @@ angular.module('opengate-angular-js').factory('Filter', ['$window', '$sce', '$q'
                 var right = getSimpleValuesFromArray(parser_tree.right);
                 identifiers = left.concat(right);
             }
-        
+
             return identifiers;
         }
 

@@ -7,7 +7,7 @@ $templateCache.put("views/custom.ui.select.entity.html","<div class=form-group m
 $templateCache.put("views/custom.ui.select.helper.html","<div class=form-group ng-hide=$ctrl.have_helper_keys ng-transclude=input><label for={{$ctrl.id}}>{{$ctrl.labelText}}</label> <input class=form-control name={{$ctrl.name}} type=text id={{$ctrl.id}} ng-model=$ctrl.helperModel ng-required=$ctrl.required> <span class=help-inline ng-show=\"!$ctrl.helperModel && $ctrl.required\">{{$ctrl.labelError}}</span></div><div class=form-group ng-hide=!$ctrl.have_helper_keys><label for={{$ctrl.id}}>{{$ctrl.labelText}}</label><ui-select id={{$ctrl.id}} name={{$ctrl.name}} ng-model=$ctrl.helperModel theme=bootstrap title=\"Choose an option\" ng-required=$ctrl.required tagging=$ctrl.helperTagTransform tagging-label=false><ui-select-match placeholder=\"Choose an option\">{{$select.selected.value}}</ui-select-match><ui-select-choices repeat=\"parameter.value as (key, parameter) in $ctrl.$helper_keys | filter: $select.search\"><span ng-bind-html=\"parameter.key | highlight: $select.search\"></span>: <small ng-bind-html=\"parameter.value | highlight: $select.search\"></small></ui-select-choices></ui-select><span class=help-inline ng-show=\"!$ctrl.helperModel && $ctrl.required\">Field is required</span></div>");
 $templateCache.put("views/custom.ui.select.subscriber.html","<div class=form-group mass-autocomplete ng-if=$ctrl.multiple><label class=custom-ui-select-label>Entity Key</label><ui-select custom-ui-select-config=$ctrl.ownConfig name=entity ng-model=$ctrl.entity theme=bootstrap title=\"Choose a entity\" custom-ui-select multiple=true custom-mass-autocomplete-item=$ctrl.ownConfig on-select=\"$ctrl.entitySelected($item, $model)\" on-remove=\"$ctrl.entityRemove($item, $model)\" ng-required=$ctrl.isRequired><ui-select-match placeholder=\"Choose a entity\" allow-clear=true>{{$item.provision.subscriber.identifier._current.value}}</ui-select-match><ui-select-choices repeat=\"subscriberData in $ctrl.ownConfig.collection track by $index\"><span ng-bind-html=\"subscriberData.provision.subscriber.identifier._current.value | highlight: $select.search\"></span> <small><div ng-if=subscriberData.provision.subscriber.name._current.value>Name: <span ng-bind-html=\"\'\'+subscriberData.provision.subscriber.name._current.value | highlight: $select.search\"></span></div></small></ui-select-choices></ui-select></div><div class=form-group mass-autocomplete ng-if=!$ctrl.multiple><label class=custom-ui-select-label>Entity Key</label><ui-select custom-ui-select-config=$ctrl.ownConfig name=entity ng-model=$ctrl.entity theme=bootstrap title=\"Choose a entity\" custom-ui-select multiple=false custom-mass-autocomplete-item=$ctrl.ownConfig on-select=\"$ctrl.entitySelected($item, $model)\" on-remove=\"$ctrl.entityRemove($item, $model)\" ng-required=$ctrl.isRequired><ui-select-match placeholder=\"Choose a entity\" allow-clear=true>{{$item.provision.subscriber.identifier._current.value}}</ui-select-match><ui-select-choices repeat=\"subscriberData in $ctrl.ownConfig.collection track by $index\"><span ng-bind-html=\"subscriberData.provision.subscriber.identifier._current.value | highlight: $select.search\"></span> <small><div ng-if=subscriberData.provision.subscriber.name._current.value>Name: <span ng-bind-html=\"\'\'+subscriberData.provision.subscriber.name._current.value | highlight: $select.search\"></span></div><div ng-if=subscriberData.provision.subscriber.mobile.icc._current.value>Name: <span ng-bind-html=\"\'\'+subscriberData.provision.subscriber.mobile.icc.name._current.value | highlight: $select.search\"></span></div></small></ui-select-choices></ui-select></div>");
 $templateCache.put("views/custom.ui.select.subscription.html","<div class=form-group mass-autocomplete ng-if=$ctrl.multiple><label class=custom-ui-select-label>Entity Key</label><ui-select custom-ui-select-config=$ctrl.ownConfig name=entity ng-model=$ctrl.entity theme=bootstrap title=\"Choose a entity\" custom-ui-select multiple=true custom-mass-autocomplete-item=$ctrl.ownConfig on-select=\"$ctrl.entitySelected($item, $model)\" on-remove=\"$ctrl.entityRemove($item, $model)\" ng-required=$ctrl.isRequired><ui-select-match placeholder=\"Choose a entity\" allow-clear=true>{{$item.provision.subscription.identifier._current.value}}</ui-select-match><ui-select-choices repeat=\"subscriptionData in $ctrl.ownConfig.collection track by $index\"><span ng-bind-html=\"subscriptionData.provision.subscription.identifier._current.value | highlight: $select.search\"></span> <small><div ng-if=subscriptionData.provision.subscription.name._current.value>Name: <span ng-bind-html=\"\'\'+subscriptionData.provision.subscription.name._current.value | highlight: $select.search\"></span></div></small></ui-select-choices></ui-select></div><div class=form-group mass-autocomplete ng-if=!$ctrl.multiple><label class=custom-ui-select-label>Entity Key</label><ui-select custom-ui-select-config=$ctrl.ownConfig name=entity ng-model=$ctrl.entity theme=bootstrap title=\"Choose a entity\" custom-ui-select multiple=false custom-mass-autocomplete-item=$ctrl.ownConfig on-select=\"$ctrl.entitySelected($item, $model)\" on-remove=\"$ctrl.entityRemove($item, $model)\" ng-required=$ctrl.isRequired><ui-select-match placeholder=\"Choose a entity\" allow-clear=true>{{$item.provision.subscription.identifier._current.value}}</ui-select-match><ui-select-choices repeat=\"subscriptionData in $ctrl.ownConfig.collection track by $index\"><span ng-bind-html=\"subscriptionData.provision.subscription.identifier._current.value | highlight: $select.search\"></span> <small><div ng-if=subscriptionData.provision.subscription.name._current.value>Name: <span ng-bind-html=\"\'\'+subscriptionData.provision.subscription.name._current.value | highlight: $select.search\"></span></div></small></ui-select-choices></ui-select></div>");
-$templateCache.put("views/helper.view.html","<div class=\"row row-eq-height\"><div class=\"container col-xs-10\" ng-transclude></div><div class=\"col-xs-2 vcenter\"><a class=\"btn btn-default ux-txt-success pointer\" ng-href ng-click=$helper.open() ng-switch=$helper.mode><span ng-switch-when=button><i ng-class=$helper.helperButton aria-hidden=true></i></span> <span ng-switch-when=title>{{$helper.helperTitle}}</span> <span ng-switch-when=title_button><i ng-class=$helper.helperButton aria-hidden=true></i>{{$helper.helperTitle}}</span> <span ng-switch-default><i ng-if=\"!$helper.helperTitle && !$helper.helperButton\" class=\"fa fa-lg fa-files-o\" aria-hidden=true></i></span></a></div></div><script type=text/ng-template id=helper.view.modal.html><div class=\"modal-header\"> <h4 class=\"modal-title\">Helper</h4> </div> <div class=\"modal-body without-padding-top\"> <uib-accordion close-others=\"true\"> <div uib-accordion-group is-open=\"$ctrl.mapIsOpen\" is-disabled=\"$ctrl.helper_exclusive ? !$ctrl.mapIsExclusive : false\" class=\"map-option\"> <div uib-accordion-heading>Map</div> <div class=\"row row-eq-height\" ng-if=\"$ctrl.mapIsOpen\"> <div class=\"col-xs-10\"> <div class=\"form-group leaflet-container\"> <leaflet id=\"map-marker\" lf-center=\"$ctrl.map.center\" event-broadcast=\"$ctrl.map.events\" markers=\"$ctrl.map.markers\" width=\"100% \" height=\"300px\"></leaflet> </div> </div> <div class=\"col-xs-2 vcenter\"> <a class=\"top-buffer btn btn-default ux-txt-success pointer\" ng-class=\"{\'disabled\': !$ctrl.helper_keys.map}\" ng-click=\"$ctrl.ok(\'map\')\" ng-disabled=\"!$ctrl.helper_keys.map\"> <i class=\"fa fa-lg fa-files-o\" aria-hidden=\"true\"></i> </a> </div> </div> </div> <div uib-accordion-group is-open=\"$ctrl.entityIsOpen || $ctrl.datastreamIsOpen\" is-disabled=\"$ctrl.helper_exclusive ? (!$ctrl.entityIsExclusive && !$ctrl.datastreamIsExclusive): false\" class=\"entity-option\"> <div uib-accordion-heading>Entity</div> <div class=\"row row-eq-height\"> <div class=\"col-xs-10\"> <custom-ui-select-entity on-select-item=\"onSelectEntityKey($item, $model)\" on-remove=\"onDeleteEntityKey()\" entity=\"$ctrl.entity.selected\" multiple=\"false\"> </custom-ui-select-entity> </div> <div class=\"col-xs-2 vcenter\"> <a class=\"top-buffer btn btn-default ux-txt-success pointer\" ng-class=\"{\'disabled\': !$ctrl.helper_keys.entity}\" ng-click=\"$ctrl.ok(\'entity\')\" ng-disabled=\"!$ctrl.helper_keys.entity\"> <i class=\"fa fa-lg fa-files-o\" aria-hidden=\"true\"></i> </a> </div> </div> <div class=\"row row-eq-height\"> <div class=\"col-xs-10\"> <custom-ui-select-datastream on-select-item=\"onSelectDatastreamKey($item, $model)\" on-remove=\"onDeleteDatastreamKey()\" datastream=\"$ctrl.datastream.selected\" multiple=\"false\"> </custom-ui-select-datastream> </div> <div class=\"col-xs-2 vcenter\"> <a class=\"top-buffer btn btn-default ux-txt-success pointer\" ng-class=\"{\'disabled\': !$ctrl.helper_keys.datastream}\" ng-click=\"$ctrl.ok(\'datastream\')\" ng-disabled=\"!$ctrl.helper_keys.datastream\"> <i class=\"fa fa-lg fa-files-o\" aria-hidden=\"true\"></i> </a> </div> </div> </div> <div uib-accordion-group is-open=\"$ctrl.subscriberIsOpen\" class=\"entity-option\" is-disabled=\"$ctrl.helper_exclusive ? (!$ctrl.entityIsExclusive && !$ctrl.subscriberIsExclusive): false\"> <div uib-accordion-heading>Subscribers</div> <div class=\"row row-eq-height\"> <div class=\"col-xs-10\"> <custom-ui-select-subscriber on-select-item=\"onSelectSubscriberKey($item, $model)\" specific-type=\"{{$ctrl.specific_type}}\" on-remove=\"onDeleteSubscriberKey()\" entity=\"$ctrl.subscriber.selected\" multiple=\"false\"> </custom-ui-select-subscriber> </div> <div class=\"col-xs-2 vcenter\"> <a class=\"top-buffer btn btn-default ux-txt-success pointer\" ng-class=\"{\'disabled\': !$ctrl.helper_keys.subscriber}\" ng-click=\"$ctrl.ok(\'subscriber\')\" ng-disabled=\"!$ctrl.helper_keys.subscriber\"> <i class=\"fa fa-lg fa-files-o\" aria-hidden=\"true\"></i> </a> </div> </div> </div> <div uib-accordion-group is-open=\"$ctrl.subscriptionIsOpen\" class=\"entity-option\" is-disabled=\"$ctrl.helper_exclusive ? (!$ctrl.entityIsExclusive && !$ctrl.subscriptionIsExclusive): false\"> <div uib-accordion-heading>Subscriptions</div> <div class=\"row row-eq-height\"> <div class=\"col-xs-10\"> <custom-ui-select-subscription on-select-item=\"onSelectSubscriptionKey($item, $model)\" specific-type=\"{{$ctrl.specific_type}}\" on-remove=\"onDeleteSubscriptionKey()\" entity=\"$ctrl.subscription.selected\" multiple=\"false\"> </custom-ui-select-subscription> </div> <div class=\"col-xs-2 vcenter\"> <a class=\"top-buffer btn btn-default ux-txt-success pointer\" ng-class=\"{\'disabled\': !$ctrl.helper_keys.subscription}\" ng-click=\"$ctrl.ok(\'subscription\')\" ng-disabled=\"!$ctrl.helper_keys.subscription\"> <i class=\"fa fa-lg fa-files-o\" aria-hidden=\"true\"></i> </a> </div> </div> </div> </uib-accordion> </div> <div class=\"modal-footer\"> <button class=\"btn btn-warning\" type=\"button\" ng-click=\"$ctrl.cancel()\">Cancel</button> </div></script>");
+$templateCache.put("views/helper.view.html","<div class=\"row row-eq-height\"><div class=\"container col-md-9 col-xs-12\" ng-transclude></div><div class=\"col-xs-12 col-md-3 vcenter\"><a class=\"btn btn-default ux-txt-success pointer\" ng-href ng-click=$helper.open() ng-switch=$helper.mode><span ng-switch-when=button><i ng-class=$helper.helperButton aria-hidden=true></i></span> <span ng-switch-when=title>{{$helper.helperTitle}}</span> <span ng-switch-when=title_button><i ng-class=$helper.helperButton aria-hidden=true></i>{{$helper.helperTitle}}</span> <span ng-switch-default><i ng-if=\"!$helper.helperTitle && !$helper.helperButton\" class=\"fa fa-lg fa-files-o\" aria-hidden=true></i></span></a></div></div><script type=text/ng-template id=helper.view.modal.html><div class=\"modal-header\"> <h4 class=\"modal-title\">Helper</h4> </div> <div class=\"modal-body without-padding-top\"> <uib-accordion close-others=\"true\"> <div uib-accordion-group is-open=\"$ctrl.mapIsOpen\" is-disabled=\"$ctrl.helper_exclusive ? !$ctrl.mapIsExclusive : false\" class=\"map-option\"> <div uib-accordion-heading>Map</div> <div class=\"row\" ng-if=\"$ctrl.mapIsOpen\"> <div class=\"col-xs-12\"> <div class=\"form-group leaflet-container\"> <leaflet id=\"map-marker\" lf-center=\"$ctrl.map.center\" event-broadcast=\"$ctrl.map.events\" markers=\"$ctrl.map.markers\" width=\"100% \" height=\"300px\"></leaflet> </div> </div> <div class=\"col-xs-12 text-right\"> <a class=\"top-buffer btn btn-default ux-txt-success pointer\" ng-class=\"{\'disabled\': !$ctrl.helper_keys.map}\" ng-click=\"$ctrl.ok(\'map\')\" ng-disabled=\"!$ctrl.helper_keys.map\"> <i class=\"fa fa-lg fa-files-o\" aria-hidden=\"true\"></i> </a> </div> </div> </div> <div uib-accordion-group is-open=\"($ctrl.entityIsOpen || $ctrl.datastreamIsOpen)\" is-disabled=\"$ctrl.helper_exclusive ? (!$ctrl.entityIsExclusive && !$ctrl.datastreamIsExclusive): false\" class=\"entity-option\"> <div uib-accordion-heading>Entity</div> <div class=\"row row-eq-height\"> <div class=\"col-xs-10\"> <custom-ui-select-entity on-select-item=\"onSelectEntityKey($item, $model)\" on-remove=\"onDeleteEntityKey()\" entity=\"$ctrl.entity.selected\" multiple=\"false\"> </custom-ui-select-entity> </div> <div class=\"col-xs-2 vcenter\"> <a class=\"top-buffer btn btn-default ux-txt-success pointer\" ng-class=\"{\'disabled\': !$ctrl.helper_keys.entity}\" ng-click=\"$ctrl.ok(\'entity\')\" ng-disabled=\"!$ctrl.helper_keys.entity\"> <i class=\"fa fa-lg fa-files-o\" aria-hidden=\"true\"></i> </a> </div> </div> <div class=\"row row-eq-height\"> <div class=\"col-xs-10\"> <custom-ui-select-datastream on-select-item=\"onSelectDatastreamKey($item, $model)\" on-remove=\"onDeleteDatastreamKey()\" datastream=\"$ctrl.datastream.selected\" multiple=\"false\"> </custom-ui-select-datastream> </div> <div class=\"col-xs-2 vcenter\"> <a class=\"top-buffer btn btn-default ux-txt-success pointer\" ng-class=\"{\'disabled\': !$ctrl.helper_keys.datastream}\" ng-click=\"$ctrl.ok(\'datastream\')\" ng-disabled=\"!$ctrl.helper_keys.datastream\"> <i class=\"fa fa-lg fa-files-o\" aria-hidden=\"true\"></i> </a> </div> </div> </div> <div uib-accordion-group is-open=\"$ctrl.subscriberIsOpen\" class=\"entity-option\" is-disabled=\"$ctrl.helper_exclusive ? (!$ctrl.entityIsExclusive && !$ctrl.subscriberIsExclusive): false\"> <div uib-accordion-heading>Subscribers</div> <div class=\"row row-eq-height\"> <div class=\"col-xs-10\"> <custom-ui-select-subscriber on-select-item=\"onSelectSubscriberKey($item, $model)\" specific-type=\"{{$ctrl.specific_type}}\" on-remove=\"onDeleteSubscriberKey()\" entity=\"$ctrl.subscriber.selected\" multiple=\"false\"> </custom-ui-select-subscriber> </div> <div class=\"col-xs-2 vcenter\"> <a class=\"top-buffer btn btn-default ux-txt-success pointer\" ng-class=\"{\'disabled\': !$ctrl.helper_keys.subscriber}\" ng-click=\"$ctrl.ok(\'subscriber\')\" ng-disabled=\"!$ctrl.helper_keys.subscriber\"> <i class=\"fa fa-lg fa-files-o\" aria-hidden=\"true\"></i> </a> </div> </div> </div> <div uib-accordion-group is-open=\"$ctrl.subscriptionIsOpen\" class=\"entity-option\" is-disabled=\"$ctrl.helper_exclusive ? (!$ctrl.entityIsExclusive && !$ctrl.subscriptionIsExclusive): false\"> <div uib-accordion-heading>Subscriptions</div> <div class=\"row row-eq-height\"> <div class=\"col-xs-10\"> <custom-ui-select-subscription on-select-item=\"onSelectSubscriptionKey($item, $model)\" specific-type=\"{{$ctrl.specific_type}}\" on-remove=\"onDeleteSubscriptionKey()\" entity=\"$ctrl.subscription.selected\" multiple=\"false\"> </custom-ui-select-subscription> </div> <div class=\"col-xs-2 vcenter\"> <a class=\"top-buffer btn btn-default ux-txt-success pointer\" ng-class=\"{\'disabled\': !$ctrl.helper_keys.subscription}\" ng-click=\"$ctrl.ok(\'subscription\')\" ng-disabled=\"!$ctrl.helper_keys.subscription\"> <i class=\"fa fa-lg fa-files-o\" aria-hidden=\"true\"></i> </a> </div> </div> </div> </uib-accordion> </div> <div class=\"modal-footer\"> <button class=\"btn btn-warning\" type=\"button\" ng-click=\"$ctrl.cancel()\">Cancel</button> </div></script>");
 $templateCache.put("views/schema.form.datastream.template.html","<div><custom-ui-select-datastream on-select-item=\"evalExpr(form.onselectitem, {$item: $$value$$, $model: $model})\" on-remove=\"evalExpr(form.onremove, {$item: $$value$$, $model: $model})\" datastream=$$value$$ multiple={{form.multiple}}></custom-ui-select-datastream></div>");
 $templateCache.put("views/schema.form.entity.template.html","<div><custom-ui-select-entity on-select-item=\"evalExpr(form.onselectitem, {$item: $$value$$, $model: $model})\" on-remove=\"evalExpr(form.onremove, {$item: $$value$$, $model: $model})\" entity=$$value$$ multiple={{form.multiple}}></custom-ui-select-entity></div>");
 $templateCache.put("views/schema.form.helper.template.html","<div class=form-group><helper-dialog helper-id={{form.helperid}} helper-exclusive={{form.exclusive}}><helper-ui-select id={{form.id}} name={{form.name}} label-text={{form.title}} helper-model=$$value$$ label-error={{form.labelerror}} required={{form.required}}><helper-ui-select-input><label for={{form.name}}>{{form.title}}</label> <input class=form-control name={{form.name}} type=text id={{form.id}} ng-model=$$value$$ ng-required=form.required></helper-ui-select-input></helper-ui-select></helper-dialog></div>");
@@ -581,7 +581,7 @@ angular.module('opengate-angular-js').factory('Filter', ['$window', '$sce', '$q'
         //var customSelectors = [];
         var conditionSelectors = [];
         //var separators = [' ', '\n', '-', '!', '=', '~', '>', '<', '&', 'or', 'and', '(', ')', 'eq', 'neq', '==', 'like', 'gt', 'gte', 'lt', 'lte', '<=', '>='];
-        var separators = [' ', '\n', '-', '!', '=', '~', '>', '<', '&', 'or', 'and', ')', 'in', ',', 'neq'];
+        var separators = [' ', '\n', '-', '!', '=', '~', '>', '<', '&', 'or', 'and', ')', 'in', ',', 'neq', 'like'];
 
         function suggest_field(term, customSelectors) {
             var results = [];
@@ -710,7 +710,7 @@ angular.module('opengate-angular-js').factory('Filter', ['$window', '$sce', '$q'
                 $window.jsep.addBinaryOp(',', 6);
                 parse_tree = $window.jsep(string);
                 query.filter[parse_tree.operator] = [];
-     
+
                 query.filter = parseSimple(parse_tree);
                 defered.resolve(query);
             } catch (err) {
@@ -730,7 +730,8 @@ angular.module('opengate-angular-js').factory('Filter', ['$window', '$sce', '$q'
 
         function parseSimple(parse_tree) {
             var id, value, newFilter = {};
-            if (parse_tree.type === 'BinaryExpression' && /\eq|\neq\like|\gt|\lt|\gte|\lte|\=|\'<'|\'>'|\~|\!/.test(parse_tree.operator)) {
+
+            if (parse_tree.type === 'BinaryExpression' && /\eq|\neq|\like|\gt|\lt|\gte|\lte|\=|\'<'|\'>'|\~|\!/.test(parse_tree.operator)) {
                 id = getId(parse_tree.left).split('.').reverse().join('.');
                 id = id.replace('.undefined', '[]');
                 value = parse_tree.right.name || parse_tree.right.value;
@@ -738,29 +739,29 @@ angular.module('opengate-angular-js').factory('Filter', ['$window', '$sce', '$q'
 
                 newFilter[op] = {};
                 newFilter[op][id] = value;
-            } else if (parse_tree.type === 'BinaryExpression' && /\or|\and/.test(parse_tree.operator)) {
+            } else if (parse_tree.type === 'BinaryExpression' && /or|and/.test(parse_tree.operator)) {
                 newFilter[parse_tree.operator] = [];
                 newFilter[parse_tree.operator].push(parseSimple(parse_tree.left));
                 newFilter[parse_tree.operator].push(parseSimple(parse_tree.right));
 
-            }
-            else if (parse_tree.type === 'BinaryExpression' && /\in/.test(parse_tree.operator)) {
+            } else if (parse_tree.type === 'BinaryExpression' && /\in/.test(parse_tree.operator)) {
                 id = getId(parse_tree.left).split('.').reverse().join('.');
                 id = id.replace('.undefined', '[]');
                 var op = getSimpleOperator(parse_tree.operator);
 
                 newFilter[op] = {};
-                var ids= getSimpleValuesFromArray(parse_tree.right);
+                var ids = getSimpleValuesFromArray(parse_tree.right);
                 console.log(ids);
-                newFilter[op][id] =  ids;
+                newFilter[op][id] = ids;
             }
-           
+
             return newFilter;
 
         }
-        function getSimpleValuesFromArray(parser_tree){
+
+        function getSimpleValuesFromArray(parser_tree) {
             var identifiers = [];
-  
+
             if (parser_tree.type === 'Identifier') {
                 identifiers.push(parser_tree.name);
             } else if (parser_tree.type === 'BinaryExpression' && /\,/.test(parser_tree.operator)) {
@@ -768,7 +769,7 @@ angular.module('opengate-angular-js').factory('Filter', ['$window', '$sce', '$q'
                 var right = getSimpleValuesFromArray(parser_tree.right);
                 identifiers = left.concat(right);
             }
-        
+
             return identifiers;
         }
 
@@ -1835,6 +1836,9 @@ _wizard.controller('helperDialogController', ['$scope', '$element', '$attrs', '$
                 },
                 specific_type: function() {
                     return $helper.specificType;
+                },
+                helper_extra: function() {
+                    return $helper.helperExtra;
                 }
             }
         });
@@ -1852,124 +1856,143 @@ _wizard.controller('helperDialogController', ['$scope', '$element', '$attrs', '$
     };
 }]);
 
-_wizard.controller('helperDialogModalController', ['$scope', '$uibModalInstance', 'helper_id', 'helper_exclusive', 'specific_type', function($scope, $uibModalInstance, helper_id, helper_exclusive, specific_type) {
-    var $ctrl = this;
-    $ctrl.helper_id = helper_id;
-    $ctrl[helper_id + 'IsOpen'] = true;
-    $ctrl[helper_id + 'IsExclusive'] = $ctrl.helper_exclusive = helper_exclusive;
-    $ctrl.helper_keys = {};
-    $ctrl.specific_type = specific_type;
-    var events = [];
+_wizard.controller('helperDialogModalController', ['$scope', '$uibModalInstance', 'helper_id', 'helper_exclusive', 'specific_type', 'helper_extra',
+    function($scope, $uibModalInstance, helper_id, helper_exclusive, specific_type, helper_extra) {
+        var $ctrl = this;
+        $ctrl.helper_extra = helper_extra;
+        $ctrl.helper_id = helper_id;
+        $ctrl[helper_id + 'IsOpen'] = true;
+        $ctrl[helper_id + 'IsExclusive'] = $ctrl.helper_exclusive = helper_exclusive;
+        $ctrl.helper_keys = {};
+        $ctrl.specific_type = specific_type;
+        var events = [];
 
-    //config map helper
-    $ctrl.map = {
-        center: {
-            lat: 40.095,
-            lng: -3.823,
-            zoom: 4
-        },
-        markers: {},
-        events: {
-            markers: {
-                enable: ['dragend', 'click'],
-                logic: 'emit'
+        //config map helper
+        $ctrl.map = {
+            center: {
+                lat: 40.095,
+                lng: -3.823,
+                zoom: 4
             },
-            map: {
-                enable: ['click'],
-                logic: 'emit'
+            markers: {},
+            events: {
+                markers: {
+                    enable: ['dragend', 'click'],
+                    logic: 'emit'
+                },
+                map: {
+                    enable: ['click'],
+                    logic: 'emit'
+                }
+            }
+        };
+
+        // contorl de elementos de entrada
+        if (helper_extra) {
+            // configuración extra de mapa
+            if (helper_extra.map) {
+                var markers = {
+                    marker: {
+                        draggable: true,
+                        focus: true,
+                        message: 'Drag me to move. Click me to remove'
+                    }
+                };
+                $ctrl.map = _.merge($ctrl.map, helper_extra.map, markers);
             }
         }
-    };
 
-    function setPosition(lat, lng) {
-        $ctrl.helper_keys['map'] = {
-            latitude: lat,
-            longitude: lng
-        };
-    };
-
-    events.push(
-        $scope.$on('leafletDirectiveMarker.map-marker.click', function(event, args) {
-            delete $ctrl.helper_keys.map;
-            $ctrl.map.markers = {};
-        }),
-        $scope.$on('leafletDirectiveMap.map-marker.click', function(event, args) {
-            var latlng = args.leafletEvent.latlng;
-            $ctrl.map.markers = {
-                marker: {
-                    lat: latlng.lat,
-                    lng: latlng.lng,
-                    draggable: true,
-                    focus: true,
-                    message: 'Drag me to move. Click me to remove'
-                }
+        function setPosition(lat, lng, zoom) {
+            $ctrl.helper_keys['map'] = {
+                latitude: lat,
+                longitude: lng,
+                zoom: zoom
             };
-            setPosition(latlng.lat, latlng.lng);
-        }),
-        $scope.$on('leafletDirectiveMarker.map-marker.dragend', function(event, args) {
-            var point = args.leafletEvent.target._leaflet_events.dragend[0].context._latlng;
-            setPosition(point.lat, point.lng);
-        })
-    );
-
-    //config datastream
-    $ctrl.datastream = {};
-    $scope.onSelectDatastreamKey = function($item, $model) {
-        $ctrl.helper_keys['datastream'] = { datastreamId: $item.identifier };
-    };
-
-    $scope.onDeleteDatastreamKey = function() {
-        delete $ctrl.helper_keys.datastream;
-    };
-
-    //config entity
-    $ctrl.entity = {};
-    $scope.onSelectEntityKey = function($item, $model) {
-        // $ctrl.helper_keys['entity'] = { entityKey: $item.id };
-        $ctrl.helper_keys['entity'] = {
-            entityKey: $item.provision.administration.identifier._current.value
         };
-    };
 
-    $scope.onDeleteEntityKey = function() {
-        delete $ctrl.helper_keys.entity;
-    };
+        events.push(
+            $scope.$on('leafletDirectiveMarker.map-marker.click', function(event, args) {
+                delete $ctrl.helper_keys.map;
+                $ctrl.map.markers = {};
+            }),
+            $scope.$on('leafletDirectiveMap.map-marker.click', function(event, args) {
+                var latlng = args.leafletEvent.latlng;
+                $ctrl.map.markers = {
+                    marker: {
+                        lat: latlng.lat,
+                        lng: latlng.lng,
+                        draggable: true,
+                        focus: true,
+                        message: 'Drag me to move. Click me to remove'
+                    }
+                };
+                setPosition(latlng.lat, latlng.lng, args.leafletObject._zoom);
+            }),
+            $scope.$on('leafletDirectiveMarker.map-marker.dragend', function(event, args) {
+                var point = args.leafletEvent.target._leaflet_events.dragend[0].context._latlng;
+                setPosition(point.lat, point.lng, args.leafletObject._zoom);
+            })
+        );
 
-    //config subscriber
-    $ctrl.subscriber = {};
-    $scope.onSelectSubscriberKey = function($item, $model) {
-        $ctrl.helper_keys['subscriber'] = $item;
-    };
+        //config datastream
+        $ctrl.datastream = {};
+        $scope.onSelectDatastreamKey = function($item, $model) {
+            $ctrl.helper_keys['datastream'] = { datastreamId: $item.identifier };
+        };
 
-    $scope.onDeleteSubscriberKey = function() {
-        delete $ctrl.helper_keys.subscriber;
-    };
+        $scope.onDeleteDatastreamKey = function() {
+            delete $ctrl.helper_keys.datastream;
+        };
 
-    //config entity
-    $ctrl.subscription = {};
-    $scope.onSelectSubscriptionKey = function($item, $model) {
-        $ctrl.helper_keys['subscription'] = $item;
-    };
+        //config entity
+        $ctrl.entity = {};
+        $scope.onSelectEntityKey = function($item, $model) {
+            // $ctrl.helper_keys['entity'] = { entityKey: $item.id };
+            $ctrl.helper_keys['entity'] = {
+                entityKey: $item.provision.administration.identifier._current.value
+            };
+        };
 
-    $scope.onDeleteSubscriptionKey = function() {
-        delete $ctrl.helper_keys.subscription;
-    };
+        $scope.onDeleteEntityKey = function() {
+            delete $ctrl.helper_keys.entity;
+        };
 
-    //Modal methods
-    $ctrl.ok = function(helper) {
-        $uibModalInstance.close($ctrl.helper_keys[helper]);
-    };
-    $ctrl.cancel = function() {
-        $uibModalInstance.dismiss('cancel');
-    };
+        //config subscriber
+        $ctrl.subscriber = {};
+        $scope.onSelectSubscriberKey = function($item, $model) {
+            $ctrl.helper_keys['subscriber'] = $item;
+        };
 
-    //clear evetns
-    $scope.$on('destroy', function() {
-        for (var eventToDestroy in events) {
-            eventToDestroy();
-        }
-    });
-}]);
+        $scope.onDeleteSubscriberKey = function() {
+            delete $ctrl.helper_keys.subscriber;
+        };
+
+        //config entity
+        $ctrl.subscription = {};
+        $scope.onSelectSubscriptionKey = function($item, $model) {
+            $ctrl.helper_keys['subscription'] = $item;
+        };
+
+        $scope.onDeleteSubscriptionKey = function() {
+            delete $ctrl.helper_keys.subscription;
+        };
+
+        //Modal methods
+        $ctrl.ok = function(helper) {
+            $uibModalInstance.close($ctrl.helper_keys[helper]);
+        };
+        $ctrl.cancel = function() {
+            $uibModalInstance.dismiss('cancel');
+        };
+
+        //clear evetns
+        $scope.$on('destroy', function() {
+            for (var eventToDestroy in events) {
+                eventToDestroy();
+            }
+        });
+    }
+]);
 
 
 _wizard.component('helperDialog', {
@@ -1984,6 +2007,7 @@ _wizard.component('helperDialog', {
         helperButton: '@',
         helperTitle: '@',
         helperExclusive: '@',
+        helperExtra: '<',
         modalTemplate: '@',
         modalController: '@'
     }

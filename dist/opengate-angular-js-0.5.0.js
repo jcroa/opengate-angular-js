@@ -881,7 +881,7 @@ angular.module('opengate-angular-js')
             extractSubscriptions: extractSubscriptions
         };
     }])
-    .service('$entityExtractor', function() {
+    .service('$entityExtractor', ['$q', function($q) {
         function genericExtractor(entityList, element) {
             var resultList = [];
 
@@ -956,7 +956,6 @@ angular.module('opengate-angular-js')
 
         function extractSubscribers(entityList, destinationList) {
             var final;
-
             if (entityList && entityList.devices) {
                 final = genericExtractor(entityList.devices, 'subscriber');
             } else if (entityList && entityList.data && entityList.data.devices) {
@@ -970,13 +969,13 @@ angular.module('opengate-angular-js')
             var finalEntityData = {
                 subscribers: final
             };
-
-            return finalEntityData;
+            return $q(function(ok) {
+                ok(destinationList || finalEntityData);
+            });
         }
 
         function extractSubscriptions(entityList, destinationList) {
             var final;
-
             if (entityList && entityList.devices) {
                 final = genericExtractor(entityList.devices, 'subscription');
             } else if (entityList && entityList.data && entityList.data.devices) {
@@ -990,15 +989,17 @@ angular.module('opengate-angular-js')
             var finalEntityData = {
                 subscriptions: final
             };
+            return $q(function(ok) {
+                ok(destinationList || finalEntityData);
+            });
 
-            return finalEntityData;
         }
 
         return {
             extractSubscribers: extractSubscribers,
             extractSubscriptions: extractSubscriptions
         };
-    });
+    }]);
 
 
 angular.module('opengate-angular-js')
@@ -1029,163 +1030,6 @@ DataUrlFormatter.prototype.format = function(value) {
 };
 
 function DataUrlFormatter() {}
-
-
-angular.module('opengate-angular-js')
-    .filter('humanize', ['$window', function($window) {
-        function hasNumber(myString) {
-            return (/\d/.test(myString));
-        }
-
-        return function(input, optional1, optional2) {
-
-            var output = input;
-
-
-            if ($window.S(output).indexOf('$') !== -1) {
-                output = $window.S(output).strip('$').s;
-            }
-            if (angular.isString(output) && !hasNumber(output)) {
-                output = $window.S(output).humanize().s;
-            }
-
-            return output;
-
-        };
-
-    }])
-    .filter('communicationsInterface', function() {
-        return function(input) {
-
-            var output = input;
-
-            switch (output) {
-                case 'COMMUNICATIONS_MODULE':
-                    return 'Communications module';
-                case 'SUBSCRIPTION':
-                    return 'Mobile line';
-                case 'SUBSCRIBER':
-                    return 'SIM';
-                case 'HOME_OPERATOR':
-                    return 'Home Operator';
-                case 'REGISTER_OPERATOR':
-                    return 'Register Operator';
-                case 'ADDRESS':
-                    return 'IP';
-                case 'SOFTWARE':
-                    return 'Software';
-                case 'HARDWARE':
-                    return 'Hardware';
-                case 'entityKey':
-                    return 'Identifier';
-                default:
-                    return output;
-            }
-        };
-    })
-    .filter('dateNames', function() {
-        var days = {
-            'MON': 'Monday',
-            'TUE': 'Tuesday',
-            'WED': 'Wednesday',
-            'THU': 'Thursday',
-            'FRI': 'Friday',
-            'SAT': 'Saturday',
-            'SUN': 'Sunday'
-        };
-        var months = {
-            'JAN': 'January',
-            'FEB': 'February',
-            'MAR': 'March',
-            'APR': 'April',
-            'MAY': 'May',
-            'JUN': 'June',
-            'JUL': 'July',
-            'AUG': 'August',
-            'SEP': 'September',
-            'OCT': 'October',
-            'NOV': 'November',
-            'DEC': 'December'
-        };
-
-        return function(input) {
-            return (days[input] || months[input]) || input;
-        };
-    })
-
-.filter('icons', function() {
-        return function(input, optional1, optional2) {
-            var output = 'fa fa-info';
-            if (input === 'list') {
-                output = 'fa fa-list';
-            }
-            if (input === 'ban') {
-                output = 'fa fa-ban';
-            }
-            if (input === 'laptop') {
-                output = 'fa fa-laptop';
-            }
-            if (input === 'spin') {
-                output = 'fa fa-spinner fa-spin';
-            }
-            if (input === 'unit') {
-                output = 'fa fa-plus-square';
-            }
-            if (input === 'tags') {
-                output = 'fa fa-tags';
-            }
-            return output;
-        };
-
-    })
-    .filter('codeErrors', function() {
-        var errors = {
-            '1004': 'At least one valid reference to an entity is required',
-            '1005': 'At least one valid reference to an entity is required',
-            '1017': 'Tag is not valid. Please, check it.'
-        };
-
-        return function(input) {
-            return { code: input.code, message: errors[input.code] || input.message };
-        };
-    })
-    .filter('wapiErrors', function() {
-        var errors = {
-            '-1': 'Connection problems',
-            '413': 'Upload size exceeded'
-        };
-
-        return function(status, partialMessage) {
-            var finalMessage = '';
-            if (!angular.isUndefined(partialMessage)) {
-                finalMessage = partialMessage + ' (' + (errors[status] ? errors[status] : 'Code: ' + status) + ')';
-            } else {
-                finalMessage = (errors[status] ? errors[status] : 'Code: ' + status);
-            }
-            return finalMessage;
-        };
-    })
-    .filter('textlength', function() {
-        return function(input, optional1) {
-            var maxLength = 30;
-            if (optional1 && angular.isNumber(optional1)) {
-                maxLength = optional1;
-            }
-
-            if (input && input.length > maxLength) {
-                return input.substring(0, maxLength) + '...';
-            } else {
-                return input;
-            }
-        };
-    }).filter('compactid', function() {
-        return function(input) {
-            if (input && input.indexOf('.') > -1) {
-                return input.substring(input.lastIndexOf('.') + 1);
-            }
-            return input;
-        };
-    });
 
 angular.module('opengate-angular-js').directive('windowTimeSelect', function() { // ['$scope', '$compile'], function($scope, $compile) {
 
@@ -1478,16 +1322,16 @@ angular.module('opengate-angular-js').directive('disallowSpaces', function() {
 
 
 angular.module('opengate-angular-js')
-    .directive('customUiSelect', ['$compile', 'Filter', function ($compile, Filter) {
+    .directive('customUiSelect', ['$compile', 'Filter', function($compile, Filter) {
         var button = angular.element('<div title="Toggle Advanced/Basic filter search" ng-click="complex()" style="cursor:pointer" class="custom-ui-select-button input-group-addon"><i class="fa fa-filter"></i><i class="filter-icon fa fa-bold text-muted"></i></div>');
         var container = angular.element('<div class="custom-ui-select-container input-group"></div>');
         var style = angular.element('<style title="custom-ui-select-no-multiple">.custom-ui-select-no-multiple .ui-select-search[placeholder=""]{display:none}</style>');
 
-        var isEmpty = function (value) {
+        var isEmpty = function(value) {
             return !value || value.trim().length === 0;
         };
 
-        var setRefresh = function (obj, fnc) {
+        var setRefresh = function(obj, fnc) {
             var choices = obj.querySelectorAll('ui-select-choices');
             choices.attr('refresh', fnc);
             choices.attr('refresh-delay', '0');
@@ -1497,7 +1341,7 @@ angular.module('opengate-angular-js')
             require: 'uiSelect',
             scope: true,
             bindToController: true,
-            controller: ["$scope", "$element", "$attrs", function ($scope, $element, $attrs) {
+            controller: ["$scope", "$element", "$attrs", "$q", function($scope, $element, $attrs, $q) {
                 var uiConfig = getConfig();
 
                 function processFilter(_filter) {
@@ -1516,7 +1360,7 @@ angular.module('opengate-angular-js')
                         return $scope[$attrs.customUiSelectConfig];
                     } else {
                         var config = $scope;
-                        configPath.forEach(function (path) {
+                        configPath.forEach(function(path) {
                             config = config[path];
                         });
                         return config;
@@ -1524,10 +1368,10 @@ angular.module('opengate-angular-js')
                 }
 
                 //Filtro asistido con mass-autocomplete
-                $scope.complexfilter = function (search) {
+                $scope.complexfilter = function(search) {
                     //console.log(search);
                     Filter.parseQuery(search || '')
-                        .then(function (data) {
+                        .then(function(data) {
                             var filter = data.filter;
                             //Solo filtramos si no se trata de un filtro vacio
                             if (Object.keys(filter).length > 0) {
@@ -1539,7 +1383,7 @@ angular.module('opengate-angular-js')
                                 uiConfig.collection.splice(0, uiConfig.collection.length);
                             }
                         })
-                        .catch(function (err) {
+                        .catch(function(err) {
                             //Si el filtro no es valido borramos la lista de opciones del ui-select
                             //$scope.filter.error = err;
                             uiConfig.collection.splice(0, uiConfig.collection.length);
@@ -1548,12 +1392,12 @@ angular.module('opengate-angular-js')
                 };
 
                 //Filtro simple con or-like
-                $scope.asyncfilter = function (search) {
+                $scope.asyncfilter = function(search) {
                     _loadCollection(uiConfig.builder, uiConfig.collection, uiConfig.rootKey, processFilter(uiConfig.filter(search)));
                 };
 
                 $scope._complex = $attrs.$$button.querySelectorAll('.fa-filter').hasClass('text-primary');
-                $scope.complex = function () {
+                $scope.complex = function() {
                     $scope._complex = !$scope._complex;
                     if ($scope._complex) {
                         $element.css('display', '').removeClass('custom-ui-select-hide');
@@ -1568,7 +1412,7 @@ angular.module('opengate-angular-js')
                     }
                 };
 
-                $scope.customUiTagTransform = function (value) {
+                $scope.customUiTagTransform = function(value) {
                     return null;
                 };
 
@@ -1578,13 +1422,13 @@ angular.module('opengate-angular-js')
                 function _loadCollection(builder, collection, id, filter) {
                     if (lastTimeout) clearTimeout(lastTimeout);
 
-                    lastTimeout = setTimeout(function () { _loadCollectionTimeout(builder, collection, id, filter); }, 500);
+                    lastTimeout = setTimeout(function() { _loadCollectionTimeout(builder, collection, id, filter); }, 500);
                 }
 
                 function _loadCollectionTimeout(builder, collection, id, filter) {
                     $attrs.$$button.querySelectorAll('.filter-icon').removeClass('fa-bold').removeClass('fa-font').addClass('fa-spinner').addClass('fa-spin');
                     builder.limit(1000).filter(filter).build().execute().then(
-                        function (data) {
+                        function(data) {
                             if ($scope._complex) {
                                 $attrs.$$button.querySelectorAll('.filter-icon').removeClass('fa-spinner').removeClass('fa-spin').addClass('fa-font');
                             } else {
@@ -1592,22 +1436,30 @@ angular.module('opengate-angular-js')
                             }
 
                             if (data.statusCode === 200) {
-                                //obj.selected = null;
-                                var datas = [];
+                                var datas = data.data[id];
                                 if (angular.isFunction(uiConfig.processingData)) {
-                                    uiConfig.processingData(data, datas);
-                                } else {
-                                    datas = data.data[id];
-                                }
-                                var _collection = [];
-                                if (!angular.isArray(datas)) {
-                                    angular.forEach(datas, function (data, key) {
-                                        _collection.push(data);
+                                    uiConfig.processingData(data, datas).then(function(datas) {
+                                        var _collection = [];
+                                        if (!angular.isArray(datas)) {
+                                            angular.forEach(datas, function(data, key) {
+                                                _collection.push(data);
+                                            });
+                                        } else {
+                                            angular.copy(datas, _collection);
+                                        }
+                                        angular.copy(_collection, collection);
                                     });
                                 } else {
-                                    angular.copy(datas, _collection);
+                                    var _collection = [];
+                                    if (!angular.isArray(datas)) {
+                                        angular.forEach(datas, function(data, key) {
+                                            _collection.push(data);
+                                        });
+                                    } else {
+                                        angular.copy(datas, _collection);
+                                    }
+                                    angular.copy(_collection, collection);
                                 }
-                                angular.copy(_collection, collection);
                             } else {
                                 collection.splice(0, collection.length);
                                 if (data.statusCode !== 204) {
@@ -1619,12 +1471,12 @@ angular.module('opengate-angular-js')
                             }
                             $scope.$apply();
                         }
-                    ).catch(function (err) {
+                    ).catch(function(err) {
                         $attrs.$$button.querySelectorAll('.filter-icon').removeClass('fa-spinner').removeClass('fa-spin').addClass('fa-filter');
                     });
                 }
             }],
-            compile: function (templateElement, templateAttributes) {
+            compile: function(templateElement, templateAttributes) {
                 templateAttributes.$$button = button.clone();
                 templateAttributes.$$container = container.clone();
                 var simple = templateAttributes.multiple !== 'true';
@@ -1684,7 +1536,7 @@ angular.module('opengate-angular-js')
 
                         $attrs.$$container.append($element);
                         var template = $attrs.$$templateElement.clone();
-                        var _cloneElement = $compile(template)($scope, function (clonedElement, $scope) {
+                        var _cloneElement = $compile(template)($scope, function(clonedElement, $scope) {
                             $attrs.$$container.append(clonedElement);
                         });
                         _cloneElement.addClass(aus);
@@ -1695,10 +1547,10 @@ angular.module('opengate-angular-js')
                         $element.css('display', 'none').addClass('custom-ui-select-hide');
 
                         var keys = [];
-                        $attrs.$$container.bind('keydown', function (e) {
+                        $attrs.$$container.bind('keydown', function(e) {
                             keys.push(e.keyCode);
                         });
-                        $attrs.$$container.bind('keyup', function (e) {
+                        $attrs.$$container.bind('keyup', function(e) {
                             if (keys.length > 0) {
                                 if (angular.equals(keys, [17, 18, 70])) {
                                     $scope.complex();
@@ -1716,7 +1568,7 @@ angular.module('opengate-angular-js')
                             return $scope[$attrs.customMassAutocompleteItem];
                         } else {
                             var config = $scope;
-                            configPath.forEach(function (path) {
+                            configPath.forEach(function(path) {
                                 config = config[path];
                             });
                             return config;
@@ -1726,6 +1578,163 @@ angular.module('opengate-angular-js')
             }
         };
     }]);
+
+
+angular.module('opengate-angular-js')
+    .filter('humanize', ['$window', function($window) {
+        function hasNumber(myString) {
+            return (/\d/.test(myString));
+        }
+
+        return function(input, optional1, optional2) {
+
+            var output = input;
+
+
+            if ($window.S(output).indexOf('$') !== -1) {
+                output = $window.S(output).strip('$').s;
+            }
+            if (angular.isString(output) && !hasNumber(output)) {
+                output = $window.S(output).humanize().s;
+            }
+
+            return output;
+
+        };
+
+    }])
+    .filter('communicationsInterface', function() {
+        return function(input) {
+
+            var output = input;
+
+            switch (output) {
+                case 'COMMUNICATIONS_MODULE':
+                    return 'Communications module';
+                case 'SUBSCRIPTION':
+                    return 'Mobile line';
+                case 'SUBSCRIBER':
+                    return 'SIM';
+                case 'HOME_OPERATOR':
+                    return 'Home Operator';
+                case 'REGISTER_OPERATOR':
+                    return 'Register Operator';
+                case 'ADDRESS':
+                    return 'IP';
+                case 'SOFTWARE':
+                    return 'Software';
+                case 'HARDWARE':
+                    return 'Hardware';
+                case 'entityKey':
+                    return 'Identifier';
+                default:
+                    return output;
+            }
+        };
+    })
+    .filter('dateNames', function() {
+        var days = {
+            'MON': 'Monday',
+            'TUE': 'Tuesday',
+            'WED': 'Wednesday',
+            'THU': 'Thursday',
+            'FRI': 'Friday',
+            'SAT': 'Saturday',
+            'SUN': 'Sunday'
+        };
+        var months = {
+            'JAN': 'January',
+            'FEB': 'February',
+            'MAR': 'March',
+            'APR': 'April',
+            'MAY': 'May',
+            'JUN': 'June',
+            'JUL': 'July',
+            'AUG': 'August',
+            'SEP': 'September',
+            'OCT': 'October',
+            'NOV': 'November',
+            'DEC': 'December'
+        };
+
+        return function(input) {
+            return (days[input] || months[input]) || input;
+        };
+    })
+
+.filter('icons', function() {
+        return function(input, optional1, optional2) {
+            var output = 'fa fa-info';
+            if (input === 'list') {
+                output = 'fa fa-list';
+            }
+            if (input === 'ban') {
+                output = 'fa fa-ban';
+            }
+            if (input === 'laptop') {
+                output = 'fa fa-laptop';
+            }
+            if (input === 'spin') {
+                output = 'fa fa-spinner fa-spin';
+            }
+            if (input === 'unit') {
+                output = 'fa fa-plus-square';
+            }
+            if (input === 'tags') {
+                output = 'fa fa-tags';
+            }
+            return output;
+        };
+
+    })
+    .filter('codeErrors', function() {
+        var errors = {
+            '1004': 'At least one valid reference to an entity is required',
+            '1005': 'At least one valid reference to an entity is required',
+            '1017': 'Tag is not valid. Please, check it.'
+        };
+
+        return function(input) {
+            return { code: input.code, message: errors[input.code] || input.message };
+        };
+    })
+    .filter('wapiErrors', function() {
+        var errors = {
+            '-1': 'Connection problems',
+            '413': 'Upload size exceeded'
+        };
+
+        return function(status, partialMessage) {
+            var finalMessage = '';
+            if (!angular.isUndefined(partialMessage)) {
+                finalMessage = partialMessage + ' (' + (errors[status] ? errors[status] : 'Code: ' + status) + ')';
+            } else {
+                finalMessage = (errors[status] ? errors[status] : 'Code: ' + status);
+            }
+            return finalMessage;
+        };
+    })
+    .filter('textlength', function() {
+        return function(input, optional1) {
+            var maxLength = 30;
+            if (optional1 && angular.isNumber(optional1)) {
+                maxLength = optional1;
+            }
+
+            if (input && input.length > maxLength) {
+                return input.substring(0, maxLength) + '...';
+            } else {
+                return input;
+            }
+        };
+    }).filter('compactid', function() {
+        return function(input) {
+            if (input && input.indexOf('.') > -1) {
+                return input.substring(input.lastIndexOf('.') + 1);
+            }
+            return input;
+        };
+    });
 angular.module('opengate-angular-js').config(["schemaFormProvider", "schemaFormDecoratorsProvider", "sfPathProvider", "sfBuilderProvider", function (schemaFormProvider, schemaFormDecoratorsProvider, sfPathProvider, sfBuilderProvider) {
 
     var helper = function (name, schema, options) {
@@ -2264,73 +2273,90 @@ angular.module('opengate-angular-js').component('customUiSelectSubscriber', {
 
 
 
-angular.module('opengate-angular-js').controller('customUiSelectProvisionDatastreamController', ['$scope', '$element', '$attrs', '$api', function($scope, $element, $attrs, $api) {
-    var ctrl = this;
-    ctrl.ownConfig = {
-        builder: $api().datamodelsSearchBuilder(),
-        filter: function(search) {
-            ctrl.lastSearch = search;
-            var filter = {
-                and: [
-                    { like: { 'datamodels.categories.datastreams.name': '^(provision\.).*' } },
-                    { like: { 'datamodels.categories.datastreams.name': '^(?!provision\.administration\.).*' } },
-                    { like: { 'datamodels.categories.datastreams.name': '^(?!provision\.device\.).*' } },
-                    { like: { 'datamodels.categories.datastreams.name': '^(?!provision\.asset\.).*' } }
-                ]
-            };
-            if (search) {
-                filter.and.push({ 'like': { 'datamodels.categories.datastreams.name': search } });
-            }
-            return filter;
-        },
-        rootKey: 'datamodels',
-        collection: [],
-        processingData: function(data, collection) {
-            if (!ctrl.lastSearch) return;
-            var _datastreams = [];
-            var datamodels = data.data.datamodels;
-            angular.forEach(datamodels, function(datamodel, key) {
-                var categories = datamodel.categories;
-                var _datamodel = {
-                    identifier: datamodel.identifier,
-                    description: datamodel.description,
-                    name: datamodel.name,
-                    organization: datamodel.organizationName
+angular.module('opengate-angular-js').controller('customUiSelectProvisionDatastreamController', ['$scope', '$element', '$attrs', '$api', '$q', '$http',
+    function($scope, $element, $attrs, $api, $q, $http) {
+        var ctrl = this;
+        ctrl.ownConfig = {
+            builder: $api().datamodelsSearchBuilder(),
+            filter: function(search) {
+                ctrl.lastSearch = search;
+                var filter = {
+                    and: [
+                        { like: { 'datamodels.categories.datastreams.name': '^(provision\.).*' } },
+                        { like: { 'datamodels.categories.datastreams.name': '^(?!provision\.administration\.).*' } },
+                        { like: { 'datamodels.categories.datastreams.name': '^(?!provision\.device\.).*' } },
+                        { like: { 'datamodels.categories.datastreams.name': '^(?!provision\.asset\.).*' } }
+                    ]
                 };
-                angular.forEach(categories, function(category, key) {
-                    var datastreams = category.datastreams;
-                    var _category = { identifier: category.identifier };
-                    angular.forEach(datastreams
-                        .filter(function(ds) {
-                            return (ds.identifier.indexOf(ctrl.lastSearch) > -1 && !!ctrl.lastSearch.length) || !ctrl.lastSearch;
-                        }),
-                        function(datastream, key) {
-                            var _datastream = angular.copy(datastream);
-                            _datastream.datamodel = _datamodel;
-                            _datastream.category = _category;
-                            _datastreams.push(_datastream);
-                        });
+                if (search) {
+                    filter.and.push({ 'like': { 'datamodels.categories.datastreams.name': search } });
+                }
+                return filter;
+            },
+            rootKey: 'datamodels',
+            collection: [],
+            processingData: function(data, collection) {
+                if (!ctrl.lastSearch) return $q(function(ok) { ok([]); });
+                return $q(function(ok) {
+                    var _datastreams = [];
+                    var datamodels = data.data.datamodels;
+                    $http.post('/datamodels/default').then(
+                        function(datamodels_default) {
+                            var identifiers_defaults = datamodels_default.data.datamodels.map(function(datamodel) { return datamodel.identifier; });
+                            datamodels = datamodels.filter(function(datamodel) {
+                                return identifiers_defaults.indexOf(datamodel.identifier) === -1;
+                            });
+                            angular.forEach(datamodels, function(datamodel, key) {
+                                var categories = datamodel.categories;
+                                var _datamodel = {
+                                    identifier: datamodel.identifier,
+                                    description: datamodel.description,
+                                    name: datamodel.name,
+                                    organization: datamodel.organizationName
+                                };
+                                angular.forEach(categories, function(category, key) {
+                                    var datastreams = category.datastreams;
+                                    var _category = { identifier: category.identifier };
+                                    angular.forEach(datastreams
+                                        .filter(function(ds) {
+                                            return (ds.identifier.indexOf(ctrl.lastSearch) > -1 && !!ctrl.lastSearch.length) || !ctrl.lastSearch;
+                                        }),
+                                        function(datastream, key) {
+                                            var _datastream = angular.copy(datastream);
+                                            _datastream.datamodel = _datamodel;
+                                            _datastream.category = _category;
+                                            _datastreams.push(_datastream);
+                                        });
+                                });
+                            });
+                            angular.copy(_datastreams, collection);
+                            ok(collection);
+                        }
+                    ).catch(function(err) {
+                        console.error(err);
+                        ok([]);
+                    });
+
                 });
-            });
-            angular.copy(_datastreams, collection);
-        },
-        customSelectors: $api().datamodelsSearchBuilder()
-    };
+            },
+            customSelectors: $api().datamodelsSearchBuilder()
+        };
 
-    ctrl.datastreamSelected = function($item, $model) {
-        var return_obj = {};
-        return_obj['$item'] = $item;
-        return_obj['$model'] = $model;
-        ctrl.onSelectItem(return_obj);
-    };
+        ctrl.datastreamSelected = function($item, $model) {
+            var return_obj = {};
+            return_obj['$item'] = $item;
+            return_obj['$model'] = $model;
+            ctrl.onSelectItem(return_obj);
+        };
 
-    ctrl.datastreamRemove = function($item, $model) {
-        var return_obj = {};
-        return_obj['$item'] = $item;
-        return_obj['$model'] = $model;
-        ctrl.onRemove(return_obj);
-    };
-}]);
+        ctrl.datastreamRemove = function($item, $model) {
+            var return_obj = {};
+            return_obj['$item'] = $item;
+            return_obj['$model'] = $model;
+            ctrl.onRemove(return_obj);
+        };
+    }
+]);
 
 angular.module('opengate-angular-js').component('customUiSelectProvisionDatastream', {
     templateUrl: 'views/custom.ui.select.datastream.html',
@@ -2444,7 +2470,7 @@ angular.module('opengate-angular-js').component('customUiSelectEntity', {
 
 
 
-angular.module('opengate-angular-js').controller('customUiSelectDatastreamController', ['$scope', '$element', '$attrs', '$api', function($scope, $element, $attrs, $api) {
+angular.module('opengate-angular-js').controller('customUiSelectDatastreamController', ['$scope', '$element', '$attrs', '$api', '$q', function($scope, $element, $attrs, $api, $q) {
     var ctrl = this;
     ctrl.ownConfig = {
         builder: $api().datamodelsSearchBuilder(),
@@ -2466,33 +2492,36 @@ angular.module('opengate-angular-js').controller('customUiSelectDatastreamContro
         rootKey: 'datamodels',
         collection: [],
         processingData: function(data, collection) {
-            if (!ctrl.lastSearch) return;
-            var _datastreams = [];
-            var datamodels = data.data.datamodels;
-            angular.forEach(datamodels, function(datamodel, key) {
-                var categories = datamodel.categories;
-                var _datamodel = {
-                    identifier: datamodel.identifier,
-                    description: datamodel.description,
-                    name: datamodel.name,
-                    organization: datamodel.organizationName
-                };
-                angular.forEach(categories, function(category, key) {
-                    var datastreams = category.datastreams;
-                    var _category = { identifier: category.identifier };
-                    angular.forEach(datastreams
-                        .filter(function(ds) {
-                            return (ds.identifier.indexOf(ctrl.lastSearch) > -1 && !!ctrl.lastSearch.length) || !ctrl.lastSearch;
-                        }),
-                        function(datastream, key) {
-                            var _datastream = angular.copy(datastream);
-                            _datastream.datamodel = _datamodel;
-                            _datastream.category = _category;
-                            _datastreams.push(_datastream);
-                        });
+            if (!ctrl.lastSearch) return $q(function(ok) { ok(); });
+            return $q(function(C_ok) {
+                var _datastreams = [];
+                var datamodels = data.data.datamodels;
+                angular.forEach(datamodels, function(datamodel, key) {
+                    var categories = datamodel.categories;
+                    var _datamodel = {
+                        identifier: datamodel.identifier,
+                        description: datamodel.description,
+                        name: datamodel.name,
+                        organization: datamodel.organizationName
+                    };
+                    angular.forEach(categories, function(category, key) {
+                        var datastreams = category.datastreams;
+                        var _category = { identifier: category.identifier };
+                        angular.forEach(datastreams
+                            .filter(function(ds) {
+                                return (ds.identifier.indexOf(ctrl.lastSearch) > -1 && !!ctrl.lastSearch.length) || !ctrl.lastSearch;
+                            }),
+                            function(datastream, key) {
+                                var _datastream = angular.copy(datastream);
+                                _datastream.datamodel = _datamodel;
+                                _datastream.category = _category;
+                                _datastreams.push(_datastream);
+                            });
+                    });
                 });
-            });
-            angular.copy(_datastreams, collection);
+                angular.copy(_datastreams, collection);
+                C_ok(collection);
+            })
         },
         customSelectors: $api().datamodelsSearchBuilder()
     };

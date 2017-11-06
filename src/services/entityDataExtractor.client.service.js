@@ -69,7 +69,7 @@ angular.module('opengate-angular-js')
             extractSubscriptions: extractSubscriptions
         };
     }])
-    .service('$entityExtractor', function() {
+    .service('$entityExtractor', ['$q', function($q) {
         function genericExtractor(entityList, element) {
             var resultList = [];
 
@@ -144,7 +144,6 @@ angular.module('opengate-angular-js')
 
         function extractSubscribers(entityList, destinationList) {
             var final;
-
             if (entityList && entityList.devices) {
                 final = genericExtractor(entityList.devices, 'subscriber');
             } else if (entityList && entityList.data && entityList.data.devices) {
@@ -158,13 +157,13 @@ angular.module('opengate-angular-js')
             var finalEntityData = {
                 subscribers: final
             };
-
-            return finalEntityData;
+            return $q(function(ok) {
+                ok(destinationList || finalEntityData);
+            });
         }
 
         function extractSubscriptions(entityList, destinationList) {
             var final;
-
             if (entityList && entityList.devices) {
                 final = genericExtractor(entityList.devices, 'subscription');
             } else if (entityList && entityList.data && entityList.data.devices) {
@@ -178,12 +177,14 @@ angular.module('opengate-angular-js')
             var finalEntityData = {
                 subscriptions: final
             };
+            return $q(function(ok) {
+                ok(destinationList || finalEntityData);
+            });
 
-            return finalEntityData;
         }
 
         return {
             extractSubscribers: extractSubscribers,
             extractSubscriptions: extractSubscriptions
         };
-    });
+    }]);

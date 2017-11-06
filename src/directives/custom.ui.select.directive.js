@@ -1,16 +1,16 @@
 'use strict';
 
 angular.module('opengate-angular-js')
-    .directive('customUiSelect', ['$compile', 'Filter', function ($compile, Filter) {
+    .directive('customUiSelect', ['$compile', 'Filter', function($compile, Filter) {
         var button = angular.element('<div title="Toggle Advanced/Basic filter search" ng-click="complex()" style="cursor:pointer" class="custom-ui-select-button input-group-addon"><i class="fa fa-filter"></i><i class="filter-icon fa fa-bold text-muted"></i></div>');
         var container = angular.element('<div class="custom-ui-select-container input-group"></div>');
         var style = angular.element('<style title="custom-ui-select-no-multiple">.custom-ui-select-no-multiple .ui-select-search[placeholder=""]{display:none}</style>');
 
-        var isEmpty = function (value) {
+        var isEmpty = function(value) {
             return !value || value.trim().length === 0;
         };
 
-        var setRefresh = function (obj, fnc) {
+        var setRefresh = function(obj, fnc) {
             var choices = obj.querySelectorAll('ui-select-choices');
             choices.attr('refresh', fnc);
             choices.attr('refresh-delay', '0');
@@ -20,7 +20,7 @@ angular.module('opengate-angular-js')
             require: 'uiSelect',
             scope: true,
             bindToController: true,
-            controller: function ($scope, $element, $attrs) {
+            controller: function($scope, $element, $attrs, $q) {
                 var uiConfig = getConfig();
 
                 function processFilter(_filter) {
@@ -39,7 +39,7 @@ angular.module('opengate-angular-js')
                         return $scope[$attrs.customUiSelectConfig];
                     } else {
                         var config = $scope;
-                        configPath.forEach(function (path) {
+                        configPath.forEach(function(path) {
                             config = config[path];
                         });
                         return config;
@@ -47,10 +47,10 @@ angular.module('opengate-angular-js')
                 }
 
                 //Filtro asistido con mass-autocomplete
-                $scope.complexfilter = function (search) {
+                $scope.complexfilter = function(search) {
                     //console.log(search);
                     Filter.parseQuery(search || '')
-                        .then(function (data) {
+                        .then(function(data) {
                             var filter = data.filter;
                             //Solo filtramos si no se trata de un filtro vacio
                             if (Object.keys(filter).length > 0) {
@@ -62,7 +62,7 @@ angular.module('opengate-angular-js')
                                 uiConfig.collection.splice(0, uiConfig.collection.length);
                             }
                         })
-                        .catch(function (err) {
+                        .catch(function(err) {
                             //Si el filtro no es valido borramos la lista de opciones del ui-select
                             //$scope.filter.error = err;
                             uiConfig.collection.splice(0, uiConfig.collection.length);
@@ -71,12 +71,12 @@ angular.module('opengate-angular-js')
                 };
 
                 //Filtro simple con or-like
-                $scope.asyncfilter = function (search) {
+                $scope.asyncfilter = function(search) {
                     _loadCollection(uiConfig.builder, uiConfig.collection, uiConfig.rootKey, processFilter(uiConfig.filter(search)));
                 };
 
                 $scope._complex = $attrs.$$button.querySelectorAll('.fa-filter').hasClass('text-primary');
-                $scope.complex = function () {
+                $scope.complex = function() {
                     $scope._complex = !$scope._complex;
                     if ($scope._complex) {
                         $element.css('display', '').removeClass('custom-ui-select-hide');
@@ -91,7 +91,7 @@ angular.module('opengate-angular-js')
                     }
                 };
 
-                $scope.customUiTagTransform = function (value) {
+                $scope.customUiTagTransform = function(value) {
                     return null;
                 };
 
@@ -101,13 +101,13 @@ angular.module('opengate-angular-js')
                 function _loadCollection(builder, collection, id, filter) {
                     if (lastTimeout) clearTimeout(lastTimeout);
 
-                    lastTimeout = setTimeout(function () { _loadCollectionTimeout(builder, collection, id, filter); }, 500);
+                    lastTimeout = setTimeout(function() { _loadCollectionTimeout(builder, collection, id, filter); }, 500);
                 }
 
                 function _loadCollectionTimeout(builder, collection, id, filter) {
                     $attrs.$$button.querySelectorAll('.filter-icon').removeClass('fa-bold').removeClass('fa-font').addClass('fa-spinner').addClass('fa-spin');
                     builder.limit(1000).filter(filter).build().execute().then(
-                        function (data) {
+                        function(data) {
                             if ($scope._complex) {
                                 $attrs.$$button.querySelectorAll('.filter-icon').removeClass('fa-spinner').removeClass('fa-spin').addClass('fa-font');
                             } else {
@@ -115,22 +115,30 @@ angular.module('opengate-angular-js')
                             }
 
                             if (data.statusCode === 200) {
-                                //obj.selected = null;
-                                var datas = [];
+                                var datas = data.data[id];
                                 if (angular.isFunction(uiConfig.processingData)) {
-                                    uiConfig.processingData(data, datas);
-                                } else {
-                                    datas = data.data[id];
-                                }
-                                var _collection = [];
-                                if (!angular.isArray(datas)) {
-                                    angular.forEach(datas, function (data, key) {
-                                        _collection.push(data);
+                                    uiConfig.processingData(data, datas).then(function(datas) {
+                                        var _collection = [];
+                                        if (!angular.isArray(datas)) {
+                                            angular.forEach(datas, function(data, key) {
+                                                _collection.push(data);
+                                            });
+                                        } else {
+                                            angular.copy(datas, _collection);
+                                        }
+                                        angular.copy(_collection, collection);
                                     });
                                 } else {
-                                    angular.copy(datas, _collection);
+                                    var _collection = [];
+                                    if (!angular.isArray(datas)) {
+                                        angular.forEach(datas, function(data, key) {
+                                            _collection.push(data);
+                                        });
+                                    } else {
+                                        angular.copy(datas, _collection);
+                                    }
+                                    angular.copy(_collection, collection);
                                 }
-                                angular.copy(_collection, collection);
                             } else {
                                 collection.splice(0, collection.length);
                                 if (data.statusCode !== 204) {
@@ -142,12 +150,12 @@ angular.module('opengate-angular-js')
                             }
                             $scope.$apply();
                         }
-                    ).catch(function (err) {
+                    ).catch(function(err) {
                         $attrs.$$button.querySelectorAll('.filter-icon').removeClass('fa-spinner').removeClass('fa-spin').addClass('fa-filter');
                     });
                 }
             },
-            compile: function (templateElement, templateAttributes) {
+            compile: function(templateElement, templateAttributes) {
                 templateAttributes.$$button = button.clone();
                 templateAttributes.$$container = container.clone();
                 var simple = templateAttributes.multiple !== 'true';
@@ -207,7 +215,7 @@ angular.module('opengate-angular-js')
 
                         $attrs.$$container.append($element);
                         var template = $attrs.$$templateElement.clone();
-                        var _cloneElement = $compile(template)($scope, function (clonedElement, $scope) {
+                        var _cloneElement = $compile(template)($scope, function(clonedElement, $scope) {
                             $attrs.$$container.append(clonedElement);
                         });
                         _cloneElement.addClass(aus);
@@ -218,10 +226,10 @@ angular.module('opengate-angular-js')
                         $element.css('display', 'none').addClass('custom-ui-select-hide');
 
                         var keys = [];
-                        $attrs.$$container.bind('keydown', function (e) {
+                        $attrs.$$container.bind('keydown', function(e) {
                             keys.push(e.keyCode);
                         });
-                        $attrs.$$container.bind('keyup', function (e) {
+                        $attrs.$$container.bind('keyup', function(e) {
                             if (keys.length > 0) {
                                 if (angular.equals(keys, [17, 18, 70])) {
                                     $scope.complex();
@@ -239,7 +247,7 @@ angular.module('opengate-angular-js')
                             return $scope[$attrs.customMassAutocompleteItem];
                         } else {
                             var config = $scope;
-                            configPath.forEach(function (path) {
+                            configPath.forEach(function(path) {
                                 config = config[path];
                             });
                             return config;

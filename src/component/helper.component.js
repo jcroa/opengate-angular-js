@@ -42,7 +42,12 @@ _wizard.controller('helperDialogController', ['$scope', '$element', '$attrs', '$
             windowClass: 'helper-dialog',
             resolve: {
                 helper_id: function() {
-                    return $helper.helperId;
+                    if ($helper.componentsIds && $helper.componentsIds.length === 1) {
+                        return $helper.componentsIds[0];
+                    } else {
+                        return $helper.helperId;
+                    }
+
                 },
                 helper_exclusive: function() {
                     return $helper.helperExclusive === 'true';
@@ -142,6 +147,11 @@ _wizard.controller('helperDialogModalController', ['$scope', '$uibModalInstance'
                     }
                 };
                 $ctrl.map = _.merge($ctrl.map, helper_extra.map, markers);
+            }
+
+            //Configuracion extra para areas
+            if (helper_extra.area) {
+                $ctrl.area = helper_extra.area
             }
         }
 
@@ -284,6 +294,27 @@ _wizard.controller('helperDialogModalController', ['$scope', '$uibModalInstance'
             delete $ctrl.helper_keys.subscription;
         };
 
+        //config areas
+        if (!$ctrl.area) {
+            $ctrl.area = {};
+        } else {
+            delete $ctrl.area.selected;
+        }
+
+        if (helper_selected && helper_selected.area) {
+            $ctrl.helper_keys['area'] = { area: helper_selected.area };
+            $ctrl.area.selected = [{ identifier: helper_selected.area }];
+        }
+
+        $scope.onSelectAreaKey = function($item, $model) {
+            $ctrl.helper_keys['area'] = { area: $item.identifier };
+        };
+
+        $scope.onDeleteAreaKey = function() {
+            delete $ctrl.helper_keys.area;
+        };
+
+        //Condicion para botón de aplicar todo lo seleccionado en los helpers
         $ctrl.canApply = function() {
             return Object.keys($ctrl.helper_keys).length > 0;
         };

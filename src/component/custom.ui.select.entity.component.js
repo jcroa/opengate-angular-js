@@ -39,8 +39,8 @@ angular.module('opengate-angular-js').component('customUiSelectEntity', {
         onSelectItem: '&',
         onRemove: '&',
         entity: '=',
-        multiple: '@',
-        isRequired: '@'
+        multiple: '<',
+        isRequired: '='
     }
 
 });

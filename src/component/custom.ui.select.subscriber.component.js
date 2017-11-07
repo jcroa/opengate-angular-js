@@ -64,9 +64,9 @@ angular.module('opengate-angular-js').component('customUiSelectSubscriber', {
         onSelectItem: '&',
         onRemove: '&',
         entity: '=',
-        multiple: '@',
         specificType: '@',
-        isRequired: '@'
+        multiple: '<',
+        isRequired: '='
     }
 
 });

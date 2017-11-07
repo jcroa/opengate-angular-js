@@ -79,8 +79,8 @@ angular.module('opengate-angular-js').component('customUiSelectDatastream', {
         onSelectItem: '&',
         onRemove: '&',
         datastream: '=',
-        multiple: '@',
-        isRequired: '@'
+        multiple: '<',
+        isRequired: '='
     }
 
 });

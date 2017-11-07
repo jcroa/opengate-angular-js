@@ -2,12 +2,13 @@
 
 
 angular.module('opengate-angular-js', ['schemaForm']);
-angular.module("opengate-angular-js").run(["$templateCache", function($templateCache) {$templateCache.put("views/custom.ui.select.datastream.html","<div class=form-group mass-autocomplete ng-if=$ctrl.multiple><label class=custom-ui-select-label>Datastream Id</label><ui-select custom-ui-select-config=$ctrl.ownConfig name=datastream ng-model=$ctrl.datastream theme=bootstrap title=\"Choose a datastream\" custom-ui-select multiple=true custom-mass-autocomplete-item=$ctrl.ownConfig on-select=\"$ctrl.datastreamSelected($item, $model)\" on-remove=\"$ctrl.datastreamRemove($item, $model)\" ng-required=$ctrl.isRequired><ui-select-match placeholder=\"Choose a datastream\" allow-clear=true>{{$item.identifier}}</ui-select-match><ui-select-choices repeat=\"ds in $ctrl.ownConfig.collection | filter:$select.search track by $index\"><div><span ng-bind-html=\"ds.identifier | highlight: $select.search\"></span> - <span ng-bind-html=\"ds.name | highlight: $select.search\"></span></div><small><div ng-if=ds.category.name>Category: <span ng-bind-html=\"ds.category.name | highlight: $select.search\"></span></div><div ng-if=ds.feed>Feed: <span ng-bind-html=\"ds.feed | highlight: $select.search\"></span></div><div ng-if=ds.datamodel><div>Datamodel:</div><div>- Id: <span ng-bind-html=\"ds.datamodel.identifier | highlight: $select.search\"></span><div>- Organization: <span ng-bind-html=\"ds.datamodel.organization | highlight: $select.search\"></span><div>- Name: <span ng-bind-html=\"ds.datamodel.name | highlight: $select.search\"></span><div>- Description: <span ng-bind-html=\"ds.datamodel.description | highlight: $select.search\"></span><div>- Version: <span ng-bind-html=\"ds.datamodel.version | highlight: $select.search\"></span></div></div></div></div></div></div></small></ui-select-choices></ui-select></div><div class=form-group mass-autocomplete ng-if=!$ctrl.multiple><label class=custom-ui-select-label>Datastream Id</label><ui-select custom-ui-select-config=$ctrl.ownConfig name=datastream ng-model=$ctrl.datastream theme=bootstrap title=\"Choose a datastream\" custom-ui-select multiple=false custom-mass-autocomplete-item=$ctrl.ownConfig on-select=\"$ctrl.datastreamSelected($item, $model)\" on-remove=\"$ctrl.datastreamRemove($item, $model)\" ng-required=$ctrl.isRequired><ui-select-match placeholder=\"Choose a datastream\" allow-clear=true>{{$item.identifier}}</ui-select-match><ui-select-choices repeat=\"ds in $ctrl.ownConfig.collection | filter:$select.search track by $index\"><div><span ng-bind-html=\"ds.identifier | highlight: $select.search\"></span> - <span ng-bind-html=\"ds.name | highlight: $select.search\"></span></div><small><div ng-if=ds.category.name>Category: <span ng-bind-html=\"ds.category.name | highlight: $select.search\"></span></div><div ng-if=ds.feed>Feed: <span ng-bind-html=\"ds.feed | highlight: $select.search\"></span></div><div ng-if=ds.datamodel><div>Datamodel:</div><div>- Id: <span ng-bind-html=\"ds.datamodel.identifier | highlight: $select.search\"></span><div>- Organization: <span ng-bind-html=\"ds.datamodel.organization | highlight: $select.search\"></span><div>- Name: <span ng-bind-html=\"ds.datamodel.name | highlight: $select.search\"></span><div>- Description: <span ng-bind-html=\"ds.datamodel.description | highlight: $select.search\"></span><div>- Version: <span ng-bind-html=\"ds.datamodel.version | highlight: $select.search\"></span></div></div></div></div></div></div></small></ui-select-choices></ui-select></div>");
+angular.module("opengate-angular-js").run(["$templateCache", function($templateCache) {$templateCache.put("views/custom.ui.select.area.html","<div class=form-group mass-autocomplete ng-if=$ctrl.multiple><label class=custom-ui-select-label>Area</label><ui-select custom-ui-select-config=$ctrl.ownConfig name=area ng-model=$ctrl.area theme=bootstrap title=\"Choose an area multi\" custom-ui-select multiple=true custom-mass-autocomplete-item=$ctrl.ownConfig on-select=\"$ctrl.areaSelected($item, $model)\" on-remove=\"$ctrl.areaRemove($item, $model)\" ng-required=$ctrl.isRequired><ui-select-match placeholder=\"Choose an area multi\" allow-clear=true>{{$item.identifier}}</ui-select-match><ui-select-choices repeat=\"area in $ctrl.ownConfig.collection | filter:$select.search track by $index\"><div><span ng-bind-html=\"area.identifier | highlight: $select.search\"></span> - <span ng-bind-html=\"area.name | highlight: $select.search\"></span><br><span ng-bind-html=\"area.organization | highlight: $select.search\"></span></div></ui-select-choices></ui-select></div><div class=form-group mass-autocomplete ng-if=!$ctrl.multiple><label class=custom-ui-select-label>Area</label><ui-select custom-ui-select-config=$ctrl.ownConfig name=area ng-model=$ctrl.area theme=bootstrap title=\"Choose an area\" custom-ui-select multiple=false custom-mass-autocomplete-item=$ctrl.ownConfig on-select=\"$ctrl.areaSelected($item, $model)\" on-remove=\"$ctrl.areaRemove($item, $model)\" ng-required=$ctrl.isRequired><ui-select-match placeholder=\"Choose an area\" allow-clear=true>{{$item.identifier}}</ui-select-match><ui-select-choices repeat=\"area in $ctrl.ownConfig.collection | filter:$select.search track by $index\"><div><span ng-bind-html=\"area.identifier | highlight: $select.search\"></span> - <span ng-bind-html=\"area.name | highlight: $select.search\"></span><br><span ng-bind-html=\"area.organization | highlight: $select.search\"></span></div></ui-select-choices></ui-select></div>");
+$templateCache.put("views/custom.ui.select.datastream.html","<div class=form-group mass-autocomplete ng-if=$ctrl.multiple><label class=custom-ui-select-label>Datastream Id</label><ui-select custom-ui-select-config=$ctrl.ownConfig name=datastream ng-model=$ctrl.datastream theme=bootstrap title=\"Choose a datastream\" custom-ui-select multiple=true custom-mass-autocomplete-item=$ctrl.ownConfig on-select=\"$ctrl.datastreamSelected($item, $model)\" on-remove=\"$ctrl.datastreamRemove($item, $model)\" ng-required=$ctrl.isRequired><ui-select-match placeholder=\"Choose a datastream\" allow-clear=true>{{$item.identifier}}</ui-select-match><ui-select-choices repeat=\"ds in $ctrl.ownConfig.collection | filter:$select.search track by $index\"><div><span ng-bind-html=\"ds.identifier | highlight: $select.search\"></span> - <span ng-bind-html=\"ds.name | highlight: $select.search\"></span></div><small><div ng-if=ds.category.name>Category: <span ng-bind-html=\"ds.category.name | highlight: $select.search\"></span></div><div ng-if=ds.feed>Feed: <span ng-bind-html=\"ds.feed | highlight: $select.search\"></span></div><div ng-if=ds.datamodel><div>Datamodel:</div><div>- Id: <span ng-bind-html=\"ds.datamodel.identifier | highlight: $select.search\"></span><div>- Organization: <span ng-bind-html=\"ds.datamodel.organization | highlight: $select.search\"></span><div>- Name: <span ng-bind-html=\"ds.datamodel.name | highlight: $select.search\"></span><div>- Description: <span ng-bind-html=\"ds.datamodel.description | highlight: $select.search\"></span><div>- Version: <span ng-bind-html=\"ds.datamodel.version | highlight: $select.search\"></span></div></div></div></div></div></div></small></ui-select-choices></ui-select></div><div class=form-group mass-autocomplete ng-if=!$ctrl.multiple><label class=custom-ui-select-label>Datastream Id</label><ui-select custom-ui-select-config=$ctrl.ownConfig name=datastream ng-model=$ctrl.datastream theme=bootstrap title=\"Choose a datastream\" custom-ui-select multiple=false custom-mass-autocomplete-item=$ctrl.ownConfig on-select=\"$ctrl.datastreamSelected($item, $model)\" on-remove=\"$ctrl.datastreamRemove($item, $model)\" ng-required=$ctrl.isRequired><ui-select-match placeholder=\"Choose a datastream\" allow-clear=true>{{$item.identifier}}</ui-select-match><ui-select-choices repeat=\"ds in $ctrl.ownConfig.collection | filter:$select.search track by $index\"><div><span ng-bind-html=\"ds.identifier | highlight: $select.search\"></span> - <span ng-bind-html=\"ds.name | highlight: $select.search\"></span></div><small><div ng-if=ds.category.name>Category: <span ng-bind-html=\"ds.category.name | highlight: $select.search\"></span></div><div ng-if=ds.feed>Feed: <span ng-bind-html=\"ds.feed | highlight: $select.search\"></span></div><div ng-if=ds.datamodel><div>Datamodel:</div><div>- Id: <span ng-bind-html=\"ds.datamodel.identifier | highlight: $select.search\"></span><div>- Organization: <span ng-bind-html=\"ds.datamodel.organization | highlight: $select.search\"></span><div>- Name: <span ng-bind-html=\"ds.datamodel.name | highlight: $select.search\"></span><div>- Description: <span ng-bind-html=\"ds.datamodel.description | highlight: $select.search\"></span><div>- Version: <span ng-bind-html=\"ds.datamodel.version | highlight: $select.search\"></span></div></div></div></div></div></div></small></ui-select-choices></ui-select></div>");
 $templateCache.put("views/custom.ui.select.entity.html","<div class=form-group mass-autocomplete ng-if=$ctrl.multiple><label class=custom-ui-select-label>Entity Key</label><ui-select custom-ui-select-config=$ctrl.ownConfig name=entity ng-model=$ctrl.entity theme=bootstrap title=\"Choose a entity\" custom-ui-select multiple=true custom-mass-autocomplete-item=$ctrl.ownConfig on-select=\"$ctrl.entitySelected($item, $model)\" on-remove=\"$ctrl.entityRemove($item, $model)\" ng-required=$ctrl.isRequired><ui-select-match placeholder=\"Choose a entity\" allow-clear=true>{{$item.provision.administration.identifier._current.value}}</ui-select-match><ui-select-choices repeat=\"entityData in $ctrl.ownConfig.collection track by $index\"><span ng-bind-html=\"entityData.provision.administration.identifier._current.value | highlight: $select.search\"></span> <small><div ng-if=entityData.provision.device.specificType._current.value>Specific type: <span ng-bind-html=\"entityData.provision.device.specificType._current.value | highlight: $select.search\"></span></div><div ng-if=entityData.provision.device.operationalStatus._current.value>Operational status: <span ng-bind-html=\"\'\'+entityData.provision.device.operationalStatus._current.value | highlight: $select.search\"></span></div><div ng-if=\"!entityData.provision.device.specificType && entityData.provision.device.communicationsModule[0].subscriber.specificType._current.value\">Specific type: <span ng-bind-html=\"entityData.provision.device.communicationsModule[0].subscriber.specificType._current.value | highlight: $select.search\"></span></div><div ng-if=\"!entityData.provision.device.specificType && entityData.provision.device.communicationsModule[0].subscription.specificType._current.value\">Specific type: <span ng-bind-html=\"entityData.provision.device.communicationsModule[0].subscriber.specificType._current.value | highlight: $select.search\"></span></div></small></ui-select-choices></ui-select></div><div class=form-group mass-autocomplete ng-if=!$ctrl.multiple><label class=custom-ui-select-label>Entity Key</label><ui-select custom-ui-select-config=$ctrl.ownConfig name=entity ng-model=$ctrl.entity theme=bootstrap title=\"Choose a entity\" custom-ui-select multiple=false custom-mass-autocomplete-item=$ctrl.ownConfig on-select=\"$ctrl.entitySelected($item, $model)\" on-remove=\"$ctrl.entityRemove($item, $model)\" ng-required=$ctrl.isRequired><ui-select-match placeholder=\"Choose a entity\" allow-clear=true>{{$item.provision.administration.identifier._current.value}}</ui-select-match><ui-select-choices repeat=\"entityData in $ctrl.ownConfig.collection track by $index\"><span ng-bind-html=\"entityData.provision.administration.identifier._current.value | highlight: $select.search\"></span> <small><div ng-if=entityData.provision.device.specificType._current.value>Specific type: <span ng-bind-html=\"entityData.provision.device.specificType._current.value | highlight: $select.search\"></span></div><div ng-if=entityData.provision.device.operationalStatus._current.value>Operational status: <span ng-bind-html=\"\'\'+entityData.provision.device.operationalStatus._current.value | highlight: $select.search\"></span></div><div ng-if=\"!entityData.provision.device.specificType && entityData.provision.device.communicationsModule[0].subscriber.specificType._current.value\">Specific type: <span ng-bind-html=\"entityData.provision.device.communicationsModule[0].subscriber.specificType._current.value | highlight: $select.search\"></span></div><div ng-if=\"!entityData.provision.device.specificType && entityData.provision.device.communicationsModule[0].subscription.specificType._current.value\">Specific type: <span ng-bind-html=\"entityData.provision.device.communicationsModule[0].subscriber.specificType._current.value | highlight: $select.search\"></span></div></small></ui-select-choices></ui-select></div>");
 $templateCache.put("views/custom.ui.select.helper.html","<div class=form-group ng-hide=$ctrl.have_helper_keys ng-transclude=input><label for={{$ctrl.id}}>{{$ctrl.labelText}}</label> <input class=form-control name={{$ctrl.name}} type=text id={{$ctrl.id}} ng-model=$ctrl.helperModel ng-required=$ctrl.required> <span class=help-inline ng-show=\"!$ctrl.helperModel && $ctrl.required\">{{$ctrl.labelError}}</span></div><div class=form-group ng-hide=!$ctrl.have_helper_keys><label for={{$ctrl.id}}>{{$ctrl.labelText}}</label><ui-select id={{$ctrl.id}} name={{$ctrl.name}} ng-model=$ctrl.helperModel theme=bootstrap title=\"Choose an option\" ng-required=$ctrl.required tagging=$ctrl.helperTagTransform tagging-label=false><ui-select-match placeholder=\"Choose an option\">{{$select.selected.value}}</ui-select-match><ui-select-choices repeat=\"parameter.value as (key, parameter) in $ctrl.$helper_keys | filter: $select.search\"><span ng-bind-html=\"parameter.key | highlight: $select.search\"></span>: <small ng-bind-html=\"parameter.value | highlight: $select.search\"></small></ui-select-choices></ui-select><span class=help-inline ng-show=\"!$ctrl.helperModel && $ctrl.required\">Field is required</span></div>");
 $templateCache.put("views/custom.ui.select.subscriber.html","<div class=form-group mass-autocomplete ng-if=$ctrl.multiple><label class=custom-ui-select-label>Entity Key</label><ui-select custom-ui-select-config=$ctrl.ownConfig name=entity ng-model=$ctrl.entity theme=bootstrap title=\"Choose a entity\" custom-ui-select multiple=true custom-mass-autocomplete-item=$ctrl.ownConfig on-select=\"$ctrl.entitySelected($item, $model)\" on-remove=\"$ctrl.entityRemove($item, $model)\" ng-required=$ctrl.isRequired><ui-select-match placeholder=\"Choose a entity\" allow-clear=true>{{$item.provision.subscriber.identifier._current.value}}</ui-select-match><ui-select-choices repeat=\"subscriberData in $ctrl.ownConfig.collection track by $index\"><span ng-bind-html=\"subscriberData.provision.subscriber.identifier._current.value | highlight: $select.search\"></span> <small><div ng-if=subscriberData.provision.subscriber.name._current.value>Name: <span ng-bind-html=\"\'\'+subscriberData.provision.subscriber.name._current.value | highlight: $select.search\"></span></div></small></ui-select-choices></ui-select></div><div class=form-group mass-autocomplete ng-if=!$ctrl.multiple><label class=custom-ui-select-label>Entity Key</label><ui-select custom-ui-select-config=$ctrl.ownConfig name=entity ng-model=$ctrl.entity theme=bootstrap title=\"Choose a entity\" custom-ui-select multiple=false custom-mass-autocomplete-item=$ctrl.ownConfig on-select=\"$ctrl.entitySelected($item, $model)\" on-remove=\"$ctrl.entityRemove($item, $model)\" ng-required=$ctrl.isRequired><ui-select-match placeholder=\"Choose a entity\" allow-clear=true>{{$item.provision.subscriber.identifier._current.value}}</ui-select-match><ui-select-choices repeat=\"subscriberData in $ctrl.ownConfig.collection track by $index\"><span ng-bind-html=\"subscriberData.provision.subscriber.identifier._current.value | highlight: $select.search\"></span> <small><div ng-if=subscriberData.provision.subscriber.name._current.value>Name: <span ng-bind-html=\"\'\'+subscriberData.provision.subscriber.name._current.value | highlight: $select.search\"></span></div><div ng-if=subscriberData.provision.subscriber.mobile.icc._current.value>Name: <span ng-bind-html=\"\'\'+subscriberData.provision.subscriber.mobile.icc.name._current.value | highlight: $select.search\"></span></div></small></ui-select-choices></ui-select></div>");
 $templateCache.put("views/custom.ui.select.subscription.html","<div class=form-group mass-autocomplete ng-if=$ctrl.multiple><label class=custom-ui-select-label>Entity Key</label><ui-select custom-ui-select-config=$ctrl.ownConfig name=entity ng-model=$ctrl.entity theme=bootstrap title=\"Choose a entity\" custom-ui-select multiple=true custom-mass-autocomplete-item=$ctrl.ownConfig on-select=\"$ctrl.entitySelected($item, $model)\" on-remove=\"$ctrl.entityRemove($item, $model)\" ng-required=$ctrl.isRequired><ui-select-match placeholder=\"Choose a entity\" allow-clear=true>{{$item.provision.subscription.identifier._current.value}}</ui-select-match><ui-select-choices repeat=\"subscriptionData in $ctrl.ownConfig.collection track by $index\"><span ng-bind-html=\"subscriptionData.provision.subscription.identifier._current.value | highlight: $select.search\"></span> <small><div ng-if=subscriptionData.provision.subscription.name._current.value>Name: <span ng-bind-html=\"\'\'+subscriptionData.provision.subscription.name._current.value | highlight: $select.search\"></span></div></small></ui-select-choices></ui-select></div><div class=form-group mass-autocomplete ng-if=!$ctrl.multiple><label class=custom-ui-select-label>Entity Key</label><ui-select custom-ui-select-config=$ctrl.ownConfig name=entity ng-model=$ctrl.entity theme=bootstrap title=\"Choose a entity\" custom-ui-select multiple=false custom-mass-autocomplete-item=$ctrl.ownConfig on-select=\"$ctrl.entitySelected($item, $model)\" on-remove=\"$ctrl.entityRemove($item, $model)\" ng-required=$ctrl.isRequired><ui-select-match placeholder=\"Choose a entity\" allow-clear=true>{{$item.provision.subscription.identifier._current.value}}</ui-select-match><ui-select-choices repeat=\"subscriptionData in $ctrl.ownConfig.collection track by $index\"><span ng-bind-html=\"subscriptionData.provision.subscription.identifier._current.value | highlight: $select.search\"></span> <small><div ng-if=subscriptionData.provision.subscription.name._current.value>Name: <span ng-bind-html=\"\'\'+subscriptionData.provision.subscription.name._current.value | highlight: $select.search\"></span></div></small></ui-select-choices></ui-select></div>");
-$templateCache.put("views/helper.view.html","<div class=row><div class=\"container col-md-12 col-xs-12\" ng-transclude></div></div><div class=row><div class=\"col-xs-12 col-md-12\"><a class=\"btn btn-default btn-sm ux-txt-info pointer\" ng-href ng-click=$helper.open() ng-switch=$helper.mode><span ng-switch-when=button><i ng-class=$helper.helperButton aria-hidden=true></i></span> <span ng-switch-when=title>{{$helper.helperTitle}}</span> <span ng-switch-when=title_button><i ng-class=$helper.helperButton aria-hidden=true></i>{{$helper.helperTitle}}</span> <span ng-switch-default><i ng-if=\"!$helper.helperTitle && !$helper.helperButton\" class=\"fa fa-lg fa-search-plus\" aria-hidden=true></i> Helper</span></a></div></div><script type=text/ng-template id=helper.view.modal.html><div class=\"modal-header\"> <h4 class=\"modal-title\">Helper</h4> </div> <div class=\"modal-body without-padding-top\"> <uib-accordion close-others=\"true\"> <div uib-accordion-group is-open=\"$ctrl.mapIsOpen\" is-disabled=\"$ctrl.helper_exclusive ? !$ctrl.mapIsExclusive : false\" class=\"map-option\"> <div uib-accordion-heading>Map</div> <div class=\"row\" ng-if=\"$ctrl.mapIsOpen\"> <div class=\"col-xs-12\"> <div class=\"form-group leaflet-container\"> <leaflet id=\"map-marker\" lf-center=\"$ctrl.map.center\" event-broadcast=\"$ctrl.map.events\" markers=\"$ctrl.map.markers\" width=\"100% \" height=\"300px\"></leaflet> </div> </div> <div class=\"col-xs-12 text-right\" ng-if=\"$ctrl.helper_exclusive\"> <a class=\"top-buffer btn btn-default ux-txt-success pointer\" ng-class=\"{\'disabled\': !$ctrl.helper_keys.map}\" ng-click=\"$ctrl.ok(\'map\')\" ng-disabled=\"!$ctrl.helper_keys.map\"> <i class=\"fa fa-lg fa-files-o\" aria-hidden=\"true\"></i> </a> </div> </div> </div> <div uib-accordion-group is-open=\"$ctrl.entityIsOpen\" is-disabled=\"$ctrl.helper_exclusive ? (!$ctrl.entityIsExclusive && !$ctrl.datastreamIsExclusive): false\" class=\"entity-option\"> <div uib-accordion-heading>Entity</div> <div class=\"row row-eq-height\"> <div class=\"col-xs-10\"> <custom-ui-select-entity on-select-item=\"onSelectEntityKey($item, $model)\" on-remove=\"onDeleteEntityKey()\" entity=\"$ctrl.entity.selected\" multiple=\"false\"> </custom-ui-select-entity> </div> <div class=\"col-xs-2 vcenter\" ng-if=\"$ctrl.helper_exclusive\"> <a class=\"top-buffer btn btn-default ux-txt-success pointer\" ng-class=\"{\'disabled\': !$ctrl.helper_keys.entity}\" ng-click=\"$ctrl.ok(\'entity\')\" ng-disabled=\"!$ctrl.helper_keys.entity\"> <i class=\"fa fa-lg fa-files-o\" aria-hidden=\"true\"></i> </a> </div> </div> <div class=\"row row-eq-height\"> <div class=\"col-xs-10\"> <custom-ui-select-datastream on-select-item=\"onSelectDatastreamKey($item, $model)\" on-remove=\"onDeleteDatastreamKey()\" datastream=\"$ctrl.datastream.selected\" multiple=\"false\"> </custom-ui-select-datastream> </div> <div class=\"col-xs-2 vcenter\" ng-if=\"$ctrl.helper_exclusive\"> <a class=\"top-buffer btn btn-default ux-txt-success pointer\" ng-class=\"{\'disabled\': !$ctrl.helper_keys.datastream}\" ng-click=\"$ctrl.ok(\'datastream\')\" ng-disabled=\"!$ctrl.helper_keys.datastream\"> <i class=\"fa fa-lg fa-files-o\" aria-hidden=\"true\"></i> </a> </div> </div> </div> <div uib-accordion-group is-open=\"$ctrl.subscriberIsOpen\" class=\"entity-option\" is-disabled=\"$ctrl.helper_exclusive ? (!$ctrl.entityIsExclusive && !$ctrl.subscriberIsExclusive): false\"> <div uib-accordion-heading>Subscribers</div> <div class=\"row row-eq-height\"> <div class=\"col-xs-10\"> <custom-ui-select-subscriber on-select-item=\"onSelectSubscriberKey($item, $model)\" specific-type=\"{{$ctrl.specific_type}}\" on-remove=\"onDeleteSubscriberKey()\" entity=\"$ctrl.subscriber.selected\" multiple=\"false\"> </custom-ui-select-subscriber> </div> <div class=\"col-xs-2 vcenter\" ng-if=\"$ctrl.helper_exclusive\"> <a class=\"top-buffer btn btn-default ux-txt-success pointer\" ng-class=\"{\'disabled\': !$ctrl.helper_keys.subscriber}\" ng-click=\"$ctrl.ok(\'subscriber\')\" ng-disabled=\"!$ctrl.helper_keys.subscriber\"> <i class=\"fa fa-lg fa-files-o\" aria-hidden=\"true\"></i> </a> </div> </div> </div> <div uib-accordion-group is-open=\"$ctrl.subscriptionIsOpen\" class=\"entity-option\" is-disabled=\"$ctrl.helper_exclusive ? (!$ctrl.entityIsExclusive && !$ctrl.subscriptionIsExclusive): false\"> <div uib-accordion-heading>Subscriptions</div> <div class=\"row row-eq-height\"> <div class=\"col-xs-10\"> <custom-ui-select-subscription on-select-item=\"onSelectSubscriptionKey($item, $model)\" specific-type=\"{{$ctrl.specific_type}}\" on-remove=\"onDeleteSubscriptionKey()\" entity=\"$ctrl.subscription.selected\" multiple=\"false\"> </custom-ui-select-subscription> </div> <div class=\"col-xs-2 vcenter\" ng-if=\"$ctrl.helper_exclusive\"> <a class=\"top-buffer btn btn-default ux-txt-success pointer\" ng-class=\"{\'disabled\': !$ctrl.helper_keys.subscription}\" ng-click=\"$ctrl.ok(\'subscription\')\" ng-disabled=\"!$ctrl.helper_keys.subscription\"> <i class=\"fa fa-lg fa-files-o\" aria-hidden=\"true\"></i> </a> </div> </div> </div> </uib-accordion> </div> <div class=\"modal-footer\"> <a ng-if=\"!$ctrl.helper_exclusive\" class=\"top-buffer btn btn-default ux-txt-success pointer\" ng-class=\"{\'disabled\': !$ctrl.canApply()}\" ng-click=\"$ctrl.ok()\" ng-disabled=\"!$ctrl.canApply()\"> <i class=\"fa fa-lg fa-files-o\" aria-hidden=\"true\"></i> All </a> <button class=\"btn btn-warning\" type=\"button\" ng-click=\"$ctrl.cancel()\">Cancel</button> </div></script>");
+$templateCache.put("views/helper.view.html","<div class=row><div class=\"container col-md-12 col-xs-12\" ng-transclude></div></div><div class=row><div class=\"col-xs-12 col-md-12\"><a class=\"btn btn-default btn-sm ux-txt-info pointer\" ng-href ng-click=$helper.open() ng-switch=$helper.mode><span ng-switch-when=button><i ng-class=$helper.helperButton aria-hidden=true></i></span> <span ng-switch-when=title>{{$helper.helperTitle}}</span> <span ng-switch-when=title_button><i ng-class=$helper.helperButton aria-hidden=true></i>{{$helper.helperTitle}}</span> <span ng-switch-default><i ng-if=\"!$helper.helperTitle && !$helper.helperButton\" class=\"fa fa-lg fa-search-plus\" aria-hidden=true></i> Helper</span></a></div></div><script type=text/ng-template id=helper.view.modal.html><div class=\"modal-header\"> <h4 class=\"modal-title\">Helper</h4> </div> <div class=\"modal-body without-padding-top\"> <uib-accordion close-others=\"true\"> <div uib-accordion-group is-open=\"$ctrl.mapIsOpen\" is-disabled=\"$ctrl.helper_exclusive ? !$ctrl.mapIsExclusive : false\" class=\"map-option\"> <div uib-accordion-heading>Map</div> <div class=\"row\" ng-if=\"$ctrl.mapIsOpen\"> <div class=\"col-xs-12\"> <div class=\"form-group leaflet-container\"> <leaflet id=\"map-marker\" lf-center=\"$ctrl.map.center\" event-broadcast=\"$ctrl.map.events\" markers=\"$ctrl.map.markers\" width=\"100% \" height=\"300px\"></leaflet> </div> </div> <div class=\"col-xs-12 text-right\" ng-if=\"$ctrl.helper_exclusive\"> <a class=\"top-buffer btn btn-default ux-txt-success pointer\" ng-class=\"{\'disabled\': !$ctrl.helper_keys.map}\" ng-click=\"$ctrl.ok(\'map\')\" ng-disabled=\"!$ctrl.helper_keys.map\"> <i class=\"fa fa-lg fa-files-o\" aria-hidden=\"true\"></i> </a> </div> </div> </div> <div uib-accordion-group is-open=\"$ctrl.entityIsOpen\" is-disabled=\"$ctrl.helper_exclusive ? (!$ctrl.entityIsExclusive && !$ctrl.datastreamIsExclusive): false\" class=\"entity-option\"> <div uib-accordion-heading>Entity</div> <div class=\"row row-eq-height\"> <div class=\"col-xs-10\"> <custom-ui-select-entity on-select-item=\"onSelectEntityKey($item, $model)\" on-remove=\"onDeleteEntityKey()\" entity=\"$ctrl.entity.selected\" multiple=\"false\"> </custom-ui-select-entity> </div> <div class=\"col-xs-2 vcenter\" ng-if=\"$ctrl.helper_exclusive\"> <a class=\"top-buffer btn btn-default ux-txt-success pointer\" ng-class=\"{\'disabled\': !$ctrl.helper_keys.entity}\" ng-click=\"$ctrl.ok(\'entity\')\" ng-disabled=\"!$ctrl.helper_keys.entity\"> <i class=\"fa fa-lg fa-files-o\" aria-hidden=\"true\"></i> </a> </div> </div> <div class=\"row row-eq-height\"> <div class=\"col-xs-10\"> <custom-ui-select-datastream on-select-item=\"onSelectDatastreamKey($item, $model)\" on-remove=\"onDeleteDatastreamKey()\" datastream=\"$ctrl.datastream.selected\" multiple=\"false\"> </custom-ui-select-datastream> </div> <div class=\"col-xs-2 vcenter\" ng-if=\"$ctrl.helper_exclusive\"> <a class=\"top-buffer btn btn-default ux-txt-success pointer\" ng-class=\"{\'disabled\': !$ctrl.helper_keys.datastream}\" ng-click=\"$ctrl.ok(\'datastream\')\" ng-disabled=\"!$ctrl.helper_keys.datastream\"> <i class=\"fa fa-lg fa-files-o\" aria-hidden=\"true\"></i> </a> </div> </div> </div> <div uib-accordion-group is-open=\"$ctrl.subscriberIsOpen\" class=\"entity-option\" is-disabled=\"$ctrl.helper_exclusive ? (!$ctrl.entityIsExclusive && !$ctrl.subscriberIsExclusive): false\"> <div uib-accordion-heading>Subscribers</div> <div class=\"row row-eq-height\"> <div class=\"col-xs-10\"> <custom-ui-select-subscriber on-select-item=\"onSelectSubscriberKey($item, $model)\" specific-type=\"{{$ctrl.specific_type}}\" on-remove=\"onDeleteSubscriberKey()\" entity=\"$ctrl.subscriber.selected\" multiple=\"false\"> </custom-ui-select-subscriber> </div> <div class=\"col-xs-2 vcenter\" ng-if=\"$ctrl.helper_exclusive\"> <a class=\"top-buffer btn btn-default ux-txt-success pointer\" ng-class=\"{\'disabled\': !$ctrl.helper_keys.subscriber}\" ng-click=\"$ctrl.ok(\'subscriber\')\" ng-disabled=\"!$ctrl.helper_keys.subscriber\"> <i class=\"fa fa-lg fa-files-o\" aria-hidden=\"true\"></i> </a> </div> </div> </div> <div uib-accordion-group is-open=\"$ctrl.subscriptionIsOpen\" class=\"entity-option\" is-disabled=\"$ctrl.helper_exclusive ? (!$ctrl.entityIsExclusive && !$ctrl.subscriptionIsExclusive): false\"> <div uib-accordion-heading>Subscriptions</div> <div class=\"row row-eq-height\"> <div class=\"col-xs-10\"> <custom-ui-select-subscription on-select-item=\"onSelectSubscriptionKey($item, $model)\" specific-type=\"{{$ctrl.specific_type}}\" on-remove=\"onDeleteSubscriptionKey()\" entity=\"$ctrl.subscription.selected\" multiple=\"false\"> </custom-ui-select-subscription> </div> <div class=\"col-xs-2 vcenter\" ng-if=\"$ctrl.helper_exclusive\"> <a class=\"top-buffer btn btn-default ux-txt-success pointer\" ng-class=\"{\'disabled\': !$ctrl.helper_keys.subscription}\" ng-click=\"$ctrl.ok(\'subscription\')\" ng-disabled=\"!$ctrl.helper_keys.subscription\"> <i class=\"fa fa-lg fa-files-o\" aria-hidden=\"true\"></i> </a> </div> </div> </div> <div uib-accordion-group is-open=\"$ctrl.areaIsOpen\" class=\"entity-option\" is-disabled=\"$ctrl.helper_exclusive ? !$ctrl.areaIsExclusive: false\"> <div uib-accordion-heading>Areas</div> <div class=\"row row-eq-height\"> <div class=\"col-xs-10\"> <custom-ui-select-area on-select-item=\"onSelectAreaKey($item, $model)\" on-remove=\"onDeleteAreaKey()\" area=\"$ctrl.area.selected\" organization=\"$ctrl.area.organization\" multiple=\"false\"> </custom-ui-select-area> </div> <div class=\"col-xs-2 vcenter\" ng-if=\"$ctrl.helper_exclusive\"> <a class=\"top-buffer btn btn-default ux-txt-success pointer\" ng-class=\"{\'disabled\': !$ctrl.helper_keys.area}\" ng-click=\"$ctrl.ok(\'area\')\" ng-disabled=\"!$ctrl.helper_keys.area\"> <i class=\"fa fa-lg fa-files-o\" aria-hidden=\"true\"></i> </a> </div> </div> </div> </uib-accordion> </div> <div class=\"modal-footer\"> <a ng-if=\"!$ctrl.helper_exclusive\" class=\"top-buffer btn btn-default ux-txt-success pointer\" ng-class=\"{\'disabled\': !$ctrl.canApply()}\" ng-click=\"$ctrl.ok()\" ng-disabled=\"!$ctrl.canApply()\"> <i class=\"fa fa-lg fa-files-o\" aria-hidden=\"true\"></i> All </a> <button class=\"btn btn-warning\" type=\"button\" ng-click=\"$ctrl.cancel()\">Cancel</button> </div></script>");
 $templateCache.put("views/schema.form.datastream.template.html","<div><custom-ui-select-datastream on-select-item=\"evalExpr(form.onselectitem, {$item: $$value$$, $model: $model})\" on-remove=\"evalExpr(form.onremove, {$item: $$value$$, $model: $model})\" datastream=$$value$$ multiple={{form.multiple}}></custom-ui-select-datastream></div>");
 $templateCache.put("views/schema.form.entity.template.html","<div><custom-ui-select-entity on-select-item=\"evalExpr(form.onselectitem, {$item: $$value$$, $model: $model})\" on-remove=\"evalExpr(form.onremove, {$item: $$value$$, $model: $model})\" entity=$$value$$ multiple={{form.multiple}}></custom-ui-select-entity></div>");
 $templateCache.put("views/schema.form.helper.template.html","<div class=form-group><helper-dialog helper-id={{form.helperid}} helper-exclusive={{form.exclusive}}><helper-ui-select id={{form.id}} name={{form.name}} label-text={{form.title}} helper-model=$$value$$ label-error={{form.labelerror}} required={{form.required}}><helper-ui-select-input><label for={{form.name}}>{{form.title}}</label> <input class=form-control name={{form.name}} type=text id={{form.id}} ng-model=$$value$$ ng-required=form.required></helper-ui-select-input></helper-ui-select></helper-dialog></div>");
@@ -1031,6 +1032,163 @@ DataUrlFormatter.prototype.format = function(value) {
 
 function DataUrlFormatter() {}
 
+
+angular.module('opengate-angular-js')
+    .filter('humanize', ['$window', function($window) {
+        function hasNumber(myString) {
+            return (/\d/.test(myString));
+        }
+
+        return function(input, optional1, optional2) {
+
+            var output = input;
+
+
+            if ($window.S(output).indexOf('$') !== -1) {
+                output = $window.S(output).strip('$').s;
+            }
+            if (angular.isString(output) && !hasNumber(output)) {
+                output = $window.S(output).humanize().s;
+            }
+
+            return output;
+
+        };
+
+    }])
+    .filter('communicationsInterface', function() {
+        return function(input) {
+
+            var output = input;
+
+            switch (output) {
+                case 'COMMUNICATIONS_MODULE':
+                    return 'Communications module';
+                case 'SUBSCRIPTION':
+                    return 'Mobile line';
+                case 'SUBSCRIBER':
+                    return 'SIM';
+                case 'HOME_OPERATOR':
+                    return 'Home Operator';
+                case 'REGISTER_OPERATOR':
+                    return 'Register Operator';
+                case 'ADDRESS':
+                    return 'IP';
+                case 'SOFTWARE':
+                    return 'Software';
+                case 'HARDWARE':
+                    return 'Hardware';
+                case 'entityKey':
+                    return 'Identifier';
+                default:
+                    return output;
+            }
+        };
+    })
+    .filter('dateNames', function() {
+        var days = {
+            'MON': 'Monday',
+            'TUE': 'Tuesday',
+            'WED': 'Wednesday',
+            'THU': 'Thursday',
+            'FRI': 'Friday',
+            'SAT': 'Saturday',
+            'SUN': 'Sunday'
+        };
+        var months = {
+            'JAN': 'January',
+            'FEB': 'February',
+            'MAR': 'March',
+            'APR': 'April',
+            'MAY': 'May',
+            'JUN': 'June',
+            'JUL': 'July',
+            'AUG': 'August',
+            'SEP': 'September',
+            'OCT': 'October',
+            'NOV': 'November',
+            'DEC': 'December'
+        };
+
+        return function(input) {
+            return (days[input] || months[input]) || input;
+        };
+    })
+
+.filter('icons', function() {
+        return function(input, optional1, optional2) {
+            var output = 'fa fa-info';
+            if (input === 'list') {
+                output = 'fa fa-list';
+            }
+            if (input === 'ban') {
+                output = 'fa fa-ban';
+            }
+            if (input === 'laptop') {
+                output = 'fa fa-laptop';
+            }
+            if (input === 'spin') {
+                output = 'fa fa-spinner fa-spin';
+            }
+            if (input === 'unit') {
+                output = 'fa fa-plus-square';
+            }
+            if (input === 'tags') {
+                output = 'fa fa-tags';
+            }
+            return output;
+        };
+
+    })
+    .filter('codeErrors', function() {
+        var errors = {
+            '1004': 'At least one valid reference to an entity is required',
+            '1005': 'At least one valid reference to an entity is required',
+            '1017': 'Tag is not valid. Please, check it.'
+        };
+
+        return function(input) {
+            return { code: input.code, message: errors[input.code] || input.message };
+        };
+    })
+    .filter('wapiErrors', function() {
+        var errors = {
+            '-1': 'Connection problems',
+            '413': 'Upload size exceeded'
+        };
+
+        return function(status, partialMessage) {
+            var finalMessage = '';
+            if (!angular.isUndefined(partialMessage)) {
+                finalMessage = partialMessage + ' (' + (errors[status] ? errors[status] : 'Code: ' + status) + ')';
+            } else {
+                finalMessage = (errors[status] ? errors[status] : 'Code: ' + status);
+            }
+            return finalMessage;
+        };
+    })
+    .filter('textlength', function() {
+        return function(input, optional1) {
+            var maxLength = 30;
+            if (optional1 && angular.isNumber(optional1)) {
+                maxLength = optional1;
+            }
+
+            if (input && input.length > maxLength) {
+                return input.substring(0, maxLength) + '...';
+            } else {
+                return input;
+            }
+        };
+    }).filter('compactid', function() {
+        return function(input) {
+            if (input && input.indexOf('.') > -1) {
+                return input.substring(input.lastIndexOf('.') + 1);
+            }
+            return input;
+        };
+    });
+
 angular.module('opengate-angular-js').directive('windowTimeSelect', function() { // ['$scope', '$compile'], function($scope, $compile) {
 
 
@@ -1578,163 +1736,6 @@ angular.module('opengate-angular-js')
             }
         };
     }]);
-
-
-angular.module('opengate-angular-js')
-    .filter('humanize', ['$window', function($window) {
-        function hasNumber(myString) {
-            return (/\d/.test(myString));
-        }
-
-        return function(input, optional1, optional2) {
-
-            var output = input;
-
-
-            if ($window.S(output).indexOf('$') !== -1) {
-                output = $window.S(output).strip('$').s;
-            }
-            if (angular.isString(output) && !hasNumber(output)) {
-                output = $window.S(output).humanize().s;
-            }
-
-            return output;
-
-        };
-
-    }])
-    .filter('communicationsInterface', function() {
-        return function(input) {
-
-            var output = input;
-
-            switch (output) {
-                case 'COMMUNICATIONS_MODULE':
-                    return 'Communications module';
-                case 'SUBSCRIPTION':
-                    return 'Mobile line';
-                case 'SUBSCRIBER':
-                    return 'SIM';
-                case 'HOME_OPERATOR':
-                    return 'Home Operator';
-                case 'REGISTER_OPERATOR':
-                    return 'Register Operator';
-                case 'ADDRESS':
-                    return 'IP';
-                case 'SOFTWARE':
-                    return 'Software';
-                case 'HARDWARE':
-                    return 'Hardware';
-                case 'entityKey':
-                    return 'Identifier';
-                default:
-                    return output;
-            }
-        };
-    })
-    .filter('dateNames', function() {
-        var days = {
-            'MON': 'Monday',
-            'TUE': 'Tuesday',
-            'WED': 'Wednesday',
-            'THU': 'Thursday',
-            'FRI': 'Friday',
-            'SAT': 'Saturday',
-            'SUN': 'Sunday'
-        };
-        var months = {
-            'JAN': 'January',
-            'FEB': 'February',
-            'MAR': 'March',
-            'APR': 'April',
-            'MAY': 'May',
-            'JUN': 'June',
-            'JUL': 'July',
-            'AUG': 'August',
-            'SEP': 'September',
-            'OCT': 'October',
-            'NOV': 'November',
-            'DEC': 'December'
-        };
-
-        return function(input) {
-            return (days[input] || months[input]) || input;
-        };
-    })
-
-.filter('icons', function() {
-        return function(input, optional1, optional2) {
-            var output = 'fa fa-info';
-            if (input === 'list') {
-                output = 'fa fa-list';
-            }
-            if (input === 'ban') {
-                output = 'fa fa-ban';
-            }
-            if (input === 'laptop') {
-                output = 'fa fa-laptop';
-            }
-            if (input === 'spin') {
-                output = 'fa fa-spinner fa-spin';
-            }
-            if (input === 'unit') {
-                output = 'fa fa-plus-square';
-            }
-            if (input === 'tags') {
-                output = 'fa fa-tags';
-            }
-            return output;
-        };
-
-    })
-    .filter('codeErrors', function() {
-        var errors = {
-            '1004': 'At least one valid reference to an entity is required',
-            '1005': 'At least one valid reference to an entity is required',
-            '1017': 'Tag is not valid. Please, check it.'
-        };
-
-        return function(input) {
-            return { code: input.code, message: errors[input.code] || input.message };
-        };
-    })
-    .filter('wapiErrors', function() {
-        var errors = {
-            '-1': 'Connection problems',
-            '413': 'Upload size exceeded'
-        };
-
-        return function(status, partialMessage) {
-            var finalMessage = '';
-            if (!angular.isUndefined(partialMessage)) {
-                finalMessage = partialMessage + ' (' + (errors[status] ? errors[status] : 'Code: ' + status) + ')';
-            } else {
-                finalMessage = (errors[status] ? errors[status] : 'Code: ' + status);
-            }
-            return finalMessage;
-        };
-    })
-    .filter('textlength', function() {
-        return function(input, optional1) {
-            var maxLength = 30;
-            if (optional1 && angular.isNumber(optional1)) {
-                maxLength = optional1;
-            }
-
-            if (input && input.length > maxLength) {
-                return input.substring(0, maxLength) + '...';
-            } else {
-                return input;
-            }
-        };
-    }).filter('compactid', function() {
-        return function(input) {
-            if (input && input.indexOf('.') > -1) {
-                return input.substring(input.lastIndexOf('.') + 1);
-            }
-            return input;
-        };
-    });
 angular.module('opengate-angular-js').config(["schemaFormProvider", "schemaFormDecoratorsProvider", "sfPathProvider", "sfBuilderProvider", function (schemaFormProvider, schemaFormDecoratorsProvider, sfPathProvider, sfBuilderProvider) {
 
     var helper = function (name, schema, options) {
@@ -1829,7 +1830,12 @@ _wizard.controller('helperDialogController', ['$scope', '$element', '$attrs', '$
             windowClass: 'helper-dialog',
             resolve: {
                 helper_id: function() {
-                    return $helper.helperId;
+                    if ($helper.componentsIds && $helper.componentsIds.length === 1) {
+                        return $helper.componentsIds[0];
+                    } else {
+                        return $helper.helperId;
+                    }
+
                 },
                 helper_exclusive: function() {
                     return $helper.helperExclusive === 'true';
@@ -1929,6 +1935,11 @@ _wizard.controller('helperDialogModalController', ['$scope', '$uibModalInstance'
                     }
                 };
                 $ctrl.map = _.merge($ctrl.map, helper_extra.map, markers);
+            }
+
+            //Configuracion extra para areas
+            if (helper_extra.area) {
+                $ctrl.area = helper_extra.area
             }
         }
 
@@ -2071,6 +2082,27 @@ _wizard.controller('helperDialogModalController', ['$scope', '$uibModalInstance'
             delete $ctrl.helper_keys.subscription;
         };
 
+        //config areas
+        if (!$ctrl.area) {
+            $ctrl.area = {};
+        } else {
+            delete $ctrl.area.selected;
+        }
+
+        if (helper_selected && helper_selected.area) {
+            $ctrl.helper_keys['area'] = { area: helper_selected.area };
+            $ctrl.area.selected = [{ identifier: helper_selected.area }];
+        }
+
+        $scope.onSelectAreaKey = function($item, $model) {
+            $ctrl.helper_keys['area'] = { area: $item.identifier };
+        };
+
+        $scope.onDeleteAreaKey = function() {
+            delete $ctrl.helper_keys.area;
+        };
+
+        //Condicion para botón de aplicar todo lo seleccionado en los helpers
         $ctrl.canApply = function() {
             return Object.keys($ctrl.helper_keys).length > 0;
         };
@@ -2192,9 +2224,9 @@ angular.module('opengate-angular-js').component('customUiSelectSubscription', {
         onSelectItem: '&',
         onRemove: '&',
         entity: '=',
-        multiple: '@',
         specificType: '@',
-        isRequired: '@'
+        multiple: '<',
+        isRequired: '='
     }
 
 });
@@ -2264,9 +2296,9 @@ angular.module('opengate-angular-js').component('customUiSelectSubscriber', {
         onSelectItem: '&',
         onRemove: '&',
         entity: '=',
-        multiple: '@',
         specificType: '@',
-        isRequired: '@'
+        multiple: '<',
+        isRequired: '='
     }
 
 });
@@ -2365,8 +2397,8 @@ angular.module('opengate-angular-js').component('customUiSelectProvisionDatastre
         onSelectItem: '&',
         onRemove: '&',
         datastream: '=',
-        multiple: '@',
-        isRequired: '@'
+        multiple: '<',
+        isRequired: '='
     }
 
 });
@@ -2386,7 +2418,7 @@ angular.module('opengate-angular-js').controller('helperUiSelectController', ['$
         $ctrl.$helper_keys = copy_obj.$helper_keys;
         $ctrl.have_helper_keys = true;
         if ($ctrl.helperModel && $ctrl.helperModel.length > 0) {
-            $ctrl.$helper_keys[$ctrl.labelText + ' default'] = $ctrl.helperModel;
+            $ctrl.$helper_keys["'" + $ctrl.labelText + "' default"] = $ctrl.helperModel;
         }
     }
 
@@ -2395,6 +2427,12 @@ angular.module('opengate-angular-js').controller('helperUiSelectController', ['$
             $ctrl.helperCtrl.onMulti = [];
         }
         $ctrl.helperCtrl.onMulti.push($ctrl._onCopy);
+
+        if (!$ctrl.helperCtrl.subComponents) {
+            $ctrl.helperCtrl.componentsIds = [];
+        }
+        $ctrl.helperCtrl.componentsIds.push($ctrl.labelText);
+
         $ctrl.have_helper_keys = false;
     };
 
@@ -2415,8 +2453,8 @@ angular.module('opengate-angular-js').component('helperUiSelect', {
         name: '@',
         labelText: '@',
         helperModel: '=',
-        required: '@',
-        multiple: '@',
+        required: '=',
+        multiple: '<',
         labelError: '@'
     }
 
@@ -2462,8 +2500,8 @@ angular.module('opengate-angular-js').component('customUiSelectEntity', {
         onSelectItem: '&',
         onRemove: '&',
         entity: '=',
-        multiple: '@',
-        isRequired: '@'
+        multiple: '<',
+        isRequired: '='
     }
 
 });
@@ -2548,8 +2586,82 @@ angular.module('opengate-angular-js').component('customUiSelectDatastream', {
         onSelectItem: '&',
         onRemove: '&',
         datastream: '=',
-        multiple: '@',
-        isRequired: '@'
+        multiple: '<',
+        isRequired: '='
     }
 
+});
+
+
+
+angular.module('opengate-angular-js').controller('customUiSelectAreaController', ['$scope', '$element', '$attrs', '$api', '$q', function($scope, $element, $attrs, $api, $q) {
+    var ctrl = this;
+
+    var andFilter;
+    if (ctrl.organization) {
+        andFilter = [{ 'eq': { 'areas.organization': ctrl.organization } }];
+    }
+
+    ctrl.ownConfig = {
+        builder: $api().areasSearchBuilder(),
+        filter: function(search) {
+            ctrl.lastSearch = search;
+
+            if (andFilter) {
+                if (search) {
+                    andFilter.push({
+                        'or': [
+                            { 'like': { 'areas.name': search } },
+                            { 'like': { 'areas.organization': search } }
+                        ]
+                    });
+                }
+
+                return {
+                    'and': andFilter
+                };
+            } else {
+                if (!search) {
+                    return {};
+                } else {
+                    return {
+                        'or': [
+                            { 'like': { 'areas.name': search } },
+                            { 'like': { 'areas.organization': search } }
+                        ]
+                    };
+                }
+            }
+        },
+        rootKey: 'areas',
+        collection: [],
+        customSelectors: $api().areasSearchBuilder()
+    };
+
+    ctrl.areaSelected = function($item, $model) {
+        var return_obj = {};
+        return_obj['$item'] = $item;
+        return_obj['$model'] = $model;
+        ctrl.onSelectItem(return_obj);
+    };
+
+    ctrl.areaRemove = function($item, $model) {
+        var return_obj = {};
+        return_obj['$item'] = $item;
+        return_obj['$model'] = $model;
+        ctrl.onRemove(return_obj);
+    };
+}]);
+
+angular.module('opengate-angular-js').component('customUiSelectArea', {
+    templateUrl: 'views/custom.ui.select.area.html',
+    controller: 'customUiSelectAreaController',
+    bindings: {
+        onSelectItem: '&',
+        onRemove: '&',
+        area: '=',
+        multiple: '<',
+        isRequired: '=',
+        organization: '<'
+    }
 });})(window);

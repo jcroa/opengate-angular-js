@@ -24,7 +24,7 @@ angular.module('opengate-angular-js').controller('helperUiSelectController', ['$
         }
         $ctrl.helperCtrl.onMulti.push($ctrl._onCopy);
 
-        if (!$ctrl.helperCtrl.subComponents) {
+        if (!$ctrl.helperCtrl.componentsIds) {
             $ctrl.helperCtrl.componentsIds = [];
         }
         $ctrl.helperCtrl.componentsIds.push($ctrl.labelText);

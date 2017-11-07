@@ -88,15 +88,14 @@ _wizard.controller('helperDialogModalController', ['$scope', '$uibModalInstance'
     function($scope, $uibModalInstance, helper_id, helper_exclusive, specific_type, helper_extra, helper_selected) {
         var $ctrl = this;
         $ctrl.helper_extra = helper_extra;
+
+        if (helper_id && helper_id.indexOf('_') > -1) {
+            helper_id = helper_id.substring(0, helper_id.indexOf('_'));
+        }
         $ctrl.helper_id = helper_id;
 
-        if (helper_id.trim().toLowerCase() === 'datastream') {
-            $ctrl['entityIsOpen'] = true;
-            $ctrl['entityIsExclusive'] = $ctrl.helper_exclusive = helper_exclusive;
-        } else {
-            $ctrl[helper_id + 'IsOpen'] = true;
-            $ctrl[helper_id + 'IsExclusive'] = $ctrl.helper_exclusive = helper_exclusive;
-        }
+        $ctrl[helper_id + 'IsOpen'] = true;
+        $ctrl[helper_id + 'IsExclusive'] = $ctrl.helper_exclusive = helper_exclusive;
 
         $ctrl.helper_keys = {};
         $ctrl.specific_type = specific_type;

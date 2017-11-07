@@ -34,7 +34,7 @@
                     </div>
                 </div>
             </div>
-            <div uib-accordion-group is-open="$ctrl.entityIsOpen" is-disabled="$ctrl.helper_exclusive ? (!$ctrl.entityIsExclusive && !$ctrl.datastreamIsExclusive): false" class="entity-option">
+            <div uib-accordion-group is-open="$ctrl.entityIsOpen" is-disabled="$ctrl.helper_exclusive ? !$ctrl.entityIsExclusive: false" class="entity-option">
                 <div uib-accordion-heading>Entity</div>
                 <div class="row row-eq-height">
                     <div class="col-xs-10">
@@ -43,17 +43,6 @@
                     </div>
                     <div class="col-xs-2 vcenter" ng-if="$ctrl.helper_exclusive">
                         <a class="top-buffer btn btn-default ux-txt-success pointer" ng-class="{'disabled': !$ctrl.helper_keys.entity}" ng-click="$ctrl.ok('entity')" ng-disabled="!$ctrl.helper_keys.entity">
-                            <i class="fa fa-lg fa-files-o" aria-hidden="true"></i>
-                        </a>
-                    </div>
-                </div>
-                <div class="row row-eq-height">
-                    <div class="col-xs-10">
-                        <custom-ui-select-datastream on-select-item="onSelectDatastreamKey($item, $model)" on-remove="onDeleteDatastreamKey()" datastream="$ctrl.datastream.selected" multiple="false">
-                        </custom-ui-select-datastream>
-                    </div>
-                    <div class="col-xs-2 vcenter" ng-if="$ctrl.helper_exclusive">
-                        <a class="top-buffer btn btn-default ux-txt-success pointer" ng-class="{'disabled': !$ctrl.helper_keys.datastream}" ng-click="$ctrl.ok('datastream')" ng-disabled="!$ctrl.helper_keys.datastream">
                             <i class="fa fa-lg fa-files-o" aria-hidden="true"></i>
                         </a>
                     </div>
@@ -87,6 +76,21 @@
                     </div>
                 </div>
             </div>
+            <div uib-accordion-group is-open="$ctrl.datastreamIsOpen" is-disabled="$ctrl.helper_exclusive ? !$ctrl.datastreamIsExclusive: false" class="datastream-option">
+                <div uib-accordion-heading>Datastream</div>
+                <div class="row row-eq-height">
+                    <div class="col-xs-10">
+                        <custom-ui-select-datastream on-select-item="onSelectDatastreamKey($item, $model)" on-remove="onDeleteDatastreamKey()" datastream="$ctrl.datastream.selected" multiple="false">
+                        </custom-ui-select-datastream>
+                    </div>
+                    <div class="col-xs-2 vcenter" ng-if="$ctrl.helper_exclusive">
+                        <a class="top-buffer btn btn-default ux-txt-success pointer" ng-class="{'disabled': !$ctrl.helper_keys.datastream}" ng-click="$ctrl.ok('datastream')" ng-disabled="!$ctrl.helper_keys.datastream">
+                            <i class="fa fa-lg fa-files-o" aria-hidden="true"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
             <div uib-accordion-group is-open="$ctrl.areaIsOpen" class="area-option" is-disabled="$ctrl.helper_exclusive ? !$ctrl.areaIsExclusive: false">
                 <div uib-accordion-heading>Areas</div>
                 <div class="row row-eq-height">

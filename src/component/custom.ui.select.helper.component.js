@@ -18,6 +18,19 @@ angular.module('opengate-angular-js').controller('helperUiSelectController', ['$
         }
     }
 
+    $ctrl.$onChanges = function(changesObj) {
+        //console.log(JSON.stringify(changesObj));
+        if (changesObj && changesObj.selectedKeys && changesObj.selectedKeys.currentValue) {
+            if (Object.keys(changesObj.selectedKeys.currentValue).length > 0) {
+                $ctrl.$helper_keys = changesObj.selectedKeys.currentValue;
+                $ctrl.have_helper_keys = true;
+            } else {
+                $ctrl.$helper_keys = {};
+                $ctrl.have_helper_keys = false;
+            }
+        }
+    }
+
     $ctrl.$onInit = function() {
         if (!$ctrl.helperCtrl.onMulti) {
             $ctrl.helperCtrl.onMulti = [];
@@ -51,7 +64,8 @@ angular.module('opengate-angular-js').component('helperUiSelect', {
         helperModel: '=',
         required: '=',
         multiple: '<',
-        labelError: '@'
+        labelError: '@',
+        selectedKeys: '<'
     }
 
 });

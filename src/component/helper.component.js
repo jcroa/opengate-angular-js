@@ -59,7 +59,11 @@ _wizard.controller('helperDialogController', ['$scope', '$element', '$attrs', '$
                     return $helper.helperExtra;
                 },
                 helper_selected: function() {
-                    return $helper.selected;
+                    if ($helper.helperExtra && $helper.helperExtra.selected) {
+                        return $helper.helperExtra.selected;
+                    } else {
+                        return $helper.selected;
+                    }
                 }
             }
         });

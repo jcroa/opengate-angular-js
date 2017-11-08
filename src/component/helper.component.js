@@ -93,9 +93,10 @@ _wizard.controller('helperDialogModalController', ['$scope', '$uibModalInstance'
         var $ctrl = this;
         $ctrl.helper_extra = helper_extra;
 
-        if (helper_id && helper_id.indexOf('_') > -1) {
-            helper_id = helper_id.substring(0, helper_id.indexOf('_'));
-        }
+        // Extraer el primer bloque de letras
+        var regex = /(\w|0-9)+/g;
+        helper_id = regex.exec(helper_id.toLowerCase())[0];
+
         $ctrl.helper_id = helper_id;
 
         $ctrl[helper_id + 'IsOpen'] = true;
@@ -315,6 +316,36 @@ _wizard.controller('helperDialogModalController', ['$scope', '$uibModalInstance'
 
         $scope.onDeleteAreaKey = function() {
             delete $ctrl.helper_keys.area;
+        };
+
+        //Condicion para botón de aplicar todo lo seleccionado en los helpers
+        $ctrl.canApply = function() {
+            return Object.keys($ctrl.helper_keys).length > 0;
+        };
+
+
+        //config bundles
+        if (!$ctrl.bundle) {
+            $ctrl.bundle = {};
+        } else {
+            delete $ctrl.bundle.selected;
+        }
+
+        if (helper_selected && helper_selected.bundle) {
+            $ctrl.helper_keys['bundle'] = { bundle: helper_selected.bundle };
+            $ctrl.bundle.selected = [{ id: helper_selected.bundle }];
+        }
+
+        $scope.onSelectBundleKey = function($item, $model) {
+            $ctrl.helper_keys['bundle'] = {
+                bundleId: $item.id,
+                bundleName: $item.name,
+                bundleVersion: $item.version
+            };
+        };
+
+        $scope.onDeleteBundleKey = function() {
+            delete $ctrl.helper_keys.bundle;
         };
 
         //Condicion para botón de aplicar todo lo seleccionado en los helpers

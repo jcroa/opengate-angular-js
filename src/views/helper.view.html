@@ -86,7 +86,6 @@
                     </div>
                 </div>
             </div>
-
             <div uib-accordion-group is-open="$ctrl.areaIsOpen" class="area-option" is-disabled="$ctrl.helper_exclusive ? !$ctrl.areaIsExclusive: false">
                 <div uib-accordion-heading>Areas</div>
                 <div class="row row-eq-height">
@@ -96,6 +95,20 @@
                     </div>
                     <div class="col-xs-2 vcenter" ng-if="$ctrl.helper_exclusive">
                         <a class="top-buffer btn btn-default ux-txt-success pointer" ng-class="{'disabled': !$ctrl.helper_keys.area}" ng-click="$ctrl.ok('area')" ng-disabled="!$ctrl.helper_keys.area">
+                            <i class="fa fa-lg fa-files-o" aria-hidden="true"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div uib-accordion-group is-open="$ctrl.bundleIsOpen" class="bundle-option" is-disabled="$ctrl.helper_exclusive ? !$ctrl.bundleIsExclusive: false">
+                <div uib-accordion-heading>Bundles</div>
+                <div class="row row-eq-height">
+                    <div class="col-xs-10">
+                        <custom-ui-select-bundle on-select-item="onSelectBundleKey($item, $model)" on-remove="onDeleteBundleKey()" bundle="$ctrl.bundle.selected" multiple="false">
+                        </custom-ui-select-bundle>
+                    </div>
+                    <div class="col-xs-2 vcenter" ng-if="$ctrl.helper_exclusive">
+                        <a class="top-buffer btn btn-default ux-txt-success pointer" ng-class="{'disabled': !$ctrl.helper_keys.bundle}" ng-click="$ctrl.ok('bundle')" ng-disabled="!$ctrl.helper_keys.bundle">
                             <i class="fa fa-lg fa-files-o" aria-hidden="true"></i>
                         </a>
                     </div>

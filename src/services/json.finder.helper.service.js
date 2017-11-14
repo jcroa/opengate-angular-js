@@ -15,6 +15,10 @@ angular.module('opengate-angular-js')
                 subscription: {
                     collected: new SubscriptionCollectedJsonFinderHelper(),
                     provisioned: new SubscriptionProvisionJsonFinderHelper()
+                },
+                asset: {
+                    collected: new AssetCollectedJsonFinderHelper(),
+                    provisioned: new AssetProvisionJsonFinderHelper()
                 }
             };
         }
@@ -146,6 +150,20 @@ SubscriptionProvisionJsonFinderHelper.prototype.getPath = function(field) {
     return path.replace('device.communicationModules[*].subscription', '');
 };
 
+////////////////////////////
+AssetCollectedJsonFinderHelper.prototype = new CollectedJsonFinderHelper();
+AssetCollectedJsonFinderHelper.prototype.getPath = function(field) {
+    var path = CollectedJsonFinderHelper.prototype.getPath.call(this, field);
+    return path.replace('device.', 'asset.');
+};
+
+AssetProvisionJsonFinderHelper.prototype = new ProvisionJsonFinderHelper();
+AssetProvisionJsonFinderHelper.prototype.getPath = function(field) {
+    var path = ProvisionJsonFinderHelper.prototype.getPath.call(this, field);
+    return path.replace('device.', 'asset.');
+};
+////////////////////////////
+
 function SubscriberProvisionJsonFinderHelper() {}
 
 function SubscriberCollectedJsonFinderHelper() {}
@@ -153,3 +171,7 @@ function SubscriberCollectedJsonFinderHelper() {}
 function SubscriptionCollectedJsonFinderHelper() {}
 
 function SubscriptionProvisionJsonFinderHelper() {}
+
+function AssetCollectedJsonFinderHelper() {}
+
+function AssetProvisionJsonFinderHelper() {}

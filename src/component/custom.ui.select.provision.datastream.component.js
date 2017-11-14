@@ -30,7 +30,12 @@ angular.module('opengate-angular-js').controller('customUiSelectProvisionDatastr
                     var datamodels = data.data.datamodels;
                     $http.post('/datamodels/default').then(
                         function(datamodels_default) {
-                            var identifiers_defaults = datamodels_default.data.datamodels.map(function(datamodel) { return datamodel.identifier; });
+                            var identifiers_defaults = '';
+
+                            if (datamodels_default.status !== 204) {
+                                identifiers_defaults = datamodels_default.data.datamodels.map(function(datamodel) { return datamodel.identifier; });
+                            }
+
                             datamodels = datamodels.filter(function(datamodel) {
                                 return identifiers_defaults.indexOf(datamodel.identifier) === -1;
                             });

@@ -467,6 +467,16 @@ AssetProvisionJsonFinderHelper.prototype.getPath = function (field) {
     return path.replace('device.', 'asset.');
 };
 
+function AssetProvisionJsonFinderHelper() {
+    Object.defineProperty(this, 'fields', {
+        value: Object.assign({},
+            this.fields, {
+                'image': 'provision.asset.image'
+            }),
+        writable: false
+    });
+}
+
 HumanCollectedJsonFinderHelper.prototype = new AssetCollectedJsonFinderHelper();
 
 HumanCollectedJsonFinderHelper.prototype.getPath = function (field) {
@@ -494,6 +504,18 @@ HumanProvisionJsonFinderHelper.prototype.getPath = function (field) {
     var result = path.replace('asset.', 'human.');
     return result.replace('device.', 'human.');
 };
+
+function HumanProvisionJsonFinderHelper() {
+    Object.defineProperty(this, 'fields', {
+        value: Object.assign({},
+            this.fields, {
+                'surname': 'provision.human.surname',
+                'surname2': 'provision.human.surname2',
+                'birthdate': 'provision.human.birthdate'
+            }),
+        writable: false
+    });
+}
 ////////////////////////////
 
 function SubscriberProvisionJsonFinderHelper() {}
@@ -503,14 +525,6 @@ function SubscriberCollectedJsonFinderHelper() {}
 function SubscriptionCollectedJsonFinderHelper() {}
 
 function SubscriptionProvisionJsonFinderHelper() {}
-
-function AssetCollectedJsonFinderHelper() {}
-
-function AssetProvisionJsonFinderHelper() {}
-
-function HumanCollectedJsonFinderHelper() {}
-
-function HumanProvisionJsonFinderHelper() {}
 
 
 /**
@@ -1257,56 +1271,6 @@ angular.module('opengate-angular-js')
             return input;
         };
     });
-angular.module('opengate-angular-js').config(["schemaFormProvider", "schemaFormDecoratorsProvider", "sfPathProvider", "sfBuilderProvider", function (schemaFormProvider, schemaFormDecoratorsProvider, sfPathProvider, sfBuilderProvider) {
-
-    var helper = function (name, schema, options) {
-        if (schema.type === 'string' && schema.format == 'helperdialog') {
-            var f = schemaFormProvider.stdFormObj(name, schema, options);
-            f.key = options.path;
-            f.type = 'helperdialog';
-
-            options.lookup[sfPathProvider.stringify(options.path)] = f;
-            return f;
-        }
-    };
-
-    schemaFormProvider.defaults.string.unshift(helper);
-
-    schemaFormDecoratorsProvider.defineAddOn(
-        'bootstrapDecorator',         // Name of the decorator you want to add to.
-        'helperdialog',                    // Form type that should render this add-on
-        'views/schema.form.helper.template.html',    // Template name in $templateCache
-        sfBuilderProvider.stdBuilders // List of builder functions to apply.
-    );
-
-    var customUiSelect = function (name, schema, options) {
-        if (schema.type === 'string' && schema.format == 'customuiselect') {
-            var f = schemaFormProvider.stdFormObj(name, schema, options);
-            f.key = options.path;
-            f.type = (schema.properties && schema.properties.type) ? schema.properties.type : 'string';
-            options.lookup[sfPathProvider.stringify(options.path)] = f;
-            return f;
-        }
-    };
-
-    schemaFormProvider.defaults.string.unshift(customUiSelect);
-
-    schemaFormDecoratorsProvider.defineAddOn(
-        'bootstrapDecorator',         // Name of the decorator you want to add to.
-        'entity',                    // Form type that should render this add-on
-        'views/schema.form.entity.template.html',    // Template name in $templateCache
-        sfBuilderProvider.stdBuilders // List of builder functions to apply.
-    );
-
-    schemaFormDecoratorsProvider.defineAddOn(
-        'bootstrapDecorator',         // Name of the decorator you want to add to.
-        'datastream',                    // Form type that should render this add-on
-        'views/schema.form.datastream.template.html',    // Template name in $templateCache
-        sfBuilderProvider.stdBuilders // List of builder functions to apply.
-    );
-
-}]);
-
 
 angular.module('opengate-angular-js').directive('windowTimeSelect', function() { // ['$scope', '$compile'], function($scope, $compile) {
 
@@ -1855,6 +1819,56 @@ angular.module('opengate-angular-js')
             }
         };
     }]);
+angular.module('opengate-angular-js').config(["schemaFormProvider", "schemaFormDecoratorsProvider", "sfPathProvider", "sfBuilderProvider", function (schemaFormProvider, schemaFormDecoratorsProvider, sfPathProvider, sfBuilderProvider) {
+
+    var helper = function (name, schema, options) {
+        if (schema.type === 'string' && schema.format == 'helperdialog') {
+            var f = schemaFormProvider.stdFormObj(name, schema, options);
+            f.key = options.path;
+            f.type = 'helperdialog';
+
+            options.lookup[sfPathProvider.stringify(options.path)] = f;
+            return f;
+        }
+    };
+
+    schemaFormProvider.defaults.string.unshift(helper);
+
+    schemaFormDecoratorsProvider.defineAddOn(
+        'bootstrapDecorator',         // Name of the decorator you want to add to.
+        'helperdialog',                    // Form type that should render this add-on
+        'views/schema.form.helper.template.html',    // Template name in $templateCache
+        sfBuilderProvider.stdBuilders // List of builder functions to apply.
+    );
+
+    var customUiSelect = function (name, schema, options) {
+        if (schema.type === 'string' && schema.format == 'customuiselect') {
+            var f = schemaFormProvider.stdFormObj(name, schema, options);
+            f.key = options.path;
+            f.type = (schema.properties && schema.properties.type) ? schema.properties.type : 'string';
+            options.lookup[sfPathProvider.stringify(options.path)] = f;
+            return f;
+        }
+    };
+
+    schemaFormProvider.defaults.string.unshift(customUiSelect);
+
+    schemaFormDecoratorsProvider.defineAddOn(
+        'bootstrapDecorator',         // Name of the decorator you want to add to.
+        'entity',                    // Form type that should render this add-on
+        'views/schema.form.entity.template.html',    // Template name in $templateCache
+        sfBuilderProvider.stdBuilders // List of builder functions to apply.
+    );
+
+    schemaFormDecoratorsProvider.defineAddOn(
+        'bootstrapDecorator',         // Name of the decorator you want to add to.
+        'datastream',                    // Form type that should render this add-on
+        'views/schema.form.datastream.template.html',    // Template name in $templateCache
+        sfBuilderProvider.stdBuilders // List of builder functions to apply.
+    );
+
+}]);
+
 /**
  * Created by Monica on 12/09/2016.
  */

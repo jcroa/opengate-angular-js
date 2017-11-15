@@ -177,6 +177,16 @@ AssetProvisionJsonFinderHelper.prototype.getPath = function (field) {
     return path.replace('device.', 'asset.');
 };
 
+function AssetProvisionJsonFinderHelper() {
+    Object.defineProperty(this, 'fields', {
+        value: Object.assign({},
+            this.fields, {
+                'image': 'provision.asset.image'
+            }),
+        writable: false
+    });
+}
+
 HumanCollectedJsonFinderHelper.prototype = new AssetCollectedJsonFinderHelper();
 
 HumanCollectedJsonFinderHelper.prototype.getPath = function (field) {
@@ -204,6 +214,18 @@ HumanProvisionJsonFinderHelper.prototype.getPath = function (field) {
     var result = path.replace('asset.', 'human.');
     return result.replace('device.', 'human.');
 };
+
+function HumanProvisionJsonFinderHelper() {
+    Object.defineProperty(this, 'fields', {
+        value: Object.assign({},
+            this.fields, {
+                'surname': 'provision.human.surname',
+                'surname2': 'provision.human.surname2',
+                'birthdate': 'provision.human.birthdate'
+            }),
+        writable: false
+    });
+}
 ////////////////////////////
 
 function SubscriberProvisionJsonFinderHelper() {}
@@ -213,11 +235,3 @@ function SubscriberCollectedJsonFinderHelper() {}
 function SubscriptionCollectedJsonFinderHelper() {}
 
 function SubscriptionProvisionJsonFinderHelper() {}
-
-function AssetCollectedJsonFinderHelper() {}
-
-function AssetProvisionJsonFinderHelper() {}
-
-function HumanCollectedJsonFinderHelper() {}
-
-function HumanProvisionJsonFinderHelper() {}

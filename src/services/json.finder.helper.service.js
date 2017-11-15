@@ -2,7 +2,7 @@
 
 angular.module('opengate-angular-js')
     .service('$jsonFinderHelper', ['jsonPath',
-        function(jsonPath) {
+        function (jsonPath) {
             JsonFinderHelper.prototype.jsonPath = jsonPath;
             return {
                 administration: new JsonFinderHelper(),
@@ -19,23 +19,27 @@ angular.module('opengate-angular-js')
                 asset: {
                     collected: new AssetCollectedJsonFinderHelper(),
                     provisioned: new AssetProvisionJsonFinderHelper()
+                },
+                human: {
+                    collected: new HumanCollectedJsonFinderHelper(),
+                    provisioned: new HumanProvisionJsonFinderHelper()
                 }
             };
         }
     ]);
 
-JsonFinderHelper.prototype.getPath = function(field) {
+JsonFinderHelper.prototype.getPath = function (field) {
     if (!this.fields[field]) throw new Error('Field <' + field + '> not found. Available:' + JSON.stringify(Object.keys(this.fields)));
     return this.fields[field].replace('[]', '[*]');
 };
-JsonFinderHelper.prototype.getAmpliaPath = function(field) {
+JsonFinderHelper.prototype.getAmpliaPath = function (field) {
     if (!this.fields[field]) throw new Error('Field <' + field + '> not found. Available:' + JSON.stringify(Object.keys(this.fields)));
     return this.fields[field];
 };
-JsonFinderHelper.prototype.findOne = function(data, field) {
+JsonFinderHelper.prototype.findOne = function (data, field) {
     return this.findAll(data, field)[0];
 };
-JsonFinderHelper.prototype.findAll = function(data, field) {
+JsonFinderHelper.prototype.findAll = function (data, field) {
     return this.jsonPath(data, this.getPath(field) + '._current.value') || [];
 };
 
@@ -96,14 +100,14 @@ function CollectedJsonFinderHelper() {
 
 ProvisionJsonFinderHelper.prototype = new CollectedJsonFinderHelper();
 
-ProvisionJsonFinderHelper.prototype.getPath = function(field) {
+ProvisionJsonFinderHelper.prototype.getPath = function (field) {
     var path = JsonFinderHelper.prototype.getPath.call(this, field);
     if (!path.startsWith('provision.')) {
         path = 'provision.' + path;
     }
     return path;
 };
-ProvisionJsonFinderHelper.prototype.getAmpliaPath = function(field) {
+ProvisionJsonFinderHelper.prototype.getAmpliaPath = function (field) {
     var path = JsonFinderHelper.prototype.getAmpliaPath.call(this, field);
     if (!path.startsWith('provision.')) {
         path = 'provision.' + path;
@@ -125,42 +129,80 @@ function ProvisionJsonFinderHelper() {
     });
 }
 
-
 SubscriberCollectedJsonFinderHelper.prototype = new CollectedJsonFinderHelper();
-SubscriberCollectedJsonFinderHelper.prototype.getPath = function(field) {
+SubscriberCollectedJsonFinderHelper.prototype.getPath = function (field) {
     var path = CollectedJsonFinderHelper.prototype.getPath.call(this, field);
     return path.replace('device.communicationModules[*].subscriber', '');
 };
 
 SubscriberProvisionJsonFinderHelper.prototype = new ProvisionJsonFinderHelper();
-SubscriberProvisionJsonFinderHelper.prototype.getPath = function(field) {
+SubscriberProvisionJsonFinderHelper.prototype.getPath = function (field) {
     var path = ProvisionJsonFinderHelper.prototype.getPath.call(this, field);
     return path.replace('device.communicationModules[*].subscriber', '');
 };
 
 SubscriptionCollectedJsonFinderHelper.prototype = new CollectedJsonFinderHelper();
-SubscriptionCollectedJsonFinderHelper.prototype.getPath = function(field) {
+SubscriptionCollectedJsonFinderHelper.prototype.getPath = function (field) {
     var path = CollectedJsonFinderHelper.prototype.getPath.call(this, field);
     return path.replace('device.communicationModules[*].subscription', '');
 };
 
 SubscriptionProvisionJsonFinderHelper.prototype = new ProvisionJsonFinderHelper();
-SubscriptionProvisionJsonFinderHelper.prototype.getPath = function(field) {
+SubscriptionProvisionJsonFinderHelper.prototype.getPath = function (field) {
     var path = ProvisionJsonFinderHelper.prototype.getPath.call(this, field);
     return path.replace('device.communicationModules[*].subscription', '');
 };
 
 ////////////////////////////
 AssetCollectedJsonFinderHelper.prototype = new CollectedJsonFinderHelper();
-AssetCollectedJsonFinderHelper.prototype.getPath = function(field) {
+
+AssetCollectedJsonFinderHelper.prototype.getPath = function (field) {
     var path = CollectedJsonFinderHelper.prototype.getPath.call(this, field);
     return path.replace('device.', 'asset.');
 };
 
+function AssetCollectedJsonFinderHelper() {
+    Object.defineProperty(this, 'fields', {
+        value: Object.assign({},
+            this.fields, {
+                'image': 'asset.image'
+            }),
+        writable: false
+    });
+}
+
 AssetProvisionJsonFinderHelper.prototype = new ProvisionJsonFinderHelper();
-AssetProvisionJsonFinderHelper.prototype.getPath = function(field) {
+AssetProvisionJsonFinderHelper.prototype.getPath = function (field) {
     var path = ProvisionJsonFinderHelper.prototype.getPath.call(this, field);
     return path.replace('device.', 'asset.');
+};
+
+HumanCollectedJsonFinderHelper.prototype = new AssetCollectedJsonFinderHelper();
+
+HumanCollectedJsonFinderHelper.prototype.getPath = function (field) {
+    var path = AssetCollectedJsonFinderHelper.prototype.getPath.call(this, field);
+    var result = path.replace('asset.', 'human.');
+    return result.replace('device.', 'human.');
+};
+
+function HumanCollectedJsonFinderHelper() {
+    Object.defineProperty(this, 'fields', {
+        value: Object.assign({},
+            this.fields, {
+                'surname': 'human.surname',
+                'surname2': 'human.surname2',
+                'birthdate': 'human.birthdate'
+            }),
+        writable: false
+    });
+}
+
+HumanProvisionJsonFinderHelper.prototype = new AssetProvisionJsonFinderHelper();
+
+HumanProvisionJsonFinderHelper.prototype.getPath = function (field) {
+    var path = AssetProvisionJsonFinderHelper.prototype.getPath.call(this, field);
+    var result = path.replace('asset.', 'human.');
+    return result.replace('device.', 'human.');
 };
 ////////////////////////////
 
@@ -175,3 +217,7 @@ function SubscriptionProvisionJsonFinderHelper() {}
 function AssetCollectedJsonFinderHelper() {}
 
 function AssetProvisionJsonFinderHelper() {}
+
+function HumanCollectedJsonFinderHelper() {}
+
+function HumanProvisionJsonFinderHelper() {}

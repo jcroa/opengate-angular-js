@@ -2,87 +2,106 @@
 
 
 angular.module('opengate-angular-js').controller('customUiSelectProvisionDatastreamController', ['$scope', '$element', '$attrs', '$api', '$q', '$http',
-    function($scope, $element, $attrs, $api, $q, $http) {
+    function ($scope, $element, $attrs, $api, $q, $http) {
         var ctrl = this;
+        var internal_catalog = ["internal", "provisionSubscriber", "pr,ovisionGeneric", "provisionDevice", "provisionAsset", "provisionSubscription"];
+
         ctrl.ownConfig = {
             builder: $api().datamodelsSearchBuilder(),
-            filter: function(search) {
+            filter: function (search) {
                 ctrl.lastSearch = search;
                 var filter = {
-                    and: [
-                        { like: { 'datamodels.categories.datastreams.name': '^(provision\.).*' } },
-                        { like: { 'datamodels.categories.datastreams.name': '^(?!provision\.administration\.).*' } },
-                        { like: { 'datamodels.categories.datastreams.name': '^(?!provision\.device\.).*' } },
-                        { like: { 'datamodels.categories.datastreams.name': '^(?!provision\.asset\.).*' } }
+                    and: [{
+                            like: {
+                                'datamodels.categories.datastreams.name': '^(provision\.).*'
+                            }
+                        },
+                        {
+                            like: {
+                                'datamodels.categories.datastreams.name': '^(?!provision\.administration\.).*'
+                            }
+                        },
+                        {
+                            like: {
+                                'datamodels.categories.datastreams.name': '^(?!provision\.device\.).*'
+                            }
+                        },
+                        {
+                            like: {
+                                'datamodels.categories.datastreams.name': '^(?!provision\.asset\.).*'
+                            }
+                        }
                     ]
                 };
+                if (ctrl.allowedResourceTypes) {
+                    var allowedResourceTypes = ctrl.allowedResourceTypes.replace("\s*,\s*", ",").split(",");
+                    filter.and.push({
+                        'in': {
+                            'datamodels.allowedResourceTypes': allowedResourceTypes
+                        }
+                    })
+                }
                 if (search) {
-                    filter.and.push({ 'like': { 'datamodels.categories.datastreams.name': search } });
+                    filter.and.push({
+                        'like': {
+                            'datamodels.categories.datastreams.name': search
+                        }
+                    });
                 }
                 return filter;
             },
             rootKey: 'datamodels',
             collection: [],
-            processingData: function(data, collection) {
-                if (!ctrl.lastSearch) return $q(function(ok) { ok([]); });
-                return $q(function(ok) {
+            processingData: function (data, collection) {
+                if (!ctrl.lastSearch) return $q(function (ok) {
+                    ok([]);
+                });
+                return $q(function (ok) {
                     var _datastreams = [];
                     var datamodels = data.data.datamodels;
-                    $http.post('/datamodels/default').then(
-                        function(datamodels_default) {
-                            var identifiers_defaults = '';
-
-                            if (datamodels_default.status !== 204) {
-                                identifiers_defaults = datamodels_default.data.datamodels.map(function(datamodel) { return datamodel.identifier; });
-                            }
-
-                            datamodels = datamodels.filter(function(datamodel) {
-                                return identifiers_defaults.indexOf(datamodel.identifier) === -1;
-                            });
-                            angular.forEach(datamodels, function(datamodel, key) {
-                                var categories = datamodel.categories;
-                                var _datamodel = {
-                                    identifier: datamodel.identifier,
-                                    description: datamodel.description,
-                                    name: datamodel.name,
-                                    organization: datamodel.organizationName
-                                };
-                                angular.forEach(categories, function(category, key) {
-                                    var datastreams = category.datastreams;
-                                    var _category = { identifier: category.identifier };
-                                    angular.forEach(datastreams
-                                        .filter(function(ds) {
-                                            return (ds.identifier.indexOf(ctrl.lastSearch) > -1 && !!ctrl.lastSearch.length) || !ctrl.lastSearch;
-                                        }),
-                                        function(datastream, key) {
-                                            var _datastream = angular.copy(datastream);
-                                            _datastream.datamodel = _datamodel;
-                                            _datastream.category = _category;
-                                            _datastreams.push(_datastream);
-                                        });
-                                });
-                            });
-                            angular.copy(_datastreams, collection);
-                            ok(collection);
-                        }
-                    ).catch(function(err) {
-                        console.error(err);
-                        ok([]);
+                    datamodels = datamodels.filter(function (datamodel) {
+                        return internal_catalog.indexOf(datamodel.identifier) === -1;
                     });
-
+                    angular.forEach(datamodels, function (datamodel, key) {
+                        var categories = datamodel.categories;
+                        var _datamodel = {
+                            identifier: datamodel.identifier,
+                            description: datamodel.description,
+                            name: datamodel.name,
+                            organization: datamodel.organizationName
+                        };
+                        angular.forEach(categories, function (category, key) {
+                            var datastreams = category.datastreams;
+                            var _category = {
+                                identifier: category.identifier
+                            };
+                            angular.forEach(datastreams
+                                .filter(function (ds) {
+                                    return (ds.identifier.indexOf(ctrl.lastSearch) > -1 && !!ctrl.lastSearch.length) || !ctrl.lastSearch;
+                                }),
+                                function (datastream, key) {
+                                    var _datastream = angular.copy(datastream);
+                                    _datastream.datamodel = _datamodel;
+                                    _datastream.category = _category;
+                                    _datastreams.push(_datastream);
+                                });
+                        });
+                    });
+                    angular.copy(_datastreams, collection);
+                    ok(collection);
                 });
             },
             customSelectors: $api().datamodelsSearchBuilder()
         };
 
-        ctrl.datastreamSelected = function($item, $model) {
+        ctrl.datastreamSelected = function ($item, $model) {
             var return_obj = {};
             return_obj['$item'] = $item;
             return_obj['$model'] = $model;
             ctrl.onSelectItem(return_obj);
         };
 
-        ctrl.datastreamRemove = function($item, $model) {
+        ctrl.datastreamRemove = function ($item, $model) {
             var return_obj = {};
             return_obj['$item'] = $item;
             return_obj['$model'] = $model;
@@ -99,7 +118,8 @@ angular.module('opengate-angular-js').component('customUiSelectProvisionDatastre
         onRemove: '&',
         datastream: '=',
         multiple: '<',
-        isRequired: '='
+        isRequired: '=',
+        allowedResourceTypes: '='
     }
 
 });

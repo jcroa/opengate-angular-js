@@ -1271,6 +1271,56 @@ angular.module('opengate-angular-js')
             return input;
         };
     });
+angular.module('opengate-angular-js').config(["schemaFormProvider", "schemaFormDecoratorsProvider", "sfPathProvider", "sfBuilderProvider", function (schemaFormProvider, schemaFormDecoratorsProvider, sfPathProvider, sfBuilderProvider) {
+
+    var helper = function (name, schema, options) {
+        if (schema.type === 'string' && schema.format == 'helperdialog') {
+            var f = schemaFormProvider.stdFormObj(name, schema, options);
+            f.key = options.path;
+            f.type = 'helperdialog';
+
+            options.lookup[sfPathProvider.stringify(options.path)] = f;
+            return f;
+        }
+    };
+
+    schemaFormProvider.defaults.string.unshift(helper);
+
+    schemaFormDecoratorsProvider.defineAddOn(
+        'bootstrapDecorator',         // Name of the decorator you want to add to.
+        'helperdialog',                    // Form type that should render this add-on
+        'views/schema.form.helper.template.html',    // Template name in $templateCache
+        sfBuilderProvider.stdBuilders // List of builder functions to apply.
+    );
+
+    var customUiSelect = function (name, schema, options) {
+        if (schema.type === 'string' && schema.format == 'customuiselect') {
+            var f = schemaFormProvider.stdFormObj(name, schema, options);
+            f.key = options.path;
+            f.type = (schema.properties && schema.properties.type) ? schema.properties.type : 'string';
+            options.lookup[sfPathProvider.stringify(options.path)] = f;
+            return f;
+        }
+    };
+
+    schemaFormProvider.defaults.string.unshift(customUiSelect);
+
+    schemaFormDecoratorsProvider.defineAddOn(
+        'bootstrapDecorator',         // Name of the decorator you want to add to.
+        'entity',                    // Form type that should render this add-on
+        'views/schema.form.entity.template.html',    // Template name in $templateCache
+        sfBuilderProvider.stdBuilders // List of builder functions to apply.
+    );
+
+    schemaFormDecoratorsProvider.defineAddOn(
+        'bootstrapDecorator',         // Name of the decorator you want to add to.
+        'datastream',                    // Form type that should render this add-on
+        'views/schema.form.datastream.template.html',    // Template name in $templateCache
+        sfBuilderProvider.stdBuilders // List of builder functions to apply.
+    );
+
+}]);
+
 
 angular.module('opengate-angular-js').directive('windowTimeSelect', function() { // ['$scope', '$compile'], function($scope, $compile) {
 
@@ -1825,56 +1875,6 @@ angular.module('opengate-angular-js')
             }
         };
     }]);
-angular.module('opengate-angular-js').config(["schemaFormProvider", "schemaFormDecoratorsProvider", "sfPathProvider", "sfBuilderProvider", function (schemaFormProvider, schemaFormDecoratorsProvider, sfPathProvider, sfBuilderProvider) {
-
-    var helper = function (name, schema, options) {
-        if (schema.type === 'string' && schema.format == 'helperdialog') {
-            var f = schemaFormProvider.stdFormObj(name, schema, options);
-            f.key = options.path;
-            f.type = 'helperdialog';
-
-            options.lookup[sfPathProvider.stringify(options.path)] = f;
-            return f;
-        }
-    };
-
-    schemaFormProvider.defaults.string.unshift(helper);
-
-    schemaFormDecoratorsProvider.defineAddOn(
-        'bootstrapDecorator',         // Name of the decorator you want to add to.
-        'helperdialog',                    // Form type that should render this add-on
-        'views/schema.form.helper.template.html',    // Template name in $templateCache
-        sfBuilderProvider.stdBuilders // List of builder functions to apply.
-    );
-
-    var customUiSelect = function (name, schema, options) {
-        if (schema.type === 'string' && schema.format == 'customuiselect') {
-            var f = schemaFormProvider.stdFormObj(name, schema, options);
-            f.key = options.path;
-            f.type = (schema.properties && schema.properties.type) ? schema.properties.type : 'string';
-            options.lookup[sfPathProvider.stringify(options.path)] = f;
-            return f;
-        }
-    };
-
-    schemaFormProvider.defaults.string.unshift(customUiSelect);
-
-    schemaFormDecoratorsProvider.defineAddOn(
-        'bootstrapDecorator',         // Name of the decorator you want to add to.
-        'entity',                    // Form type that should render this add-on
-        'views/schema.form.entity.template.html',    // Template name in $templateCache
-        sfBuilderProvider.stdBuilders // List of builder functions to apply.
-    );
-
-    schemaFormDecoratorsProvider.defineAddOn(
-        'bootstrapDecorator',         // Name of the decorator you want to add to.
-        'datastream',                    // Form type that should render this add-on
-        'views/schema.form.datastream.template.html',    // Template name in $templateCache
-        sfBuilderProvider.stdBuilders // List of builder functions to apply.
-    );
-
-}]);
-
 /**
  * Created by Monica on 12/09/2016.
  */
@@ -2455,20 +2455,49 @@ angular.module('opengate-angular-js').component('customUiSelectSubscriber', {
 angular.module('opengate-angular-js').controller('customUiSelectProvisionDatastreamController', ['$scope', '$element', '$attrs', '$api', '$q', '$http',
     function($scope, $element, $attrs, $api, $q, $http) {
         var ctrl = this;
+        var internal_catalog = ["internal", "provisionSubscriber", "pr,ovisionGeneric", "provisionDevice", "provisionAsset", "provisionSubscription"];
+
         ctrl.ownConfig = {
             builder: $api().datamodelsSearchBuilder(),
             filter: function(search) {
                 ctrl.lastSearch = search;
                 var filter = {
-                    and: [
-                        { like: { 'datamodels.categories.datastreams.name': '^(provision\.).*' } },
-                        { like: { 'datamodels.categories.datastreams.name': '^(?!provision\.administration\.).*' } },
-                        { like: { 'datamodels.categories.datastreams.name': '^(?!provision\.device\.).*' } },
-                        { like: { 'datamodels.categories.datastreams.name': '^(?!provision\.asset\.).*' } }
+                    and: [{
+                            like: {
+                                'datamodels.categories.datastreams.name': '^(provision\.).*'
+                            }
+                        },
+                        {
+                            like: {
+                                'datamodels.categories.datastreams.name': '^(?!provision\.administration\.).*'
+                            }
+                        },
+                        {
+                            like: {
+                                'datamodels.categories.datastreams.name': '^(?!provision\.device\.).*'
+                            }
+                        },
+                        {
+                            like: {
+                                'datamodels.categories.datastreams.name': '^(?!provision\.asset\.).*'
+                            }
+                        }
                     ]
                 };
+                if (ctrl.allowedResourceTypes) {
+                    var allowedResourceTypes = ctrl.allowedResourceTypes.replace("\s*,\s*", ",").split(",");
+                    filter.and.push({
+                        'in': {
+                            'datamodels.allowedResourceTypes': allowedResourceTypes
+                        }
+                    })
+                }
                 if (search) {
-                    filter.and.push({ 'like': { 'datamodels.categories.datastreams.name': search } });
+                    filter.and.push({
+                        'like': {
+                            'datamodels.categories.datastreams.name': search
+                        }
+                    });
                 }
                 return filter;
             },
@@ -2479,48 +2508,36 @@ angular.module('opengate-angular-js').controller('customUiSelectProvisionDatastr
                 return $q(function(ok) {
                     var _datastreams = [];
                     var datamodels = data.data.datamodels;
-                    $http.post('/datamodels/default').then(
-                        function(datamodels_default) {
-                            var identifiers_defaults = '';
-
-                            if (datamodels_default.status !== 204) {
-                                identifiers_defaults = datamodels_default.data.datamodels.map(function(datamodel) { return datamodel.identifier; });
-                            }
-
-                            datamodels = datamodels.filter(function(datamodel) {
-                                return identifiers_defaults.indexOf(datamodel.identifier) === -1;
-                            });
-                            angular.forEach(datamodels, function(datamodel, key) {
-                                var categories = datamodel.categories;
-                                var _datamodel = {
-                                    identifier: datamodel.identifier,
-                                    description: datamodel.description,
-                                    name: datamodel.name,
-                                    organization: datamodel.organizationName
-                                };
-                                angular.forEach(categories, function(category, key) {
-                                    var datastreams = category.datastreams;
-                                    var _category = { identifier: category.identifier };
-                                    angular.forEach(datastreams
-                                        .filter(function(ds) {
-                                            return (ds.identifier.indexOf(ctrl.lastSearch) > -1 && !!ctrl.lastSearch.length) || !ctrl.lastSearch;
-                                        }),
-                                        function(datastream, key) {
-                                            var _datastream = angular.copy(datastream);
-                                            _datastream.datamodel = _datamodel;
-                                            _datastream.category = _category;
-                                            _datastreams.push(_datastream);
-                                        });
-                                });
-                            });
-                            angular.copy(_datastreams, collection);
-                            ok(collection);
-                        }
-                    ).catch(function(err) {
-                        console.error(err);
-                        ok([]);
+                    datamodels = datamodels.filter(function(datamodel) {
+                        return internal_catalog.indexOf(datamodel.identifier) === -1;
                     });
-
+                    angular.forEach(datamodels, function(datamodel, key) {
+                        var categories = datamodel.categories;
+                        var _datamodel = {
+                            identifier: datamodel.identifier,
+                            description: datamodel.description,
+                            name: datamodel.name,
+                            organization: datamodel.organizationName
+                        };
+                        angular.forEach(categories, function(category, key) {
+                            var datastreams = category.datastreams;
+                            var _category = {
+                                identifier: category.identifier
+                            };
+                            angular.forEach(datastreams
+                                .filter(function(ds) {
+                                    return (ds.identifier.indexOf(ctrl.lastSearch) > -1 && !!ctrl.lastSearch.length) || !ctrl.lastSearch;
+                                }),
+                                function(datastream, key) {
+                                    var _datastream = angular.copy(datastream);
+                                    _datastream.datamodel = _datamodel;
+                                    _datastream.category = _category;
+                                    _datastreams.push(_datastream);
+                                });
+                        });
+                    });
+                    angular.copy(_datastreams, collection);
+                    ok(collection);
                 });
             },
             customSelectors: $api().datamodelsSearchBuilder()
@@ -2550,7 +2567,8 @@ angular.module('opengate-angular-js').component('customUiSelectProvisionDatastre
         onRemove: '&',
         datastream: '=',
         multiple: '<',
-        isRequired: '='
+        isRequired: '=',
+        allowedResourceTypes: '='
     }
 
 });

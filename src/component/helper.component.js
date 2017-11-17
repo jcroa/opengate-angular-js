@@ -88,12 +88,12 @@ _wizard.controller('helperDialogController', ['$scope', '$element', '$attrs', '$
     };
 }]);
 
-_wizard.controller('helperDialogModalController', ['$scope', '$uibModalInstance', 'helper_id', 'helper_exclusive', 'specific_type', 'helper_extra', 'helper_selected',
-    function($scope, $uibModalInstance, helper_id, helper_exclusive, specific_type, helper_extra, helper_selected) {
+_wizard.controller('helperDialogModalController', ['$scope', '$uibModalInstance', 'helper_id', 'helper_exclusive', 'specific_type', 'helper_extra', 'helper_selected', 'Upload',
+    function($scope, $uibModalInstance, helper_id, helper_exclusive, specific_type, helper_extra, helper_selected, Upload) {
         var $ctrl = this;
         $ctrl.helper_extra = helper_extra;
 
-        // Extraer el primer bloque de letras
+        // Extraer el primer bloque de letras para intentar determinar el tipo de campo
         var regex = /(\w|0-9)+/g;
         helper_id = regex.exec(helper_id.toLowerCase())[0];
 
@@ -346,6 +346,30 @@ _wizard.controller('helperDialogModalController', ['$scope', '$uibModalInstance'
 
         $scope.onDeleteBundleKey = function() {
             delete $ctrl.helper_keys.bundle;
+        };
+
+        // imagen
+        if (helper_selected && helper_selected.image) {
+            $ctrl.helper_keys.image = {
+                image: helper_selected.image
+            };
+        }
+
+        $scope.imageSelected = function(file) {
+            if (file) {
+                Upload.base64DataUrl(file).then(
+                    function(url) {
+                        $ctrl.helper_keys['image'] = {
+                            image: url
+                        };
+                    });
+            } else {
+                $ctrl.removeDataFile();
+            }
+        };
+
+        $scope.removeDataFile = function() {
+            delete $ctrl.helper_keys.image;
         };
 
         //Condicion para botón de aplicar todo lo seleccionado en los helpers

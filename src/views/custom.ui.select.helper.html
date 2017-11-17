@@ -8,10 +8,13 @@
     <label for="{{$ctrl.id}}">{{$ctrl.labelText}}</label>
     <ui-select id="{{$ctrl.id}}" name="{{$ctrl.name}}" ng-model="$ctrl.helperModel" theme="bootstrap" title="Choose an option" ng-required="$ctrl.required" tagging="$ctrl.helperTagTransform" tagging-label="false">
         <ui-select-match placeholder="Choose an option">
-            {{$select.selected.value}}
+            <span ng-if="$select.selected && $select.selected.key !== 'image'">{{$select.selected.value}}</span>
+            <img ng-if="$select.selected && $select.selected.key === 'image'" src="{{ $select.selected.value }}" style="max-height:30px;"></img>
         </ui-select-match>
         <ui-select-choices repeat="parameter.value as (key, parameter) in $ctrl.$helper_keys | filter: $select.search">
-            <span ng-bind-html="parameter.key | highlight: $select.search | humanize"></span>: <small ng-bind-html="parameter.value | highlight: $select.search"></small>
+            <span ng-bind-html="parameter.key | highlight: $select.search | humanize"></span>:
+            <small ng-if="parameter.key !== 'image'" ng-bind-html="parameter.value | highlight: $select.search"></small>
+            <img ng-if="parameter.key === 'image'" src="{{ parameter.value }}" style="max-height:30px;"></img>
         </ui-select-choices>
     </ui-select>
     <span class="help-inline" ng-show="!$ctrl.helperModel && $ctrl.required">Field is required</span>

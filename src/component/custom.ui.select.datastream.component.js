@@ -23,7 +23,7 @@ angular.module('opengate-angular-js').controller('customUiSelectDatastreamContro
         rootKey: 'datamodels',
         collection: [],
         processingData: function(data, collection) {
-            if (!ctrl.lastSearch) return $q(function(ok) { ok(); });
+            //if (!ctrl.lastSearch) return $q(function(ok) { ok(); });
             return $q(function(C_ok) {
                 var _datastreams = [];
                 var datamodels = data.data.datamodels;

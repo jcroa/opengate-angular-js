@@ -24,7 +24,7 @@ angular.module('opengate-angular-js').controller('customUiSelectProvisionDatastr
             rootKey: 'datamodels',
             collection: [],
             processingData: function(data, collection) {
-                if (!ctrl.lastSearch) return $q(function(ok) { ok([]); });
+                //if (!ctrl.lastSearch) return $q(function(ok) { ok([]); });
                 return $q(function(ok) {
                     var _datastreams = [];
                     var datamodels = data.data.datamodels;

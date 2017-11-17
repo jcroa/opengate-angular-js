@@ -114,6 +114,25 @@
                     </div>
                 </div>
             </div>
+            <div uib-accordion-group is-open="$ctrl.imageIsOpen" class="image-option" is-disabled="$ctrl.helper_exclusive ? !$ctrl.imageIsExclusive: false">
+                <div uib-accordion-heading>Image</div>
+                <div class="row row-eq-height">
+                    <div class="col-xs-12 col-md-8">
+                        <div name="image" ng-if="!$ctrl.helper_keys.image && !$ctrl.helper_keys.image.image" ngf-drop ng-model="$ctrl.image" ngf-max-size="1MB" ngf-select="imageSelected($file)" class="drop-box pointer" ngf-drag-over-class="'dragover'" ngf-multiple="false" ng-required="$ctrl.helper_keys.image"
+                            ngf-accept="'image/*'" ngf-dimensions="$width === $height" ngf-pattern="'image/*'">Click here or drop file here
+                            <br>(max. size 1 MB)</div>
+                        <img ng-if="$ctrl.helper_keys.image && $ctrl.helper_keys.image.image" src="{{ $ctrl.helper_keys.image.image }}" style="max-height:200px;" name="image" />
+                    </div>
+                    <div class="col-xs-12 col-md-4">
+                        <button id="idRemoveFileLink" ng-if="$ctrl.helper_keys.image && $ctrl.helper_keys.image.image" ng-click="removeDataFile()" class="btn btn-warning ux-txt-warning pointer">
+                            <i class="fa fa-trash" aria-hidden="true"></i> Remove</button>
+
+                        <a ng-if="$ctrl.helper_exclusive" class="top-buffer btn btn-default ux-txt-success pointer" ng-class="{'disabled': !$ctrl.helper_keys.bundle}" ng-click="$ctrl.ok('bundle')" ng-disabled="!$ctrl.helper_keys.bundle">
+                            <i class="fa fa-lg fa-files-o" aria-hidden="true"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
         </uib-accordion>
     </div>
     <div class="modal-footer">

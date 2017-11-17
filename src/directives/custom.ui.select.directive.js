@@ -20,7 +20,7 @@ angular.module('opengate-angular-js')
             require: 'uiSelect',
             scope: true,
             bindToController: true,
-            controller: function($scope, $element, $attrs, $q) {
+            controller: function($scope, $element, $attrs, $q, $timeout) {
                 var uiConfig = getConfig();
 
                 function processFilter(_filter) {
@@ -104,20 +104,35 @@ angular.module('opengate-angular-js')
                     lastTimeout = setTimeout(function() { _loadCollectionTimeout(builder, collection, id, filter); }, 500);
                 }
 
-                function _loadCollectionTimeout(builder, collection, id, filter) {
-                    $attrs.$$button.querySelectorAll('.filter-icon').removeClass('fa-bold').removeClass('fa-font').addClass('fa-spinner').addClass('fa-spin');
-                    builder.limit(1000).filter(filter).build().execute().then(
-                        function(data) {
-                            if ($scope._complex) {
-                                $attrs.$$button.querySelectorAll('.filter-icon').removeClass('fa-spinner').removeClass('fa-spin').addClass('fa-font');
-                            } else {
-                                $attrs.$$button.querySelectorAll('.filter-icon').removeClass('fa-spinner').removeClass('fa-spin').addClass('fa-bold');
-                            }
+                var lastFilter = null;
 
-                            if (data.statusCode === 200) {
-                                var datas = data.data[id];
-                                if (angular.isFunction(uiConfig.processingData)) {
-                                    uiConfig.processingData(data, datas).then(function(datas) {
+                function _loadCollectionTimeout(builder, collection, id, filter) {
+                    if (!lastFilter || !angular.equals(lastFilter, filter)) {
+                        lastFilter = angular.copy(filter);
+                        $attrs.$$button.querySelectorAll('.filter-icon').removeClass('fa-bold').removeClass('fa-font').addClass('fa-spinner').addClass('fa-spin');
+                        builder.limit(1000).filter(filter).build().execute().then(
+                            function(data) {
+                                if ($scope._complex) {
+                                    $attrs.$$button.querySelectorAll('.filter-icon').removeClass('fa-spinner').removeClass('fa-spin').addClass('fa-font');
+                                } else {
+                                    $attrs.$$button.querySelectorAll('.filter-icon').removeClass('fa-spinner').removeClass('fa-spin').addClass('fa-bold');
+                                }
+
+                                if (data.statusCode === 200) {
+                                    var datas = data.data[id];
+                                    if (angular.isFunction(uiConfig.processingData)) {
+                                        uiConfig.processingData(data, datas).then(function(datas) {
+                                            var _collection = [];
+                                            if (!angular.isArray(datas)) {
+                                                angular.forEach(datas, function(data, key) {
+                                                    _collection.push(data);
+                                                });
+                                            } else {
+                                                angular.copy(datas, _collection);
+                                            }
+                                            angular.copy(_collection, collection);
+                                        });
+                                    } else {
                                         var _collection = [];
                                         if (!angular.isArray(datas)) {
                                             angular.forEach(datas, function(data, key) {
@@ -127,32 +142,23 @@ angular.module('opengate-angular-js')
                                             angular.copy(datas, _collection);
                                         }
                                         angular.copy(_collection, collection);
-                                    });
-                                } else {
-                                    var _collection = [];
-                                    if (!angular.isArray(datas)) {
-                                        angular.forEach(datas, function(data, key) {
-                                            _collection.push(data);
-                                        });
-                                    } else {
-                                        angular.copy(datas, _collection);
                                     }
-                                    angular.copy(_collection, collection);
-                                }
-                            } else {
-                                collection.splice(0, collection.length);
-                                if (data.statusCode !== 204) {
-                                    //toastr.error('Loading error');
-                                    console.error(JSON.stringify(data));
                                 } else {
-                                    console.log(JSON.stringify(data));
+                                    collection.splice(0, collection.length);
+                                    if (data.statusCode !== 204) {
+                                        //toastr.error('Loading error');
+                                        console.error(JSON.stringify(data));
+                                    } else {
+                                        console.log(JSON.stringify(data));
+                                    }
                                 }
+                                $scope.$apply();
                             }
-                            $scope.$apply();
-                        }
-                    ).catch(function(err) {
-                        $attrs.$$button.querySelectorAll('.filter-icon').removeClass('fa-spinner').removeClass('fa-spin').addClass('fa-filter');
-                    });
+                        ).catch(function(err) {
+                            $attrs.$$button.querySelectorAll('.filter-icon').removeClass('fa-spinner').removeClass('fa-spin').addClass('fa-filter');
+                        });
+                    }
+
                 }
             },
             compile: function(templateElement, templateAttributes) {

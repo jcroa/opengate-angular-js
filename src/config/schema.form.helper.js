@@ -14,9 +14,9 @@ angular.module('opengate-angular-js').config(function (schemaFormProvider, schem
     schemaFormProvider.defaults.string.unshift(helper);
 
     schemaFormDecoratorsProvider.defineAddOn(
-        'bootstrapDecorator',         // Name of the decorator you want to add to.
-        'helperdialog',                    // Form type that should render this add-on
-        'views/schema.form.helper.template.html',    // Template name in $templateCache
+        'bootstrapDecorator', // Name of the decorator you want to add to.
+        'helperdialog', // Form type that should render this add-on
+        'views/schema.form.helper.template.html', // Template name in $templateCache
         sfBuilderProvider.stdBuilders // List of builder functions to apply.
     );
 
@@ -33,16 +33,16 @@ angular.module('opengate-angular-js').config(function (schemaFormProvider, schem
     schemaFormProvider.defaults.string.unshift(customUiSelect);
 
     schemaFormDecoratorsProvider.defineAddOn(
-        'bootstrapDecorator',         // Name of the decorator you want to add to.
-        'entity',                    // Form type that should render this add-on
-        'views/schema.form.entity.template.html',    // Template name in $templateCache
+        'bootstrapDecorator', // Name of the decorator you want to add to.
+        'entity', // Form type that should render this add-on
+        'views/schema.form.entity.template.html', // Template name in $templateCache
         sfBuilderProvider.stdBuilders // List of builder functions to apply.
     );
 
     schemaFormDecoratorsProvider.defineAddOn(
-        'bootstrapDecorator',         // Name of the decorator you want to add to.
-        'datastream',                    // Form type that should render this add-on
-        'views/schema.form.datastream.template.html',    // Template name in $templateCache
+        'bootstrapDecorator', // Name of the decorator you want to add to.
+        'datastream', // Form type that should render this add-on
+        'views/schema.form.datastream.template.html', // Template name in $templateCache
         sfBuilderProvider.stdBuilders // List of builder functions to apply.
     );
 

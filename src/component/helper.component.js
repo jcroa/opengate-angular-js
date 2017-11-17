@@ -5,7 +5,7 @@
 
 var _wizard = angular.module('opengate-angular-js');
 
-_wizard.controller('helperDialogController', ['$scope', '$element', '$attrs', '$uibModal', function($scope, $element, $attrs, $uibModal) {
+_wizard.controller('helperDialogController', ['$scope', '$element', '$attrs', '$uibModal', function ($scope, $element, $attrs, $uibModal) {
     var $helper = this;
     var style = angular.element('<style title="helper-dialog-style">' +
         'helper-dialog .row-eq-height,.helper-dialog .row-eq-height {display: -webkit-box;display: -webkit-flex;display: -ms-flexbox;display: flex;}' +
@@ -30,7 +30,7 @@ _wizard.controller('helperDialogController', ['$scope', '$element', '$attrs', '$
         $helper.mode = 'button';
     }
 
-    $helper.open = function() {
+    $helper.open = function () {
 
         var modalInstance = $uibModal.open({
             animation: true,
@@ -41,7 +41,7 @@ _wizard.controller('helperDialogController', ['$scope', '$element', '$attrs', '$
             controllerAs: '$ctrl',
             windowClass: 'helper-dialog',
             resolve: {
-                helper_id: function() {
+                helper_id: function () {
                     if ($helper.componentsIds && $helper.componentsIds.length === 1) {
                         return $helper.componentsIds[0];
                     } else {
@@ -49,16 +49,16 @@ _wizard.controller('helperDialogController', ['$scope', '$element', '$attrs', '$
                     }
 
                 },
-                helper_exclusive: function() {
+                helper_exclusive: function () {
                     return $helper.helperExclusive === 'true';
                 },
-                specific_type: function() {
+                specific_type: function () {
                     return $helper.specificType;
                 },
-                helper_extra: function() {
+                helper_extra: function () {
                     return $helper.helperExtra;
                 },
-                helper_selected: function() {
+                helper_selected: function () {
                     if ($helper.helperExtra && $helper.helperExtra.selected) {
                         return $helper.helperExtra.selected;
                     } else {
@@ -68,40 +68,45 @@ _wizard.controller('helperDialogController', ['$scope', '$element', '$attrs', '$
             }
         });
         //Send result
-        modalInstance.result.then(function(helper_result) {
+        modalInstance.result.then(function (helper_result) {
             if (helper_result) {
                 $helper.selected = angular.fromJson(helper_result);
                 if ($helper.onCopy) {
-                    $helper.onCopy({ $helper_keys: helper_result });
+                    $helper.onCopy({
+                        $helper_keys: helper_result
+                    });
                 }
 
                 if ($helper.onMulti && angular.isArray($helper.onMulti)) {
-                    angular.forEach($helper.onMulti, function(_onCopy, idx) {
+                    angular.forEach($helper.onMulti, function (_onCopy, idx) {
                         if (angular.isFunction(_onCopy))
-                            _onCopy({ $helper_keys: helper_result });
+                            _onCopy({
+                                $helper_keys: helper_result
+                            });
                     });
                 }
             } else {
                 console.warn('Nothing selected on modal');
             }
-        }, function() {});
+        }, function () {});
     };
 }]);
 
 _wizard.controller('helperDialogModalController', ['$scope', '$uibModalInstance', 'helper_id', 'helper_exclusive', 'specific_type', 'helper_extra', 'helper_selected', 'Upload',
-    function($scope, $uibModalInstance, helper_id, helper_exclusive, specific_type, helper_extra, helper_selected, Upload) {
+    function ($scope, $uibModalInstance, helper_id, helper_exclusive, specific_type, helper_extra, helper_selected, Upload) {
         var $ctrl = this;
         $ctrl.helper_extra = helper_extra;
 
-        // Extraer el primer bloque de letras para intentar determinar el tipo de campo
-        var regex = /(\w|0-9)+/g;
-        helper_id = regex.exec(helper_id.toLowerCase())[0];
+        if (helper_id) {
+            // Extraer el primer bloque de letras para intentar determinar el tipo de campo
+            var regex = /(\w|0-9)+/g;
+            helper_id = regex.exec(helper_id.toLowerCase())[0];
 
-        $ctrl.helper_id = helper_id;
+            $ctrl.helper_id = helper_id;
 
-        $ctrl[helper_id + 'IsOpen'] = true;
-        $ctrl[helper_id + 'IsExclusive'] = $ctrl.helper_exclusive = helper_exclusive;
-
+            $ctrl[helper_id + 'IsOpen'] = true;
+            $ctrl[helper_id + 'IsExclusive'] = $ctrl.helper_exclusive = helper_exclusive;
+        }
         $ctrl.helper_keys = {};
         $ctrl.specific_type = specific_type;
         var events = [];
@@ -168,11 +173,11 @@ _wizard.controller('helperDialogModalController', ['$scope', '$uibModalInstance'
         };
 
         events.push(
-            $scope.$on('leafletDirectiveMarker.map-marker.click', function(event, args) {
+            $scope.$on('leafletDirectiveMarker.map-marker.click', function (event, args) {
                 delete $ctrl.helper_keys.map;
                 $ctrl.map.markers = {};
             }),
-            $scope.$on('leafletDirectiveMap.map-marker.click', function(event, args) {
+            $scope.$on('leafletDirectiveMap.map-marker.click', function (event, args) {
                 var latlng = args.leafletEvent.latlng;
                 $ctrl.map.markers = {
                     marker: {
@@ -185,7 +190,7 @@ _wizard.controller('helperDialogModalController', ['$scope', '$uibModalInstance'
                 };
                 setPosition(latlng.lat, latlng.lng, args.leafletObject._zoom);
             }),
-            $scope.$on('leafletDirectiveMarker.map-marker.dragend', function(event, args) {
+            $scope.$on('leafletDirectiveMarker.map-marker.dragend', function (event, args) {
                 var point = args.leafletEvent.target._leaflet_events.dragend[0].context._latlng;
                 setPosition(point.lat, point.lng, args.leafletObject._zoom);
             })
@@ -194,16 +199,22 @@ _wizard.controller('helperDialogModalController', ['$scope', '$uibModalInstance'
         //config datastream
         $ctrl.datastream = {};
         if (helper_selected && helper_selected.datastreamId) {
-            $ctrl.helper_keys['datastream'] = { datastreamId: helper_selected.datastreamId };
+            $ctrl.helper_keys['datastream'] = {
+                datastreamId: helper_selected.datastreamId
+            };
             $ctrl.datastream = {
-                selected: [{ identifier: helper_selected.datastreamId }]
+                selected: [{
+                    identifier: helper_selected.datastreamId
+                }]
             };
         }
-        $scope.onSelectDatastreamKey = function($item, $model) {
-            $ctrl.helper_keys['datastream'] = { datastreamId: $item.identifier };
+        $ctrl.onSelectDatastreamKey = function ($item, $model) {
+            $ctrl.helper_keys['datastream'] = {
+                datastreamId: $item.identifier
+            };
         };
 
-        $scope.onDeleteDatastreamKey = function() {
+        $ctrl.onDeleteDatastreamKey = function () {
             delete $ctrl.helper_keys.datastream;
         };
 
@@ -228,14 +239,14 @@ _wizard.controller('helperDialogModalController', ['$scope', '$uibModalInstance'
             };
         }
 
-        $scope.onSelectEntityKey = function($item, $model) {
+        $ctrl.onSelectEntityKey = function ($item, $model) {
             // $ctrl.helper_keys['entity'] = { entityKey: $item.id };
             $ctrl.helper_keys['entity'] = {
                 entityKey: $item.provision.administration.identifier._current.value
             };
         };
 
-        $scope.onDeleteEntityKey = function() {
+        $ctrl.onDeleteEntityKey = function () {
             delete $ctrl.helper_keys.entity;
         };
 
@@ -260,11 +271,11 @@ _wizard.controller('helperDialogModalController', ['$scope', '$uibModalInstance'
             };
         }
 
-        $scope.onSelectSubscriberKey = function($item, $model) {
+        $ctrl.onSelectSubscriberKey = function ($item, $model) {
             $ctrl.helper_keys['subscriber'] = $item;
         };
 
-        $scope.onDeleteSubscriberKey = function() {
+        $ctrl.onDeleteSubscriberKey = function () {
             delete $ctrl.helper_keys.subscriber;
         };
 
@@ -290,11 +301,11 @@ _wizard.controller('helperDialogModalController', ['$scope', '$uibModalInstance'
             };
         }
 
-        $scope.onSelectSubscriptionKey = function($item, $model) {
+        $ctrl.onSelectSubscriptionKey = function ($item, $model) {
             $ctrl.helper_keys['subscription'] = $item;
         };
 
-        $scope.onDeleteSubscriptionKey = function() {
+        $ctrl.onDeleteSubscriptionKey = function () {
             delete $ctrl.helper_keys.subscription;
         };
 
@@ -306,20 +317,26 @@ _wizard.controller('helperDialogModalController', ['$scope', '$uibModalInstance'
         }
 
         if (helper_selected && helper_selected.area) {
-            $ctrl.helper_keys['area'] = { area: helper_selected.area };
-            $ctrl.area.selected = [{ identifier: helper_selected.area }];
+            $ctrl.helper_keys['area'] = {
+                area: helper_selected.area
+            };
+            $ctrl.area.selected = [{
+                identifier: helper_selected.area
+            }];
         }
 
-        $scope.onSelectAreaKey = function($item, $model) {
-            $ctrl.helper_keys['area'] = { area: $item.identifier };
+        $ctrl.onSelectAreaKey = function ($item, $model) {
+            $ctrl.helper_keys['area'] = {
+                area: $item.identifier
+            };
         };
 
-        $scope.onDeleteAreaKey = function() {
+        $ctrl.onDeleteAreaKey = function () {
             delete $ctrl.helper_keys.area;
         };
 
         //Condicion para botón de aplicar todo lo seleccionado en los helpers
-        $ctrl.canApply = function() {
+        $ctrl.canApply = function () {
             return Object.keys($ctrl.helper_keys).length > 0;
         };
 
@@ -332,11 +349,15 @@ _wizard.controller('helperDialogModalController', ['$scope', '$uibModalInstance'
         }
 
         if (helper_selected && helper_selected.bundle) {
-            $ctrl.helper_keys['bundle'] = { bundle: helper_selected.bundle };
-            $ctrl.bundle.selected = [{ id: helper_selected.bundle }];
+            $ctrl.helper_keys['bundle'] = {
+                bundle: helper_selected.bundle
+            };
+            $ctrl.bundle.selected = [{
+                id: helper_selected.bundle
+            }];
         }
 
-        $scope.onSelectBundleKey = function($item, $model) {
+        $ctrl.onSelectBundleKey = function ($item, $model) {
             $ctrl.helper_keys['bundle'] = {
                 bundleId: $item.id,
                 bundleName: $item.name,
@@ -344,7 +365,7 @@ _wizard.controller('helperDialogModalController', ['$scope', '$uibModalInstance'
             };
         };
 
-        $scope.onDeleteBundleKey = function() {
+        $ctrl.onDeleteBundleKey = function () {
             delete $ctrl.helper_keys.bundle;
         };
 
@@ -355,10 +376,10 @@ _wizard.controller('helperDialogModalController', ['$scope', '$uibModalInstance'
             };
         }
 
-        $scope.imageSelected = function(file) {
+        $ctrl.imageSelected = function (file) {
             if (file) {
                 Upload.base64DataUrl(file).then(
-                    function(url) {
+                    function (url) {
                         $ctrl.helper_keys['image'] = {
                             image: url
                         };
@@ -368,27 +389,27 @@ _wizard.controller('helperDialogModalController', ['$scope', '$uibModalInstance'
             }
         };
 
-        $scope.removeDataFile = function() {
+        $ctrl.removeDataFile = function () {
             delete $ctrl.helper_keys.image;
         };
 
         //Condicion para botón de aplicar todo lo seleccionado en los helpers
-        $ctrl.canApply = function() {
+        $ctrl.canApply = function () {
             return Object.keys($ctrl.helper_keys).length > 0;
         };
 
         //Modal methods
-        $ctrl.ok = function(helper) {
+        $ctrl.ok = function (helper) {
             if (helper) {
                 $uibModalInstance.close($ctrl.helper_keys[helper]);
             } else {
                 var finalKeys = {};
-                angular.forEach($ctrl.helper_keys, function(value, key) {
+                angular.forEach($ctrl.helper_keys, function (value, key) {
                     if (key.trim().toLowerCase() === 'subscriber' || key.trim().toLowerCase() === 'subscription') {
                         var identifier = value.provision[key.trim().toLowerCase()].identifier._current.value;
                         finalKeys[key.trim().toLowerCase() + 'Key'] = identifier;
                     } else {
-                        angular.forEach(value, function(finalValue, finalkey) {
+                        angular.forEach(value, function (finalValue, finalkey) {
                             finalKeys[finalkey] = finalValue;
                         });
                     }
@@ -397,12 +418,12 @@ _wizard.controller('helperDialogModalController', ['$scope', '$uibModalInstance'
                 $uibModalInstance.close(finalKeys);
             }
         };
-        $ctrl.cancel = function() {
+        $ctrl.cancel = function () {
             $uibModalInstance.dismiss('cancel');
         };
 
         //clear evetns
-        $scope.$on('destroy', function() {
+        $scope.$on('destroy', function () {
             for (var eventToDestroy in events) {
                 eventToDestroy();
             }

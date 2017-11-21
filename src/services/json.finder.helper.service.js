@@ -72,6 +72,7 @@ function CollectedJsonFinderHelper() {
             'model': 'device.model',
             'software': 'device.software',
             'trustedBoot': 'device.trustedBoot',
+            'image': 'device.image',
 
             'commsModuleIdentifier': 'provision.device.communicationModules[].identifier',
             'commsModuleSpecificType': 'provision.device.communicationModules[].specificType',

@@ -14,6 +14,54 @@ $templateCache.put("views/schema.form.datastream.template.html","<div><custom-ui
 $templateCache.put("views/schema.form.entity.template.html","<div><custom-ui-select-entity on-select-item=\"evalExpr(form.onselectitem, {$item: $$value$$, $model: $model})\" on-remove=\"evalExpr(form.onremove, {$item: $$value$$, $model: $model})\" entity=$$value$$ multiple={{form.multiple}}></custom-ui-select-entity></div>");
 $templateCache.put("views/schema.form.helper.template.html","<div class=form-group><helper-dialog helper-id={{form.helperid}} helper-exclusive={{form.exclusive}}><helper-ui-select id={{form.id}} name={{form.name}} label-text={{form.title}} sf-field-model=helper-model label-error={{form.labelerror}}><helper-ui-select-input><label for={{form.name}}>{{form.title}}</label> <input class=form-control name={{form.name}} type=text id={{form.id}} sf-field-model></helper-ui-select-input></helper-ui-select></helper-dialog></div>");
 $templateCache.put("views/window-time.select.view.html","<div class=window-time-container><button type=button class=\"btn btn-xs\" ng-class=oneDayClass ng-click=oneDay()>Last day</button> <button type=button class=\"btn btn-xs\" ng-class=oneWeekClass ng-click=oneWeek()>Last 7 days</button> <button type=button class=\"btn btn-xs\" ng-class=oneMonthClass ng-click=oneMonth()>Last 30 days</button> <button type=button class=\"btn btn-xs\" ng-class=customClass ng-click=custom()>Custom</button> <button type=button class=\"btn btn-xs btn-info\" ng-if=customEnabled ng-disabled=!!errorCustomWindow ng-click=applyCustom()>Apply</button> <button type=button class=\"btn btn-xs btn-info\" ng-if=filterApplied ng-click=clear()>Clear</button><div ng-if=customEnabled class=window-time-body><div class=row><div class=col-xs-12><p class=input-group><label class=control-label>From: {{fromDate | date:\'fullDate\'}}</label> <input readonly datepicker-options=fromOptions type=text class=form-control show-button-bar=false uib-datepicker-popup={{format}} ng-model=date.from is-open=fromPopup.opened ng-required=true close-text=Close ng-change=fromChange()> <span class=input-group-btn><a class=\"btn btn-sm\" ng-click=fromOpen()><i class=\"glyphicon glyphicon-calendar\"></i></a></span></p></div><div class=col-xs-12><div uib-timepicker max=fromMax ng-model=date.from show-meridian=false ng-change=fromChange()></div></div></div><div class=row><div class=col-xs-12><p class=input-group><label class=control-label>To: {{toDate | date:\'fullDate\'}}</label> <input readonly datepicker-options=toOptions type=text class=form-control show-button-bar=false uib-datepicker-popup={{format}} ng-model=date.to is-open=toPopup.opened ng-required=true close-text=Close ng-change=toChange()> <span class=input-group-btn><button type=button class=\"btn btn-sm\" ng-click=toOpen()><i class=\"glyphicon glyphicon-calendar\"></i></button></span></p></div><div class=col-xs-12><div uib-timepicker max=toMax min=toMin ng-model=date.to show-meridian=false ng-change=toChange()></div></div></div><alert type=danger ng-show=errorCustomWindow class=text-danger style=\"display: block;text-align: center;\"><span ng-bind=errorCustomWindow></span></alert></div></div>");}]);
+angular.module('opengate-angular-js')
+    .service('$provisionDatastreamsUtils', [function () {
+        var internal_catalog = ["internal", "provisionSubscriber", "provisionGeneric", "provisionDevice", "provisionAsset", "provisionSubscription"];
+
+        var filter = {
+            and: [{
+                    like: {
+                        'datamodels.categories.datastreams.name': '^(provision\.).*'
+                    }
+                },
+                {
+                    like: {
+                        'datamodels.categories.datastreams.name': '^(?!provision\.administration\.).*'
+                    }
+                },
+                {
+                    like: {
+                        'datamodels.categories.datastreams.name': '^(?!provision\.device\.).*'
+                    }
+                },
+                {
+                    like: {
+                        'datamodels.categories.datastreams.name': '^(?!provision\.asset\.).*'
+                    }
+                }
+            ]
+        };
+
+        function filterForCoreDatamodelsCatalog(datamodels) {
+            return datamodels.filter(function (datamodel) {
+                return internal_catalog.indexOf(datamodel.identifier) === -1;
+            });
+        }
+
+        function getFilter() {
+            return angular.copy(filter);
+        }
+
+        function getCoreDatamodelsCatalog() {
+            return angular.copy(internal_catalog);
+        }
+
+        return {
+            getCoreDatamodelsCatalog: getCoreDatamodelsCatalog,
+            filterForCoreDatamodelsCatalog: filterForCoreDatamodelsCatalog,
+            getFilter: getFilter
+        };
+    }]);
 
 angular.module('opengate-angular-js').service('$oguxThemes', [
     function() {
@@ -1272,55 +1320,6 @@ angular.module('opengate-angular-js')
             return input;
         };
     });
-angular.module('opengate-angular-js').config(["schemaFormProvider", "schemaFormDecoratorsProvider", "sfPathProvider", "sfBuilderProvider", function (schemaFormProvider, schemaFormDecoratorsProvider, sfPathProvider, sfBuilderProvider) {
-
-    var helper = function (name, schema, options) {
-        if (schema.type === 'string' && schema.format == 'helperdialog') {
-            var f = schemaFormProvider.stdFormObj(name, schema, options);
-            f.key = options.path;
-            f.type = 'helperdialog';
-
-            options.lookup[sfPathProvider.stringify(options.path)] = f;
-            return f;
-        }
-    };
-
-    schemaFormProvider.defaults.string.unshift(helper);
-
-    schemaFormDecoratorsProvider.defineAddOn(
-        'bootstrapDecorator', // Name of the decorator you want to add to.
-        'helperdialog', // Form type that should render this add-on
-        'views/schema.form.helper.template.html', // Template name in $templateCache
-        sfBuilderProvider.stdBuilders // List of builder functions to apply.
-    );
-
-    var customUiSelect = function (name, schema, options) {
-        if (schema.type === 'string' && schema.format == 'customuiselect') {
-            var f = schemaFormProvider.stdFormObj(name, schema, options);
-            f.key = options.path;
-            f.type = (schema.properties && schema.properties.type) ? schema.properties.type : 'string';
-            options.lookup[sfPathProvider.stringify(options.path)] = f;
-            return f;
-        }
-    };
-
-    schemaFormProvider.defaults.string.unshift(customUiSelect);
-
-    schemaFormDecoratorsProvider.defineAddOn(
-        'bootstrapDecorator', // Name of the decorator you want to add to.
-        'entity', // Form type that should render this add-on
-        'views/schema.form.entity.template.html', // Template name in $templateCache
-        sfBuilderProvider.stdBuilders // List of builder functions to apply.
-    );
-
-    schemaFormDecoratorsProvider.defineAddOn(
-        'bootstrapDecorator', // Name of the decorator you want to add to.
-        'datastream', // Form type that should render this add-on
-        'views/schema.form.datastream.template.html', // Template name in $templateCache
-        sfBuilderProvider.stdBuilders // List of builder functions to apply.
-    );
-
-}]);
 
 angular.module('opengate-angular-js').directive('windowTimeSelect', function() { // ['$scope', '$compile'], function($scope, $compile) {
 
@@ -1875,6 +1874,55 @@ angular.module('opengate-angular-js')
             }
         };
     }]);
+angular.module('opengate-angular-js').config(["schemaFormProvider", "schemaFormDecoratorsProvider", "sfPathProvider", "sfBuilderProvider", function (schemaFormProvider, schemaFormDecoratorsProvider, sfPathProvider, sfBuilderProvider) {
+
+    var helper = function (name, schema, options) {
+        if (schema.type === 'string' && schema.format == 'helperdialog') {
+            var f = schemaFormProvider.stdFormObj(name, schema, options);
+            f.key = options.path;
+            f.type = 'helperdialog';
+
+            options.lookup[sfPathProvider.stringify(options.path)] = f;
+            return f;
+        }
+    };
+
+    schemaFormProvider.defaults.string.unshift(helper);
+
+    schemaFormDecoratorsProvider.defineAddOn(
+        'bootstrapDecorator', // Name of the decorator you want to add to.
+        'helperdialog', // Form type that should render this add-on
+        'views/schema.form.helper.template.html', // Template name in $templateCache
+        sfBuilderProvider.stdBuilders // List of builder functions to apply.
+    );
+
+    var customUiSelect = function (name, schema, options) {
+        if (schema.type === 'string' && schema.format == 'customuiselect') {
+            var f = schemaFormProvider.stdFormObj(name, schema, options);
+            f.key = options.path;
+            f.type = (schema.properties && schema.properties.type) ? schema.properties.type : 'string';
+            options.lookup[sfPathProvider.stringify(options.path)] = f;
+            return f;
+        }
+    };
+
+    schemaFormProvider.defaults.string.unshift(customUiSelect);
+
+    schemaFormDecoratorsProvider.defineAddOn(
+        'bootstrapDecorator', // Name of the decorator you want to add to.
+        'entity', // Form type that should render this add-on
+        'views/schema.form.entity.template.html', // Template name in $templateCache
+        sfBuilderProvider.stdBuilders // List of builder functions to apply.
+    );
+
+    schemaFormDecoratorsProvider.defineAddOn(
+        'bootstrapDecorator', // Name of the decorator you want to add to.
+        'datastream', // Form type that should render this add-on
+        'views/schema.form.datastream.template.html', // Template name in $templateCache
+        sfBuilderProvider.stdBuilders // List of builder functions to apply.
+    );
+
+}]);
 /**
  * Created by Monica on 12/09/2016.
  */
@@ -2473,38 +2521,15 @@ angular.module('opengate-angular-js').component('customUiSelectSubscriber', {
 
 
 
-angular.module('opengate-angular-js').controller('customUiSelectProvisionDatastreamController', ['$scope', '$element', '$attrs', '$api', '$q', '$http',
-    function($scope, $element, $attrs, $api, $q, $http) {
+angular.module('opengate-angular-js').controller('customUiSelectProvisionDatastreamController', ['$scope', '$element', '$attrs', '$api', '$q', '$http', '$provisionDatastreamsUtils',
+    function ($scope, $element, $attrs, $api, $q, $http, $provisionDatastreamsUtils) {
         var ctrl = this;
-        var internal_catalog = ["internal", "provisionSubscriber", "pr,ovisionGeneric", "provisionDevice", "provisionAsset", "provisionSubscription"];
 
         ctrl.ownConfig = {
             builder: $api().datamodelsSearchBuilder(),
-            filter: function(search) {
+            filter: function (search) {
                 ctrl.lastSearch = search;
-                var filter = {
-                    and: [{
-                            like: {
-                                'datamodels.categories.datastreams.name': '^(provision\.).*'
-                            }
-                        },
-                        {
-                            like: {
-                                'datamodels.categories.datastreams.name': '^(?!provision\.administration\.).*'
-                            }
-                        },
-                        {
-                            like: {
-                                'datamodels.categories.datastreams.name': '^(?!provision\.device\.).*'
-                            }
-                        },
-                        {
-                            like: {
-                                'datamodels.categories.datastreams.name': '^(?!provision\.asset\.).*'
-                            }
-                        }
-                    ]
-                };
+                var filter = $provisionDatastreamsUtils.getFilter();
                 if (ctrl.allowedResourceTypes) {
                     var allowedResourceTypes = ctrl.allowedResourceTypes.replace("\s*,\s*", ",").split(",");
                     filter.and.push({
@@ -2524,15 +2549,13 @@ angular.module('opengate-angular-js').controller('customUiSelectProvisionDatastr
             },
             rootKey: 'datamodels',
             collection: [],
-            processingData: function(data, collection) {
+            processingData: function (data, collection) {
                 //if (!ctrl.lastSearch) return $q(function(ok) { ok([]); });
-                return $q(function(ok) {
+                return $q(function (ok) {
                     var _datastreams = [];
                     var datamodels = data.data.datamodels;
-                    datamodels = datamodels.filter(function(datamodel) {
-                        return internal_catalog.indexOf(datamodel.identifier) === -1;
-                    });
-                    angular.forEach(datamodels, function(datamodel, key) {
+                    datamodels = $provisionDatastreamsUtils.filterForCoreDatamodelsCatalog(datamodels);
+                    angular.forEach(datamodels, function (datamodel, key) {
                         var categories = datamodel.categories;
                         var _datamodel = {
                             identifier: datamodel.identifier,
@@ -2540,16 +2563,16 @@ angular.module('opengate-angular-js').controller('customUiSelectProvisionDatastr
                             name: datamodel.name,
                             organization: datamodel.organizationName
                         };
-                        angular.forEach(categories, function(category, key) {
+                        angular.forEach(categories, function (category, key) {
                             var datastreams = category.datastreams;
                             var _category = {
                                 identifier: category.identifier
                             };
                             angular.forEach(datastreams
-                                .filter(function(ds) {
+                                .filter(function (ds) {
                                     return (ds.identifier.indexOf(ctrl.lastSearch) > -1 && !!ctrl.lastSearch.length) || !ctrl.lastSearch;
                                 }),
-                                function(datastream, key) {
+                                function (datastream, key) {
                                     var _datastream = angular.copy(datastream);
                                     _datastream.datamodel = _datamodel;
                                     _datastream.category = _category;
@@ -2564,14 +2587,14 @@ angular.module('opengate-angular-js').controller('customUiSelectProvisionDatastr
             customSelectors: $api().datamodelsSearchBuilder()
         };
 
-        ctrl.datastreamSelected = function($item, $model) {
+        ctrl.datastreamSelected = function ($item, $model) {
             var return_obj = {};
             return_obj['$item'] = $item;
             return_obj['$model'] = $model;
             ctrl.onSelectItem(return_obj);
         };
 
-        ctrl.datastreamRemove = function($item, $model) {
+        ctrl.datastreamRemove = function ($item, $model) {
             var return_obj = {};
             return_obj['$item'] = $item;
             return_obj['$model'] = $model;

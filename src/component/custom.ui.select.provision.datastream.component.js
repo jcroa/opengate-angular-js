@@ -1,38 +1,15 @@
 'use strict';
 
 
-angular.module('opengate-angular-js').controller('customUiSelectProvisionDatastreamController', ['$scope', '$element', '$attrs', '$api', '$q', '$http',
-    function ($scope, $element, $attrs, $api, $q, $http) {
+angular.module('opengate-angular-js').controller('customUiSelectProvisionDatastreamController', ['$scope', '$element', '$attrs', '$api', '$q', '$http', '$provisionDatastreamsUtils',
+    function ($scope, $element, $attrs, $api, $q, $http, $provisionDatastreamsUtils) {
         var ctrl = this;
-        var internal_catalog = ["internal", "provisionSubscriber", "provisionGeneric", "provisionDevice", "provisionAsset", "provisionSubscription"];
 
         ctrl.ownConfig = {
             builder: $api().datamodelsSearchBuilder(),
             filter: function (search) {
                 ctrl.lastSearch = search;
-                var filter = {
-                    and: [{
-                            like: {
-                                'datamodels.categories.datastreams.name': '^(provision\.).*'
-                            }
-                        },
-                        {
-                            like: {
-                                'datamodels.categories.datastreams.name': '^(?!provision\.administration\.).*'
-                            }
-                        },
-                        {
-                            like: {
-                                'datamodels.categories.datastreams.name': '^(?!provision\.device\.).*'
-                            }
-                        },
-                        {
-                            like: {
-                                'datamodels.categories.datastreams.name': '^(?!provision\.asset\.).*'
-                            }
-                        }
-                    ]
-                };
+                var filter = $provisionDatastreamsUtils.getFilter();
                 if (ctrl.allowedResourceTypes) {
                     var allowedResourceTypes = ctrl.allowedResourceTypes.replace("\s*,\s*", ",").split(",");
                     filter.and.push({
@@ -57,9 +34,7 @@ angular.module('opengate-angular-js').controller('customUiSelectProvisionDatastr
                 return $q(function (ok) {
                     var _datastreams = [];
                     var datamodels = data.data.datamodels;
-                    datamodels = datamodels.filter(function (datamodel) {
-                        return internal_catalog.indexOf(datamodel.identifier) === -1;
-                    });
+                    datamodels = $provisionDatastreamsUtils.filterForCoreDatamodelsCatalog(datamodels);
                     angular.forEach(datamodels, function (datamodel, key) {
                         var categories = datamodel.categories;
                         var _datamodel = {

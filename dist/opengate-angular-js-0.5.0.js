@@ -254,7 +254,7 @@ angular.module('opengate-angular-js').service('$ogapiErrorParser', [
                 } else if (error.data && error.data.length > 0) {
                     if (angular.isArray(error.data)) {
                         for (var i = 0; i < error.data.length; i++) {
-                            errorMessage += error.data[i].description + (errorSeparatorString ? errorSeparatorString : '\n');
+                            errorMessage += (error.data[i].message || error.data[i].description) + (errorSeparatorString ? errorSeparatorString : '\n');
                         }
                     } else {
                         errorMessage = error.data;
@@ -269,12 +269,12 @@ angular.module('opengate-angular-js').service('$ogapiErrorParser', [
                 var errorMessage = [];
                 if (error.data && (error.data.errors && error.data.errors.length > 0)) {
                     for (var i = 0; i < error.data.errors.length; i++) {
-                        errorMessage.push(error.data.errors[i].message);
+                        errorMessage.push(error.data.errors[i].message || error.data.errors[i].description);
                     }
                 } else if (error.data && error.data.length > 0) {
                     if (angular.isArray(error.data)) {
                         for (var i = 0; i < error.data.length; i++) {
-                            errorMessage.push(error.data[i].description);
+                            errorMessage.push(error.data[i].message || error.data[i].description);
                         }
                     } else {
                         errorMessage.push(error.data[i]);

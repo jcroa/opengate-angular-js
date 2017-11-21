@@ -17,35 +17,29 @@
     </div>
     <div class="modal-body without-padding-top">
         <uib-accordion close-others="true">
-            <div uib-accordion-group is-open="$ctrl.mapIsOpen" is-disabled="$ctrl.helper_exclusive ? !$ctrl.mapIsExclusive : false"
-                class="map-option">
+            <div uib-accordion-group is-open="$ctrl.mapIsOpen" is-disabled="$ctrl.helper_exclusive ? !$ctrl.mapIsExclusive : false" class="map-option">
                 <div uib-accordion-heading>Map</div>
                 <div class="row" ng-if="$ctrl.mapIsOpen">
                     <div class="col-xs-12">
                         <div class="form-group leaflet-container">
-                            <leaflet id="map-marker" lf-center="$ctrl.map.center" event-broadcast="$ctrl.map.events" markers="$ctrl.map.markers"
-                                width="100% " height="300px"></leaflet>
+                            <leaflet id="map-marker" lf-center="$ctrl.map.center" event-broadcast="$ctrl.map.events" markers="$ctrl.map.markers" width="100% " height="300px"></leaflet>
                         </div>
                     </div>
                     <div class="col-xs-12 text-right" ng-if="$ctrl.helper_exclusive">
-                        <a class="top-buffer btn btn-default ux-txt-success pointer" ng-class="{'disabled': !$ctrl.helper_keys.map}"
-                            ng-click="$ctrl.ok('map')" ng-disabled="!$ctrl.helper_keys.map">
+                        <a class="top-buffer btn btn-default ux-txt-success pointer" ng-class="{'disabled': !$ctrl.helper_keys.map}" ng-click="$ctrl.ok('map')" ng-disabled="!$ctrl.helper_keys.map">
                             <i class="fa fa-lg fa-files-o" aria-hidden="true"></i>
                         </a>
                     </div>
                 </div>
             </div>
-            <div uib-accordion-group is-open="$ctrl.entityIsOpen" is-disabled="$ctrl.helper_exclusive ? !$ctrl.entityIsExclusive: false"
-                class="entity-option">
+            <div uib-accordion-group is-open="$ctrl.entityIsOpen" is-disabled="$ctrl.helper_exclusive ? !$ctrl.entityIsExclusive: false" class="entity-option">
                 <div uib-accordion-heading>Entity</div>
                 <div class="row row-eq-height">
                     <div class="col-xs-10">
-                        <custom-ui-select-entity on-select-item="$ctrl.onSelectEntityKey($item, $model)" on-remove="$ctrl.onDeleteEntityKey()"
-                            entity="$ctrl.entity.selected" multiple="false"> </custom-ui-select-entity>
+                        <custom-ui-select-entity on-select-item="$ctrl.onSelectEntityKey($item, $model)" on-remove="$ctrl.onDeleteEntityKey()" entity="$ctrl.entity.selected" multiple="false"> </custom-ui-select-entity>
                     </div>
                     <div class="col-xs-2 vcenter" ng-if="$ctrl.helper_exclusive">
-                        <a class="top-buffer btn btn-default ux-txt-success pointer" ng-class="{'disabled': !$ctrl.helper_keys.entity}"
-                            ng-click="$ctrl.ok('entity')" ng-disabled="!$ctrl.helper_keys.entity">
+                        <a class="top-buffer btn btn-default ux-txt-success pointer" ng-class="{'disabled': !$ctrl.helper_keys.entity}" ng-click="$ctrl.ok('entity')" ng-disabled="!$ctrl.helper_keys.entity">
                             <i class="fa fa-lg fa-files-o" aria-hidden="true"></i>
                         </a>
                     </div>
@@ -55,12 +49,10 @@
                 <div uib-accordion-heading>Subscribers</div>
                 <div class="row row-eq-height">
                     <div class="col-xs-10">
-                        <custom-ui-select-subscriber on-select-item="$ctrl.onSelectSubscriberKey($item, $model)" specific-type="{{$ctrl.specific_type}}"
-                            on-remove="$ctrl.onDeleteSubscriberKey()" entity="$ctrl.subscriber.selected" multiple="false"> </custom-ui-select-subscriber>
+                        <custom-ui-select-subscriber on-select-item="$ctrl.onSelectSubscriberKey($item, $model)" specific-type="{{$ctrl.specific_type}}" on-remove="$ctrl.onDeleteSubscriberKey()" entity="$ctrl.subscriber.selected" multiple="false"> </custom-ui-select-subscriber>
                     </div>
                     <div class="col-xs-2 vcenter" ng-if="$ctrl.helper_exclusive">
-                        <a class="top-buffer btn btn-default ux-txt-success pointer" ng-class="{'disabled': !$ctrl.helper_keys.subscriber}"
-                            ng-click="$ctrl.ok('subscriber')" ng-disabled="!$ctrl.helper_keys.subscriber">
+                        <a class="top-buffer btn btn-default ux-txt-success pointer" ng-class="{'disabled': !$ctrl.helper_keys.subscriber}" ng-click="$ctrl.ok('subscriber')" ng-disabled="!$ctrl.helper_keys.subscriber">
                             <i class="fa fa-lg fa-files-o" aria-hidden="true"></i>
                         </a>
                     </div>
@@ -70,29 +62,24 @@
                 <div uib-accordion-heading>Subscriptions</div>
                 <div class="row row-eq-height">
                     <div class="col-xs-10">
-                        <custom-ui-select-subscription on-select-item="$ctrl.onSelectSubscriptionKey($item, $model)" specific-type="{{$ctrl.specific_type}}"
-                            on-remove="$ctrl.onDeleteSubscriptionKey()" entity="$ctrl.subscription.selected" multiple="false">
+                        <custom-ui-select-subscription on-select-item="$ctrl.onSelectSubscriptionKey($item, $model)" specific-type="{{$ctrl.specific_type}}" on-remove="$ctrl.onDeleteSubscriptionKey()" entity="$ctrl.subscription.selected" multiple="false">
                         </custom-ui-select-subscription>
                     </div>
                     <div class="col-xs-2 vcenter" ng-if="$ctrl.helper_exclusive">
-                        <a class="top-buffer btn btn-default ux-txt-success pointer" ng-class="{'disabled': !$ctrl.helper_keys.subscription}"
-                            ng-click="$ctrl.ok('subscription')" ng-disabled="!$ctrl.helper_keys.subscription">
+                        <a class="top-buffer btn btn-default ux-txt-success pointer" ng-class="{'disabled': !$ctrl.helper_keys.subscription}" ng-click="$ctrl.ok('subscription')" ng-disabled="!$ctrl.helper_keys.subscription">
                             <i class="fa fa-lg fa-files-o" aria-hidden="true"></i>
                         </a>
                     </div>
                 </div>
             </div>
-            <div uib-accordion-group is-open="$ctrl.datastreamIsOpen" is-disabled="$ctrl.helper_exclusive ? !$ctrl.datastreamIsExclusive: false"
-                class="datastream-option">
+            <div uib-accordion-group is-open="$ctrl.datastreamIsOpen" is-disabled="$ctrl.helper_exclusive ? !$ctrl.datastreamIsExclusive: false" class="datastream-option">
                 <div uib-accordion-heading>Datastream</div>
                 <div class="row row-eq-height">
                     <div class="col-xs-10">
-                        <custom-ui-select-datastream on-select-item="$ctrl.onSelectDatastreamKey($item, $model)" on-remove="$ctrl.onDeleteDatastreamKey()"
-                            datastream="$ctrl.datastream.selected" multiple="false"> </custom-ui-select-datastream>
+                        <custom-ui-select-datastream on-select-item="$ctrl.onSelectDatastreamKey($item, $model)" on-remove="$ctrl.onDeleteDatastreamKey()" datastream="$ctrl.datastream.selected" multiple="false"> </custom-ui-select-datastream>
                     </div>
                     <div class="col-xs-2 vcenter" ng-if="$ctrl.helper_exclusive">
-                        <a class="top-buffer btn btn-default ux-txt-success pointer" ng-class="{'disabled': !$ctrl.helper_keys.datastream}"
-                            ng-click="$ctrl.ok('datastream')" ng-disabled="!$ctrl.helper_keys.datastream">
+                        <a class="top-buffer btn btn-default ux-txt-success pointer" ng-class="{'disabled': !$ctrl.helper_keys.datastream}" ng-click="$ctrl.ok('datastream')" ng-disabled="!$ctrl.helper_keys.datastream">
                             <i class="fa fa-lg fa-files-o" aria-hidden="true"></i>
                         </a>
                     </div>
@@ -102,12 +89,10 @@
                 <div uib-accordion-heading>Areas</div>
                 <div class="row row-eq-height">
                     <div class="col-xs-10">
-                        <custom-ui-select-area on-select-item="$ctrl.onSelectAreaKey($item, $model)" on-remove="$ctrl.onDeleteAreaKey()"
-                            area="$ctrl.area.selected" organization="$ctrl.area.organization" multiple="false"> </custom-ui-select-area>
+                        <custom-ui-select-area on-select-item="$ctrl.onSelectAreaKey($item, $model)" on-remove="$ctrl.onDeleteAreaKey()" area="$ctrl.area.selected" organization="$ctrl.area.organization" multiple="false"> </custom-ui-select-area>
                     </div>
                     <div class="col-xs-2 vcenter" ng-if="$ctrl.helper_exclusive">
-                        <a class="top-buffer btn btn-default ux-txt-success pointer" ng-class="{'disabled': !$ctrl.helper_keys.area}"
-                            ng-click="$ctrl.ok('area')" ng-disabled="!$ctrl.helper_keys.area">
+                        <a class="top-buffer btn btn-default ux-txt-success pointer" ng-class="{'disabled': !$ctrl.helper_keys.area}" ng-click="$ctrl.ok('area')" ng-disabled="!$ctrl.helper_keys.area">
                             <i class="fa fa-lg fa-files-o" aria-hidden="true"></i>
                         </a>
                     </div>
@@ -117,12 +102,10 @@
                 <div uib-accordion-heading>Bundles</div>
                 <div class="row row-eq-height">
                     <div class="col-xs-10">
-                        <custom-ui-select-bundle on-select-item="$ctrl.onSelectBundleKey($item, $model)" on-remove="$ctrl.onDeleteBundleKey()"
-                            bundle="$ctrl.bundle.selected" multiple="false"> </custom-ui-select-bundle>
+                        <custom-ui-select-bundle on-select-item="$ctrl.onSelectBundleKey($item, $model)" on-remove="$ctrl.onDeleteBundleKey()" bundle="$ctrl.bundle.selected" multiple="false"> </custom-ui-select-bundle>
                     </div>
                     <div class="col-xs-2 vcenter" ng-if="$ctrl.helper_exclusive">
-                        <a class="top-buffer btn btn-default ux-txt-success pointer" ng-class="{'disabled': !$ctrl.helper_keys.bundle}"
-                            ng-click="$ctrl.ok('bundle')" ng-disabled="!$ctrl.helper_keys.bundle">
+                        <a class="top-buffer btn btn-default ux-txt-success pointer" ng-class="{'disabled': !$ctrl.helper_keys.bundle}" ng-click="$ctrl.ok('bundle')" ng-disabled="!$ctrl.helper_keys.bundle">
                             <i class="fa fa-lg fa-files-o" aria-hidden="true"></i>
                         </a>
                     </div>
@@ -132,19 +115,14 @@
                 <div uib-accordion-heading>Image</div>
                 <div class="row row-eq-height">
                     <div class="col-xs-12 col-md-8">
-                        <div name="image" ng-if="!$ctrl.helper_keys.image && !$ctrl.helper_keys.image.image" ngf-drop ng-model="$ctrl.image"
-                            ngf-max-size="1MB" ngf-select="$ctrl.imageSelected($file)" class="drop-box pointer" ngf-drag-over-class="'dragover'"
-                            ngf-multiple="false" ng-required="$ctrl.helper_keys.image" ngf-accept="'image/*'" ngf-dimensions="$width === $height"
-                            ngf-pattern="'image/*'">Click here or drop file here
+                        <div name="image" ng-if="!$ctrl.helper_keys.image && !$ctrl.helper_keys.image.image" ngf-drop="$ctrl.imageSelected($file)" ng-model="$ctrl.image" ngf-max-size="1MB" ngf-select="$ctrl.imageSelected($file)" class="drop-box pointer" ngf-drag-over-class="'dragover'"
+                            ngf-multiple="false" ng-required="$ctrl.helper_keys.image" ngf-accept="'image/*'" ngf-pattern="'image/*'">Click here or drop file here
                             <br>(max. size 1 MB)</div>
-                        <img ng-if="$ctrl.helper_keys.image && $ctrl.helper_keys.image.image"
-                            src="{{ $ctrl.helper_keys.image.image }}" style="max-height:200px;" name="image" /> </div>
+                        <img ng-if="$ctrl.helper_keys.image && $ctrl.helper_keys.image.image" src="{{ $ctrl.helper_keys.image.image }}" style="max-height:200px;" name="image" /> </div>
                     <div class="col-xs-12 col-md-4">
-                        <button id="idRemoveFileLink" ng-if="$ctrl.helper_keys.image && $ctrl.helper_keys.image.image" ng-click="$ctrl.removeDataFile()"
-                            class="btn btn-warning ux-txt-warning pointer">
+                        <button id="idRemoveFileLink" ng-if="$ctrl.helper_keys.image && $ctrl.helper_keys.image.image" ng-click="$ctrl.removeDataFile()" class="btn btn-warning ux-txt-warning pointer">
                             <i class="fa fa-trash" aria-hidden="true"></i> Remove</button>
-                        <a ng-if="$ctrl.helper_exclusive" class="top-buffer btn btn-default ux-txt-success pointer"
-                            ng-class="{'disabled': !$ctrl.helper_keys.bundle}" ng-click="$ctrl.ok('bundle')" ng-disabled="!$ctrl.helper_keys.bundle">
+                        <a ng-if="$ctrl.helper_exclusive" class="top-buffer btn btn-default ux-txt-success pointer" ng-class="{'disabled': !$ctrl.helper_keys.bundle}" ng-click="$ctrl.ok('bundle')" ng-disabled="!$ctrl.helper_keys.bundle">
                             <i class="fa fa-lg fa-files-o" aria-hidden="true"></i>
                         </a>
                     </div>
@@ -153,8 +131,7 @@
         </uib-accordion>
     </div>
     <div class="modal-footer">
-        <a ng-if="!$ctrl.helper_exclusive" class="top-buffer btn btn-default ux-txt-success pointer" ng-class="{'disabled': !$ctrl.canApply()}"
-            ng-click="$ctrl.ok()" ng-disabled="!$ctrl.canApply()">
+        <a ng-if="!$ctrl.helper_exclusive" class="top-buffer btn btn-default ux-txt-success pointer" ng-class="{'disabled': !$ctrl.canApply()}" ng-click="$ctrl.ok()" ng-disabled="!$ctrl.canApply()">
             <i class="fa fa-lg fa-files-o" aria-hidden="true"></i> All </a>
         <button class="btn btn-warning" type="button" ng-click="$ctrl.cancel()">Cancel</button>
     </div>

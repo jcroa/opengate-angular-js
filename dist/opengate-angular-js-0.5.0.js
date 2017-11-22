@@ -2775,7 +2775,7 @@ angular.module('opengate-angular-js').controller('customUiSelectDatastreamContro
                         var _category = { identifier: category.identifier };
                         angular.forEach(datastreams
                             .filter(function(ds) {
-                                return (ds.identifier.indexOf(ctrl.lastSearch) > -1 && !!ctrl.lastSearch.length) || !ctrl.lastSearch;
+                                return (ds.identifier.toLowerCase().indexOf(ctrl.lastSearch.toLowerCase()) > -1 && !!ctrl.lastSearch.length) || !ctrl.lastSearch;
                             }),
                             function(datastream, key) {
                                 var _datastream = angular.copy(datastream);

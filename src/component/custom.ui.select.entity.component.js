@@ -4,18 +4,19 @@
 angular.module('opengate-angular-js').controller('customUiSelectEntityController', ['$scope', '$element', '$attrs', '$api', function($scope, $element, $attrs, $api) {
     var ctrl = this;
     ctrl.ownConfig = {
-        builder: $api().devicesSearchBuilder().onCollected().onProvisioned(),
+        builder: $api().devicesSearchBuilder(),
         filter: function(search) {
             return {
                 'or': [
-                    { 'like': { 'entityId': search } },
-                    { 'like': { 'entityType': search } }
+                    { 'like': { 'provision.administration.identifier': search } },
+                    { 'like': { 'provision.device.specificType': search } },
+                    { 'like': { 'device.specificType': search } }
                 ]
             };
         },
         rootKey: 'devices',
         collection: [],
-        customSelectors: $api().devicesSearchBuilder().onCollected().onProvisioned()
+        customSelectors: $api().devicesSearchBuilder()
     };
 
     ctrl.entitySelected = function($item, $model) {
@@ -38,8 +39,8 @@ angular.module('opengate-angular-js').component('customUiSelectEntity', {
         onSelectItem: '&',
         onRemove: '&',
         entity: '=',
-        multiple: '@',
-        isRequired: '@'
+        multiple: '<',
+        isRequired: '='
     }
 
 });

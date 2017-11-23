@@ -5,8 +5,21 @@
 
 var _wizard = angular.module('opengate-angular-js');
 
-_wizard.controller('helperDialogController', ['$scope', '$element', '$attrs', '$uibModal', function($scope, $element, $attrs, $uibModal) {
+_wizard.controller('helperDialogController', ['$scope', '$element', '$attrs', '$uibModal', function ($scope, $element, $attrs, $uibModal) {
     var $helper = this;
+    var style = angular.element('<style title="helper-dialog-style">' +
+        'helper-dialog .row-eq-height,.helper-dialog .row-eq-height {display: -webkit-box;display: -webkit-flex;display: -ms-flexbox;display: flex;}' +
+        'helper-dialog .vcenter,.helper-dialog .vcenter {display: -webkit-box;display: -webkit-flex;display: -ms-flexbox;display: flex;flex-direction: column;justify-content: center;}' +
+        '.helper-dialog .top-buffer {margin-top: 25px;}' +
+        '.helper-dialog .custom-ui-select-label {display: none;}' +
+        '.helper-dialog .without-padding-top .form-group {margin-top: 0 !important;}' +
+        '.helper-dialog .without-padding-top.modal-body h4 {padding-bottom: 0px;}' +
+        '</style>');
+
+    var head = angular.element('html head');
+    if (head.find('style[title="helper-dialog-style"]').length === 0)
+        head.append(style);
+
     $helper.mode = 'default';
     if ($helper.helperTitle) {
         $helper.mode = 'title';
@@ -17,7 +30,7 @@ _wizard.controller('helperDialogController', ['$scope', '$element', '$attrs', '$
         $helper.mode = 'button';
     }
 
-    $helper.open = function() {
+    $helper.open = function () {
 
         var modalInstance = $uibModal.open({
             animation: true,
@@ -26,113 +39,397 @@ _wizard.controller('helperDialogController', ['$scope', '$element', '$attrs', '$
             templateUrl: 'helper.view.modal.html',
             controller: 'helperDialogModalController',
             controllerAs: '$ctrl',
+            windowClass: 'helper-dialog',
             resolve: {
-                helper_id: function() {
-                    return $helper.helperId;
+                helper_id: function () {
+                    if ($helper.componentsIds && $helper.componentsIds.length === 1) {
+                        return $helper.componentsIds[0];
+                    } else {
+                        return $helper.helperId;
+                    }
+
                 },
-                helper_exclusive: function() {
-                    return $helper.helperExclusive === "true";
+                helper_exclusive: function () {
+                    return $helper.helperExclusive === 'true';
+                },
+                specific_type: function () {
+                    return $helper.specificType;
+                },
+                helper_extra: function () {
+                    return $helper.helperExtra;
+                },
+                helper_selected: function () {
+                    if ($helper.helperExtra && $helper.helperExtra.selected) {
+                        return $helper.helperExtra.selected;
+                    } else {
+                        return $helper.selected;
+                    }
                 }
             }
         });
         //Send result
-        modalInstance.result.then(function(helper_result) {
+        modalInstance.result.then(function (helper_result) {
             if (helper_result) {
                 $helper.selected = angular.fromJson(helper_result);
-                if ($helper.onCopy)
-                    $helper.onCopy({ $helper_keys: helper_result });
+                if ($helper.onCopy) {
+                    $helper.onCopy({
+                        $helper_keys: helper_result
+                    });
+                }
 
+                if ($helper.onMulti && angular.isArray($helper.onMulti)) {
+                    angular.forEach($helper.onMulti, function (_onCopy, idx) {
+                        if (angular.isFunction(_onCopy))
+                            _onCopy({
+                                $helper_keys: helper_result
+                            });
+                    });
+                }
             } else {
-                console.warn("Nothing selected on modal");
+                console.warn('Nothing selected on modal');
             }
-        }, function() {});
+        }, function () {});
     };
 }]);
 
-_wizard.controller('helperDialogModalController', ['$scope', '$uibModalInstance', 'helper_id', 'helper_exclusive', function($scope, $uibModalInstance, helper_id, helper_exclusive) {
-    var $ctrl = this;
-    $ctrl.helper_id = helper_id;
-    $ctrl[helper_id + 'IsOpen'] = true;
-    $ctrl[helper_id + 'IsExclusive'] = $ctrl.helper_exclusive = helper_exclusive;
-    $ctrl.helper_keys = {};
-    var events = [];
+_wizard.controller('helperDialogModalController', ['$scope', '$uibModalInstance', 'helper_id', 'helper_exclusive', 'specific_type', 'helper_extra', 'helper_selected', 'Upload',
+    function ($scope, $uibModalInstance, helper_id, helper_exclusive, specific_type, helper_extra, helper_selected, Upload) {
+        var $ctrl = this;
+        $ctrl.helper_extra = helper_extra;
 
-    //config map helper
-    $ctrl.map = {
-        center: {
-            lat: 40.095,
-            lng: -3.823,
-            zoom: 4
-        },
-        markers: {},
-        events: {
-            markers: {
-                enable: ['dragend', 'click'],
-                logic: 'emit'
-            },
-            map: {
-                enable: ['click'],
-                logic: 'emit'
-            }
+        if (helper_id) {
+            // Extraer el primer bloque de letras para intentar determinar el tipo de campo
+            var regex = /(\w|0-9)+/g;
+            helper_id = regex.exec(helper_id.toLowerCase())[0];
+
+            $ctrl.helper_id = helper_id;
+
+            $ctrl[helper_id + 'IsOpen'] = true;
+            $ctrl[helper_id + 'IsExclusive'] = $ctrl.helper_exclusive = helper_exclusive;
         }
-    };
+        $ctrl.helper_keys = {};
+        $ctrl.specific_type = specific_type;
+        var events = [];
 
-    function setPosition(lat, lng) {
-        $ctrl.helper_keys['map'] = {
-            latitude: lat,
-            longitude: lng
+        //config map helper
+        $ctrl.map = {
+            center: {
+                lat: helper_selected && helper_selected.latitude ? helper_selected.latitude : 40.095,
+                lng: helper_selected && helper_selected.longitude ? helper_selected.longitude : -3.823,
+                zoom: helper_selected && helper_selected.zoom ? helper_selected.zoom : 4
+            },
+            markers: {},
+            events: {
+                markers: {
+                    enable: ['dragend', 'click'],
+                    logic: 'emit'
+                },
+                map: {
+                    enable: ['click'],
+                    logic: 'emit'
+                }
+            }
         };
-    };
 
-    events.push(
-        $scope.$on('leafletDirectiveMarker.map-marker.click', function(event, args) {
-            delete $ctrl.helper_keys.map;
-            $ctrl.map.markers = {};
-        }),
-        $scope.$on('leafletDirectiveMap.map-marker.click', function(event, args) {
-            var latlng = args.leafletEvent.latlng;
+        if (helper_selected && helper_selected.latitude) {
             $ctrl.map.markers = {
                 marker: {
-                    lat: latlng.lat,
-                    lng: latlng.lng,
+                    lat: helper_selected.latitude,
+                    lng: helper_selected.longitude,
                     draggable: true,
                     focus: true,
                     message: 'Drag me to move. Click me to remove'
                 }
             };
-            setPosition(latlng.lat, latlng.lng);
-        }),
-        $scope.$on('leafletDirectiveMarker.map-marker.dragend', function(event, args) {
-            var point = args.leafletEvent.target._leaflet_events.dragend[0].context._latlng;
-            setPosition(point.lat, point.lng);
-        })
-    );
-
-    //config entity
-    $ctrl.entity = {};
-    $scope.onSelectEntityKey = function($item, $model) {
-        $ctrl.helper_keys['entity'] = { entityKey: $item.id };
-    };
-
-    $scope.onDeleteEntityKey = function() {
-        delete $ctrl.helper_keys.entity;
-    };
-
-    //Modal methods
-    $ctrl.ok = function(helper) {
-        $uibModalInstance.close($ctrl.helper_keys[helper]);
-    };
-    $ctrl.cancel = function() {
-        $uibModalInstance.dismiss('cancel');
-    };
-
-    //clear evetns
-    $scope.$on('destroy', function() {
-        for (var eventToDestroy in events) {
-            eventToDestroy();
+            setPosition(helper_selected.latitude, helper_selected.longitude, helper_selected.zoom);
         }
-    });
-}]);
+
+        // contorl de elementos de entrada
+        if (helper_extra) {
+            // configuración extra de mapa
+            if (helper_extra.map) {
+                var markers = {
+                    marker: {
+                        draggable: true,
+                        focus: true,
+                        message: 'Drag me to move. Click me to remove'
+                    }
+                };
+                $ctrl.map = _.merge($ctrl.map, helper_extra.map, markers);
+            }
+
+            //Configuracion extra para areas
+            if (helper_extra.area) {
+                $ctrl.area = helper_extra.area
+            }
+        }
+
+        function setPosition(lat, lng, zoom) {
+            $ctrl.helper_keys['map'] = {
+                latitude: lat,
+                longitude: lng,
+                zoom: zoom
+            };
+        };
+
+        events.push(
+            $scope.$on('leafletDirectiveMarker.map-marker.click', function (event, args) {
+                delete $ctrl.helper_keys.map;
+                $ctrl.map.markers = {};
+            }),
+            $scope.$on('leafletDirectiveMap.map-marker.click', function (event, args) {
+                var latlng = args.leafletEvent.latlng;
+                $ctrl.map.markers = {
+                    marker: {
+                        lat: latlng.lat,
+                        lng: latlng.lng,
+                        draggable: true,
+                        focus: true,
+                        message: 'Drag me to move. Click me to remove'
+                    }
+                };
+                setPosition(latlng.lat, latlng.lng, args.leafletObject._zoom);
+            }),
+            $scope.$on('leafletDirectiveMarker.map-marker.dragend', function (event, args) {
+                var point = args.leafletEvent.target._leaflet_events.dragend[0].context._latlng;
+                setPosition(point.lat, point.lng, args.leafletObject._zoom);
+            })
+        );
+
+        //config datastream
+        $ctrl.datastream = {};
+        if (helper_selected && helper_selected.datastreamId) {
+            $ctrl.helper_keys['datastream'] = {
+                datastreamId: helper_selected.datastreamId
+            };
+            $ctrl.datastream = {
+                selected: [{
+                    identifier: helper_selected.datastreamId
+                }]
+            };
+        }
+        $ctrl.onSelectDatastreamKey = function ($item, $model) {
+            $ctrl.helper_keys['datastream'] = {
+                datastreamId: $item.identifier
+            };
+        };
+
+        $ctrl.onDeleteDatastreamKey = function () {
+            delete $ctrl.helper_keys.datastream;
+        };
+
+        //config entity
+        $ctrl.entity = {};
+        if (helper_selected && helper_selected.entityKey) {
+            $ctrl.helper_keys['entity'] = {
+                entityKey: helper_selected.entityKey
+            };
+            $ctrl.entity = {
+                selected: [{
+                    provision: {
+                        administration: {
+                            identifier: {
+                                _current: {
+                                    value: helper_selected.entityKey
+                                }
+                            }
+                        }
+                    }
+                }]
+            };
+        }
+
+        $ctrl.onSelectEntityKey = function ($item, $model) {
+            // $ctrl.helper_keys['entity'] = { entityKey: $item.id };
+            $ctrl.helper_keys['entity'] = {
+                entityKey: $item.provision.administration.identifier._current.value
+            };
+        };
+
+        $ctrl.onDeleteEntityKey = function () {
+            delete $ctrl.helper_keys.entity;
+        };
+
+        //config subscriber
+        $ctrl.subscriber = {};
+        if (helper_selected && helper_selected.subscriberKey) {
+            $ctrl.helper_keys['subscriberKey'] = {
+                subscriberKey: helper_selected.subscriberKey
+            };
+            $ctrl.subscriber = {
+                selected: [{
+                    provision: {
+                        subscriber: {
+                            identifier: {
+                                _current: {
+                                    value: helper_selected.subscriberKey
+                                }
+                            }
+                        }
+                    }
+                }]
+            };
+        }
+
+        $ctrl.onSelectSubscriberKey = function ($item, $model) {
+            $ctrl.helper_keys['subscriber'] = $item;
+        };
+
+        $ctrl.onDeleteSubscriberKey = function () {
+            delete $ctrl.helper_keys.subscriber;
+        };
+
+        //config entity
+        $ctrl.subscription = {};
+
+        if (helper_selected && helper_selected.subscriptionKey) {
+            $ctrl.helper_keys['subscriptionKey'] = {
+                subscriptionKey: helper_selected.subscriptionKey
+            };
+            $ctrl.subscription = {
+                selected: [{
+                    provision: {
+                        subscription: {
+                            identifier: {
+                                _current: {
+                                    value: helper_selected.subscriptionKey
+                                }
+                            }
+                        }
+                    }
+                }]
+            };
+        }
+
+        $ctrl.onSelectSubscriptionKey = function ($item, $model) {
+            $ctrl.helper_keys['subscription'] = $item;
+        };
+
+        $ctrl.onDeleteSubscriptionKey = function () {
+            delete $ctrl.helper_keys.subscription;
+        };
+
+        //config areas
+        if (!$ctrl.area) {
+            $ctrl.area = {};
+        } else {
+            delete $ctrl.area.selected;
+        }
+
+        if (helper_selected && helper_selected.area) {
+            $ctrl.helper_keys['area'] = {
+                area: helper_selected.area
+            };
+            $ctrl.area.selected = [{
+                identifier: helper_selected.area
+            }];
+        }
+
+        $ctrl.onSelectAreaKey = function ($item, $model) {
+            $ctrl.helper_keys['area'] = {
+                area: $item.identifier
+            };
+        };
+
+        $ctrl.onDeleteAreaKey = function () {
+            delete $ctrl.helper_keys.area;
+        };
+
+        //Condicion para botón de aplicar todo lo seleccionado en los helpers
+        $ctrl.canApply = function () {
+            return Object.keys($ctrl.helper_keys).length > 0;
+        };
+
+
+        //config bundles
+        if (!$ctrl.bundle) {
+            $ctrl.bundle = {};
+        } else {
+            delete $ctrl.bundle.selected;
+        }
+
+        if (helper_selected && helper_selected.bundle) {
+            $ctrl.helper_keys['bundle'] = {
+                bundle: helper_selected.bundle
+            };
+            $ctrl.bundle.selected = [{
+                id: helper_selected.bundle
+            }];
+        }
+
+        $ctrl.onSelectBundleKey = function ($item, $model) {
+            $ctrl.helper_keys['bundle'] = {
+                bundleId: $item.id,
+                bundleName: $item.name,
+                bundleVersion: $item.version
+            };
+        };
+
+        $ctrl.onDeleteBundleKey = function () {
+            delete $ctrl.helper_keys.bundle;
+        };
+
+        // imagen
+        if (helper_selected && helper_selected.image) {
+            $ctrl.helper_keys.image = {
+                image: helper_selected.image
+            };
+        }
+
+        $ctrl.imageSelected = function (file) {
+            if (file) {
+                Upload.base64DataUrl(file).then(
+                    function (url) {
+                        $ctrl.helper_keys['image'] = {
+                            image: url
+                        };
+                    });
+            } else {
+                $ctrl.removeDataFile();
+            }
+        };
+
+        $ctrl.removeDataFile = function () {
+            delete $ctrl.helper_keys.image;
+        };
+
+        //Condicion para botón de aplicar todo lo seleccionado en los helpers
+        $ctrl.canApply = function () {
+            return Object.keys($ctrl.helper_keys).length > 0;
+        };
+
+        //Modal methods
+        $ctrl.ok = function (helper) {
+            if (helper) {
+                $uibModalInstance.close($ctrl.helper_keys[helper]);
+            } else {
+                var finalKeys = {};
+                angular.forEach($ctrl.helper_keys, function (value, key) {
+                    if (key.trim().toLowerCase() === 'subscriber' || key.trim().toLowerCase() === 'subscription') {
+                        var identifier = value.provision[key.trim().toLowerCase()].identifier._current.value;
+                        finalKeys[key.trim().toLowerCase() + 'Key'] = identifier;
+                    } else {
+                        angular.forEach(value, function (finalValue, finalkey) {
+                            finalKeys[finalkey] = finalValue;
+                        });
+                    }
+                });
+
+                $uibModalInstance.close(finalKeys);
+            }
+        };
+        $ctrl.cancel = function () {
+            $uibModalInstance.dismiss('cancel');
+        };
+
+        //clear evetns
+        $scope.$on('destroy', function () {
+            for (var eventToDestroy in events) {
+                eventToDestroy();
+            }
+        });
+    }
+]);
 
 
 _wizard.component('helperDialog', {
@@ -143,10 +440,13 @@ _wizard.component('helperDialog', {
     bindings: {
         onCopy: '&',
         helperId: '@',
+        specificType: '@',
         helperButton: '@',
         helperTitle: '@',
         helperExclusive: '@',
+        helperExtra: '<',
         modalTemplate: '@',
-        modalController: '@'
+        modalController: '@',
+        onMulti: '<'
     }
 });

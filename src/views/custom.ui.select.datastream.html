@@ -1,0 +1,62 @@
+<div class="form-group" mass-autocomplete ng-if="$ctrl.multiple">
+    <label class="custom-ui-select-label">Datastream Id</label>
+    <ui-select custom-ui-select-config="$ctrl.ownConfig" name="datastream" ng-model="$ctrl.datastream" theme="bootstrap" title="Choose a datastream" custom-ui-select multiple="true" custom-mass-autocomplete-item="$ctrl.ownConfig" on-select="$ctrl.datastreamSelected($item, $model)"
+        on-remove="$ctrl.datastreamRemove($item, $model)" ng-required="$ctrl.isRequired">
+        <ui-select-match placeholder="Choose a datastream" allow-clear="true">
+            {{$item.identifier}}
+        </ui-select-match>
+        <ui-select-choices repeat="ds in $ctrl.ownConfig.collection | filter:$select.search track by $index">
+            <div>
+                <span ng-bind-html="ds.identifier | highlight: $select.search"></span> -
+                <span ng-bind-html="ds.name | highlight: $select.search"></span>
+            </div>
+            <small>
+                        <div ng-if="ds.category.name">
+                            Category: <span ng-bind-html="ds.category.name | highlight: $select.search"></span>
+                        </div>
+                        <div ng-if="ds.feed">
+                            Feed: <span ng-bind-html="ds.feed | highlight: $select.search"></span>
+                        </div>
+                        <div ng-if="ds.datamodel">
+                            <div>Datamodel:</div>
+                            <div>- Id: <span ng-bind-html="ds.datamodel.identifier | highlight: $select.search"></span>
+                            <div>- Organization: <span ng-bind-html="ds.datamodel.organization | highlight: $select.search"></span>
+                            <div>- Name: <span ng-bind-html="ds.datamodel.name | highlight: $select.search"></span>
+                            <div>- Description: <span ng-bind-html="ds.datamodel.description | highlight: $select.search"></span>
+                            <div>- Version: <span ng-bind-html="ds.datamodel.version | highlight: $select.search"></span>
+                        </div>
+                    </small>
+        </ui-select-choices>
+    </ui-select>
+</div>
+<div class="form-group" mass-autocomplete ng-if="!$ctrl.multiple">
+    <label class="custom-ui-select-label">Datastream Id</label>
+    <ui-select custom-ui-select-config="$ctrl.ownConfig" name="datastream" ng-model="$ctrl.datastream" theme="bootstrap" title="Choose a datastream" custom-ui-select multiple="false" custom-mass-autocomplete-item="$ctrl.ownConfig" on-select="$ctrl.datastreamSelected($item, $model)"
+        on-remove="$ctrl.datastreamRemove($item, $model)" ng-required="$ctrl.isRequired">
+        <ui-select-match placeholder="Choose a datastream" allow-clear="true">
+            {{$item.identifier}}
+        </ui-select-match>
+        <ui-select-choices repeat="ds in $ctrl.ownConfig.collection | filter:$select.search track by $index">
+            <div>
+                <span ng-bind-html="ds.identifier | highlight: $select.search"></span> -
+                <span ng-bind-html="ds.name | highlight: $select.search"></span>
+            </div>
+            <small>
+                        <div ng-if="ds.category.name">
+                            Category: <span ng-bind-html="ds.category.name | highlight: $select.search"></span>
+                        </div>
+                        <div ng-if="ds.feed">
+                            Feed: <span ng-bind-html="ds.feed | highlight: $select.search"></span>
+                        </div>
+                        <div ng-if="ds.datamodel">
+                            <div>Datamodel:</div>
+                            <div>- Id: <span ng-bind-html="ds.datamodel.identifier | highlight: $select.search"></span>
+                            <div>- Organization: <span ng-bind-html="ds.datamodel.organization | highlight: $select.search"></span>
+                            <div>- Name: <span ng-bind-html="ds.datamodel.name | highlight: $select.search"></span>
+                            <div>- Description: <span ng-bind-html="ds.datamodel.description | highlight: $select.search"></span>
+                            <div>- Version: <span ng-bind-html="ds.datamodel.version | highlight: $select.search"></span>
+                        </div>
+                    </small>
+        </ui-select-choices>
+    </ui-select>
+</div>

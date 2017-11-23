@@ -1,0 +1,32 @@
+<div class="form-group" mass-autocomplete ng-if="$ctrl.multiple">
+    <label class="custom-ui-select-label">Area</label>
+    <ui-select custom-ui-select-config="$ctrl.ownConfig" name="area" ng-model="$ctrl.area" theme="bootstrap" title="Choose an area multi" custom-ui-select multiple="true" custom-mass-autocomplete-item="$ctrl.ownConfig" on-select="$ctrl.areaSelected($item, $model)"
+        on-remove="$ctrl.areaRemove($item, $model)" ng-required="$ctrl.isRequired">
+        <ui-select-match placeholder="Choose an area multi" allow-clear="true">
+            {{$item.identifier}}
+        </ui-select-match>
+        <ui-select-choices repeat="area in $ctrl.ownConfig.collection | filter:$select.search track by $index">
+            <div>
+                <span ng-bind-html="area.identifier | highlight: $select.search"></span> -
+                <span ng-bind-html="area.name | highlight: $select.search"></span><br>
+                <span ng-bind-html="area.organization | highlight: $select.search"></span>
+            </div>
+        </ui-select-choices>
+    </ui-select>
+</div>
+<div class="form-group" mass-autocomplete ng-if="!$ctrl.multiple">
+    <label class="custom-ui-select-label">Area</label>
+    <ui-select custom-ui-select-config="$ctrl.ownConfig" name="area" ng-model="$ctrl.area" theme="bootstrap" title="Choose an area" custom-ui-select multiple="false" custom-mass-autocomplete-item="$ctrl.ownConfig" on-select="$ctrl.areaSelected($item, $model)"
+        on-remove="$ctrl.areaRemove($item, $model)" ng-required="$ctrl.isRequired">
+        <ui-select-match placeholder="Choose an area" allow-clear="true">
+            {{$item.identifier}}
+        </ui-select-match>
+        <ui-select-choices repeat="area in $ctrl.ownConfig.collection | filter:$select.search track by $index">
+            <div>
+                <span ng-bind-html="area.identifier | highlight: $select.search"></span> -
+                <span ng-bind-html="area.name | highlight: $select.search"></span><br>
+                <span ng-bind-html="area.organization | highlight: $select.search"></span>
+            </div>
+        </ui-select-choices>
+    </ui-select>
+</div>

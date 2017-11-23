@@ -118,12 +118,40 @@ angular.module('opengate-angular-js')
             return { code: input.code, message: errors[input.code] || input.message };
         };
     })
+    .filter('wapiErrors', function() {
+        var errors = {
+            '-1': 'Connection problems',
+            '413': 'Upload size exceeded'
+        };
+
+        return function(status, partialMessage) {
+            var finalMessage = '';
+            if (!angular.isUndefined(partialMessage)) {
+                finalMessage = partialMessage + ' (' + (errors[status] ? errors[status] : 'Code: ' + status) + ')';
+            } else {
+                finalMessage = (errors[status] ? errors[status] : 'Code: ' + status);
+            }
+            return finalMessage;
+        };
+    })
     .filter('textlength', function() {
-        return function(input) {
-            if (input && input.length > 30) {
-                return input.substring(0, 30) + '...';
+        return function(input, optional1) {
+            var maxLength = 30;
+            if (optional1 && angular.isNumber(optional1)) {
+                maxLength = optional1;
+            }
+
+            if (input && input.length > maxLength) {
+                return input.substring(0, maxLength) + '...';
             } else {
                 return input;
             }
+        };
+    }).filter('compactid', function() {
+        return function(input) {
+            if (input && input.indexOf('.') > -1) {
+                return input.substring(input.lastIndexOf('.') + 1);
+            }
+            return input;
         };
     });

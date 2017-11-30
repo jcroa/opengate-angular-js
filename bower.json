@@ -1,6 +1,6 @@
 {
     "name": "opengate-angular-js",
-    "version": "2.0.0",
+    "version": "2.0.1",
     "authors": ["amplia-iiot"],
     "description": "OpengateUX angular extra directives and services",
     "license": "",

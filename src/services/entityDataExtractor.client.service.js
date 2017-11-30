@@ -118,11 +118,16 @@ angular.module('opengate-angular-js')
 
                     // completar informacion de caja si hay datos
                     if (finalData[element] || finalData.provision[element]) {
+
+
                         // Se coge el documento entero
                         finalData['$device'] = entityData;
 
                         // administration data
                         if (entityData.provision.administration) {
+                            if (!finalData.provision) {
+                                finalData.provision = {};
+                            }
                             finalData.provision.administration = entityData.provision.administration;
 
                             if (entityIdentifier) {

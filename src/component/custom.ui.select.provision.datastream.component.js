@@ -2,12 +2,12 @@
 
 
 angular.module('opengate-angular-js').controller('customUiSelectProvisionDatastreamController', ['$scope', '$element', '$attrs', '$api', '$q', '$http', '$provisionDatastreamsUtils',
-    function ($scope, $element, $attrs, $api, $q, $http, $provisionDatastreamsUtils) {
+    function($scope, $element, $attrs, $api, $q, $http, $provisionDatastreamsUtils) {
         var ctrl = this;
 
         ctrl.ownConfig = {
             builder: $api().datamodelsSearchBuilder(),
-            filter: function (search) {
+            filter: function(search) {
                 ctrl.lastSearch = search;
                 var filter = $provisionDatastreamsUtils.getFilter();
                 if (ctrl.allowedResourceTypes) {
@@ -19,23 +19,32 @@ angular.module('opengate-angular-js').controller('customUiSelectProvisionDatastr
                     })
                 }
                 if (search) {
-                    filter.and.push({
-                        'like': {
-                            'datamodels.categories.datastreams.name': search
-                        }
-                    });
+                    var orFilter = {
+                        or: [{
+                                'like': {
+                                    'datamodels.categories.datastreams.identifier': search
+                                }
+                            },
+                            {
+                                'like': {
+                                    'datamodels.categories.datastreams.name': search
+                                }
+                            }
+                        ]
+                    };
+                    filter.and.push(orFilter);
                 }
                 return filter;
             },
             rootKey: 'datamodels',
             collection: [],
-            processingData: function (data, collection) {
+            processingData: function(data, collection) {
                 //if (!ctrl.lastSearch) return $q(function(ok) { ok([]); });
-                return $q(function (ok) {
+                return $q(function(ok) {
                     var _datastreams = [];
                     var datamodels = data.data.datamodels;
                     datamodels = $provisionDatastreamsUtils.filterForCoreDatamodelsCatalog(datamodels);
-                    angular.forEach(datamodels, function (datamodel, key) {
+                    angular.forEach(datamodels, function(datamodel, key) {
                         var categories = datamodel.categories;
                         var _datamodel = {
                             identifier: datamodel.identifier,
@@ -43,16 +52,16 @@ angular.module('opengate-angular-js').controller('customUiSelectProvisionDatastr
                             name: datamodel.name,
                             organization: datamodel.organizationName
                         };
-                        angular.forEach(categories, function (category, key) {
+                        angular.forEach(categories, function(category, key) {
                             var datastreams = category.datastreams;
                             var _category = {
                                 identifier: category.identifier
                             };
                             angular.forEach(datastreams
-                                .filter(function (ds) {
+                                .filter(function(ds) {
                                     return (ds.identifier.indexOf(ctrl.lastSearch) > -1 && !!ctrl.lastSearch.length) || !ctrl.lastSearch;
                                 }),
-                                function (datastream, key) {
+                                function(datastream, key) {
                                     var _datastream = angular.copy(datastream);
                                     _datastream.datamodel = _datamodel;
                                     _datastream.category = _category;
@@ -67,14 +76,14 @@ angular.module('opengate-angular-js').controller('customUiSelectProvisionDatastr
             customSelectors: $api().datamodelsSearchBuilder()
         };
 
-        ctrl.datastreamSelected = function ($item, $model) {
+        ctrl.datastreamSelected = function($item, $model) {
             var return_obj = {};
             return_obj['$item'] = $item;
             return_obj['$model'] = $model;
             ctrl.onSelectItem(return_obj);
         };
 
-        ctrl.datastreamRemove = function ($item, $model) {
+        ctrl.datastreamRemove = function($item, $model) {
             var return_obj = {};
             return_obj['$item'] = $item;
             return_obj['$model'] = $model;

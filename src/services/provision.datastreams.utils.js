@@ -1,33 +1,33 @@
 angular.module('opengate-angular-js')
-    .service('$provisionDatastreamsUtils', [function () {
+    .service('$provisionDatastreamsUtils', [function() {
         var internal_catalog = ["internal", "provisionSubscriber", "provisionGeneric", "provisionDevice", "provisionAsset", "provisionSubscription"];
 
         var filter = {
             and: [{
                     like: {
-                        'datamodels.categories.datastreams.name': '^(provision\.).*'
+                        'datamodels.categories.datastreams.identifier': '^(provision\.).*'
                     }
                 },
                 {
                     like: {
-                        'datamodels.categories.datastreams.name': '^(?!provision\.administration\.).*'
+                        'datamodels.categories.datastreams.identifier': '^(?!provision\.administration\.).*'
                     }
                 },
                 {
                     like: {
-                        'datamodels.categories.datastreams.name': '^(?!provision\.device\.).*'
+                        'datamodels.categories.datastreams.identifier': '^(?!provision\.device\.).*'
                     }
                 },
                 {
                     like: {
-                        'datamodels.categories.datastreams.name': '^(?!provision\.asset\.).*'
+                        'datamodels.categories.datastreams.identifier': '^(?!provision\.asset\.).*'
                     }
                 }
             ]
         };
 
         function filterForCoreDatamodelsCatalog(datamodels) {
-            return datamodels.filter(function (datamodel) {
+            return datamodels.filter(function(datamodel) {
                 return internal_catalog.indexOf(datamodel.identifier) === -1;
             });
         }

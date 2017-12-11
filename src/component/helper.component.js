@@ -196,6 +196,28 @@ _wizard.controller('helperDialogModalController', ['$scope', '$uibModalInstance'
             })
         );
 
+        //config domain
+        $ctrl.domain = {};
+        if (helper_selected && helper_selected.name) {
+            $ctrl.helper_keys['domain'] = {
+                name: helper_selected.name
+            };
+            $ctrl.datastream = {
+                selected: [{
+                    name: helper_selected.name
+                }]
+            };
+        }
+        $ctrl.onSelectDomainKey = function ($item, $model) {
+            $ctrl.helper_keys['domain'] = {
+                name: $item.name
+            };
+        };
+
+        $ctrl.onDeleteDomainKey = function () {
+            delete $ctrl.helper_keys.name;
+        };
+
         //config datastream
         $ctrl.datastream = {};
         if (helper_selected && helper_selected.datastreamId) {

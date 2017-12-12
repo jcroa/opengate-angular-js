@@ -44,7 +44,7 @@ angular.module('opengate-angular-js').component('customUiSelectDomain', {
     bindings: {
         onSelectItem: '&',
         onRemove: '&',
-        entity: '=',
+        domain: '=',
         multiple: '<',
         isRequired: '='
     }

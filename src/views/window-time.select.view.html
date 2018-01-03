@@ -1,15 +1,15 @@
 <div class="window-time-container">
-    <button type="button" class="btn btn-xs" ng-class="oneDayClass" ng-click="oneDay()">Last day</button>
-    <button type="button" class="btn btn-xs" ng-class="oneWeekClass" ng-click="oneWeek()">Last 7 days</button>
-    <button type="button" class="btn btn-xs" ng-class="oneMonthClass" ng-click="oneMonth()">Last 30 days</button>
-    <button type="button" class="btn btn-xs" ng-class="customClass" ng-click="custom()">Custom</button>
-    <button type="button" class="btn btn-xs btn-info" ng-if="customEnabled" ng-disabled="!!errorCustomWindow" ng-click="applyCustom()">Apply</button>
-    <button type="button" class="btn btn-xs btn-info" ng-if="filterApplied" ng-click="clear()">Clear</button>
+    <button type="button" class="btn btn-xs" ng-class="oneDayClass" ng-click="oneDay()" translate>BUTTON.TITLE.LAST_DAY</button>
+    <button type="button" class="btn btn-xs" ng-class="oneWeekClass" ng-click="oneWeek()" translate>BUTTON.TITLE.LAST_SEVEN_DAY</button>
+    <button type="button" class="btn btn-xs" ng-class="oneMonthClass" ng-click="oneMonth()" translate>BUTTON.TITLE.LAST_THIRTY_DAY</button>
+    <button type="button" class="btn btn-xs" ng-class="customClass" ng-click="custom()" translate>BUTTON.TITLE.CUSTOM</button>
+    <button type="button" class="btn btn-xs btn-info" ng-if="customEnabled" ng-disabled="!!errorCustomWindow" ng-click="applyCustom()" translate>BUTTON.TITLE.APPLY</button>
+    <button type="button" class="btn btn-xs btn-info" ng-if="filterApplied" ng-click="clear()" translate>BUTTON.TITLE.CLEAR </button>
     <div ng-if="customEnabled" class="window-time-body">
         <div class="row">
             <div class="col-xs-12">
                 <p class="input-group">
-                    <label class="control-label">From: {{fromDate | date:'fullDate'}}</label>
+                    <label class="control-label">{{ 'FORM.LABEL.FROM' | translate }}: {{fromDate | date:'fullDate'}}</label>
                     <input readonly="readonly" datepicker-options="fromOptions" type="text" class="form-control" show-button-bar="false" uib-datepicker-popup="{{format}}" ng-model="date.from" is-open="fromPopup.opened" ng-required="true" close-text="Close" ng-change="fromChange()"
                     />
                     <span class="input-group-btn">
@@ -24,7 +24,7 @@
         <div class="row">
             <div class="col-xs-12">
                 <p class="input-group">
-                    <label class="control-label">To: {{toDate | date:'fullDate'}}</label>
+                    <label class="control-label">{{ 'FORM.LABEL.TO' | translate }}: {{toDate | date:'fullDate'}}</label>
                     <input readonly="readonly" datepicker-options="toOptions" type="text" class="form-control" show-button-bar="false" uib-datepicker-popup="{{format}}" ng-model="date.to" is-open="toPopup.opened" ng-required="true" close-text="Close" ng-change="toChange()"
                     />
                     <span class="input-group-btn">

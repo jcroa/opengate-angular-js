@@ -16,140 +16,140 @@ angular.module('opengate-angular-js').service('$oguxThemes', [
                 'id': 'red',
                 'sample': '#f44336',
                 'rgba': 'rgba(244, 67, 54, 0.5)',
-                'name': 'Red',
+                'name': 'COLOR.RED',
                 'theme': ['light', 'default']
             },
             'pink': {
                 'id': 'pink',
                 'sample': '#e91e63',
                 'rgba': 'rgba(233, 30, 99, 0.5)',
-                'name': 'Pink',
+                'name': 'COLOR.PINK',
                 'theme': ['light', 'default']
             },
             'purple': {
                 'id': 'purple',
                 'sample': '#9c27b0',
                 'rgba': 'rgba(156, 39, 176, 0.5)',
-                'name': 'Purple',
+                'name': 'COLOR.PURPLE',
                 'theme': ['light']
             },
             'deeppurple': {
                 'id': 'deeppurple',
                 'sample': '#673ab7',
                 'rgba': 'rgba(103, 10, 183, 0.5)',
-                'name': 'Deep Purple',
+                'name': 'COLOR.DEEP_PURPLE',
                 'theme': ['light']
             },
             'indigo': {
                 'id': 'indigo',
                 'sample': '#3f51b5',
                 'rgba': 'rgba(63, 81, 181, 0.5)',
-                'name': 'Indigo',
+                'name': 'COLOR.INDIGO',
                 'theme': ['light']
             },
             'blue': {
                 'id': 'blue',
                 'sample': '#2196f3',
                 'rgba': 'rgba(33, 150, 243, 0.5)',
-                'name': 'Blue',
+                'name': 'COLOR.BLUE',
                 'theme': ['light', 'default']
             },
             'lightblue': {
                 'id': 'lightblue',
                 'sample': '#03a9f4',
                 'rgba': 'rgba(3, 169, 244, 0.5)',
-                'name': 'Light Blue',
+                'name': 'COLOR.LIGTH_BLUE',
                 'theme': ['light', 'default']
             },
             'cyan': {
                 'id': 'cyan',
                 'sample': '#00bcd4',
                 'rgba': 'rgba(0, 188, 212, 0.5)',
-                'name': 'Cyan',
+                'name': 'COLOR.CYAN',
                 'theme': ['light', 'default']
             },
             'teal': {
                 'id': 'teal',
                 'sample': '#009688',
                 'rgba': 'rgba(0, 150, 136, 0.5)',
-                'name': 'Teal',
+                'name': 'COLOR.TEAL',
                 'theme': ['light', 'default']
             },
             'green': {
                 'id': 'green',
                 'sample': '#4caf50',
                 'rgba': 'rgba(76, 175, 80, 0.5)',
-                'name': 'Green',
+                'name': 'COLOR.GREEN',
                 'theme': ['light', 'default']
             },
             'lightgreen': {
                 'id': 'lightgreen',
                 'sample': '#8bc34a',
                 'rgba': 'rgba(139, 195, 74, 0.5)',
-                'name': 'Light Green',
+                'name': 'COLOR.LIGHT_GREEN',
                 'theme': ['light', 'default']
             },
             'lime': {
                 'id': 'lime',
                 'sample': '#cddc39',
                 'rgba': 'rgba(205, 220, 57, 0.5)',
-                'name': 'Lime',
+                'name': 'COLOR.LIME',
                 'theme': ['default']
             },
             'yellow': {
                 'id': 'yellow',
                 'sample': '#ffeb3b',
                 'rgba': 'rgba(255, 235, 59, 0.5)',
-                'name': 'Yellow',
+                'name': 'COLOR.YELLOW',
                 'theme': ['default']
             },
             'amber': {
                 'id': 'amber',
                 'sample': '#ffc107',
                 'rgba': 'rgba(255, 193, 7, 0.5)',
-                'name': 'Amber',
+                'name': 'COLOR.AMBER',
                 'theme': ['default']
             },
             'orange': {
                 'id': 'orange',
                 'sample': '#ff9800',
                 'rgba': 'rgba(255, 152, 0, 0.5)',
-                'name': 'Orange',
+                'name': 'COLOR.ORANGE',
                 'theme': ['light', 'default']
             },
             'deeporange': {
                 'id': 'deeporange',
                 'sample': '#ff5722',
                 'rgba': 'rgba(255, 87, 34, 0.5)',
-                'name': 'Deep Orange',
+                'name': 'COLOR.DEEP_ORANGE',
                 'theme': ['light', 'default']
             },
             'brown': {
                 'id': 'brown',
                 'sample': '#795548',
                 'rgba': 'rgba(121, 85, 72, 0.5)',
-                'name': 'Brown',
+                'name': 'COLOR.BROWN',
                 'theme': ['light']
             },
             'grey': {
                 'id': 'grey',
                 'sample': '#9e9e9e',
                 'rgba': 'rgba(33, 150, 243, 1)',
-                'name': 'Grey',
+                'name': 'COLOR.GREY',
                 'theme': ['light', 'default']
             },
             'bluegrey': {
                 'id': 'bluegrey',
                 'sample': '#607d8b',
                 'rgba': 'rgba(96, 125, 139, 0.5)',
-                'name': 'Blue Grey',
+                'name': 'COLOR.BLUE_GREY',
                 'theme': ['light', 'default']
             },
             'darkgrey': {
                 'id': 'darkgrey',
                 'sample': '#2D2D2D',
                 'rgba': 'rgba(45, 45, 45, 0.5)',
-                'name': 'Dark Grey',
+                'name': 'COLOR.DARK_GREY',
                 'theme': ['light']
             }
         };

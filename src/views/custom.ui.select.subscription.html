@@ -1,5 +1,5 @@
 <div class="form-group" mass-autocomplete ng-if="$ctrl.multiple">
-    <label class="custom-ui-select-label">Entity Key</label>
+    <label class="custom-ui-select-label" translate>FORM.LABEL.ENTITY_KEY</label>
     <ui-select custom-ui-select-config="$ctrl.ownConfig" name="entity" ng-model="$ctrl.entity" theme="bootstrap" title="Choose a entity" custom-ui-select multiple="true" custom-mass-autocomplete-item="$ctrl.ownConfig" on-select="$ctrl.entitySelected($item, $model)"
         on-remove="$ctrl.entityRemove($item, $model)" ng-required="$ctrl.isRequired">
         <ui-select-match placeholder="Choose a entity" allow-clear="true">
@@ -8,13 +8,13 @@
         <ui-select-choices repeat="subscriptionData in $ctrl.ownConfig.collection track by $index">
             <span ng-bind-html="subscriptionData.provision.subscription.identifier._current.value | highlight: $select.search"></span>
             <small>
-                    <div ng-if="subscriptionData.provision.subscription.name._current.value">Name: <span ng-bind-html="''+subscriptionData.provision.subscription.name._current.value | highlight: $select.search"></span></div>
+                    <div ng-if="subscriptionData.provision.subscription.name._current.value">{{ 'FORM.LABEL.NAME' | translate }}: <span ng-bind-html="''+subscriptionData.provision.subscription.name._current.value | highlight: $select.search"></span></div>
                 </small>
         </ui-select-choices>
     </ui-select>
 </div>
 <div class="form-group" mass-autocomplete ng-if="!$ctrl.multiple">
-    <label class="custom-ui-select-label">Entity Key</label>
+    <label class="custom-ui-select-label" translate>FORM.LABEL.ENTITY_KEY</label>
     <ui-select custom-ui-select-config="$ctrl.ownConfig" name="entity" ng-model="$ctrl.entity" theme="bootstrap" title="Choose a entity" custom-ui-select multiple="false" custom-mass-autocomplete-item="$ctrl.ownConfig" on-select="$ctrl.entitySelected($item, $model)"
         on-remove="$ctrl.entityRemove($item, $model)" ng-required="$ctrl.isRequired">
         <ui-select-match placeholder="Choose a entity" allow-clear="true">
@@ -23,7 +23,7 @@
         <ui-select-choices repeat="subscriptionData in $ctrl.ownConfig.collection track by $index">
             <span ng-bind-html="subscriptionData.provision.subscription.identifier._current.value | highlight: $select.search"></span>
             <small>
-                    <div ng-if="subscriptionData.provision.subscription.name._current.value">Name: <span ng-bind-html="''+subscriptionData.provision.subscription.name._current.value | highlight: $select.search"></span></div>
+                    <div ng-if="subscriptionData.provision.subscription.name._current.value">{{ 'FORM.LABEL.NAME' | translate }}: <span ng-bind-html="''+subscriptionData.provision.subscription.name._current.value | highlight: $select.search"></span></div>
                 </small>
         </ui-select-choices>
     </ui-select>

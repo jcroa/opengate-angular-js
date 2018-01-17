@@ -1,11 +1,12 @@
 <div class="form-group" mass-autocomplete ng-if="$ctrl.multiple">
     <label class="custom-ui-select-label" translate>FORM.LABEL.DATASTREAM_ID</label>
+    
     <ui-select custom-ui-select-config="$ctrl.ownConfig" name="datastream" ng-model="$ctrl.datastream" theme="bootstrap" title="Choose a datastream" custom-ui-select multiple="true" custom-mass-autocomplete-item="$ctrl.ownConfig" on-select="$ctrl.datastreamSelected($item, $model)"
         on-remove="$ctrl.datastreamRemove($item, $model)" ng-required="$ctrl.isRequired">
         <ui-select-match placeholder="{{ 'FORM.PLACEHOLDER.DATASTREAM' | translate }}" allow-clear="true">
             {{$item.identifier}}
         </ui-select-match>
-        <ui-select-choices repeat="ds in $ctrl.ownConfig.collection | filter:$select.search track by $index">
+        <ui-select-choices repeat="ds in $ctrl.ownConfig.collection | filter:$select.search | limitTo:$ctrl.maxResults track by $index">
             <div>
                 <span ng-bind-html="ds.identifier | highlight: $select.search"></span> -
                 <span ng-bind-html="ds.name | highlight: $select.search"></span>
@@ -31,12 +32,13 @@
 </div>
 <div class="form-group" mass-autocomplete ng-if="!$ctrl.multiple">
     <label class="custom-ui-select-label" translate>FORM.LABEL.DATASTREAM_ID</label>
+  
     <ui-select custom-ui-select-config="$ctrl.ownConfig" name="datastream" ng-model="$ctrl.datastream" theme="bootstrap" title="Choose a datastream" custom-ui-select multiple="false" custom-mass-autocomplete-item="$ctrl.ownConfig" on-select="$ctrl.datastreamSelected($item, $model)"
         on-remove="$ctrl.datastreamRemove($item, $model)" ng-required="$ctrl.isRequired">
         <ui-select-match placeholder="{{ 'FORM.PLACEHOLDER.DATASTREAM' | translate }}" allow-clear="true">
             {{$item.identifier}}
         </ui-select-match>
-        <ui-select-choices repeat="ds in $ctrl.ownConfig.collection | filter:$select.search track by $index">
+        <ui-select-choices repeat="ds in $ctrl.ownConfig.collection | filter:$select.search | limitTo:$ctrl.maxResults track by $index">
             <div>
                 <span ng-bind-html="ds.identifier | highlight: $select.search"></span> -
                 <span ng-bind-html="ds.name | highlight: $select.search"></span>

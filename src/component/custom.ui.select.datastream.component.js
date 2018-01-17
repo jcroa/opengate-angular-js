@@ -11,12 +11,12 @@ angular.module('opengate-angular-js').controller('customUiSelectDatastreamContro
                 return {};
             return {
                 'or': [
-                    //{ 'like': { 'datamodel.categories.datastreams.id': search } },
-                    { 'like': { 'datamodels.categories.datastreams.name': search } }
-                    //{ 'like': { 'datamodel.identifier': search } },
-                    //{ 'like': { 'datamodel.name': search } },
-                    //{ 'like': { 'datamodel.description': search } },
-                    //{ 'like': { 'datamodel.version': search } }
+                    { 'like': { 'datamodels.categories.datastreams.identifier': search } },
+                    { 'like': { 'datamodels.categories.datastreams.name': search } },
+                    { 'like': { 'datamodels.identifier': search } },
+                    { 'like': { 'datamodels.name': search } },
+                    { 'like': { 'datamodels.description': search } },
+                    { 'like': { 'datamodels.version': search } }
                 ]
             };
         },
@@ -46,7 +46,22 @@ angular.module('opengate-angular-js').controller('customUiSelectDatastreamContro
                                 var _datastream = angular.copy(datastream);
                                 _datastream.datamodel = _datamodel;
                                 _datastream.category = _category;
-                                _datastreams.push(_datastream);
+
+                                if (ctrl.postFilter) {
+                                    var include = true;
+
+                                    angular.forEach(ctrl.postFilter, function(postFilterFn, postFilterkey) {
+                                        if (postFilterFn(_datastream[postFilterkey])) {
+                                            include = false;
+                                        }
+                                    });
+
+                                    if (include) {
+                                        _datastreams.push(_datastream);
+                                    }
+                                } else {
+                                    _datastreams.push(_datastream);
+                                }
                             });
                     });
                 });
@@ -70,6 +85,10 @@ angular.module('opengate-angular-js').controller('customUiSelectDatastreamContro
         return_obj['$model'] = $model;
         ctrl.onRemove(return_obj);
     };
+
+    if (!ctrl.maxResults) {
+        ctrl.maxResults = 100;
+    }
 }]);
 
 angular.module('opengate-angular-js').component('customUiSelectDatastream', {
@@ -80,7 +99,8 @@ angular.module('opengate-angular-js').component('customUiSelectDatastream', {
         onRemove: '&',
         datastream: '=',
         multiple: '<',
-        isRequired: '='
+        maxResults: '<',
+        isRequired: '=',
+        postFilter: '<'
     }
-
 });

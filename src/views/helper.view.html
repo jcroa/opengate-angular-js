@@ -145,7 +145,7 @@
     </div>
     <div class="modal-footer">
         <a ng-if="!$ctrl.helper_exclusive" class="top-buffer btn btn-default ux-txt-success pointer" ng-class="{'disabled': !$ctrl.canApply()}" ng-click="$ctrl.ok()" ng-disabled="!$ctrl.canApply()">
-            <i class="fa fa-lg fa-files-o" aria-hidden="true"></i> BUTTON.TITLE.ALL </a>
-        <button class="btn btn-warning" type="button" ng-click="$ctrl.cancel()" translate>BUTTON.TITLE.CANCEL</button>
+            <i class="fa fa-lg fa-files-o" aria-hidden="true"></i> {{'BUTTON.TITLE.ALL' | translate }} </a>
+        <button class="btn btn-warning" type="button" ng-click="$ctrl.cancel()">{{'BUTTON.TITLE.CANCEL' | translate}}</button>
     </div>
 </script>

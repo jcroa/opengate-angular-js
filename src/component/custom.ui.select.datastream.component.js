@@ -48,15 +48,9 @@ angular.module('opengate-angular-js').controller('customUiSelectDatastreamContro
                                 _datastream.category = _category;
 
                                 if (ctrl.postFilter) {
-                                    var include = true;
+                                    var filter = ctrl.postFilter(_datastream);
 
-                                    angular.forEach(ctrl.postFilter, function(postFilterFn, postFilterkey) {
-                                        if (postFilterFn(_datastream[postFilterkey])) {
-                                            include = false;
-                                        }
-                                    });
-
-                                    if (include) {
+                                    if (!filter) {
                                         _datastreams.push(_datastream);
                                     }
                                 } else {

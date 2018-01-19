@@ -16,6 +16,163 @@ $templateCache.put("views/schema.form.entity.template.html","<div><custom-ui-sel
 $templateCache.put("views/schema.form.helper.boolean.template.html","<div class=\"{{form.schema?form.schema.htmlClass:\'\'}}\"><div class=form-group><div class=checkbox><label><input type=checkbox id={{form.id}} sf-field-model> <span class=checkbox-material><span class=check></span></span> {{form.title}}</label></div></div></div>");
 $templateCache.put("views/schema.form.helper.template.html","<div class=\"{{form.schema?form.schema.htmlClass:\'\'}}\"><helper-dialog helper-id={{form.helperid}} helper-exclusive={{form.exclusive}}><helper-ui-select id={{form.id}} name={{form.name}} label-text={{form.title}} sf-field-model=helper-model label-error={{form.labelerror}}><helper-ui-select-input><label for={{form.name}}>{{form.title}}</label> <input class=form-control name={{form.name}} type=text id={{form.id}} sf-field-model></helper-ui-select-input></helper-ui-select></helper-dialog></div>");
 $templateCache.put("views/window-time.select.view.html","<div class=window-time-container><button type=button class=\"btn btn-xs\" ng-class=oneDayClass ng-click=oneDay() translate>BUTTON.TITLE.LAST_DAY</button> <button type=button class=\"btn btn-xs\" ng-class=oneWeekClass ng-click=oneWeek() translate=BUTTON.TITLE.LAST_NUMBER_DAY translate-values=\"{ number: \'7\' }\"></button> <button type=button class=\"btn btn-xs\" ng-class=oneMonthClass ng-click=oneMonth() translate=BUTTON.TITLE.LAST_NUMBER_DAY translate-values=\"{ number: \'30\' }\"></button> <button type=button class=\"btn btn-xs\" ng-class=customClass ng-click=custom() translate>BUTTON.TITLE.CUSTOM</button> <button type=button class=\"btn btn-xs btn-info\" ng-if=customEnabled ng-disabled=!!errorCustomWindow ng-click=applyCustom() translate>BUTTON.TITLE.APPLY</button> <button type=button class=\"btn btn-xs btn-info\" ng-if=filterApplied ng-click=clear() translate>BUTTON.TITLE.CLEAR</button><div ng-if=customEnabled class=window-time-body><div class=row><div class=col-xs-12><p class=input-group><label class=control-label>{{ \'FORM.LABEL.FROM\' | translate }}: {{fromDate | date:\'fullDate\'}}</label> <input readonly datepicker-options=fromOptions type=text class=form-control show-button-bar=false uib-datepicker-popup={{format}} ng-model=date.from is-open=fromPopup.opened ng-required=true close-text=Close ng-change=fromChange()> <span class=input-group-btn><a class=\"btn btn-sm\" ng-click=fromOpen()><i class=\"glyphicon glyphicon-calendar\"></i></a></span></p></div><div class=col-xs-12><div uib-timepicker max=fromMax ng-model=date.from show-meridian=false ng-change=fromChange()></div></div></div><div class=row><div class=col-xs-12><p class=input-group><label class=control-label>{{ \'FORM.LABEL.TO\' | translate }}: {{toDate | date:\'fullDate\'}}</label> <input readonly datepicker-options=toOptions type=text class=form-control show-button-bar=false uib-datepicker-popup={{format}} ng-model=date.to is-open=toPopup.opened ng-required=true close-text=Close ng-change=toChange()> <span class=input-group-btn><button type=button class=\"btn btn-sm\" ng-click=toOpen()><i class=\"glyphicon glyphicon-calendar\"></i></button></span></p></div><div class=col-xs-12><div uib-timepicker max=toMax min=toMin ng-model=date.to show-meridian=false ng-change=toChange()></div></div></div><alert type=danger ng-show=errorCustomWindow class=text-danger style=\"display: block;text-align: center;\"><span ng-bind=errorCustomWindow></span></alert></div></div>");}]);
+
+
+angular.module('opengate-angular-js')
+    .filter('humanize', ['$window', function($window) {
+        function hasNumber(myString) {
+            return (/\d/.test(myString));
+        }
+
+        return function(input, optional1, optional2) {
+
+            var output = input;
+
+
+            if ($window.S(output).indexOf('$') !== -1) {
+                output = $window.S(output).strip('$').s;
+            }
+            if (angular.isString(output) && !hasNumber(output)) {
+                output = $window.S(output).humanize().s;
+            }
+
+            return output;
+
+        };
+
+    }])
+    .filter('communicationsInterface', function() {
+        return function(input) {
+
+            var output = input;
+
+            switch (output) {
+                case 'COMMUNICATIONS_MODULE':
+                    return 'Communications module';
+                case 'SUBSCRIPTION':
+                    return 'Mobile line';
+                case 'SUBSCRIBER':
+                    return 'SIM';
+                case 'HOME_OPERATOR':
+                    return 'Home Operator';
+                case 'REGISTER_OPERATOR':
+                    return 'Register Operator';
+                case 'ADDRESS':
+                    return 'IP';
+                case 'SOFTWARE':
+                    return 'Software';
+                case 'HARDWARE':
+                    return 'Hardware';
+                case 'entityKey':
+                    return 'Identifier';
+                default:
+                    return output;
+            }
+        };
+    })
+    .filter('dateNames', function() {
+        var days = {
+            'MON': 'Monday',
+            'TUE': 'Tuesday',
+            'WED': 'Wednesday',
+            'THU': 'Thursday',
+            'FRI': 'Friday',
+            'SAT': 'Saturday',
+            'SUN': 'Sunday'
+        };
+        var months = {
+            'JAN': 'January',
+            'FEB': 'February',
+            'MAR': 'March',
+            'APR': 'April',
+            'MAY': 'May',
+            'JUN': 'June',
+            'JUL': 'July',
+            'AUG': 'August',
+            'SEP': 'September',
+            'OCT': 'October',
+            'NOV': 'November',
+            'DEC': 'December'
+        };
+
+        return function(input) {
+            return (days[input] || months[input]) || input;
+        };
+    })
+
+.filter('icons', function() {
+        return function(input, optional1, optional2) {
+            var output = 'fa fa-info';
+            if (input === 'list') {
+                output = 'fa fa-list';
+            }
+            if (input === 'ban') {
+                output = 'fa fa-ban';
+            }
+            if (input === 'laptop') {
+                output = 'fa fa-laptop';
+            }
+            if (input === 'spin') {
+                output = 'fa fa-spinner fa-spin';
+            }
+            if (input === 'unit') {
+                output = 'fa fa-plus-square';
+            }
+            if (input === 'tags') {
+                output = 'fa fa-tags';
+            }
+            return output;
+        };
+
+    })
+    .filter('codeErrors', function() {
+        var errors = {
+            '1004': 'At least one valid reference to an entity is required',
+            '1005': 'At least one valid reference to an entity is required',
+            '1017': 'Tag is not valid. Please, check it.'
+        };
+
+        return function(input) {
+            return { code: input.code, message: errors[input.code] || input.message };
+        };
+    })
+    .filter('wapiErrors', function() {
+        var errors = {
+            '-1': 'Connection problems',
+            '413': 'Upload size exceeded'
+        };
+
+        return function(status, partialMessage) {
+            var finalMessage = '';
+            if (!angular.isUndefined(partialMessage)) {
+                finalMessage = partialMessage + ' (' + (errors[status] ? errors[status] : 'Code: ' + status) + ')';
+            } else {
+                finalMessage = (errors[status] ? errors[status] : 'Code: ' + status);
+            }
+            return finalMessage;
+        };
+    })
+    .filter('textlength', function() {
+        return function(input, optional1) {
+            var maxLength = 30;
+            if (optional1 && angular.isNumber(optional1)) {
+                maxLength = optional1;
+            }
+
+            if (input && input.length > maxLength) {
+                return input.substring(0, maxLength) + '...';
+            } else {
+                return input;
+            }
+        };
+    }).filter('compactid', function() {
+        return function(input) {
+            if (input && input.indexOf('.') > -1) {
+                return input.substring(input.lastIndexOf('.') + 1);
+            }
+            return input;
+        };
+    });
 angular.module('opengate-angular-js')
     .service('$provisionDatastreamsUtils', [function() {
         var internal_catalog = ["internal", "provisionSubscriber", "provisionGeneric", "provisionDevice", "provisionAsset", "provisionSubscription"];
@@ -1146,163 +1303,6 @@ DataUrlFormatter.prototype.format = function (value) {
 };
 
 function DataUrlFormatter() {}
-
-
-angular.module('opengate-angular-js')
-    .filter('humanize', ['$window', function($window) {
-        function hasNumber(myString) {
-            return (/\d/.test(myString));
-        }
-
-        return function(input, optional1, optional2) {
-
-            var output = input;
-
-
-            if ($window.S(output).indexOf('$') !== -1) {
-                output = $window.S(output).strip('$').s;
-            }
-            if (angular.isString(output) && !hasNumber(output)) {
-                output = $window.S(output).humanize().s;
-            }
-
-            return output;
-
-        };
-
-    }])
-    .filter('communicationsInterface', function() {
-        return function(input) {
-
-            var output = input;
-
-            switch (output) {
-                case 'COMMUNICATIONS_MODULE':
-                    return 'Communications module';
-                case 'SUBSCRIPTION':
-                    return 'Mobile line';
-                case 'SUBSCRIBER':
-                    return 'SIM';
-                case 'HOME_OPERATOR':
-                    return 'Home Operator';
-                case 'REGISTER_OPERATOR':
-                    return 'Register Operator';
-                case 'ADDRESS':
-                    return 'IP';
-                case 'SOFTWARE':
-                    return 'Software';
-                case 'HARDWARE':
-                    return 'Hardware';
-                case 'entityKey':
-                    return 'Identifier';
-                default:
-                    return output;
-            }
-        };
-    })
-    .filter('dateNames', function() {
-        var days = {
-            'MON': 'Monday',
-            'TUE': 'Tuesday',
-            'WED': 'Wednesday',
-            'THU': 'Thursday',
-            'FRI': 'Friday',
-            'SAT': 'Saturday',
-            'SUN': 'Sunday'
-        };
-        var months = {
-            'JAN': 'January',
-            'FEB': 'February',
-            'MAR': 'March',
-            'APR': 'April',
-            'MAY': 'May',
-            'JUN': 'June',
-            'JUL': 'July',
-            'AUG': 'August',
-            'SEP': 'September',
-            'OCT': 'October',
-            'NOV': 'November',
-            'DEC': 'December'
-        };
-
-        return function(input) {
-            return (days[input] || months[input]) || input;
-        };
-    })
-
-.filter('icons', function() {
-        return function(input, optional1, optional2) {
-            var output = 'fa fa-info';
-            if (input === 'list') {
-                output = 'fa fa-list';
-            }
-            if (input === 'ban') {
-                output = 'fa fa-ban';
-            }
-            if (input === 'laptop') {
-                output = 'fa fa-laptop';
-            }
-            if (input === 'spin') {
-                output = 'fa fa-spinner fa-spin';
-            }
-            if (input === 'unit') {
-                output = 'fa fa-plus-square';
-            }
-            if (input === 'tags') {
-                output = 'fa fa-tags';
-            }
-            return output;
-        };
-
-    })
-    .filter('codeErrors', function() {
-        var errors = {
-            '1004': 'At least one valid reference to an entity is required',
-            '1005': 'At least one valid reference to an entity is required',
-            '1017': 'Tag is not valid. Please, check it.'
-        };
-
-        return function(input) {
-            return { code: input.code, message: errors[input.code] || input.message };
-        };
-    })
-    .filter('wapiErrors', function() {
-        var errors = {
-            '-1': 'Connection problems',
-            '413': 'Upload size exceeded'
-        };
-
-        return function(status, partialMessage) {
-            var finalMessage = '';
-            if (!angular.isUndefined(partialMessage)) {
-                finalMessage = partialMessage + ' (' + (errors[status] ? errors[status] : 'Code: ' + status) + ')';
-            } else {
-                finalMessage = (errors[status] ? errors[status] : 'Code: ' + status);
-            }
-            return finalMessage;
-        };
-    })
-    .filter('textlength', function() {
-        return function(input, optional1) {
-            var maxLength = 30;
-            if (optional1 && angular.isNumber(optional1)) {
-                maxLength = optional1;
-            }
-
-            if (input && input.length > maxLength) {
-                return input.substring(0, maxLength) + '...';
-            } else {
-                return input;
-            }
-        };
-    }).filter('compactid', function() {
-        return function(input) {
-            if (input && input.indexOf('.') > -1) {
-                return input.substring(input.lastIndexOf('.') + 1);
-            }
-            return input;
-        };
-    });
 
 angular.module('opengate-angular-js').directive('windowTimeSelect', function() { // ['$scope', '$compile'], function($scope, $compile) {
 

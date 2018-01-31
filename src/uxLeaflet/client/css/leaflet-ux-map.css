@@ -1,0 +1,149 @@
+/* file: leaflet-ux-map.css */
+
+.ux-map {
+    display: inherit;
+}
+
+
+/* Modificación de Controles o capas cargados como widgets externos (en header) */
+
+
+/* Buscador de direcciones y lugares del mundo */
+
+.ux-map .address-search {
+    position: absolute;
+    top: -24px;
+    width: 200px;
+    height: 21px;
+    background-color: #f0f0ff;
+}
+
+div.leaflet-gac-wrapper input.leaflet-gac-control {
+    display: block;
+    float: left;
+    font-size: 1.2em;
+    background: #fff;
+    border: 1px solid #666;
+    border-radius: .35em;
+    height: 18px;
+    padding: 12px 16px 12px 16px;
+    min-width: 25em;
+    opacity: .4;
+}
+
+div.leaflet-gac-wrapper input.leaflet-gac-control:focus {
+    opacity: 1;
+}
+
+
+/*   Layer control. NAV MENU style. default and light body themes */
+
+.leaflet-control-container .leaflet-control-layers.leaflet-control-layers-expanded {
+    padding: 6px 10px 6px 6px;
+    border-radius: 8px;
+    opacity: 1;
+    max-height: inherit;
+    height: inherit;
+    margin-bottom: 0px;
+}
+
+.leaflet-control-container .leaflet-control-layers.leaflet-control-layers-expanded form {
+    margin-bottom: 0px;
+}
+
+.leaflet-control-container .leaflet-control-layers-list {
+    padding: 6px 10px 6px 6px;
+}
+
+
+/* layer texts */
+
+.leaflet-control-container .leaflet-control-layers-list>div>label {
+    padding: 6px 10px 6px 6px;
+    border-radius: 4px 4px 4px 4px;
+    color: #f0f0f0;
+    font-weight: 300;
+    font-size: 1.2em;
+    font-family: Roboto, Helvetica, Arial, sans-serif;
+    transition: background-color .3s;
+}
+
+.leaflet-control-container .leaflet-control-layers-list>div>label>input[type="radio"]+span {
+    letter-spacing: .1em;
+}
+
+.leaflet-control-container .leaflet-control-layers-list>div>label>input[type="checkbox"]:checked+span {
+    font-weight: bold;
+}
+
+.leaflet-control-container .leaflet-control-layers-list>div>label>input[type="radio"]:checked+span {
+    font-weight: bold;
+}
+
+
+/* layer texts with theme*/
+
+body.light .leaflet-control-container .leaflet-control-layers-list>div>label {
+    color: #f0f0f0;
+}
+
+.leaflet-control-container .leaflet-control-layers-list>div>label:hover {
+    background-color: #606060;
+    color: #ffffff;
+}
+
+body.light .leaflet-control-container .leaflet-control-layers-list>div>label:hover {
+    background-color: #ffffff;
+    color: #101010;
+}
+
+.ux-map .leaflet-control-layers-separator {
+    height: 0px;
+    border-top: 1px solid #C5A595;
+    /* sombra */
+    border-bottom: 1px solid #ffffff;
+    /* brillo */
+}
+
+
+/* mouseposition control */
+
+.leaflet-container .leaflet-control-mouseposition {
+    background-color: rgba(255, 255, 255, 0.7);
+    box-shadow: 0 0 5px #bbb;
+    padding: 0 5px;
+    margin: 0;
+    color: #333;
+    font: 11px/1.5 "Helvetica Neue", Arial, Helvetica, sans-serif;
+}
+
+.leaflet-container.leaflet-fullscreen-on .leaflet-control-mouseposition {
+    font-size: 2rem;
+}
+
+
+/* tool tip texts */
+
+table.device-tooltip {
+    padding: 1em;
+    font-size: 1.25em;
+}
+
+table.device-tooltip td.dev-key-name {
+    padding: .25em;
+    padding-right: 1em;
+    font-weight: bold;
+}
+
+table.device-tooltip td.dev-key-value {
+    padding: .25em;
+    padding-left: 1em;
+}
+
+.default.theme-core .leaflet-container .leaflet-popup-content strong {
+    color: #aaa;
+}
+
+.light.theme-core .leaflet-container .leaflet-popup-content strong {
+    color: #999;
+}

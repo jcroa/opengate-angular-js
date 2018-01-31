@@ -156,12 +156,12 @@ angular.module('opengate-angular-js').factory('Filter', ['$window', '$sce', '$q'
 
         function parseSimple(parse_tree) {
             var id, value, newFilter = {};
-
+            var op;
             if (parse_tree.type === 'BinaryExpression' && /\eq|\neq|\like|\gt|\lt|\gte|\lte|\=|\'<'|\'>'|\~|\!/.test(parse_tree.operator)) {
                 id = getId(parse_tree.left).split('.').reverse().join('.');
                 id = id.replace('.undefined', '[]');
                 value = parse_tree.right.name || parse_tree.right.value;
-                var op = getSimpleOperator(parse_tree.operator);
+                op = getSimpleOperator(parse_tree.operator);
 
                 newFilter[op] = {};
                 newFilter[op][id] = value;
@@ -173,7 +173,7 @@ angular.module('opengate-angular-js').factory('Filter', ['$window', '$sce', '$q'
             } else if (parse_tree.type === 'BinaryExpression' && /\in/.test(parse_tree.operator)) {
                 id = getId(parse_tree.left).split('.').reverse().join('.');
                 id = id.replace('.undefined', '[]');
-                var op = getSimpleOperator(parse_tree.operator);
+                op = getSimpleOperator(parse_tree.operator);
 
                 newFilter[op] = {};
                 var ids = getSimpleValuesFromArray(parse_tree.right);

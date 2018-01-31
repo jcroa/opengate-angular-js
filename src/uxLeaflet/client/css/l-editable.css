@@ -1,0 +1,24 @@
+/* L-editable.css */
+
+/* leaflet-div-icon is used in geometry edition for vertex-points and middle-points */
+
+.leaflet-container .leaflet-div-icon.leaflet-vertex-icon,
+.leaflet-container .leaflet-div-icon.leaflet-middle-icon
+ {
+     /* margin-top: -6px;
+     margin-left: -6px;
+     width: 12px;
+     height: 12px; */
+     animation: none;
+ }
+
+.leaflet-container .leaflet-div-icon.leaflet-vertex-icon:hover,
+.leaflet-container .leaflet-div-icon.leaflet-middle-icon:hover
+ {
+     animation: borderColorAnimation .5s linear infinite;
+ }
+
+@keyframes borderColorAnimation {
+	from { border-color: #000000; }
+	to { border-color: #ffffff; }
+}

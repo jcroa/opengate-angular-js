@@ -1,0 +1,139 @@
+/* file: leaflet-osmplacefinder.css */
+
+.leaflet-control-container .leaflet-control-osmplacefinder {
+    z-index: 1000;
+}
+
+.leaflet-control-container .leaflet-control-osmplacefinder.exp {
+    /* expanded */
+    box-shadow: 0 1px 7px #999;
+    min-width: 40em;
+    /* add other values for other screen sizes */
+}
+
+.leaflet-fullscreen-on .leaflet-control-container .leaflet-control-osmplacefinder.exp {
+    min-width: 90vw;
+}
+
+.leaflet-control-osmplacefinder .search-input {
+    display: block;
+    float: left;
+    font-size: 1.2em;
+    background: #fff;
+    border: 1px solid #666;
+    border-radius: .35em;
+    height: 18px;
+    padding: 12px 16px 12px 16px;
+    margin: 0 .5em 0 0;
+    width: 100%;
+}
+
+.leaflet-control-osmplacefinder .search-input.load {
+    background: url('images/uxLeaflet/client/css/images/loader.gif') no-repeat center right #fff;
+}
+
+.leaflet-control-osmplacefinder a.search-button {
+    display: block;
+    background-image: url('images/uxLeaflet/client/css/images/search-icon.png');
+    background-color: rgba(255, 255, 255, 0.75);
+    float: right;
+}
+
+.leaflet-control-osmplacefinder.exp a.search-button {
+    display: none;
+}
+
+.leaflet-control-osmplacefinder .search-tooltip {
+    position: absolute;
+    font-size: 1.2em;
+    padding: .2em;
+    top: 100%;
+    right: 0px;
+    width: 91%;
+    box-shadow: 0 1px 7px #999;
+    background: #eee;
+    border-radius: 7px;
+    background-color: rgba(0, 0, 0, 0.25);
+    z-index: 1010;
+    border: 4px solid transparent;
+    /*	padding: 4px;	*/
+    max-height: 75vh;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.leaflet-control-osmplacefinder .leaflet-right .search-tooltip {
+    right: inherit;
+    left: 0px;
+}
+
+
+/* items in combo below search input text */
+
+.leaflet-control-osmplacefinder .search-tip {
+    margin: .125em;
+    display: block;
+    padding-left: 1em;
+    padding-right: 1em;
+    color: #333;
+    background: #eee;
+    border-radius: .25em;
+    text-decoration: none;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.leaflet-control-osmplacefinder .search-tip {
+    width: 100% !important;
+    text-align: left !important;
+}
+
+.leaflet-control-container .leaflet-control-osmplacefinder.leaflet-bar.leaflet-control a.search-tip {
+    height: inherit;
+    max-height: 4em;
+    padding-top: .4em;
+    padding-bottom: .4em;
+}
+
+.leaflet-control-osmplacefinder .err-text {
+    text-align: center;
+    color: #ffb0b0;
+    padding: .2em;
+}
+
+.leaflet-control-container .leaflet-control-osmplacefinder.leaflet-bar.leaflet-control p.osm-copyright {
+    padding: 0px;
+    margin: .2em;
+    font-size: .85em;
+    color: #ffffff;
+    text-align: right;
+}
+
+
+/* override all rules for a node */
+
+.leaflet-control-container .leaflet-control-osmplacefinder.leaflet-bar.leaflet-control p.osm-copyright a {
+    background-color: inherit;
+    font-size: inherit;
+    padding: 0px;
+    font: inherit;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+    color: inherit;
+    display: inline;
+    text-decoration: underline;
+}
+
+.leaflet-control-osmplacefinder .search-tip:hover,
+.leaflet-control-osmplacefinder .search-button:hover {
+    background-color: #fff;
+}
+
+.leaflet-control-osmplacefinder .search-alert {
+    clear: both;
+    margin-bottom: 5px;
+    padding: 0 .25em;
+    color: #e00;
+    background-color: rgba(255, 255, 255, 0.75);
+    border-radius: .25em;
+}

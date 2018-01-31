@@ -1,0 +1,79 @@
+
+/* file: leaflet-search.css */
+
+.leaflet-control-search {
+	z-index:1000;	
+}
+.leaflet-control-search.exp {/*expanded*/
+	box-shadow: 0 1px 7px #999;	
+}
+.leaflet-control-search .search-input {
+	display:block;
+	float:left;
+	font-size:1.2em;
+	background: #fff;
+	border:1px solid #666;
+	border-radius:.35em;
+	height:18px;
+	padding: 12px 16px 12px 16px;
+	margin:0 .5em 0 0;
+	min-width: 15em;
+}
+.leaflet-control-search .search-input.load {
+	background: url('images/uxLeaflet/client/css/images/loader.gif') no-repeat center right #fff;
+}
+.leaflet-control-search a.search-button {
+	display:block;
+	background-image: url('images/uxLeaflet/client/css/images/search-icon.png');
+	background-color: rgba(255, 255, 255, 0.75);	
+    float: right;
+}
+
+.leaflet-control-search .search-tooltip {
+	position:absolute;
+    font-size:1.2em;
+	top:100%;
+	left:0;
+	float:left;
+	min-width:80px;
+	width: 100%;
+	box-shadow: 0 1px 7px #999;	
+	background: #eee;
+	border-radius:7px;
+	background-color: rgba(0, 0, 0, 0.25);
+	z-index:1010;
+	border:4px solid transparent;
+/*	padding: 4px;	*/
+	max-height:8em;
+	overflow-y:auto;
+	overflow-x:hidden;	
+}
+/* items in combo below search input text */
+.leaflet-control-search .search-tip {
+	margin:.125em;
+	display:block;
+	padding-left: 1em;
+	padding-right: 1em;
+	color:#333;
+	background: #eee;
+	border-radius:.25em;
+	text-decoration:none;	
+}
+.leaflet-control-search .search-tip {
+	width: 100% !important;
+	text-align: left !important;
+}
+.leaflet-control-search .search-tip:hover,
+.leaflet-control-search .search-button:hover {
+	background-color: #fff;
+}
+.leaflet-control-search .search-alert {
+	clear:both;
+	margin-bottom:5px;
+	padding:0 .25em;
+	color:#e00;
+	background-color: rgba(255, 255, 255, 0.75);
+	border-radius:.25em;
+}
+
+

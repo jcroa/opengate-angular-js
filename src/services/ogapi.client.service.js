@@ -1,17 +1,17 @@
 'use strict';
 
 angular.module('opengate-angular-js')
-    .service('$ogapi', function() {
+    .service('$ogapi', function () {
         function OgApiService() {
-            var ogapi = undefined;
-            this.api = function() {
+            var ogapi;
+            this.api = function () {
                 if (typeof ogapi !== "undefined") return ogapi;
                 else throw new Error("Must invoke create([options]) function before api() function");
             };
-            this.create = function(options) {
-                return ogapi = new window.OpenGateAPI(options);
+            this.create = function (options) {
+                return (ogapi = new window.OpenGateAPI(options));
             };
-            this.release = function() {
+            this.release = function () {
                 ogapi = undefined;
                 return this;
             };

@@ -1,0 +1,342 @@
+/* file: leaflet-ux-icons.css */
+
+
+/* priority to disabled styles */
+
+.leaflet-control-container .leaflet-bar a.leaflet-disabled {
+    cursor: default !important;
+    background-color: #f4f4f4 !important;
+    color: #bbb !important;
+    pointer-events: none;
+}
+
+
+/* override leaflet css control icons */
+
+.leaflet-control-container .leaflet-control {
+    background-color: rgba(255, 255, 255, 0.10);
+    background-clip: padding-box;
+    border: 0px solid rgba(0, 0, 0, 0.2);
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.65);
+    border-radius: 4px;
+}
+
+.leaflet-control-container .leaflet-bar a {
+    width: 28px;
+    height: 28px;
+}
+
+.leaflet-fullscreen-on .leaflet-control-container .leaflet-bar a {
+    width: 30px;
+    height: 30px;
+}
+
+.leaflet-control-container .leaflet-bar.leaflet-control a {
+    background-color: rgba(255, 255, 255, 0.75);
+    font-size: 18px;
+    padding-top: 7px;
+    font: normal normal normal 14px/1 FontAwesome;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+}
+
+.leaflet-control-container.dark-layer .leaflet-bar.leaflet-control a {
+    background-color: rgba(255, 255, 255, 0.95);
+}
+
+.leaflet-fullscreen-on .leaflet-control-container .leaflet-bar.leaflet-control a {
+    font-size: 20px;
+    padding-top: 5px;
+}
+
+.leaflet-control-container .leaflet-bar.leaflet-control a:before {
+    font-size: 16px;
+    /* for awesome font as :before*/
+}
+
+.leaflet-fullscreen-on .leaflet-control-container .leaflet-bar.leaflet-control a:before {
+    font-size: 20px;
+    /* for awesome font as :before*/
+}
+
+.leaflet-control-container .leaflet-bar.leaflet-control a:hover {
+    background-color: rgba(255, 255, 255, 1);
+}
+
+
+/* layers control */
+
+.leaflet-control-container .leaflet-control-layers {
+    background-color: rgba(255, 255, 255, .5);
+    position: relative;
+    transition: max-height .8s;
+    /* override navbar */
+    max-height: 40px;
+    height: inherit;
+    min-height: inherit;
+    margin-bottom: 10px;
+}
+
+.leaflet-control-container a.leaflet-control-layers-toggle {
+    background-image: url('images/uxLeaflet/client/css/images/layers-dark.png');
+}
+
+body.light .leaflet-control-container a.leaflet-control-layers-toggle {
+    background-image: url('images/uxLeaflet/client/css/images/layers-dark.png');
+    /* not light */
+}
+
+
+/*.leaflet-control-container a.leaflet-control-layers-toggle:before { 
+    font-family: "Glyphicons-social";
+    content: '\e063'; 
+    font-size: 20px;
+}*/
+
+
+/* Zoom in / Zoom out */
+
+.leaflet-control-container .leaflet-bar.leaflet-control-zoom a {
+    overflow: hidden;
+}
+
+.leaflet-control-container a.leaflet-control-zoom-in:before {
+    content: '\f067  ';
+}
+
+.leaflet-control-container a.leaflet-control-zoom-out:before {
+    content: '\f068  ';
+}
+
+
+/* L.EasyPrint */
+
+.leaflet-control-container .leaflet-control-easyPrint a {
+    background-size: 16px 16px;
+    cursor: pointer;
+}
+
+.leaflet-control-container .leaflet-control-easyPrint a:before {
+    content: '\f02f';
+    font-size: 20px;
+}
+
+
+/* L.localTileControl */
+
+.leaflet-control-container .leaflet-control-localtiles a {
+    background-size: 16px 16px;
+    cursor: pointer;
+}
+
+.leaflet-control-container .leaflet-control-localtiles a:before {
+    /* fa-file-archive-o */
+    content: '\f1c6';
+    font-size: 20px;
+}
+
+.leaflet-control-container .leaflet-control-localtiles .leaflet-control-localtiles-progress {
+    position: absolute;
+    display: none;
+    right: 36px;
+    left: auto;
+    width: 70px;
+    text-align: center;
+    float: left;
+    background-color: #e0e0e0;
+    color: #ff7040;
+}
+
+
+/* L.Gohome */
+
+.leaflet-control-container .leaflet-control-home a {
+    background-size: 16px 16px;
+    cursor: pointer;
+}
+
+.leaflet-control-container .leaflet-control-home a:before {
+    content: '\f015';
+    font-size: 20px;
+}
+
+
+/* L.BoxSelection */
+
+.leaflet-control-container .leaflet-control-boxselection a {
+    background-image: url('images/uxLeaflet/client/css/images/icon-boxselection.png');
+    background-size: 16px 16px;
+    cursor: pointer;
+}
+
+.leaflet-control-container .leaflet-control-boxselection a.active {
+    animation: opacityAnimation 1s linear infinite;
+}
+
+
+/* L.MagnifyingGlass */
+
+.leaflet-control-container .leaflet-control-magnifying-glass {
+    background-size: 16px 16px;
+    cursor: pointer;
+}
+
+.leaflet-control-container .leaflet-control-magnifying-glass a:before {
+    content: '\f06e';
+    font-size: 20px;
+}
+
+.leaflet-control-container a.leaflet-control-magnifying-glass.active {
+    animation: opacityAnimation 1s linear infinite;
+}
+
+
+/* L.Fullscreen */
+
+.leaflet-control-container a.leaflet-control-fullscreen-button:before {
+    content: '\f0b2';
+    /* fa-arrows-alt */
+    background-image: none;
+    /*background-image: url('images/uxLeaflet/client/css/images/icon-fullscreen.png');*/
+}
+
+.leaflet-fullscreen-on .leaflet-control-container a.leaflet-control-fullscreen-button:before {
+    content: '\f2d2';
+    /* fa-window-restore */
+    font-size: 20px;
+    background-image: none;
+}
+
+.leaflet-control-container a.leaflet-control-fullscreen-button.cancel-fullscreen:before {
+    content: '\f2d2';
+    /* fa-window-restore */
+    background-image: none;
+}
+
+.leaflet-control-container .leaflet-control-fullscreen a {
+    background-image: none;
+}
+
+
+/* leaflet-search */
+
+.leaflet-control-container .leaflet-control-search a.search-button {
+    background-image: none;
+}
+
+.leaflet-control-container .leaflet-control-search a.search-button:before {
+    content: '\f002';
+}
+
+.leaflet-fullscreen-on.leaflet-control-container .leaflet-control-search a.search-button:before {
+    font-size: 20px;
+}
+
+
+/* leaflet-osmplacefinder */
+
+.leaflet-control-container .leaflet-control-osmplacefinder a.search-button {
+    background-image: none;
+}
+
+.leaflet-control-container .leaflet-control-osmplacefinder a.search-button:before {
+    content: '\f002';
+}
+
+.leaflet-fullscreen-on.leaflet-control-container .leaflet-control-osmplacefinder a.search-button:before {
+    font-size: 20px;
+}
+
+
+/* L.control.Measure. Override public/lib/leaflet-measure.
+   No contiene clase leaflet-bar. Si la tuviera, entonces el contenido se mostraría mal */
+
+.leaflet-control-container .leaflet-control-measure>a.leaflet-control-measure-toggle {
+    /* as leaflet-bar > a */
+    font: normal normal normal 14px/1 FontAwesome;
+    background-size: 16px 16px;
+    background-color: rgba(255, 255, 255, 0.50);
+    background-position: 50% 50%;
+    width: 28px;
+    height: 28px;
+    padding-top: 6px;
+    background-image: none;
+    cursor: pointer;
+}
+
+.leaflet-fullscreen-on .leaflet-control-container .leaflet-control-measure>a.leaflet-control-measure-toggle {
+    width: 30px;
+    height: 30px;
+    padding-top: 5px;
+}
+
+.leaflet-control-container .leaflet-control-measure>a.leaflet-control-measure-toggle:hover {
+    /* as leaflet-bar > a */
+    background-color: rgba(255, 255, 255, 1);
+}
+
+.leaflet-control-container .leaflet-control-measure>a.leaflet-control-measure-toggle:before {
+    content: '\f085';
+    /* fa-cogs */
+    font-size: 18px;
+    background-image: none;
+    position: relative;
+    left: -22px;
+}
+
+.leaflet-fullscreen-on .leaflet-control-container .leaflet-control-measure>a.leaflet-control-measure-toggle:before {
+    font-size: 20px;
+    left: -26px;
+}
+
+.leaflet-control-container .leaflet-control-measure>a.leaflet-control-measure-toggle.active {
+    animation: opacityAnimation 1s linear infinite;
+}
+
+.leaflet-control-measure .results .group:first-child {
+    /* ocultamos lista de vértices */
+    display: none !important;
+    /* si no desaparecerá el botón cancelar/aceptar por abajo */
+}
+
+.leaflet-control-container .js-results>.group p {
+    /* ocultamos lista de vértices */
+    color: #e50 !important;
+}
+
+.leaflet-control-container .leaflet-control-measure-interaction.js-interaction {
+    background-color: rgba(255, 255, 255, 0.80);
+}
+
+.leaflet-control-container .leaflet-control-measure-interaction.js-interaction:hover {
+    background-color: rgba(255, 255, 255, 1);
+}
+
+
+/** Leaflet draw */
+
+.leaflet-control-container .leaflet-draw-actions a {
+    background-color: #CFC0A0;
+    fill: #407040;
+}
+
+.leaflet-control-container .leaflet-draw-toolbar-top {
+    margin-top: 0px;
+    margin-bottom: 12px;
+}
+
+.leaflet-control-container .leaflet-draw-toolbar {
+    margin-top: 0px;
+}
+
+
+/* amimations */
+
+@keyframes opacityAnimation {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}

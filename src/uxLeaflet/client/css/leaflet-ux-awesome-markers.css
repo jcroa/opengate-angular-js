@@ -1,0 +1,171 @@
+/* leaflet-ux.awesome-markers.css */
+
+/* override ligth-theme.css or dark-theme.css for markers 
+   Icon is a array of markers: markers-soft.png
+   NOTE: icon-black or icon-white also overriden*/
+
+.light.theme-core .widget .awesome-marker i {
+    color: #ffffff;
+}
+.dark.theme-core .widget .awesome-marker i {
+    color: #c0c0c0;
+}
+
+/* override leaflet.awesome-markers.css 
+   2x-image has 2160x100 pixels
+   warn: only for markers, but not vertex-markers */ 
+
+.leaflet-container .awesome-marker.awesome-marker-icon-ux {
+    background: url('images/uxLeaflet/client/css/images/markers-soft@2x.png') no-repeat;
+    background-size: 1080px 50px; 
+    background-position-x: -108px; /* blue */
+    background-position-y: 6px;
+    width: 35px;
+    height: 46px;
+    animation-name: fall-background;
+    animation-duration: .3s;
+    animation-timing-function: cubic-bezier(1, 2.39, 0.72, 0.58);
+}
+/* Retina displays */
+@media not all, not all, (-webkit-min-device-pixel-ratio: 1.5), not all, (min-resolution: 1.5dppx) {
+  .leaflet-container .awesome-marker {
+      background-image: url('images/uxLeaflet/client/css/images/markers-soft@2x.png');
+      background-size: 1080px 50px; 
+  }
+  .leaflet-container .awesome-marker-shadow {
+      background-image: url('images/uxLeaflet/client/css/images/markers-shadow@2x.png');
+      background-size: 35px 16px;
+ }
+}
+@keyframes fall-background {
+    0%   { background-position-y: 0px; }
+    100% { background-position-y: 6px; }
+}
+.leaflet-container .awesome-marker.leaflet-marker-draggable.dragging {
+    background-position-y: 0px; /* 0% of animation */
+    animation: none;
+}
+
+.leaflet-container .awesome-marker i {
+    color: #333;
+    margin-top: 17px;
+    display: inline-block;
+    font-size: 14px;
+}
+@keyframes fall-i-magin {
+    0%   { margin-top: 11px; }
+    100% { margin-top: 17px; }
+}
+.leaflet-container .awesome-marker.leaflet-marker-draggable.dragging i {
+    margin-top: 11px; /* x - 6px */ 
+    animation: none;    
+}
+
+.leaflet-container .awesome-marker.awesome-marker-shadow {
+    background: url('images/uxLeaflet/client/css/images/markers-shadow.png') no-repeat 0 0;
+    width: 36px;
+    height: 16px;
+    top: -2px;
+    left: 2px;
+} 
+
+.leaflet-container .awesome-marker.awesome-marker-shadow.dragging {
+    top: -13px;
+    left: 9px;
+} 
+
+/* color map marker themes. 
+   overrides .leaflet-container .awesome-marker.awesome-marker-icon-ux */
+
+body.red .leaflet-container .awesome-marker.awesome-marker-icon-ux {
+  background-position-x: 0px;
+}
+body.pink .leaflet-container .awesome-marker.awesome-marker-icon-ux {
+  background-position-x: -36px;
+}
+body.purple .leaflet-container .awesome-marker.awesome-marker-icon-ux {
+  background-position-x: -72px;
+}
+body.deeppurple .leaflet-container .awesome-marker.awesome-marker-icon-ux {
+  background-position-x: -108px;
+}
+
+body.indigo .leaflet-container .awesome-marker.awesome-marker-icon-ux {
+  background-position-x: -144px;
+}
+body.blue .leaflet-container .awesome-marker.awesome-marker-icon-ux {
+  background-position-x: -180px;
+}
+body.lightblue .leaflet-container .awesome-marker.awesome-marker-icon-ux {
+  background-position-x: -216px;
+}
+body.cyan .leaflet-container .awesome-marker.awesome-marker-icon-ux {
+  background-position-x: -252px;
+}
+
+body.teal .leaflet-container .awesome-marker.awesome-marker-icon-ux {
+  background-position-x: -288px;
+}
+body.green .leaflet-container .awesome-marker.awesome-marker-icon-ux {
+  background-position-x: -324px;
+}
+body.lightgreen .leaflet-container .awesome-marker.awesome-marker-icon-ux {
+  background-position-x: -360px;
+}
+body.orange .leaflet-container .awesome-marker.awesome-marker-icon-ux {
+  background-position-x: -396px;
+}
+
+body.deeporange .leaflet-container .awesome-marker.awesome-marker-icon-ux{
+  background-position-x: -432px;
+}
+body.brown .leaflet-container .awesome-marker.awesome-marker-icon-ux {
+  background-position-x: -468px;
+}
+body.grey .leaflet-container .awesome-marker.awesome-marker-icon-ux {
+  background-position-x: -504px;
+}
+body.bluegrey .leaflet-container .awesome-marker.awesome-marker-icon-ux {
+  background-position-x: -540px;
+}
+
+body.darkgrey .leaflet-container .awesome-marker.awesome-marker-icon-ux {
+  background-position-x: -576px;
+}
+
+
+/* Except marker shadow. Unique tile */
+
+.leaflet-shadow.pane > .awesome-marker.awesome-marker-shadow {
+    background-position: 0 0 !important;
+}
+
+/* Editable and dragable markers when 'edit mode' is enabled */
+.leaflet-container .ux-draggable i.fa {
+    animation: opacityAnimation 1s linear infinite; 
+}
+.leaflet-container .ux-draggable i.fa:before {
+    content: '\f047';
+}
+.leaflet-container .ux-draggable:active i.fa {
+    animation: none;
+}
+
+/* marker animation sample */
+
+.leaflet-container .leaflet-marker-icon.leaflet-marker-draggable {
+    animation-name: drag-and-fall;
+    animation-duration: .3s;
+    animation-timing-function: cubic-bezier(1, 2.39, 0.72, 0.58);
+}
+.leaflet-container .leaflet-marker-icon.leaflet-marker-draggable:active {
+   animation: none;
+   top:-4px;
+}
+
+/* common keyframes */
+
+@keyframes opacityAnimation {
+	from { opacity: .7; }
+	to {  opacity:.1; }
+}

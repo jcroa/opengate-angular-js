@@ -1,5 +1,7 @@
 angular.module('opengate-angular-js')
-    .service('$provisionDatastreamsUtils', [function() {
+    .service('$provisionDatastreamsUtils', [function () {
+        'use strict';
+        
         var internal_catalog = ["internal", "provisionSubscriber", "provisionGeneric", "provisionDevice", "provisionAsset", "provisionSubscription"];
 
         var filter = {

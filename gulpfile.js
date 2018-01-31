@@ -1,3 +1,5 @@
+'use strict';
+
 var gulp = require('gulp');
 var connect = require('gulp-connect');
 var wiredep = require('wiredep').stream;
@@ -21,13 +23,13 @@ var templateOptions = {
 
 /** lint **/
 
-gulp.task('csslint', function() {
+gulp.task('csslint', function () {
     return gulp.src('src/**/*.css')
         .pipe($.csslint())
         .pipe($.csslint.reporter());
 });
 
-gulp.task('jslint', function() {
+gulp.task('jslint', function () {
     return gulp.src('src/**/*.js')
         .pipe($.jshint())
         .pipe($.jshint.reporter(jsReporter));
@@ -37,13 +39,13 @@ gulp.task('lint', ['csslint', 'jslint']);
 
 /** serve **/
 
-gulp.task('templates', function() {
+gulp.task('templates', function () {
     return gulp.src('src/**/*.html')
         .pipe($.angularTemplatecache('templates.tpl.js', templateOptions))
         .pipe(gulp.dest('.tmp/dist'));
 });
 
-gulp.task('sample', ['templates'], function() {
+gulp.task('sample', ['templates'], function () {
     var files = gulp.src(['src/**/*.js', 'src/**/*.css', 'src/*.less', '.tmp/dist/*.js'])
         .pipe($.if('*.js', $.angularFilesort()));
 
@@ -59,11 +61,11 @@ gulp.task('sample', ['templates'], function() {
         .pipe(connect.reload());
 });
 
-gulp.task('watch', function() {
+gulp.task('watch', function () {
     return gulp.watch(['src/**'], ['sample']);
 });
 
-gulp.task('serve', ['watch', 'sample'], function() {
+gulp.task('serve', ['watch', 'sample'], function () {
     return connect.server({
         root: ['.tmp/dist', '.'],
         livereload: true,
@@ -71,7 +73,7 @@ gulp.task('serve', ['watch', 'sample'], function() {
     });
 });
 
-gulp.task('test', function() {
+gulp.task('test', function () {
     return gulp
         .src('test/opengate-angular-js.test.html')
         .pipe(mochaPhantomJS({
@@ -80,20 +82,32 @@ gulp.task('test', function() {
                 useColors: true
             }
         }))
-        .on('error', function() {
-            testFailed = true;
+        .on('error', function (err) {
+            console.error(err);
         });
 });
 
 /** build **/
+gulp.task('imgs', ['clean'], function () {
+    copyImgs();
+});
 
-gulp.task('css', function() {
+gulp.task('css', ['clean'], function () {
     return compileCSS();
 });
 
-gulp.task('js', function() {
+gulp.task('js', ['clean'], function () {
     return compileJS();
 });
+
+// dependencies 
+var ver = require('gulp-ver'),
+    git = require('gulp-git'),
+    bump = require('gulp-bump'),
+    argv = require('yargs').argv,
+    runSequence = require('run-sequence'),
+    ext_replace = require('gulp-ext-replace'),
+    tag_version = require('gulp-tag-version');
 
 function compileJS() {
     return gulp.src(['src/**/*.js', 'src/**/*.html'])
@@ -121,22 +135,21 @@ function compileCSS() {
         .pipe($.minifyCss())
         .pipe(gulp.dest('dist'));
 }
+
+function copyImgs() {
+    return gulp.src(['src/**/images/**/*.*'])
+        .pipe(gulp.dest('dist/images'));
+}
+
 /** clean **/
 
-gulp.task('clean', function(cb) {
+gulp.task('clean', function (cb) {
     del(['dist', '.tmp'], cb);
 });
 
-gulp.task('default', ['css', 'js']);
+gulp.task('default', ['imgs', 'css', 'js']);
 
-// dependencies 
-var ver = require('gulp-ver'),
-    git = require('gulp-git'),
-    bump = require('gulp-bump'),
-    argv = require('yargs').argv,
-    runSequence = require('run-sequence'),
-    ext_replace = require('gulp-ext-replace'),
-    tag_version = require('gulp-tag-version');
+
 
 
 /**
@@ -154,62 +167,64 @@ var ver = require('gulp-ver'),
  */
 
 //STEP 1 
-gulp.task('create:release:branch', function(cb) {
-    git.checkout(temporalBranchRelease(), { args: '-b' }, function(err) {
+gulp.task('create:release:branch', function (cb) {
+    git.checkout(temporalBranchRelease(), {
+        args: '-b'
+    }, function (err) {
         cb(err);
-    })
+    });
 });
 
 // STEP 2
 
-gulp.task('increase:version', ['create:release:branch'], function() {
+gulp.task('increase:version', ['create:release:branch'], function () {
     console.log(versionType());
     return increase(versionType());
 });
 
-gulp.task('build:all', function(cb) {
-    runSequence('clean', 'increase:version', 'js', 'css', cb);
-})
+gulp.task('build:all', function (cb) {
+    runSequence('clean', 'increase:version', 'imgs', 'js', 'css', cb);
+});
 
 // STEP 2
 
 // STEP 3 
-gulp.task('commit:increase:version', ['build:all'], function() {
+gulp.task('commit:increase:version', ['build:all'], function () {
     return gulp.src(['dist', './bower.json', './package.json'])
         .pipe(git.add())
-        .pipe(git.commit('release ' + versionType() + ' version:' + versionNumber()))
+        .pipe(git.commit('release ' + versionType() + ' version:' + versionNumber()));
 });
 // STEP 3 
 
 // STEP 4
-gulp.task('checkout:master:increase', ['commit:increase:version'], function(cb) {
-    git.checkout(masterBranch(), function(err) {
-        cb(err);
-    })
-});
-gulp.task('merge:master:increase', ['checkout:master:increase'], function(cb) {
-    git.merge(temporalBranchRelease(), function(err) {
+gulp.task('checkout:master:increase', ['commit:increase:version'], function (cb) {
+    git.checkout(masterBranch(), function (err) {
         cb(err);
     });
-})
-
-gulp.task('commit:master:increase:version', ['merge:master:increase'], function() {
-    return gulp.src(['.'])
-        .pipe(git.add())
-        .pipe(git.commit('release ' + versionType() + ' version:' + versionNumber()))
+});
+gulp.task('merge:master:increase', ['checkout:master:increase'], function (cb) {
+    git.merge(temporalBranchRelease(), function (err) {
+        cb(err);
+    });
 });
 
-gulp.task('prepare_tag:increase', ['commit:master:increase:version'], function() {
+gulp.task('commit:master:increase:version', ['merge:master:increase'], function () {
+    return gulp.src(['.'])
+        .pipe(git.add())
+        .pipe(git.commit('release ' + versionType() + ' version:' + versionNumber()));
+});
+
+gulp.task('prepare_tag:increase', ['commit:master:increase:version'], function () {
     return gulp.src(['./package.json'])
         .pipe(tag_version());
 });
 
 gulp.task('prepare:master:increase', ['prepare_tag:increase']);
 
-gulp.task('prepare:develop:increase', ['prepare:master:increase'], function(cb) {
-    git.checkout(developBranch(), function(err) {
+gulp.task('prepare:develop:increase', ['prepare:master:increase'], function (cb) {
+    git.checkout(developBranch(), function (err) {
         if (!err) {
-            git.merge(masterBranch(), function(err) {
+            git.merge(masterBranch(), function (err) {
                 cb(err);
             });
         } else {
@@ -220,10 +235,14 @@ gulp.task('prepare:develop:increase', ['prepare:master:increase'], function(cb) 
 });
 // STEP 4
 
-gulp.task('push:increase', ['prepare:develop:increase', 'prepare:master:increase'], function(cb) {
-    git.push('origin', [masterBranch(), developBranch()], { args: " --follow-tags" }, function(err) {
+gulp.task('push:increase', ['prepare:develop:increase', 'prepare:master:increase'], function (cb) {
+    git.push('origin', [masterBranch(), developBranch()], {
+        args: " --follow-tags"
+    }, function (err) {
         if (!err) {
-            git.branch(temporalBranchRelease(), { args: "-D" }, function(err) {
+            git.branch(temporalBranchRelease(), {
+                args: "-D"
+            }, function (err) {
                 cb(err);
             });
         } else {
@@ -237,9 +256,11 @@ function increase(importance) {
     // get all the files to bump version in 
     return gulp.src(['./package.json', './bower.json'])
         // bump the version number in those files 
-        .pipe(bump({ type: importance }))
+        .pipe(bump({
+            type: importance
+        }))
         // save it back to filesystem 
-        .pipe(gulp.dest('./'))
+        .pipe(gulp.dest('./'));
 }
 
 function temporalBranchRelease() {
@@ -262,8 +283,8 @@ function versionType() {
 }
 
 function versionNumber() {
-    var fs = require('fs')
-    var json = JSON.parse(fs.readFileSync('package.json', 'utf8'))
+    var fs = require('fs');
+    var json = JSON.parse(fs.readFileSync('package.json', 'utf8'));
     return json.version;
 }
 

@@ -1,0 +1,97 @@
+/*  editable styles */
+
+.leaflet-control-container .leaflet-bar.leaflet-control a .delete-edit-control {
+    margin-top: 4px
+}
+
+.leaflet-control-container .leaflet-bar.leaflet-control a.active {
+    animation: opacityAnimation 1s linear infinite;
+}
+
+
+/* USAR como modelo para TEMAS */
+
+
+/* polygons and lines */
+
+
+/* .leaflet-container path { stroke: #ff6600; } */
+
+
+/* only polygons */
+
+.leaflet-container path[fill-rule="evenodd"] {
+    fill: #ff6600;
+}
+
+
+/* color map marker themes. 
+   overrides .leaflet-container .awesome-marker.awesome-marker-icon-ux */
+
+body.red .leaflet-container path[fill-rule="evenodd"] {
+    fill: #ff0000;
+}
+
+body.pink .leaflet-container path[fill-rule="evenodd"] {
+    fill: #E91E63;
+}
+
+body.purple .leaflet-containerpath[fill-rule="evenodd"] {
+    fill: #9C27B0;
+}
+
+body.deeppurple .leaflet-container path[fill-rule="evenodd"] {
+    fill: #673AB7;
+}
+
+body.indigo .leaflet-container .awesome-marker.awesome-marker-icon-ux {
+    background-position-x: -144px;
+}
+
+body.blue .leaflet-container path[fill-rule="evenodd"] {
+    fill: #2196F3;
+}
+
+body.lightblue .leaflet-container path[fill-rule="evenodd"] {
+    fill: #03A9F4;
+}
+
+body.cyan .leaflet-container path[fill-rule="evenodd"] {
+    fill: #00BCD4;
+}
+
+body.teal .leaflet-container path[fill-rule="evenodd"] {
+    fill: #009688;
+}
+
+body.green .leaflet-container path[fill-rule="evenodd"] {
+    fill: #4CAF50;
+}
+
+body.lightgreen .leaflet-container path[fill-rule="evenodd"] {
+    fill: #8BC34A;
+}
+
+body.orange .leaflet-container path[fill-rule="evenodd"] {
+    fill: #FF9800;
+}
+
+body.deeporange .leaflet-container path[fill-rule="evenodd"] {
+    fill: #FF5722;
+}
+
+body.brown .leaflet-container path[fill-rule="evenodd"] {
+    fill: #795548;
+}
+
+body.grey .leaflet-container path[fill-rule="evenodd"] {
+    fill: #9E9E9E;
+}
+
+body.bluegrey .leaflet-container path[fill-rule="evenodd"] {
+    fill: #607D8B;
+}
+
+body.darkgrey .leaflet-container path[fill-rule="evenodd"] {
+    fill: #2D2D2D;
+}

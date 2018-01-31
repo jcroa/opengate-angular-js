@@ -1,3 +1,3 @@
 'use strict';
-
-angular.module('opengate-angular-js', ['schemaForm']);
+angular.module('uxleaflet', []);
+angular.module('opengate-angular-js', ['schemaForm', 'uxleaflet', 'leaflet-directive']);

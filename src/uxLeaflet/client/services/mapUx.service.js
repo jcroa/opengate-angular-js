@@ -42,59 +42,70 @@ angular.module('uxleaflet')
         },
         type: 'xyz'
     },
-    groadmap: {
-        name: 'Google Roadmap',
-        layerType: 'ROADMAP',
-        type: 'google',
-        layerParams: {
-            attribution: 'Google Inc.',
-            maxZoom: 19
-        }
-    },
-    gsatellite: {
-        name: 'Google Hybrid',
-        layerType: 'HYBRID',
-        type: 'google',
-        layerParams: {
-            attribution: 'Google Inc.',
-            maxZoom: 19
-        }
-    },
-    artistic: {
-        name: 'Artistic',
-        url: 'http://tile.stamen.com/watercolor/{z}/{x}/{y}.jpg',
-        type: 'xyz',
-        layerParams: {
-            maxZoom: 18
-        }
-    },
-    medieval: {
-        name: 'Medieval',
-        url: '//{s}.tiles.mapbox.com/v3/lrqdo.me2bng9n/{z}/{x}/{y}.png',
-        layerParams: {
-            attribution: 'mapbox lrqdo.me2bng9n',
-            maxZoom: 18
-        },
-        type: 'xyz'
-    },
-    mbsatellite: {
-        name: 'Mapbox satellite',
-        url: '//{s}.tiles.mapbox.com/v3/tmcw.map-j5fsp01s/{z}/{x}/{y}.png',
-        type: 'xyz',
-        layerParams: {
-            attribution: 'Mapbox satellite',
-            maxZoom: 19
-        }
-    },
-    local: {
-        name: '',
-        url: 'file://_$local_$NAME_{z}/{x}/{y}.png',
-        type: 'xyz',
-        layerParams: {
-            attribution: '',
-            maxZoom: 20
-        }
-    }
+    // groadmap: {
+    //     name: 'Google Roadmap',
+    //     layerType: 'ROADMAP',
+    //     type: 'google',
+    //     layerParams: {
+    //         attribution: 'Google Inc.',
+    //         maxZoom: 19
+    //     }
+    // },
+    // gsatellite: {
+    //     name: 'Google Hybrid',
+    //     layerType: 'HYBRID',
+    //     type: 'google',
+    //     layerParams: {
+    //         attribution: 'Google Inc.',
+    //         maxZoom: 19
+    //     }
+    // },
+    // artistic: {
+    //     name: 'Artistic',
+    //     url: 'http://tile.stamen.com/watercolor/{z}/{x}/{y}.jpg',
+    //     type: 'xyz',
+    //     layerParams: {
+    //         maxZoom: 18
+    //     }
+    // },
+    // medieval: {
+    //     name: 'Medieval',
+    //     url: '//{s}.tiles.mapbox.com/v3/lrqdo.me2bng9n/{z}/{x}/{y}.png',
+    //     layerParams: {
+    //         attribution: 'mapbox lrqdo.me2bng9n',
+    //         maxZoom: 18
+    //     },
+    //     type: 'xyz'
+    // },
+    // mbsatellite: {
+    //     name: 'Mapbox satellite',
+    //     url: '//{s}.tiles.mapbox.com/v3/tmcw.map-j5fsp01s/{z}/{x}/{y}.png',
+    //     type: 'xyz',
+    //     layerParams: {
+    //         attribution: 'Mapbox satellite',
+    //         maxZoom: 19
+    //     }
+    // },
+    ///////////////// REVISAR NO FUNCIONA
+    //     ///////////////////
+    //     opengate-angular-js-3.0.1.js:7119 Invalid leaflet. No locallayer defined
+    // recalculateTileset @ opengate-angular-js-3.0.1.js:7119
+    // resetTiles @ opengate-angular-js-3.0.1.js:7043
+    // (anonymous) @ opengate-angular-js-3.0.1.js:6960
+    // s @ leaflet.js:8
+    // opengate-angular-js-3.0.1.js:7047 Uncaught TypeError: Cannot read property '_tileInfos' of undefined
+    //     at resetTiles (opengate-angular-js-3.0.1.js:7047)
+    //     at e.<anonymous> (opengate-angular-js-3.0.1.js:6960)
+    //     at HTMLAnchorElement.s [as _leaflet_click126] (leaflet.js:8)
+    // local: {
+    //     name: '',
+    //     url: 'file://_$local_$NAME_{z}/{x}/{y}.png',
+    //     type: 'xyz',
+    //     layerParams: {
+    //         attribution: '',
+    //         maxZoom: 20
+    //     }
+    // }
 })
 
 /**   
@@ -145,7 +156,7 @@ angular.module('uxleaflet')
      */
     _this.getMapWithId = function(mapId, mapCallback, optScope) {
         // this promise is either sync or async. Problems with angular $apply method.
-        leafletData.getMap(mapId).then(function (map) {
+        leafletData.getMap(mapId).then(function(map) {
             if (map.setNgScope)
                 map.setNgScope(optScope);
             $timeout(function() { mapCallback(map); });
@@ -157,11 +168,11 @@ angular.module('uxleaflet')
      * @param {scope} component scope
      * @param {eventName string} valid leaflet map eventname (click, dblclick, mousedown, etc.)
      */
-    _this.mapOn = function (scope, eventName, fn) {
+    _this.mapOn = function(scope, eventName, fn) {
         var id = _this.getMapId(scope);
-        scope.$on('leafletDirectiveMap.{{ vm.id }}.' + eventName, function (e) {
+        scope.$on('leafletDirectiveMap.{{ vm.id }}.' + eventName, function(e) {
             if (e.currentScope.vm.id === id) {
-                try { fn(e); } catch (err) { }
+                try { fn(e); } catch (err) {}
             }
         });
     };

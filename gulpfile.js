@@ -88,15 +88,15 @@ gulp.task('test', function () {
 });
 
 /** build **/
-gulp.task('imgs', ['clean'], function () {
+gulp.task('imgs', function () {
     copyImgs();
 });
 
-gulp.task('css', ['clean'], function () {
+gulp.task('css', function () {
     return compileCSS();
 });
 
-gulp.task('js', ['clean'], function () {
+gulp.task('js', function () {
     return compileJS();
 });
 

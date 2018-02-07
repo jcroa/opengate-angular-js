@@ -1,6 +1,7 @@
 'use strict';
 
-angular.module('leaflet-directive')
+//angular.module('leaflet-directive')
+angular.module('ui-leaflet')
 
 /**
  * Directiva angular: 'decopaths'

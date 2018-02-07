@@ -101,10 +101,10 @@
     }
 
     /**
-         * En prueba. Refresca capas offline a partir del resultado de 'browse' sobre ficheros locales
-         * @param {*} oLayer 
-         * @param {*} files 
-         */
+     * En prueba. Refresca capas offline a partir del resultado de 'browse' sobre ficheros locales
+     * @param {*} oLayer 
+     * @param {*} files 
+     */
     function refreshOfflineLayer(oLayer, files) {
         var primero = files[0];
         if (!primero) {
@@ -112,7 +112,7 @@
             return;
         }
         // En pruebas. solo se considera el primero.
-        loadGeoJsonFromFile(primero, function (err, sData) {
+        loadGeoJsonFromFile(primero, function(err, sData) {
             if (err) {
                 console.error('Error cartgando fichero', err);
                 return;
@@ -249,7 +249,7 @@
 
         };
 
-        
+
 
         if (USE_INHERITANCE) {
             // new control for layers. Default control used by UxMap
@@ -275,8 +275,9 @@
             return false;
         }
         var mapId = container.id;
-        return (container.classList && container.classList.contains('ux-map-helper')) ||
-            mapId === 'map-marker' || mapId === 'map-finder';
+        // return (container.classList && container.classList.contains('ux-map-helper')) ||
+        //     mapId === 'map-marker' || mapId === 'map-finder';
+        return false;
     }
 
     /**
@@ -297,16 +298,31 @@
         // cómo se añade _isSimpleUx:true en opciones de angular-leaflet ?
         var tileLayers = {
             osm: {
-                name: 'Open Street Map',
+                name: 'OpenStreetMap',
                 url: '//{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-                options: { attribution: 'OpenStreetMap' },
-                visible: true
+                type: 'xyz',
+                layerParams: {
+                    attribution: 'OpenStreet Map',
+                    maxZoom: 19
+                }
             },
-            mbStellite: {
-                name: 'Mapbox Satellite',
-                url: '//{s}.tiles.mapbox.com/v3/tmcw.map-j5fsp01s/{z}/{x}/{y}.png',
-                options: { attribution: 'Mapbox satellite' },
-                visible: false
+            dark2: {
+                name: 'Dark Map',
+                url: '//{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png',
+                layerParams: {
+                    attribution: 'Cartocdn Dark Map',
+                    maxZoom: 19
+                },
+                type: 'xyz'
+            },
+            ogWorld: {
+                name: 'OpenGate Maps',
+                url: 'http://172.19.18.248/osm_tiles/{z}/{x}/{y}.png',
+                layerParams: {
+                    attribution: 'OpenGate Maps',
+                    maxZoom: 19
+                },
+                type: 'xyz'
             }
         };
         if (usingLocalTiles) {
@@ -429,8 +445,9 @@
         console.warn('WARN: MapUx está usando __overrideClass. Class in development: ',
             clazzToModify.constructor); // eliminar comentario si pruebas OK
         var oldMembers = overriddenMembers || {};
+
         function Message(text) {
-            this.getMessage = function () {
+            this.getMessage = function() {
                 return text;
             };
         }

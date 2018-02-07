@@ -22,7 +22,7 @@
                 <div class="row" ng-if="$ctrl.mapIsOpen">
                     <div class="col-xs-12">
                         <div class="form-group leaflet-container">
-                            <leaflet id="map-marker" lf-center="$ctrl.map.center" event-broadcast="$ctrl.map.events" markers="$ctrl.map.markers" width="100% " height="300px"></leaflet>
+                            <leaflet id="map-marker" lf-center="$ctrl.map.center" layers="$ctrl.map.layers" controls="$ctrl.map.controls" event-broadcast="$ctrl.map.events" markers="$ctrl.map.markers" width="100% " height="300px"></leaflet>
                         </div>
                     </div>
                     <div class="col-xs-12 text-right" ng-if="$ctrl.helper_exclusive">

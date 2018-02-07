@@ -7,7 +7,7 @@ angular.module('uxleaflet')
     l_fullscreen: { position: 'topleft' },
     l_placefinder: { text: 'Place name or coordinates' },
     l_print: { title: 'Print current map view', position: 'topleft' },
-    l_minimap: { layer: 'osm', toggleDisplay: true }, // { 'osm', 'dark2', '$main', ...}
+    l_minimap: { layer: '$main', toggleDisplay: true }, // { 'osm', 'dark2', '$main', ...}
     l_search: { placeholder: 'Enter device ID', timeAutoclose: 2000 },
     l_boxselection: localStorage.testselection && { position: 'topleft' }, // por defecto deshabilitado 
     l_measure: false, // { position: 'topleft'},
@@ -15,7 +15,7 @@ angular.module('uxleaflet')
     l_scale: false, //{ position: 'bottomleft', numDigits: 4 },
     l_magnifying: { scale: 3, radius: 180 },
     l_localtiles: false,
-    baseLayers: ['osm', 'dark2'],
+    baseLayers: ['osm', 'dark2', 'ogWorld'],
     baseLayerDefault: 'osm',
     overlays: [],
     mapOptions: {
@@ -42,50 +42,15 @@ angular.module('uxleaflet')
         },
         type: 'xyz'
     },
-    // groadmap: {
-    //     name: 'Google Roadmap',
-    //     layerType: 'ROADMAP',
-    //     type: 'google',
-    //     layerParams: {
-    //         attribution: 'Google Inc.',
-    //         maxZoom: 19
-    //     }
-    // },
-    // gsatellite: {
-    //     name: 'Google Hybrid',
-    //     layerType: 'HYBRID',
-    //     type: 'google',
-    //     layerParams: {
-    //         attribution: 'Google Inc.',
-    //         maxZoom: 19
-    //     }
-    // },
-    // artistic: {
-    //     name: 'Artistic',
-    //     url: 'http://tile.stamen.com/watercolor/{z}/{x}/{y}.jpg',
-    //     type: 'xyz',
-    //     layerParams: {
-    //         maxZoom: 18
-    //     }
-    // },
-    // medieval: {
-    //     name: 'Medieval',
-    //     url: '//{s}.tiles.mapbox.com/v3/lrqdo.me2bng9n/{z}/{x}/{y}.png',
-    //     layerParams: {
-    //         attribution: 'mapbox lrqdo.me2bng9n',
-    //         maxZoom: 18
-    //     },
-    //     type: 'xyz'
-    // },
-    // mbsatellite: {
-    //     name: 'Mapbox satellite',
-    //     url: '//{s}.tiles.mapbox.com/v3/tmcw.map-j5fsp01s/{z}/{x}/{y}.png',
-    //     type: 'xyz',
-    //     layerParams: {
-    //         attribution: 'Mapbox satellite',
-    //         maxZoom: 19
-    //     }
-    // },
+    ogWorld: {
+        name: 'OpenGate Maps',
+        url: '//maps.opengate.es/osm_tiles/{z}/{x}/{y}.png',
+        layerParams: {
+            attribution: 'OpenGate Maps',
+            maxZoom: 19
+        },
+        type: 'xyz'
+    }
     ///////////////// REVISAR NO FUNCIONA
     //     ///////////////////
     //     opengate-angular-js-3.0.1.js:7119 Invalid leaflet. No locallayer defined
@@ -106,6 +71,26 @@ angular.module('uxleaflet')
     //         maxZoom: 20
     //     }
     // }
+})
+
+/**
+ * This method updates configuration to improve maps experience in offline config
+ */
+.run(function($http, allNgBaseLayers, defaultMapOptions) {
+    $http.get('//a.tile.openstreetmap.org/0/0/0.png').error(function(data) {
+        delete allNgBaseLayers.osm;
+        defaultMapOptions.baseLayers.splice(defaultMapOptions.baseLayers.indexOf('osm'), 1);
+    });
+
+    $http.get('//a.basemaps.cartocdn.com/dark_all/0/0/0.png').error(function(data) {
+        delete allNgBaseLayers.dark2;
+        defaultMapOptions.baseLayers.splice(defaultMapOptions.baseLayers.indexOf('dark2'), 1);
+    });
+
+    $http.get('//maps.opengate.es/osm_tiles/0/0/0.png').error(function(data) {
+        delete allNgBaseLayers.ogWorld;
+        defaultMapOptions.baseLayers.splice(defaultMapOptions.baseLayers.indexOf('ogWorld'), 1);
+    });
 })
 
 /**   
@@ -315,7 +300,7 @@ angular.module('uxleaflet')
                 constructor: null, // it will be used this.createControlInstance instead 'L.Control.MiniMap',
                 defaultOpts: {
                     layer: {
-                        url: 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+                        url: '//{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
                         options: {} // { minZoom: 5, maxZoom: 18, attribution: 'Map data &copy; OpenStreetMap contributors' }
                     },
                     position: 'bottomright',
@@ -600,7 +585,7 @@ angular.module('uxleaflet')
     /** Return a L.TileLayer from a known name  (osm, gmaps, etc) */
     function tileLayerFromName(name) {
         var all = _mapUxService.getAllBaseLayerConfigs();
-        var opt = all[name] || all.osm;
+        var opt = all[name] || all.osm || all.dark2 || all.ogWorld;
         if (opt.type === 'xyz') {
             var tilelayer = new L.TileLayer(opt.url, opt.options || opt.layerParams);
             return tilelayer;

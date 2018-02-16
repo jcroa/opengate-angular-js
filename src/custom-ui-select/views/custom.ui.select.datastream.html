@@ -38,7 +38,8 @@
         <ui-select-match placeholder="{{ 'FORM.PLACEHOLDER.DATASTREAM' | translate }}" allow-clear="true">
             {{$item.identifier}}
         </ui-select-match>
-        <ui-select-choices repeat="ds in $ctrl.ownConfig.collection | filter:$select.search | limitTo:$ctrl.maxResults track by $index">
+<ui-select-choices repeat="ds in $ctrl.ownConfig.collection | filter:$select.search | limitTo:$ctrl.maxResults track by $index">
+
             <div>
                 <span ng-bind-html="ds.identifier | highlight: $select.search"></span> -
                 <span ng-bind-html="ds.name | highlight: $select.search"></span>

@@ -9906,6 +9906,7 @@ angular.module('opengate-angular-js').component('customUiSelectSubscriber', {
 angular.module('opengate-angular-js').controller('customUiSelectProvisionDatastreamController', ['$scope', '$element', '$attrs', '$api', '$q', '$http', '$provisionDatastreamsUtils',
     function ($scope, $element, $attrs, $api, $q, $http, $provisionDatastreamsUtils) {
         var ctrl = this;
+        ctrl.filter = 'provision.';
 
         ctrl.ownConfig = {
             builder: $api().datamodelsSearchBuilder(),
@@ -9961,7 +9962,10 @@ angular.module('opengate-angular-js').controller('customUiSelectProvisionDatastr
                             };
                             angular.forEach(datastreams
                                 .filter(function (ds) {
-                                    return (ds.identifier.indexOf(ctrl.lastSearch) > -1 && !!ctrl.lastSearch.length) || !ctrl.lastSearch;
+                                    if (/^(provision\.).*/.test(ds.identifier)) {
+                                        return (ds.identifier.indexOf(ctrl.lastSearch) > -1 && !!ctrl.lastSearch.length) || !ctrl.lastSearch;
+                                    }
+                                    return false;
                                 }),
                                 function (datastream, key) {
                                     var _datastream = angular.copy(datastream);

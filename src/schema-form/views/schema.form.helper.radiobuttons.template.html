@@ -1,0 +1,11 @@
+<div class="{{form.schema?form.schema.htmlClass:''}}">
+    <div class="form-group">
+        <label for="{{form.key[0]}}">{{ form.title }}</label><br>
+        <div class="btn-group">
+            <label ng-repeat="data in form.titleMap" class="btn btn-sm" ng-class="{ 'btn-primary': data.value === model[form.key[0]], 'btn-default': data.value !== model[form.key[0]] }">
+                <input type="radio" id="{{form.key[0]}}" name="{{form.key[0]}}" sf-field-model ng-value="data.value" style="display:none;" sf-changed="form">
+                <span ng-bind-html="data.name"></span>
+            </label>
+        </div>
+    </div>
+</div>

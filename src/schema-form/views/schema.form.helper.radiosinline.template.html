@@ -1,0 +1,13 @@
+<div class="{{form.schema?form.schema.htmlClass:''}}">
+    <div class="form-group">
+        <label for="{{form.key[0]}}">{{ form.title }}</label><br>
+        <div class="radio radio-primary" ng-if="form.titleMap" ng-repeat="data in form.titleMap" style="display: inline;">
+            <label>
+                <input type="radio" id="{{form.key[0]}}" name="{{form.key[0]}}" sf-field-model value="{{data.value}}" sf-changed="form">
+                <span class="circle"></span>
+                <span class="check"></span> 
+                <p ng-bind-html="data.name"></p>
+            </label>
+        </div>
+    </div>
+</div>

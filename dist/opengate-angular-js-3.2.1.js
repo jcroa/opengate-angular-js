@@ -8883,7 +8883,46 @@ angular.module('opengate-angular-js')
         function ($provisionDatastreamsUtils, $api, $q) {
             
 
-            var filter = $provisionDatastreamsUtils.getFilter();
+            function checkFieldToForm(field, form) {
+                if (!field) {
+                    throw new Error("First parameter field must be a string or object");
+                }
+                if (!Array.isArray(form)) {
+                    throw new Error("Second parameter form must be an array");
+                }
+            }
+
+            function removeFieldToForm(field, form) {
+                checkFieldToForm(field, form);
+                form = form.filter(function (value) {
+                    if (typeof value === 'string') {
+                        if (typeof field === 'string') {
+                            return value !== field;
+                        } else {
+                            var field_value = Array.isArray(field.key) ? field.key[0] : field.key;
+                            return value !== field_value;
+                        }
+                    } else {
+                        if (typeof field === 'string') {
+                            var value_value = Array.isArray(value.key) ? value.key[0] : value.key;
+                            return field !== value_value;
+                        } else {
+                            var f = Array.isArray(field.key) ? field.key[0] : field.key;
+                            var v = Array.isArray(value.key) ? value.key[0] : value.key
+                            return f !== v;
+                        }
+                    }
+                });
+                return form;
+            }
+
+            function addFieldToForm(field, form) {
+                checkFieldToForm(field, form);
+                form.push(typeof field === 'string' ? {
+                    "key": "['" + field + "']"
+                } : field);
+                return form;
+            }
 
             function SchemaFormCreator() {
                 var _this = this;
@@ -8925,11 +8964,16 @@ angular.module('opengate-angular-js')
                 }
 
                 function addIdentifier(identifier) {
-                    identifiers.push(identifier);
-                    form.push({
-                        "key": "['" + identifier + "']"
-                    });
+                    if (identifiers.indexOf(identifier) === -1) {
+                        identifiers.push(identifier);
+                    }
+                    form = addFieldToForm(identifier, form);
                 }
+
+                this.updateForm = function (form) {
+                    form = angular.copy(form);
+                };
+
 
                 this.addField = function ($item, creationMode) {
                     var defered = $q.defer();
@@ -8971,13 +9015,7 @@ angular.module('opengate-angular-js')
                     delete schema.properties[field];
                     schema.required.splice(schema.required.indexOf(field), 1);
                     identifiers.splice(identifiers.indexOf(field), 1);
-                    form = form.filter(function (value) {
-                        if (typeof value === 'string' && value === field) {
-                            return false;
-                        } else {
-                            return value.key.replace('\'', '') === field;
-                        }
-                    });
+                    form = removeFieldToForm(field, form);
                 };
 
                 this.getSchema = function () {
@@ -8994,10 +9032,13 @@ angular.module('opengate-angular-js')
             }
 
             return {
-                getSchemaFormCreator: function (options) {
-                    return new SchemaFormCreator(options);
+                addFieldToForm: addFieldToForm,
+                removeFieldToForm: removeFieldToForm,
+                getSchemaFormCreator: function () {
+                    return new SchemaFormCreator();
                 },
                 getSchemaFormCreatorFromDatamodel: function (options) {
+                    var filter = $provisionDatastreamsUtils.getFilter();
                     var customfields = options.customFields;
                     var allowedResourceTypes = options.allowedResourceTypes;
                     var creationMode = options.creationMode;

@@ -8914,8 +8914,8 @@ angular.module('opengate-angular-js')
                 function addExtraAttributes(schema) {
                     var _keys = Object.keys(schema);
                     _keys.forEach(function (key) {
-                        var obj = _keys[key];
-                        if (obj === 'string') {
+                        var obj = schema[key];
+                        if (obj === 'string' && typeof schema.format === 'undefined' && typeof schema.enum === 'undefined') {
                             schema.format = 'helperdialog';
                         }
                         if (angular.isObject(obj)) {
@@ -9029,7 +9029,8 @@ angular.module('opengate-angular-js')
                         .then(function (response) {
                             var datamodels = response.data.datamodels;
                             datamodels = $provisionDatastreamsUtils.filterForCoreDatamodelsCatalog(datamodels);
-                            var datastreams = datamodels.reduce(function (first, next) {
+
+                            var rd = datamodels.reduce(function (first, next) {
                                 var categories = [];
                                 if (next.categories) {
                                     return first.concat(next.categories.reduce(function (first, next) {
@@ -9037,14 +9038,14 @@ angular.module('opengate-angular-js')
                                     }, categories));
                                 }
                                 return first;
-                            }, []).reduce(function (first, ds) {
+                            }, []);
+                            var datastreams = rd.reduce(function (first, ds) {
                                 first[ds.identifier] = ds;
                                 return first;
-                            });
+                            }, []);
                             var promisses = [];
                             customfields.forEach(function (identifier) {
                                 var confDatastream = datastreams[identifier];
-
                                 if (typeof confDatastream === 'undefined') {
                                     console.error('Datastream ' + identifier + ' no exists or not is custom.');
                                 } else {

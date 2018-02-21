@@ -13,47 +13,71 @@ angular.module('opengate-angular-js')
                     required: []
                 };
                 var identifiers = [];
+                var form = [];
 
-                function addRequired($item) {
+                function addToSchema($item, creationMode) {
+                    var identifier = $item.identifier;
                     if ($item.required) {
-                        schema.required.push($item.identifier);
+                        schema.required.push(identifier);
                     }
+                    if (!$item.modifiable) {
+                        $item.schema.readOnly = $item.schema.readOnly || (!creationMode || $item.calculated);
+                    }
+                    $item.schema.description = $item.description;
+                    $item.title = ($item.name || identifier) + ($item.unit && $item.unit.label ? ' (' + $item.unit.label + ')' : '');
+                    addExtraAttributes($item.schema);
+                    addIdentifier(identifier);
+
+                    schema.properties[identifier] = $item.schema;
                 }
 
-                this.addField = function ($item) {
+                function addExtraAttributes(schema) {
+                    var _keys = Object.keys(schema);
+                    _keys.forEach(function (key) {
+                        var obj = _keys[key];
+                        if (obj === 'string') {
+                            schema.format = 'helperdialog';
+                        }
+                        if (angular.isObject(obj)) {
+                            addExtraAttributes(obj);
+                        }
+                    });
+                }
+
+                function addIdentifier(identifier) {
+                    identifiers.push(identifier);
+                    form.push({
+                        "key": "['" + identifier + "']"
+                    });
+                }
+
+                this.addField = function ($item, creationMode) {
                     var defered = $q.defer();
                     var promise = defered.promise;
-                    var identifier = $item.identifier;
-                    identifiers.push(identifier);
-                    addRequired($item);
-                    $item.title = ($item.name || identifier) + ($item.unit && $item.unit.label ? ' (' + $item.unit.label + ')' : '');
+
                     if (typeof $item.schema.$ref === 'string') {
                         var path = '$.' + $item.schema.$ref.split('#')[1];
                         path = path.replace(/[\/]/g, '.');
                         $api().basicTypesSearchBuilder().withPath(path).execute().then(function (response) {
-                            schema.properties[identifier] = response.data;
+                            $item.schema = response.data;
+                            addToSchema($item, creationMode);
                             defered.resolve();
                         }).catch(function (err) {
                             console.error(err);
                             defered.reject(err);
                         });
                     } else {
-                        if ($item.schema.type === 'string') {
-                            $item.schema.format = 'helperdialog';
-                        }
-                        $item.schema.htmlClass = 'col-xs-12 col-md-6';
-                        $item.schema.description = $item.description;
-                        schema.properties[identifier] = $item.schema;
+                        addToSchema($item, creationMode);
                         defered.resolve();
                     }
                     return promise;
                 };
 
-                this.addFields = function (fields) {
+                this.addFields = function (fields, creationMode) {
                     var promisses = [];
                     if (Array.isArray(fields) && fields.length > 0) {
                         fields.forEach(function (field) {
-                            promisses.push(_this.addField(field));
+                            promisses.push(_this.addField(field, creationMode));
                         });
                         return $q.all(promisses).catch(function (err) {
                             console.error(err);
@@ -63,8 +87,25 @@ angular.module('opengate-angular-js')
                     }
                 };
 
+                this.removeField = function (field) {
+                    delete schema.properties[field];
+                    schema.required.splice(schema.required.indexOf(field), 1);
+                    identifiers.splice(identifiers.indexOf(field), 1);
+                    form = form.filter(function (value) {
+                        if (typeof value === 'string' && value === field) {
+                            return false;
+                        } else {
+                            return value.key.replace('\'', '') === field;
+                        }
+                    });
+                };
+
                 this.getSchema = function () {
                     return schema;
+                };
+
+                this.getForm = function () {
+                    return form;
                 };
 
                 this.getIdentifiers = function () {
@@ -73,7 +114,14 @@ angular.module('opengate-angular-js')
             }
 
             return {
-                getSchemaFormCreatorFromDatamodel: function (customfields, allowedResourceTypes) {
+                getSchemaFormCreator: function (options) {
+                    return new SchemaFormCreator(options);
+                },
+                getSchemaFormCreatorFromDatamodel: function (options) {
+                    var customfields = options.customFields;
+                    var allowedResourceTypes = options.allowedResourceTypes;
+                    var creationMode = options.creationMode;
+
                     var defered = $q.defer();
                     var promise = defered.promise;
 
@@ -86,7 +134,9 @@ angular.module('opengate-angular-js')
                     } else {
                         defered.reject("First parameter must be an array of datastreams identifier");
                     }
-                    var schemaFormCreator = new SchemaFormCreator();
+                    var schemaFormCreator = new SchemaFormCreator({
+                        creationMode: creationMode
+                    });
                     if (allowedResourceTypes) {
                         filter.and.push({
                             'in': {

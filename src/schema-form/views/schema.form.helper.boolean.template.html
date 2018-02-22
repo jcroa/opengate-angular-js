@@ -3,9 +3,9 @@
         <label>
             <input type="checkbox" id="{{ form.key[0] }}" name="{{ form.key[0] }}" sf-field-model sf-changed="form" ng-model-options="form.ngModelOptions" schema-validate="form">
             <span class="checkbox-material">
-        <span class="check"></span>
+                <span class="check"></span>
             </span>
-            <span ng-bind-html="form.title"></span>
+            <span ng-bind-html="form.title" class="text-left"></span>
             </label>
     </div>
     <div class="help-inline" sf-message="form.description" ng-bind-html="form.description"></div>

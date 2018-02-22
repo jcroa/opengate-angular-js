@@ -9,8 +9,7 @@ angular.module('opengate-angular-js').config(function(schemaFormProvider, schema
 
             options.lookup[sfPathProvider.stringify(options.path)] = f;
             return f;
-        }
-        if (schema.type === 'boolean') {
+        } else if (schema.type === 'boolean') {
             f = schemaFormProvider.stdFormObj(name, schema, options);
             f.key = options.path;
             f.type = 'boolean';

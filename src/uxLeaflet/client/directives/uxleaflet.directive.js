@@ -1,18 +1,21 @@
 /*
- * (SIN USAR)
+ * (SIN USAR. Para probar)
  * 
  * Cloned from angular-leaflet-directive  2015-11-06
+ * (Se supone igual compatible con ui-leaflet)
+ *  It requires leaflet library
  *  It uses L.UxMap instead L.Map.
  *  Pending correct resize events and ...
  */
 'use strict';
 
 angular.
-module('uxleaflet-directive', []).
+module('uxleaflet-directive', ['ui-leaflet']).
 directive('uxleaflet', ['$q', 'leafletData', 'leafletMapDefaults', 'leafletHelpers', 'leafletMapEvents', uxLeafletDirective]);
 
 function uxLeafletDirective($q, leafletData, leafletMapDefaults, leafletHelpers, leafletMapEvents) {
 
+    // It uses  L.UxMap if exist, else L.Map
     var _MAP_CLASS = L.UxMap || L.Map;
 
     return {

@@ -50,7 +50,7 @@ angular.module('uxleaflet')
             maxZoom: 19
         },
         type: 'xyz'
-    }
+    },
     ///////////////// REVISAR NO FUNCIONA
     //     ///////////////////
     //     opengate-angular-js-3.0.1.js:7119 Invalid leaflet. No locallayer defined
@@ -62,15 +62,15 @@ angular.module('uxleaflet')
     //     at resetTiles (opengate-angular-js-3.0.1.js:7047)
     //     at e.<anonymous> (opengate-angular-js-3.0.1.js:6960)
     //     at HTMLAnchorElement.s [as _leaflet_click126] (leaflet.js:8)
-    // local: {
-    //     name: '',
-    //     url: 'file://_$local_$NAME_{z}/{x}/{y}.png',
-    //     type: 'xyz',
-    //     layerParams: {
-    //         attribution: '',
-    //         maxZoom: 20
-    //     }
-    // }
+    local: {
+        name: '',
+        url: 'file://_$local_$NAME_{z}/{x}/{y}.png',
+        type: 'xyz',
+        layerParams: {
+            attribution: '',
+            maxZoom: 20
+        }
+    }
 })
 
 /**

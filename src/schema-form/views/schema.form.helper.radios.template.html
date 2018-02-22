@@ -1,0 +1,14 @@
+<div class="{{form.schema?form.schema.htmlClass:''}}">
+    <div class="form-group">
+        <label for="{{form.key[0]}}" ng-model="model[form.key[0]]">{{ form.title }}</label><br>
+        <div class="radio radio-primary" ng-if="form.titleMap" ng-repeat="data in form.titleMap track by $index">
+            <label>
+                <input type="radio" id="{{form.key[0] + '_' + $index}}" name="{{form.key[0]}}" ng-model="model[form.key[0]]" value="{{data.value}}" sf-changed="form" ng-disabled="form.readonly" schema-validate="form" ng-model-options="form.ngModelOptions" >
+                <span class="circle"></span>
+                <span class="check"></span> 
+                <p ng-bind-html="data.name" class="text-left"></p>
+            </label>
+        </div>
+        <div ng-if="form.description" class="help-inline" ng-bind-html="form.description"></div>
+    </div>
+</div>

@@ -1,13 +1,12 @@
-<div class="{{form.schema?form.schema.htmlClass:''}}">
-    <div class="form-group">
-        <div class="checkbox">
-            <label>
-            <input type="checkbox " id="{{form.id}} " sf-field-model>
-            <span class="checkbox-material ">
-        <span class="check "></span>
+<div class="form-group" class="{{form.schema?form.schema.htmlClass:''}}">
+    <div class="checkbox">
+        <label>
+            <input type="checkbox" id="{{ form.key[0] }}" name="{{ form.key[0] }}" sf-field-model sf-changed="form" ng-model-options="form.ngModelOptions" schema-validate="form">
+            <span class="checkbox-material">
+                <span class="check"></span>
             </span>
-            {{form.title}}
+            <span ng-bind-html="form.title" class="text-left"></span>
             </label>
-        </div>
     </div>
+    <div class="help-inline" sf-message="form.description" ng-bind-html="form.description"></div>
 </div>

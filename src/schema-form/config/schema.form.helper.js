@@ -1,6 +1,6 @@
-angular.module('opengate-angular-js').config(function (schemaFormProvider, schemaFormDecoratorsProvider, sfPathProvider, sfBuilderProvider) {
+angular.module('opengate-angular-js').config(function(schemaFormProvider, schemaFormDecoratorsProvider, sfPathProvider, sfBuilderProvider) {
     'use strict';
-    var helper = function (name, schema, options) {
+    var helper = function(name, schema, options) {
         var f;
         if (schema.type === 'string' && schema.format === 'helperdialog') {
             f = schemaFormProvider.stdFormObj(name, schema, options);
@@ -9,8 +9,7 @@ angular.module('opengate-angular-js').config(function (schemaFormProvider, schem
 
             options.lookup[sfPathProvider.stringify(options.path)] = f;
             return f;
-        }
-        if (schema.type === 'boolean') {
+        } else if (schema.type === 'boolean') {
             f = schemaFormProvider.stdFormObj(name, schema, options);
             f.key = options.path;
             f.type = 'boolean';
@@ -22,6 +21,8 @@ angular.module('opengate-angular-js').config(function (schemaFormProvider, schem
 
     schemaFormProvider.defaults.string.unshift(helper);
     schemaFormProvider.defaults.boolean.unshift(helper);
+
+    // schemaFormProvider.defaults.radios.unshift(helper);
 
     schemaFormDecoratorsProvider.defineAddOn(
         'bootstrapDecorator', // Name of the decorator you want to add to.
@@ -37,7 +38,35 @@ angular.module('opengate-angular-js').config(function (schemaFormProvider, schem
         sfBuilderProvider.stdBuilders // List of builder functions to apply.
     );
 
-    var customUiSelect = function (name, schema, options) {
+    schemaFormDecoratorsProvider.defineAddOn(
+        'bootstrapDecorator', // Name of the decorator you want to add to.
+        'checkboxes', // Form type that should render this add-on
+        'schema-form/views/schema.form.helper.checkboxes.template.html', // Template name in $templateCache
+        sfBuilderProvider.stdBuilders // List of builder functions to apply.
+    );
+
+    schemaFormDecoratorsProvider.defineAddOn(
+        'bootstrapDecorator', // Name of the decorator you want to add to.
+        'radios', // Form type that should render this add-on
+        'schema-form/views/schema.form.helper.radios.template.html', // Template name in $templateCache
+        sfBuilderProvider.stdBuilders // List of builder functions to apply.
+    );
+
+    schemaFormDecoratorsProvider.defineAddOn(
+        'bootstrapDecorator', // Name of the decorator you want to add to.
+        'radiobuttons', // Form type that should render this add-on
+        'schema-form/views/schema.form.helper.radiobuttons.template.html', // Template name in $templateCache
+        sfBuilderProvider.stdBuilders // List of builder functions to apply.
+    );
+
+    schemaFormDecoratorsProvider.defineAddOn(
+        'bootstrapDecorator', // Name of the decorator you want to add to.
+        'radios-inline', // Form type that should render this add-on
+        'schema-form/views/schema.form.helper.radiosinline.template.html', // Template name in $templateCache
+        sfBuilderProvider.stdBuilders // List of builder functions to apply.
+    );
+
+    var customUiSelect = function(name, schema, options) {
         if (schema.type === 'string' && schema.format === 'customuiselect') {
             var f = schemaFormProvider.stdFormObj(name, schema, options);
             f.key = options.path;

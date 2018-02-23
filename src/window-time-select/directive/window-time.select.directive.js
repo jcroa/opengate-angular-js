@@ -1,7 +1,7 @@
 'use strict';
-angular.module('opengate-angular-js').directive('windowTimeSelect', function () { // ['$scope', '$compile'], function($scope, $compile) {
+angular.module('opengate-angular-js')
 
-
+.directive('windowTimeSelect', function() { // ['$scope', '$compile'], function($scope, $compile) {
     return {
         restrict: 'AE',
         templateUrl: 'window-time-select/views/window-time.select.view.html',
@@ -9,7 +9,36 @@ angular.module('opengate-angular-js').directive('windowTimeSelect', function () 
             event: '@',
             rawdate: '@'
         },
-        controller: function ($scope, $element, $attrs) {
+        controller: function($scope, $element, $attrs, $translate) {
+            // General config
+            $scope.customButtonBar = {
+                show: true,
+                now: {
+                    show: false
+                },
+                today: {
+                    show: false
+                },
+                clear: {
+                    show: false
+                },
+                date: {
+                    show: true,
+                    text: ' ',
+                    cls: 'btn-sm btn-primary bg-primary oux-button-margin fa fa-calendar'
+                },
+                time: {
+                    show: true,
+                    text: ' ',
+                    cls: 'btn-sm btn-primary bg-primary oux-button-margin fa fa-clock-o'
+                },
+                close: {
+                    show: false
+                },
+                cancel: {
+                    show: false
+                }
+            };
 
             function toLimit() {
                 return window.moment($scope.date.from).add(1, 'hours')._d;
@@ -27,51 +56,72 @@ angular.module('opengate-angular-js').directive('windowTimeSelect', function () 
                 if (!$scope.date) $scope.date = {};
                 $scope.date.to = toDate;
                 $scope.toMax = toDate;
+
                 $scope.toOptions = {
-                    startingDay: 1,
-                    showWeeks: false,
-                    maxDate: toDate
-                };
+                    datePicker: {
+                        startingDay: 1,
+                        showWeeks: false,
+                        minDate: $scope.toMin,
+                        minMode: 'day',
+                        closed: $scope.toChange
+                    },
+                    timePicker: {
+                        min: $scope.toMin,
+                        showMeridian: false
+                    }
+                }
             }
 
             function setFrom() {
                 $scope.date.from = fromDate($scope.date.to);
-                $scope.fromOptions = {
-                    startingDay: 1,
-                    showWeeks: false,
-                    maxDate: fromLimit($scope.date.to)
-                };
-                $scope.toOptions.minDate = toLimit();
+
+                $scope.toOptions.datePicker.minDate = toLimit();
+                $scope.toOptions.timePicker.min = toLimit();
+
                 $scope.toMin = toLimit();
                 $scope.fromMax = fromLimit($scope.date.to);
+
+                $scope.fromOptions = {
+                    datePicker: {
+                        startingDay: 1,
+                        showWeeks: false,
+                        maxDate: $scope.fromMax,
+                        maxMode: 'day',
+                        closed: $scope.fromChange
+                    },
+                    timePicker: {
+                        max: $scope.fromMax,
+                        showMeridian: false
+                    }
+                };
             }
 
             $scope.oneDayClass = $scope.oneWeekClass = $scope.oneMonthClass = $scope.customClass = 'btn-info';
             $scope.filterApplied = false;
-            $scope.format = 'dd MMMM yyyy';
-            $scope.clear = function () {
+            $scope.format = 'dd MMMM yyyy HH:mm';
+            $scope.clear = function() {
 
                 $scope.oneDayClass = $scope.oneWeekClass = $scope.oneMonthClass = $scope.customClass = 'btn-info';
                 $scope.filterApplied = false;
                 $scope.customEnabled = false;
                 $scope.$emit('onWindowTimeChanged', {});
             };
-            $scope.fromOpen = function () {
+            $scope.fromOpen = function() {
                 $scope.fromPopup.opened = true;
             };
             $scope.fromPopup = {
                 opened: false
             };
-            $scope.toOpen = function () {
+            $scope.toOpen = function() {
                 $scope.toPopup.opened = true;
             };
             $scope.toPopup = {
                 opened: false
             };
-            $scope.custom = function () {
+            $scope.custom = function() {
                 $scope.customEnabled = !$scope.customEnabled;
             };
-            $scope.apply = function (winTime, fire_event) {
+            $scope.apply = function(winTime, fire_event) {
                 $scope.filterApplied = true;
                 $scope.customEnabled = false;
                 /* jshint ignore:start */
@@ -87,23 +137,23 @@ angular.module('opengate-angular-js').directive('windowTimeSelect', function () 
                 if (fire_event)
                     $scope.$emit('onWindowTimeChanged', winTime);
             };
-            $scope.oneDay = function (no_fire_event) {
+            $scope.oneDay = function(no_fire_event) {
                 $scope.oneDayClass = 'btn-success';
                 $scope.oneWeekClass = $scope.oneMonthClass = $scope.customClass = 'btn-info';
                 $scope.apply(genWindowTime('days'), !no_fire_event);
             };
-            $scope.oneWeek = function (no_fire_event) {
+            $scope.oneWeek = function(no_fire_event) {
                 $scope.oneWeekClass = 'btn-success';
                 $scope.oneDayClass = $scope.oneMonthClass = $scope.customClass = 'btn-info';
                 $scope.apply(genWindowTime('weeks'), !no_fire_event);
             };
-            $scope.oneMonth = function (no_fire_event) {
+            $scope.oneMonth = function(no_fire_event) {
                 $scope.oneMonthClass = 'btn-success';
                 $scope.oneWeekClass = $scope.oneDayClass = $scope.customClass = 'btn-info';
                 $scope.apply(genWindowTime('months'), !no_fire_event);
             };
 
-            $scope.applyCustom = function (no_fire_event) {
+            $scope.applyCustom = function(no_fire_event) {
                 $scope.customClass = 'btn-success';
                 $scope.oneWeekClass = $scope.oneDayClass = $scope.oneMonthClass = 'btn-info';
                 $scope.apply({
@@ -115,21 +165,22 @@ angular.module('opengate-angular-js').directive('windowTimeSelect', function () 
 
 
             // Config custom window
-            $scope.init = function () {
+            $scope.init = function() {
 
                 setTo(new Date());
                 setFrom();
 
-                $scope.toChange = function () {
+                $scope.toChange = function() {
                     validateCustomWindow();
-                    $scope.fromOptions = {
-                        maxDate: fromLimit($scope.date.to)
-                    };
                     $scope.fromMax = fromLimit($scope.date.to);
+                    $scope.fromOptions.datePicker.maxDate = $scope.fromMax;
+                    $scope.fromOptions.timePicker.max = $scope.fromMax;
                 };
-                $scope.fromChange = function () {
+                $scope.fromChange = function() {
                     validateCustomWindow();
-                    $scope.toOptions.minDate = toLimit();
+                    $scope.toOptions.datePicker.minDate = toLimit();
+                    $scope.toOptions.timePicker.min = toLimit();
+
                     $scope.toMin = toLimit();
                 };
 

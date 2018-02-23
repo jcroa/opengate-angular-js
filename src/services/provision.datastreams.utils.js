@@ -1,8 +1,8 @@
 angular.module('opengate-angular-js')
-    .service('$provisionDatastreamsUtils', [function() {
+    .service('$provisionDatastreamsUtils', [function () {
         'use strict';
-        //"provisionSubscriber", "provisionGeneric", "provisionDevice", "provisionAsset", "provisionSubscription", "provisionGenericChannel", "provisionGenericOrganization", "provisionGenericIdentifier"
-        var internal_catalog = ["internal"];
+
+        var internal_catalog = ["provisionSubscriber", "provisionGeneric", "provisionDevice", "provisionAsset", "provisionSubscription", "provisionGenericChannel", "provisionGenericOrganization", "provisionGenericIdentifier"];
 
         var filter = {
             and: [{
@@ -30,7 +30,7 @@ angular.module('opengate-angular-js')
         };
 
         function filterForCoreDatamodelsCatalog(datamodels) {
-            return datamodels.filter(function(datamodel) {
+            return datamodels.filter(function (datamodel) {
                 return internal_catalog.indexOf(datamodel.identifier) === -1;
             });
         }

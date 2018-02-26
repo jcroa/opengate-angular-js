@@ -10,12 +10,12 @@
             <div class="col-xs-12 col-md-6" ng-init="fromCalendarOpen = false">
                 <label class="control-label">{{ 'FORM.LABEL.FROM' | translate }}: {{fromDate | date:'fullDate'}}</label>
                 <input readonly="readonly" type="text" class="form-control text-center" ng-model="date.from" button-bar="customButtonBar" ng-click="fromCalendarOpen = true" ng-required="true" datetime-picker="{{format}}" is-open="fromCalendarOpen" datepicker-options="fromOptions.datePicker"
-                    timepicker-options="fromOptions.timePicker" when-closed="fromChange(args)" popup-placement="auto top-right">
+                    timepicker-options="fromOptions.timePicker" when-closed="fromChange(args)" popup-placement="auto top-right" datepicker-append-to-body="true">
             </div>
             <div class="col-xs-12 col-md-6" ng-init="toCalendarOpen = false">
                 <label class="control-label">{{ 'FORM.LABEL.TO' | translate }}: {{fromDate | date:'fullDate'}}</label>
                 <input readonly="readonly" type="text" class="form-control text-center" ng-model="date.to" button-bar="customButtonBar" ng-click="toCalendarOpen = true" ng-required="true" datetime-picker="{{format}}" is-open="toCalendarOpen" datepicker-options="toOptions.datePicker"
-                    timepicker-options="toOptions.timePicker" when-closed="toChange(args)" popup-placement="auto top-right">
+                    timepicker-options="toOptions.timePicker" when-closed="toChange(args)" popup-placement="auto top-right" datepicker-append-to-body="true">
             </div>
         </div>
         <!-- <div class="row">

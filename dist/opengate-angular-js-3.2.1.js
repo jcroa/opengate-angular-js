@@ -10907,7 +10907,16 @@ angular.module('opengate-angular-js').service('$oguxThemes', [
                 'rgba': 'rgba(45, 45, 45, 0.5)',
                 'name': 'COLOR.DARK_GREY',
                 'theme': ['light']
-            }
+            },
+            'endesa': {
+                'id': 'endesa',
+                'sample': '#2196f3',
+                'rgba': 'rgba(33, 150, 243, 0.5)',
+                'name': 'Endesa',
+                'theme': ['light'],
+                'hidden': true
+            },
+
         };
 
         return {
@@ -10918,7 +10927,15 @@ angular.module('opengate-angular-js').service('$oguxThemes', [
                 themeCompositionColor = tc[1];
             },
             colors: function() {
-                return colorThemes;
+                var availableColors = {};
+
+                angular.forEach(colorThemes, function(config, color) {
+                    if (!config.hidden) {
+                        availableColors[color] = config;
+                    }
+                });
+
+                return availableColors;
             },
             themes: function() {
                 return themes;
@@ -10936,7 +10953,7 @@ angular.module('opengate-angular-js').service('$oguxThemes', [
             colorsByTheme: function(theme) {
                 var themeColors = [];
                 angular.forEach(colorThemes, function(config, color) {
-                    if (config.theme.indexOf(theme) !== -1) {
+                    if (!config.hidden && config.theme.indexOf(theme) !== -1) {
                         themeColors.push(config);
                     }
                 });

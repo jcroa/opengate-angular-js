@@ -1,5 +1,4 @@
 <div class="form-group" mass-autocomplete ng-if="$ctrl.multiple">
-    <label class="custom-ui-select-label" translate>FORM.LABEL.REPORTER</label>
     <ui-select custom-ui-select-config="$ctrl.ownConfig" name="asset" ng-model="$ctrl.asset" theme="bootstrap" title="Choose a asset" custom-ui-select multiple="true" custom-mass-autocomplete-item="$ctrl.ownConfig" on-select="$ctrl.assetSelected($item, $model)"
         on-remove="$ctrl.assetRemove($item, $model)" ng-required="$ctrl.isRequired">
         <ui-select-match placeholder="{{ 'FORM.PLACEHOLDER.ENTITY' | translate }}" allow-clear="true">
@@ -8,14 +7,13 @@
         <ui-select-choices repeat="assetData in $ctrl.ownConfig.collection track by $index">
             <span ng-bind-html="assetData.provision.administration.identifier._current.value | highlight: $select.search"></span>
             <small>
-                    <div ng-if="assetData.provision.device.specificType._current.value">{{ 'FORM.LABEL.SPECIFIC_TYPE' | translate }}: <span ng-bind-html="assetData.provision.device.specificType._current.value | highlight: $select.search"></span></div>
-                    <div ng-if="assetData.provision.device.operationalStatus._current.value">{{ 'FORM.LABEL.OP_STATUS' | translate }}: <span ng-bind-html="''+assetData.provision.device.operationalStatus._current.value | highlight: $select.search"></span></div>
-                </small>
+                <div ng-if="assetData.provision.asset.specificType._current.value">{{ 'FORM.LABEL.SPECIFIC_TYPE' | translate }}: <span ng-bind-html="assetData.provision.asset.specificType._current.value | highlight: $select.search"></span></div>
+                <div ng-if="assetData.provision.asset.name._current.value">{{ 'FORM.LABEL.NAME' | translate }}: <span ng-bind-html="''+assetData.provision.asset.name._current.value | highlight: $select.search"></span></div>
+            </small>
         </ui-select-choices>
     </ui-select>
 </div>
 <div class="form-group" mass-autocomplete ng-if="!$ctrl.multiple">
-    <label class="custom-ui-select-label" translate>FORM.LABEL.REPORTER</label>
     <ui-select custom-ui-select-config="$ctrl.ownConfig" name="asset" ng-model="$ctrl.asset" theme="bootstrap" title="Choose a asset" custom-ui-select multiple="false" custom-mass-autocomplete-item="$ctrl.ownConfig" on-select="$ctrl.assetSelected($item, $model)"
         on-remove="$ctrl.assetRemove($item, $model)" ng-required="$ctrl.isRequired">
         <ui-select-match placeholder="{{ 'FORM.PLACEHOLDER.ENTITY' | translate }}" allow-clear="true">
@@ -24,7 +22,7 @@
         <ui-select-choices repeat="assetData in $ctrl.ownConfig.collection track by $index">
             <span ng-bind-html="assetData.provision.administration.identifier._current.value | highlight: $select.search"></span>
             <small>
-                    <div ng-if="assetData.provision.asset.specificType._current.value">{{ 'FORM.LABEL.SPECIFIC_TYPE' | translate }}: <span ng-bind-html="assetData.provision.device.specificType._current.value | highlight: $select.search"></span></div>
+                    <div ng-if="assetData.provision.asset.specificType._current.value">{{ 'FORM.LABEL.SPECIFIC_TYPE' | translate }}: <span ng-bind-html="assetData.provision.asset.specificType._current.value | highlight: $select.search"></span></div>
                     <div ng-if="assetData.provision.asset.name._current.value">{{ 'FORM.LABEL.NAME' | translate }}: <span ng-bind-html="''+assetData.provision.asset.name._current.value | highlight: $select.search"></span></div>
                 </small>
         </ui-select-choices>

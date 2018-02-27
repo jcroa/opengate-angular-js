@@ -31,7 +31,6 @@ angular.module('opengate-angular-js')
 
         function filterForCoreDatamodelsCatalog(datamodels) {
             return datamodels.filter(function(datamodel) {
-                console.log(datamodel);
                 return internal_catalog.indexOf(datamodel.identifier) === -1;
             });
         }

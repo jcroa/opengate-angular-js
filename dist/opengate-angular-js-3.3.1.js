@@ -21,7 +21,7 @@ $templateCache.put("schema-form/views/schema.form.helper.radiobuttons.template.h
 $templateCache.put("schema-form/views/schema.form.helper.radios.template.html","<div class=\"{{form.schema?form.schema.htmlClass:\'\'}}\"><div class=form-group><label for={{form.key[0]}} ng-model=model[form.key[0]]>{{ form.title }}</label><br><div class=\"radio radio-primary\" ng-if=form.titleMap ng-repeat=\"data in form.titleMap track by $index\"><label><input type=radio id=\"{{form.key[0] + \'_\' + $index}}\" name={{form.key[0]}} ng-model=model[form.key[0]] value={{data.value}} sf-changed=form ng-disabled=form.readonly schema-validate=form ng-model-options=form.ngModelOptions> <span class=circle></span> <span class=check></span><p ng-bind-html=data.name class=text-left></p></label></div><div ng-if=form.description class=help-inline ng-bind-html=form.description></div></div></div>");
 $templateCache.put("schema-form/views/schema.form.helper.radiosinline.template.html","<div class=\"{{form.schema?form.schema.htmlClass:\'\'}}\"><div class=form-group><label for={{form.key[0]}} ng-model=model[form.key[0]]>{{ form.title }}</label><br><div class=\"radio radio-primary\" ng-if=form.titleMap ng-repeat=\"data in form.titleMap track by $index\" style=\"display: inline;\"><label><input type=radio id=\"{{form.key[0] + \'_\' + $index}}\" name={{form.key[0]}} ng-model=model[form.key[0]] value={{data.value}} sf-changed=form ng-disabled=form.readonly schema-validate=form ng-model-options=form.ngModelOptions> <span class=circle></span> <span class=check></span><p ng-bind-html=data.name class=text-left></p></label></div><div ng-if=form.description class=help-inline ng-bind-html=form.description></div></div></div>");
 $templateCache.put("schema-form/views/schema.form.helper.template.html","<div class=\"{{form.schema?form.schema.htmlClass:\'\'}}\"><div class=form-group sf-array=form><helper-dialog helper-id={{form.helperid}} helper-exclusive={{form.exclusive}}><helper-ui-select id={{form.id}} name={{form.name}} label-text={{form.title}} helper-model=model[form.key[0]] label-error={{form.labelerror}}><helper-ui-select-input><label for={{form.name}}>{{form.title}}</label> <input class=form-control name={{form.name}} type=text id={{form.id}} ng-model=model[form.key[0]]></helper-ui-select-input></helper-ui-select></helper-dialog></div></div>");
-$templateCache.put("window-time-select/views/window-time.select.view.html","<div class=window-time-container><button type=button class=\"btn btn-xs\" ng-class=oneDayClass ng-click=oneDay() translate>BUTTON.TITLE.LAST_DAY</button> <button type=button class=\"btn btn-xs\" ng-class=oneWeekClass ng-click=oneWeek() translate=BUTTON.TITLE.LAST_NUMBER_DAY translate-values=\"{ number: \'7\' }\"></button> <button type=button class=\"btn btn-xs\" ng-class=oneMonthClass ng-click=oneMonth() translate=BUTTON.TITLE.LAST_NUMBER_DAY translate-values=\"{ number: \'30\' }\"></button> <button type=button class=\"btn btn-xs\" ng-class=customClass ng-click=custom() translate>BUTTON.TITLE.CUSTOM</button> <button type=button class=\"btn btn-xs btn-info\" ng-if=customEnabled ng-disabled=!!errorCustomWindow ng-click=applyCustom() translate>BUTTON.TITLE.APPLY</button> <button type=button class=\"btn btn-xs btn-info\" ng-if=filterApplied ng-click=clear() translate>BUTTON.TITLE.CLEAR</button><div ng-if=customEnabled class=window-time-body><div class=row><div class=\"col-xs-12 col-md-6\" ng-init=\"fromCalendarOpen = false\"><label class=control-label>{{ \'FORM.LABEL.FROM\' | translate }}: {{fromDate | date:\'fullDate\'}}</label> <input readonly type=text class=\"form-control text-center\" ng-model=date.from button-bar=customButtonBar ng-click=\"fromCalendarOpen = true\" ng-required=true datetime-picker={{format}} is-open=fromCalendarOpen datepicker-options=fromOptions.datePicker timepicker-options=fromOptions.timePicker when-closed=fromChange(args) popup-placement=\"auto top-right\" datepicker-append-to-body=true></div><div class=\"col-xs-12 col-md-6\" ng-init=\"toCalendarOpen = false\"><label class=control-label>{{ \'FORM.LABEL.TO\' | translate }}: {{fromDate | date:\'fullDate\'}}</label> <input readonly type=text class=\"form-control text-center\" ng-model=date.to button-bar=customButtonBar ng-click=\"toCalendarOpen = true\" ng-required=true datetime-picker={{format}} is-open=toCalendarOpen datepicker-options=toOptions.datePicker timepicker-options=toOptions.timePicker when-closed=toChange(args) popup-placement=\"auto top-right\" datepicker-append-to-body=true></div></div><alert type=danger ng-show=errorCustomWindow class=text-danger style=\"display: block;text-align: center;\"><span ng-bind=errorCustomWindow></span></alert></div></div>");}]);
+$templateCache.put("window-time-select/views/window-time.select.view.html","<div class=window-time-container><button type=button class=\"btn btn-xs\" ng-class=oneDayClass ng-click=oneDay() translate>BUTTON.TITLE.LAST_DAY</button> <button type=button class=\"btn btn-xs\" ng-class=oneWeekClass ng-click=oneWeek() translate=BUTTON.TITLE.LAST_NUMBER_DAY translate-values=\"{ number: \'7\' }\"></button> <button type=button class=\"btn btn-xs\" ng-class=oneMonthClass ng-click=oneMonth() translate=BUTTON.TITLE.LAST_NUMBER_DAY translate-values=\"{ number: \'30\' }\"></button> <button type=button class=\"btn btn-xs\" ng-class=customClass ng-click=custom() translate>BUTTON.TITLE.CUSTOM</button> <button type=button class=\"btn btn-xs btn-info\" ng-if=\"customEnabled && !fromCalendarOpen && !toCalendarOpen\" ng-disabled=!!errorCustomWindow ng-click=applyCustom() translate>BUTTON.TITLE.APPLY</button> <button type=button class=\"btn btn-xs btn-info\" ng-if=filterApplied ng-click=clear() translate>BUTTON.TITLE.CLEAR</button><div ng-if=customEnabled class=window-time-body><div class=row><div class=\"col-xs-12 col-md-6\"><label class=control-label>{{ \'FORM.LABEL.FROM\' | translate }}: {{fromDate | date:\'fullDate\'}}</label> <input readonly type=text class=\"form-control text-center\" ng-model=date.from button-bar=customButtonBar ng-click=openCalendarFrom() ng-required=true datetime-picker={{format}} is-open=fromCalendarOpen datepicker-options=fromOptions.datePicker timepicker-options=fromOptions.timePicker when-closed=fromChange(args) popup-placement=\"auto top-right\" datepicker-append-to-body=true></div><div class=\"col-xs-12 col-md-6\"><label class=control-label>{{ \'FORM.LABEL.TO\' | translate }}: {{fromDate | date:\'fullDate\'}}</label> <input readonly type=text class=\"form-control text-center\" ng-model=date.to button-bar=customButtonBar ng-click=openCalendarTo() ng-required=true datetime-picker={{format}} is-open=toCalendarOpen datepicker-options=toOptions.datePicker timepicker-options=toOptions.timePicker when-closed=toChange(args) popup-placement=\"auto top-right\" datepicker-append-to-body=true></div></div><alert type=danger ng-show=errorCustomWindow class=text-danger style=\"display: block;text-align: center;\"><span ng-bind=errorCustomWindow></span></alert></div></div>");}]);
 
 
 angular.module('uxleaflet')
@@ -1995,6 +1995,9 @@ angular.module('opengate-angular-js')
             rawdate: '@'
         },
         controller: ["$scope", "$element", "$attrs", "$translate", function($scope, $element, $attrs, $translate) {
+            $scope.fromCalendarOpen = false;
+            $scope.toCalendarOpen = false;
+
             // General config
             $scope.customButtonBar = {
                 show: true,
@@ -2103,8 +2106,20 @@ angular.module('opengate-angular-js')
             $scope.toPopup = {
                 opened: false
             };
+
+            $scope.openCalendarFrom = function() {
+                $scope.fromCalendarOpen = true;
+            };
+
+            $scope.openCalendarTo = function() {
+                $scope.toCalendarOpen = true;
+            };
+
             $scope.custom = function() {
-                $scope.customEnabled = !$scope.customEnabled;
+                if (!$scope.customEnabled || (!$scope.fromCalendarOpen && !$scope.toCalendarOpen)) {
+                    $scope.customEnabled = !$scope.customEnabled;
+                }
+
             };
             $scope.apply = function(winTime, fire_event) {
                 $scope.filterApplied = true;
@@ -2139,6 +2154,9 @@ angular.module('opengate-angular-js')
             };
 
             $scope.applyCustom = function(no_fire_event) {
+                $scope.fromCalendarOpen = false;
+                $scope.toCalendarOpen = false;
+
                 $scope.customClass = 'btn-success';
                 $scope.oneWeekClass = $scope.oneDayClass = $scope.oneMonthClass = 'btn-info';
                 $scope.apply({
@@ -2147,7 +2165,6 @@ angular.module('opengate-angular-js')
                     from: $scope.date.from
                 }, !no_fire_event);
             };
-
 
             // Config custom window
             $scope.init = function() {
@@ -2160,6 +2177,7 @@ angular.module('opengate-angular-js')
                     $scope.fromMax = fromLimit($scope.date.to);
                     $scope.fromOptions.datePicker.maxDate = $scope.fromMax;
                     $scope.fromOptions.timePicker.max = $scope.fromMax;
+                    $scope.toCalendarOpen = false;
                 };
                 $scope.fromChange = function() {
                     validateCustomWindow();
@@ -2167,6 +2185,7 @@ angular.module('opengate-angular-js')
                     $scope.toOptions.timePicker.min = toLimit();
 
                     $scope.toMin = toLimit();
+                    $scope.fromCalendarOpen = false;
                 };
 
                 function validateCustomWindow() {

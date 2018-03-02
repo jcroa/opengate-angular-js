@@ -28,7 +28,7 @@ angular.module('opengate-angular-js')
                             return field !== value_value;
                         } else {
                             var f = Array.isArray(field.key) ? field.key[0] : field.key;
-                            var v = Array.isArray(value.key) ? value.key[0] : value.key
+                            var v = Array.isArray(value.key) ? value.key[0] : value.key;
                             return f !== v;
                         }
                     }
@@ -66,6 +66,7 @@ angular.module('opengate-angular-js')
                     $item.title = ($item.name || identifier) + ($item.unit && $item.unit.label ? ' (' + $item.unit.label + ')' : '');
                     addExtraAttributes($item.schema);
                     addIdentifier(identifier);
+                    form = addFieldToForm(identifier, form);
 
                     schema.properties[identifier] = $item.schema;
                 }
@@ -87,7 +88,6 @@ angular.module('opengate-angular-js')
                     if (identifiers.indexOf(identifier) === -1) {
                         identifiers.push(identifier);
                     }
-                    form = addFieldToForm(identifier, form);
                 }
 
                 this.updateForm = function (form) {

@@ -23,6 +23,9 @@ angular.module('opengate-angular-js')
                 human: {
                     collected: new HumanCollectedJsonFinderHelper(),
                     provisioned: new HumanProvisionJsonFinderHelper()
+                },
+                ticket: {
+                    provisioned: new TicketProvisionJsonFinderHelper()
                 }
             };
         }
@@ -189,6 +192,43 @@ function AssetProvisionJsonFinderHelper() {
     });
 }
 
+////////////////////////////
+TicketProvisionJsonFinderHelper.prototype = new ProvisionJsonFinderHelper();
+TicketProvisionJsonFinderHelper.prototype.getPath = function(field) {
+    var path = ProvisionJsonFinderHelper.prototype.getPath.call(this, field);
+    return path.replace('device.', 'ticket.');
+};
+
+function TicketProvisionJsonFinderHelper() {
+    Object.defineProperty(this, 'fields', {
+        value: Object.assign({},
+            this.fields, {
+                'identifier': 'provision.ticket.identifier',
+                'name': 'provision.ticket.name',
+                'label': 'provision.ticket.label',
+                'type': 'provision.ticket.type',
+                'severity': 'provision.ticket.severity',
+                'priority': 'provision.ticket.priority',
+                'reporter': 'provision.ticket.reporter',
+                'owner': 'provision.ticket.owner',
+                'assignee': 'provision.ticket.assignee',
+                'status': 'provision.ticket.status',
+                'section': 'provision.ticket.section',
+                'entity': 'provision.ticket.entity',
+                'creationDate': 'provision.ticket.creationDate',
+                'reporterDate': 'provision.ticket.reporterDate',
+                'assignedDate': 'provision.ticket.assignedDate',
+                'answeredDate': 'provision.ticket.answeredDate',
+                'updatedDate': 'provision.ticket.updatedDate',
+                'restorationDate': 'provision.ticket.restorationDate',
+                'resolutionDate': 'provision.ticket.resolutionDate',
+                'closedDate': 'provision.ticket.closedDate',
+                'specificType': 'provision.ticket.specificType'
+            }),
+        writable: false
+    });
+}
+////////////////////////////
 HumanCollectedJsonFinderHelper.prototype = new AssetCollectedJsonFinderHelper();
 
 HumanCollectedJsonFinderHelper.prototype.getPath = function(field) {

@@ -35,6 +35,10 @@ JsonFinderHelper.prototype.getPath = function(field) {
     if (!this.fields[field]) throw new Error('Field <' + field + '> not found. Available:' + JSON.stringify(Object.keys(this.fields)));
     return this.fields[field].replace('[]', '[*]');
 };
+JsonFinderHelper.prototype.getOriginalPath = function(field) {
+    if (!this.fields[field]) throw new Error('Field <' + field + '> not found. Available:' + JSON.stringify(Object.keys(this.fields)));
+    return this.fields[field];
+};
 JsonFinderHelper.prototype.getAmpliaPath = function(field) {
     if (!this.fields[field]) throw new Error('Field <' + field + '> not found. Available:' + JSON.stringify(Object.keys(this.fields)));
     return this.fields[field];

@@ -5,6 +5,7 @@ angular.module('opengate-angular-js').config(function(schemaFormProvider, schema
         if (schema.type === 'string' && schema.format === 'helperdialog') {
             f = schemaFormProvider.stdFormObj(name, schema, options);
             f.key = options.path;
+            //f.key = sfPathProvider.stringify(options.path);
             f.type = 'helperdialog';
 
             options.lookup[sfPathProvider.stringify(options.path)] = f;

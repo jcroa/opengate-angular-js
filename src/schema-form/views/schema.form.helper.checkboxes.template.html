@@ -1,9 +1,9 @@
 <div class="{{form.schema?form.schema.htmlClass:''}}">
-    <div class="form-group" sf-array="form" sf-field-model>
+    <div class="form-group" sf-array="form">
         <label>{{ form.title }}</label><br>
         <div class="checkbox" ng-if="form.titleMap" ng-repeat="val in titleMapValues track by $index">
             <label>
-                <input type="checkbox" id="{{form.key[0]}}" ng-disabled="form.readonly" sf-changed="form" name="{{form.key[0]}}" ng-model="titleMapValues[$index]">
+                <input type="checkbox" id="$$value$$" ng-disabled="form.readonly" sf-changed="form" name="$$value$$"  ng-model="titleMapValues[$index]">
                 <span class="checkbox-material ">
                     <span class="check"></span>
                 </span>

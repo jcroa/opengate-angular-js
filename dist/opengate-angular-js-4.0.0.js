@@ -12,7 +12,6 @@ $templateCache.put("custom-ui-select/views/custom.ui.select.subscriber.html","<d
 $templateCache.put("custom-ui-select/views/custom.ui.select.subscription.html","<div class=form-group mass-autocomplete ng-if=$ctrl.multiple><label class=custom-ui-select-label translate>FORM.LABEL.ENTITY_KEY</label><ui-select custom-ui-select-config=$ctrl.ownConfig name=entity ng-model=$ctrl.entity theme=bootstrap title=\"Choose a entity\" custom-ui-select multiple=true custom-mass-autocomplete-item=$ctrl.ownConfig on-select=\"$ctrl.entitySelected($item, $model)\" on-remove=\"$ctrl.entityRemove($item, $model)\" ng-required=$ctrl.isRequired><ui-select-match placeholder=\"Choose a entity\" allow-clear=true>{{$item.provision.subscription.identifier._current.value}}</ui-select-match><ui-select-choices repeat=\"subscriptionData in $ctrl.ownConfig.collection track by $index\"><span ng-bind-html=\"subscriptionData.provision.subscription.identifier._current.value | highlight: $select.search\"></span> <small><div ng-if=subscriptionData.provision.subscription.name._current.value>{{ \'FORM.LABEL.NAME\' | translate }}: <span ng-bind-html=\"\'\'+subscriptionData.provision.subscription.name._current.value | highlight: $select.search\"></span></div></small></ui-select-choices></ui-select></div><div class=form-group mass-autocomplete ng-if=!$ctrl.multiple><label class=custom-ui-select-label translate>FORM.LABEL.ENTITY_KEY</label><ui-select custom-ui-select-config=$ctrl.ownConfig name=entity ng-model=$ctrl.entity theme=bootstrap title=\"Choose a entity\" custom-ui-select multiple=false custom-mass-autocomplete-item=$ctrl.ownConfig on-select=\"$ctrl.entitySelected($item, $model)\" on-remove=\"$ctrl.entityRemove($item, $model)\" ng-required=$ctrl.isRequired><ui-select-match placeholder=\"Choose a entity\" allow-clear=true>{{$item.provision.subscription.identifier._current.value}}</ui-select-match><ui-select-choices repeat=\"subscriptionData in $ctrl.ownConfig.collection track by $index\"><span ng-bind-html=\"subscriptionData.provision.subscription.identifier._current.value | highlight: $select.search\"></span> <small><div ng-if=subscriptionData.provision.subscription.name._current.value>{{ \'FORM.LABEL.NAME\' | translate }}: <span ng-bind-html=\"\'\'+subscriptionData.provision.subscription.name._current.value | highlight: $select.search\"></span></div></small></ui-select-choices></ui-select></div>");
 $templateCache.put("custom-ui-select/views/custom.ui.select.ticket.html","<div class=form-group mass-autocomplete ng-if=$ctrl.multiple><label class=custom-ui-select-label translate>FORM.LABEL.TICKET</label><ui-select custom-ui-select-config=$ctrl.ownConfig name=entity ng-model=$ctrl.ticket theme=bootstrap title=\"Choose a ticket\" custom-ui-select multiple=true custom-mass-autocomplete-item=$ctrl.ownConfig on-select=\"$ctrl.ticketSelected($item, $model)\" on-remove=\"$ctrl.ticketRemove($item, $model)\" ng-required=$ctrl.isRequired><ui-select-match placeholder=\"{{ \'FORM.PLACEHOLDER.TICKET\' | translate }}\" allow-clear=true>{{$item.provision.administration.identifier._current.value || $item.identifier}}</ui-select-match><ui-select-choices repeat=\"ticketData in $ctrl.ownConfig.collection track by $index\"><span ng-bind-html=\"ticketData.provision.administration.identifier._current.value | highlight: $select.search\"></span> <small><div ng-if=ticketData.provision.ticket.name._current.value>{{ \'FORM.LABEL.NAME\' | translate }}: <span ng-bind-html=\"ticketData.provision.ticket.name._current.value | highlight: $select.search\"></span></div><div ng-if=ticketData.provision.ticket.type._current.value>{{ \'FORM.LABEL.TYPE\' | translate }}: <span ng-bind-html=\"ticketData.provision.ticket.type._current.value | highlight: $select.search\"></span></div><div ng-if=ticketData.provision.ticket.specificType._current.value>{{ \'FORM.LABEL.SPECIFIC_TYPE\' | translate }}: <span ng-bind-html=\"ticketData.provision.ticket.specificType._current.value | highlight: $select.search\"></span></div><div ng-if=ticketData.provision.ticket.status._current.value>{{ \'FORM.LABEL.STATUS\' | translate }}: <span ng-bind-html=\"ticketData.provision.ticket.status._current.value | highlight: $select.search\"></span></div></small></ui-select-choices></ui-select></div><div class=form-group mass-autocomplete ng-if=!$ctrl.multiple><label class=custom-ui-select-label translate>FORM.LABEL.TICKET</label><ui-select custom-ui-select-config=$ctrl.ownConfig name=entity ng-model=$ctrl.ticket theme=bootstrap title=\"Choose a ticket\" custom-ui-select multiple=false custom-mass-autocomplete-item=$ctrl.ownConfig on-select=\"$ctrl.ticketSelected($item, $model)\" on-remove=\"$ctrl.ticketRemove($item, $model)\" ng-required=$ctrl.isRequired><ui-select-match placeholder=\"{{ \'FORM.PLACEHOLDER.TICKET\' | translate }}\" allow-clear=true>{{$item.provision.administration.identifier._current.value || $item.identifier}}</ui-select-match><ui-select-choices repeat=\"ticketData in $ctrl.ownConfig.collection track by $index\"><span ng-bind-html=\"ticketData.provision.administration.identifier._current.value | highlight: $select.search\"></span> <small><div ng-if=ticketData.provision.ticket.name._current.value>{{ \'FORM.LABEL.NAME\' | translate }}: <span ng-bind-html=\"ticketData.provision.ticket.name._current.value | highlight: $select.search\"></span></div><div ng-if=ticketData.provision.ticket.type._current.value>{{ \'FORM.LABEL.TYPE\' | translate }}: <span ng-bind-html=\"ticketData.provision.ticket.type._current.value | highlight: $select.search\"></span></div><div ng-if=ticketData.provision.ticket.specificType._current.value>{{ \'FORM.LABEL.SPECIFIC_TYPE\' | translate }}: <span ng-bind-html=\"ticketData.provision.ticket.specificType._current.value | highlight: $select.search\"></span></div><div ng-if=ticketData.provision.ticket.status._current.value>{{ \'FORM.LABEL.STATUS\' | translate }}: <span ng-bind-html=\"ticketData.provision.ticket.status._current.value | highlight: $select.search\"></span></div></small></ui-select-choices></ui-select></div>");
 $templateCache.put("helper/views/custom.ui.select.helper.html","<div class=form-group ng-hide=$ctrl.have_helper_keys ng-transclude=input><label for={{$ctrl.id}}>{{$ctrl.labelText | translate }}</label> <input class=form-control name={{$ctrl.name}} type=text id={{$ctrl.id}} ng-model=$ctrl.helperModel ng-required=$ctrl.required> <span class=help-inline ng-show=\"!$ctrl.helperModel && $ctrl.required\">{{$ctrl.labelError}}</span></div><div class=form-group ng-hide=!$ctrl.have_helper_keys><label for={{$ctrl.id}}>{{$ctrl.labelText | translate }}</label><ui-select id={{$ctrl.id}} name={{$ctrl.name}} ng-model=$ctrl.helperModel theme=bootstrap title=\"Choose an option\" ng-required=$ctrl.required tagging=$ctrl.helperTagTransform tagging-label=false><ui-select-match placeholder=\"Choose an option\"><span ng-if=\"$select.selected && $select.selected.key !== \'image\'\">{{$select.selected.value}}</span> <img ng-if=\"$select.selected && $select.selected.key === \'image\'\" src=\"{{ $select.selected.value }}\" style=max-height:30px;></ui-select-match><ui-select-choices repeat=\"parameter.value as (key, parameter) in $ctrl.$helper_keys | filter: $select.search\"><span ng-bind-html=\"parameter.key | highlight: $select.search | humanize\"></span>: <small ng-if=\"parameter.key !== \'image\'\" ng-bind-html=\"parameter.value | highlight: $select.search\"></small> <img ng-if=\"parameter.key === \'image\'\" src=\"{{ parameter.value }}\" style=max-height:30px;></ui-select-choices></ui-select><span class=help-inline ng-show=\"!$ctrl.helperModel && $ctrl.required\" translate>FORM.REQUIRED.FIELD</span></div>");
-$templateCache.put("helper/views/helper.view.1.html","<div class=\"container col-md-12 col-xs-12\" ng-transclude></div><div class=\"col-xs-12 col-md-12\"><a class=\"btn btn-default btn-sm ux-txt-info pointer\" ng-href ng-click=$helper.open() ng-switch=$helper.mode><span ng-switch-when=button><i ng-class=$helper.helperButton aria-hidden=true></i></span> <span ng-switch-when=title>{{$helper.helperTitle}}</span> <span ng-switch-when=title_button><i ng-class=$helper.helperButton aria-hidden=true></i>{{$helper.helperTitle}}</span> <span ng-switch-default><i ng-if=\"!$helper.helperTitle && !$helper.helperButton\" class=\"fa fa-lg fa-search-plus\" aria-hidden=true></i> {{ \'FORM.HELPER\' | translate }}</span></a></div><script type=text/ng-template id=helper.view.modal.html><div class=\"modal-header\"> <h4 class=\"modal-title\">{{ \'FORM.HELPER\' | translate }}</h4> </div> <div class=\"modal-body without-padding-top\"> <uib-accordion close-others=\"true\"> <div uib-accordion-group is-open=\"$ctrl.mapIsOpen\" ng-if=\"$ctrl.helper_exclusive ? $ctrl.mapIsExclusive : true\" class=\"map-option\"> <div uib-accordion-heading>Map</div> <div class=\"row\" ng-if=\"$ctrl.mapIsOpen\"> <div class=\"col-xs-12\"> <div class=\"form-group leaflet-container\"> <leaflet id=\"map-marker\" lf-center=\"$ctrl.map.center\" layers=\"$ctrl.map.layers\" controls=\"$ctrl.map.controls\" event-broadcast=\"$ctrl.map.events\" markers=\"$ctrl.map.markers\" width=\"100% \" height=\"300px\"></leaflet> </div> </div> <div class=\"col-xs-12 text-right\" ng-if=\"$ctrl.helper_exclusive\"> <a class=\"top-buffer btn btn-default ux-txt-success pointer\" ng-class=\"{\'disabled\': !$ctrl.helper_keys.map}\" ng-click=\"$ctrl.ok(\'map\')\" ng-disabled=\"!$ctrl.helper_keys.map\"> <i class=\"fa fa-lg fa-files-o\" aria-hidden=\"true\"></i> </a> </div> </div> </div> <div uib-accordion-group is-open=\"$ctrl.entityIsOpen\" ng-if=\"$ctrl.helper_exclusive ? $ctrl.entityIsExclusive: true\" class=\"entity-option\"> <div uib-accordion-heading>{{ \'FORM.ENTITY\' | translate }}</div> <div class=\"row row-eq-height\"> <div class=\"col-xs-10\"> <custom-ui-select-entity on-select-item=\"$ctrl.onSelectEntityKey($item, $model)\" on-remove=\"$ctrl.onDeleteEntityKey()\" entity=\"$ctrl.entity.selected\" multiple=\"false\"> </custom-ui-select-entity> </div> <div class=\"col-xs-2 vcenter\" ng-if=\"$ctrl.helper_exclusive\"> <a class=\"top-buffer btn btn-default ux-txt-success pointer\" ng-class=\"{\'disabled\': !$ctrl.helper_keys.entity}\" ng-click=\"$ctrl.ok(\'entity\')\" ng-disabled=\"!$ctrl.helper_keys.entity\"> <i class=\"fa fa-lg fa-files-o\" aria-hidden=\"true\"></i> </a> </div> </div> </div> <div uib-accordion-group is-open=\"$ctrl.subscriberIsOpen\" class=\"subscriber-option\" ng-if=\"$ctrl.helper_exclusive ? ($ctrl.entityIsExclusive || $ctrl.subscriberIsExclusive): true\"> <div uib-accordion-heading>{{ \'FORM.SUBSCRIBERS\' | translate }}</div> <div class=\"row row-eq-height\"> <div class=\"col-xs-10\"> <custom-ui-select-subscriber on-select-item=\"$ctrl.onSelectSubscriberKey($item, $model)\" specific-type=\"{{$ctrl.specific_type}}\" on-remove=\"$ctrl.onDeleteSubscriberKey()\" entity=\"$ctrl.subscriber.selected\" multiple=\"false\"> </custom-ui-select-subscriber> </div> <div class=\"col-xs-2 vcenter\" ng-if=\"$ctrl.helper_exclusive\"> <a class=\"top-buffer btn btn-default ux-txt-success pointer\" ng-class=\"{\'disabled\': !$ctrl.helper_keys.subscriber}\" ng-click=\"$ctrl.ok(\'subscriber\')\" ng-disabled=\"!$ctrl.helper_keys.subscriber\"> <i class=\"fa fa-lg fa-files-o\" aria-hidden=\"true\"></i> </a> </div> </div> </div> <div uib-accordion-group is-open=\"$ctrl.subscriptionIsOpen\" class=\"subscription-option\" ng-if=\"$ctrl.helper_exclusive ? ($ctrl.entityIsExclusive || $ctrl.subscriptionIsExclusive): true\"> <div uib-accordion-heading>{{ \'FORM.SUBSCRIPTIONS\' | translate }}</div> <div class=\"row row-eq-height\"> <div class=\"col-xs-10\"> <custom-ui-select-subscription on-select-item=\"$ctrl.onSelectSubscriptionKey($item, $model)\" specific-type=\"{{$ctrl.specific_type}}\" on-remove=\"$ctrl.onDeleteSubscriptionKey()\" entity=\"$ctrl.subscription.selected\" multiple=\"false\"> </custom-ui-select-subscription> </div> <div class=\"col-xs-2 vcenter\" ng-if=\"$ctrl.helper_exclusive\"> <a class=\"top-buffer btn btn-default ux-txt-success pointer\" ng-class=\"{\'disabled\': !$ctrl.helper_keys.subscription}\" ng-click=\"$ctrl.ok(\'subscription\')\" ng-disabled=\"!$ctrl.helper_keys.subscription\"> <i class=\"fa fa-lg fa-files-o\" aria-hidden=\"true\"></i> </a> </div> </div> </div> <div uib-accordion-group is-open=\"$ctrl.datastreamIsOpen\" ng-if=\"$ctrl.helper_exclusive ? $ctrl.datastreamIsExclusive: true\" class=\"datastream-option\"> <div uib-accordion-heading>{{ \'FORM.DATASTREAM\' | translate }}</div> <div class=\"row row-eq-height\"> <div class=\"col-xs-10\"> <custom-ui-select-datastream on-select-item=\"$ctrl.onSelectDatastreamKey($item, $model)\" on-remove=\"$ctrl.onDeleteDatastreamKey()\" datastream=\"$ctrl.datastream.selected\" multiple=\"false\"> </custom-ui-select-datastream> </div> <div class=\"col-xs-2 vcenter\" ng-if=\"$ctrl.helper_exclusive\"> <a class=\"top-buffer btn btn-default ux-txt-success pointer\" ng-class=\"{\'disabled\': !$ctrl.helper_keys.datastream}\" ng-click=\"$ctrl.ok(\'datastream\')\" ng-disabled=\"!$ctrl.helper_keys.datastream\"> <i class=\"fa fa-lg fa-files-o\" aria-hidden=\"true\"></i> </a> </div> </div> </div> <div uib-accordion-group is-open=\"$ctrl.domainIsOpen\" class=\"domain-option\" ng-if=\"$ctrl.helper_exclusive ? $ctrl.domainIsExclusive: true\"> <div uib-accordion-heading>{{ \'FORM.DOMAINS\' | translate }}</div> <div class=\"row row-eq-height\"> <div class=\"col-xs-10\"> <custom-ui-select-domain on-select-item=\"$ctrl.onSelectDomainKey($item, $model)\" on-remove=\"$ctrl.onDeleteDomainKey()\" domain=\"$ctrl.domain.selected\" multiple=\"false\"> </custom-ui-select-domain> </div> <div class=\"col-xs-2 vcenter\" ng-if=\"$ctrl.helper_exclusive\"> <a class=\"top-buffer btn btn-default ux-txt-success pointer\" ng-class=\"{\'disabled\': !$ctrl.helper_keys.domain}\" ng-click=\"$ctrl.ok(\'domain\')\" ng-disabled=\"!$ctrl.helper_keys.domain\"> <i class=\"fa fa-lg fa-files-o\" aria-hidden=\"true\"></i> </a> </div> </div> </div> <div uib-accordion-group is-open=\"$ctrl.areaIsOpen\" class=\"area-option\" ng-if=\"$ctrl.helper_exclusive ? $ctrl.areaIsExclusive: true\"> <div uib-accordion-heading>{{ \'FORM.AREAS\' | translate }}</div> <div class=\"row row-eq-height\"> <div class=\"col-xs-10\"> <custom-ui-select-area on-select-item=\"$ctrl.onSelectAreaKey($item, $model)\" on-remove=\"$ctrl.onDeleteAreaKey()\" area=\"$ctrl.area.selected\" organization=\"$ctrl.area.organization\" multiple=\"false\"> </custom-ui-select-area> </div> <div class=\"col-xs-2 vcenter\" ng-if=\"$ctrl.helper_exclusive\"> <a class=\"top-buffer btn btn-default ux-txt-success pointer\" ng-class=\"{\'disabled\': !$ctrl.helper_keys.area}\" ng-click=\"$ctrl.ok(\'area\')\" ng-disabled=\"!$ctrl.helper_keys.area\"> <i class=\"fa fa-lg fa-files-o\" aria-hidden=\"true\"></i> </a> </div> </div> </div> <div uib-accordion-group is-open=\"$ctrl.bundleIsOpen\" class=\"bundle-option\" ng-if=\"$ctrl.helper_exclusive ? $ctrl.bundleIsExclusive: true\"> <div uib-accordion-heading>{{ \'FORM.BUNDLES\' | translate }}</div> <div class=\"row row-eq-height\"> <div class=\"col-xs-10\"> <custom-ui-select-bundle on-select-item=\"$ctrl.onSelectBundleKey($item, $model)\" on-remove=\"$ctrl.onDeleteBundleKey()\" bundle=\"$ctrl.bundle.selected\" multiple=\"false\"> </custom-ui-select-bundle> </div> <div class=\"col-xs-2 vcenter\" ng-if=\"$ctrl.helper_exclusive\"> <a class=\"top-buffer btn btn-default ux-txt-success pointer\" ng-class=\"{\'disabled\': !$ctrl.helper_keys.bundle}\" ng-click=\"$ctrl.ok(\'bundle\')\" ng-disabled=\"!$ctrl.helper_keys.bundle\"> <i class=\"fa fa-lg fa-files-o\" aria-hidden=\"true\"></i> </a> </div> </div> </div> <div uib-accordion-group is-open=\"$ctrl.imageIsOpen\" class=\"image-option\" ng-if=\"$ctrl.helper_exclusive ? $ctrl.imageIsExclusive: true\"> <div uib-accordion-heading>{{ \'FORM.IMAGE\' | translate }}</div> <div class=\"row row-eq-height\"> <div class=\"col-xs-12 col-md-8\"> <div name=\"image\" ng-if=\"!$ctrl.helper_keys.image && !$ctrl.helper_keys.image.image\" ngf-drop=\"$ctrl.imageSelected($file)\" ng-model=\"$ctrl.image\" ngf-max-size=\"1MB\" ngf-select=\"$ctrl.imageSelected($file)\" class=\"drop-box pointer\" ngf-drag-over-class=\"\'dragover\'\" ngf-multiple=\"false\" ng-required=\"$ctrl.helper_keys.image\" ngf-accept=\"\'image/*\'\" ngf-pattern=\"\'image/*\'\">{{ \'FORM.DRAG_DROP\' | translate }} <br>{{ \'FORM.MAX_SIZE\' | translate }}</div> <img ng-if=\"$ctrl.helper_keys.image && $ctrl.helper_keys.image.image\" src=\"{{ $ctrl.helper_keys.image.image }}\" style=\"max-height:200px;\" name=\"image\" /> </div> <div class=\"col-xs-12 col-md-4\"> <button id=\"idRemoveFileLink\" ng-if=\"$ctrl.helper_keys.image && $ctrl.helper_keys.image.image\" ng-click=\"$ctrl.removeDataFile()\" class=\"btn btn-warning ux-txt-warning pointer\"> <i class=\"fa fa-trash\" aria-hidden=\"true\"></i> {{ \'BUTTON.TITLE.REMOVE\' | translate }}</button> <a ng-if=\"$ctrl.helper_exclusive\" class=\"top-buffer btn btn-default ux-txt-success pointer\" ng-class=\"{\'disabled\': !$ctrl.helper_keys.bundle}\" ng-click=\"$ctrl.ok(\'bundle\')\" ng-disabled=\"!$ctrl.helper_keys.bundle\"> <i class=\"fa fa-lg fa-files-o\" aria-hidden=\"true\"></i> </a> </div> </div> </div> </uib-accordion> </div> <div class=\"modal-footer\"> <a ng-if=\"!$ctrl.helper_exclusive\" class=\"top-buffer btn btn-default ux-txt-success pointer\" ng-class=\"{\'disabled\': !$ctrl.canApply()}\" ng-click=\"$ctrl.ok()\" ng-disabled=\"!$ctrl.canApply()\"> <i class=\"fa fa-lg fa-files-o\" aria-hidden=\"true\"></i> {{\'BUTTON.TITLE.ALL\' | translate }} </a> <button class=\"btn btn-warning\" type=\"button\" ng-click=\"$ctrl.cancel()\">{{\'BUTTON.TITLE.CANCEL\' | translate}}</button> </div></script>");
 $templateCache.put("helper/views/helper.view.html","<div class=\"container col-md-12 col-xs-12\" style=padding-left:0;padding-right:0 ng-transclude></div><div class=\"col-xs-12 col-md-12 text-right\"><a class=\"btn btn-default btn-sm ux-txt-info pointer oux-button-margin\" ng-href ng-click=$helper.open() ng-switch=$helper.mode><span ng-switch-when=button><i ng-class=$helper.helperButton aria-hidden=true></i></span> <span ng-switch-when=title>{{$helper.helperTitle}}</span> <span ng-switch-when=title_button><i ng-class=$helper.helperButton aria-hidden=true></i>{{$helper.helperTitle}}</span> <span ng-switch-default><i ng-if=\"!$helper.helperTitle && !$helper.helperButton\" class=\"fa fa-lg fa-search-plus\" title=\"{{ \'FORM.HELPER\' | translate }}\" aria-hidden=true></i></span></a></div><script type=text/ng-template id=helper.view.modal.html><div class=\"modal-header\"> <h4 class=\"modal-title\">{{ \'FORM.HELPER\' | translate }}</h4> </div> <div class=\"modal-body without-padding-top\"> <uib-accordion close-others=\"true\"> <div uib-accordion-group is-open=\"$ctrl.mapIsOpen\" is-disabled=\"$ctrl.helper_exclusive ? !$ctrl.mapIsExclusive : false\" class=\"map-option\"> <div uib-accordion-heading>Map</div> <div class=\"row\" ng-if=\"$ctrl.mapIsOpen\"> <div class=\"col-xs-12\"> <div class=\"form-group leaflet-container\"> <leaflet id=\"map-marker\" lf-center=\"$ctrl.map.center\" layers=\"$ctrl.map.layers\" controls=\"$ctrl.map.controls\" event-broadcast=\"$ctrl.map.events\" markers=\"$ctrl.map.markers\" width=\"100% \" height=\"300px\"></leaflet> </div> </div> <div class=\"col-xs-12 text-right\" ng-if=\"$ctrl.helper_exclusive\"> <a class=\"top-buffer btn btn-default ux-txt-success pointer\" ng-class=\"{\'disabled\': !$ctrl.helper_keys.map}\" ng-click=\"$ctrl.ok(\'map\')\" ng-disabled=\"!$ctrl.helper_keys.map\"> <i class=\"fa fa-lg fa-files-o\" aria-hidden=\"true\"></i> </a> </div> </div> </div> <div uib-accordion-group is-open=\"$ctrl.entityIsOpen\" is-disabled=\"$ctrl.helper_exclusive ? !$ctrl.entityIsExclusive: false\" class=\"entity-option\"> <div uib-accordion-heading>{{ \'FORM.ENTITY\' | translate }}</div> <div class=\"row row-eq-height\"> <div class=\"col-xs-10\"> <custom-ui-select-entity on-select-item=\"$ctrl.onSelectEntityKey($item, $model)\" on-remove=\"$ctrl.onDeleteEntityKey()\" entity=\"$ctrl.entity.selected\" multiple=\"false\"> </custom-ui-select-entity> </div> <div class=\"col-xs-2 vcenter\" ng-if=\"$ctrl.helper_exclusive\"> <a class=\"top-buffer btn btn-default ux-txt-success pointer\" ng-class=\"{\'disabled\': !$ctrl.helper_keys.entity}\" ng-click=\"$ctrl.ok(\'entity\')\" ng-disabled=\"!$ctrl.helper_keys.entity\"> <i class=\"fa fa-lg fa-files-o\" aria-hidden=\"true\"></i> </a> </div> </div> </div> <div uib-accordion-group is-open=\"$ctrl.subscriberIsOpen\" class=\"subscriber-option\" is-disabled=\"$ctrl.helper_exclusive ? (!$ctrl.entityIsExclusive && !$ctrl.subscriberIsExclusive): false\"> <div uib-accordion-heading>{{ \'FORM.SUBSCRIBERS\' | translate }}</div> <div class=\"row row-eq-height\"> <div class=\"col-xs-10\"> <custom-ui-select-subscriber on-select-item=\"$ctrl.onSelectSubscriberKey($item, $model)\" specific-type=\"{{$ctrl.specific_type}}\" on-remove=\"$ctrl.onDeleteSubscriberKey()\" entity=\"$ctrl.subscriber.selected\" multiple=\"false\"> </custom-ui-select-subscriber> </div> <div class=\"col-xs-2 vcenter\" ng-if=\"$ctrl.helper_exclusive\"> <a class=\"top-buffer btn btn-default ux-txt-success pointer\" ng-class=\"{\'disabled\': !$ctrl.helper_keys.subscriber}\" ng-click=\"$ctrl.ok(\'subscriber\')\" ng-disabled=\"!$ctrl.helper_keys.subscriber\"> <i class=\"fa fa-lg fa-files-o\" aria-hidden=\"true\"></i> </a> </div> </div> </div> <div uib-accordion-group is-open=\"$ctrl.subscriptionIsOpen\" class=\"subscription-option\" is-disabled=\"$ctrl.helper_exclusive ? (!$ctrl.entityIsExclusive && !$ctrl.subscriptionIsExclusive): false\"> <div uib-accordion-heading>{{ \'FORM.SUBSCRIPTIONS\' | translate }}</div> <div class=\"row row-eq-height\"> <div class=\"col-xs-10\"> <custom-ui-select-subscription on-select-item=\"$ctrl.onSelectSubscriptionKey($item, $model)\" specific-type=\"{{$ctrl.specific_type}}\" on-remove=\"$ctrl.onDeleteSubscriptionKey()\" entity=\"$ctrl.subscription.selected\" multiple=\"false\"> </custom-ui-select-subscription> </div> <div class=\"col-xs-2 vcenter\" ng-if=\"$ctrl.helper_exclusive\"> <a class=\"top-buffer btn btn-default ux-txt-success pointer\" ng-class=\"{\'disabled\': !$ctrl.helper_keys.subscription}\" ng-click=\"$ctrl.ok(\'subscription\')\" ng-disabled=\"!$ctrl.helper_keys.subscription\"> <i class=\"fa fa-lg fa-files-o\" aria-hidden=\"true\"></i> </a> </div> </div> </div> <div uib-accordion-group is-open=\"$ctrl.datastreamIsOpen\" is-disabled=\"$ctrl.helper_exclusive ? !$ctrl.datastreamIsExclusive: false\" class=\"datastream-option\"> <div uib-accordion-heading>{{ \'FORM.DATASTREAM\' | translate }}</div> <div class=\"row row-eq-height\"> <div class=\"col-xs-10\"> <custom-ui-select-datastream on-select-item=\"$ctrl.onSelectDatastreamKey($item, $model)\" on-remove=\"$ctrl.onDeleteDatastreamKey()\" datastream=\"$ctrl.datastream.selected\" multiple=\"false\"> </custom-ui-select-datastream> </div> <div class=\"col-xs-2 vcenter\" ng-if=\"$ctrl.helper_exclusive\"> <a class=\"top-buffer btn btn-default ux-txt-success pointer\" ng-class=\"{\'disabled\': !$ctrl.helper_keys.datastream}\" ng-click=\"$ctrl.ok(\'datastream\')\" ng-disabled=\"!$ctrl.helper_keys.datastream\"> <i class=\"fa fa-lg fa-files-o\" aria-hidden=\"true\"></i> </a> </div> </div> </div> <div uib-accordion-group is-open=\"$ctrl.domainIsOpen\" class=\"domain-option\" is-disabled=\"$ctrl.helper_exclusive ? !$ctrl.domainIsExclusive: false\"> <div uib-accordion-heading>{{ \'FORM.DOMAINS\' | translate }}</div> <div class=\"row row-eq-height\"> <div class=\"col-xs-10\"> <custom-ui-select-domain on-select-item=\"$ctrl.onSelectDomainKey($item, $model)\" on-remove=\"$ctrl.onDeleteDomainKey()\" domain=\"$ctrl.domain.selected\" multiple=\"false\"> </custom-ui-select-domain> </div> <div class=\"col-xs-2 vcenter\" ng-if=\"$ctrl.helper_exclusive\"> <a class=\"top-buffer btn btn-default ux-txt-success pointer\" ng-class=\"{\'disabled\': !$ctrl.helper_keys.domain}\" ng-click=\"$ctrl.ok(\'domain\')\" ng-disabled=\"!$ctrl.helper_keys.domain\"> <i class=\"fa fa-lg fa-files-o\" aria-hidden=\"true\"></i> </a> </div> </div> </div> <div uib-accordion-group is-open=\"$ctrl.areaIsOpen\" class=\"area-option\" is-disabled=\"$ctrl.helper_exclusive ? !$ctrl.areaIsExclusive: false\"> <div uib-accordion-heading>{{ \'FORM.AREAS\' | translate }}</div> <div class=\"row row-eq-height\"> <div class=\"col-xs-10\"> <custom-ui-select-area on-select-item=\"$ctrl.onSelectAreaKey($item, $model)\" on-remove=\"$ctrl.onDeleteAreaKey()\" area=\"$ctrl.area.selected\" organization=\"$ctrl.area.organization\" multiple=\"false\"> </custom-ui-select-area> </div> <div class=\"col-xs-2 vcenter\" ng-if=\"$ctrl.helper_exclusive\"> <a class=\"top-buffer btn btn-default ux-txt-success pointer\" ng-class=\"{\'disabled\': !$ctrl.helper_keys.area}\" ng-click=\"$ctrl.ok(\'area\')\" ng-disabled=\"!$ctrl.helper_keys.area\"> <i class=\"fa fa-lg fa-files-o\" aria-hidden=\"true\"></i> </a> </div> </div> </div> <div uib-accordion-group is-open=\"$ctrl.bundleIsOpen\" class=\"bundle-option\" is-disabled=\"$ctrl.helper_exclusive ? !$ctrl.bundleIsExclusive: false\"> <div uib-accordion-heading>{{ \'FORM.BUNDLES\' | translate }}</div> <div class=\"row row-eq-height\"> <div class=\"col-xs-10\"> <custom-ui-select-bundle on-select-item=\"$ctrl.onSelectBundleKey($item, $model)\" on-remove=\"$ctrl.onDeleteBundleKey()\" bundle=\"$ctrl.bundle.selected\" multiple=\"false\"> </custom-ui-select-bundle> </div> <div class=\"col-xs-2 vcenter\" ng-if=\"$ctrl.helper_exclusive\"> <a class=\"top-buffer btn btn-default ux-txt-success pointer\" ng-class=\"{\'disabled\': !$ctrl.helper_keys.bundle}\" ng-click=\"$ctrl.ok(\'bundle\')\" ng-disabled=\"!$ctrl.helper_keys.bundle\"> <i class=\"fa fa-lg fa-files-o\" aria-hidden=\"true\"></i> </a> </div> </div> </div> <div uib-accordion-group is-open=\"$ctrl.imageIsOpen\" class=\"image-option\" is-disabled=\"$ctrl.helper_exclusive ? !$ctrl.imageIsExclusive: false\"> <div uib-accordion-heading>{{ \'FORM.IMAGE\' | translate }}</div> <div class=\"row row-eq-height\"> <div class=\"col-xs-12 col-md-8\"> <div name=\"image\" ng-if=\"!$ctrl.helper_keys.image && !$ctrl.helper_keys.image.image\" ngf-drop=\"$ctrl.imageSelected($file)\" ng-model=\"$ctrl.image\" ngf-max-size=\"1MB\" ngf-select=\"$ctrl.imageSelected($file)\" class=\"drop-box pointer\" ngf-drag-over-class=\"\'dragover\'\" ngf-multiple=\"false\" ng-required=\"$ctrl.helper_keys.image\" ngf-accept=\"\'image/*\'\" ngf-pattern=\"\'image/*\'\">{{ \'FORM.DRAG_DROP\' | translate }} <br>{{ \'FORM.MAX_SIZE\' | translate }}</div> <img ng-if=\"$ctrl.helper_keys.image && $ctrl.helper_keys.image.image\" src=\"{{ $ctrl.helper_keys.image.image }}\" style=\"max-height:200px;\" name=\"image\" /> </div> <div class=\"col-xs-12 col-md-4\"> <button id=\"idRemoveFileLink\" ng-if=\"$ctrl.helper_keys.image && $ctrl.helper_keys.image.image\" ng-click=\"$ctrl.removeDataFile()\" class=\"btn btn-warning ux-txt-warning pointer\"> <i class=\"fa fa-trash\" aria-hidden=\"true\"></i> {{ \'BUTTON.TITLE.REMOVE\' | translate }}</button> <a ng-if=\"$ctrl.helper_exclusive\" class=\"top-buffer btn btn-default ux-txt-success pointer\" ng-class=\"{\'disabled\': !$ctrl.helper_keys.bundle}\" ng-click=\"$ctrl.ok(\'bundle\')\" ng-disabled=\"!$ctrl.helper_keys.bundle\"> <i class=\"fa fa-lg fa-files-o\" aria-hidden=\"true\"></i> </a> </div> </div> </div> </uib-accordion> </div> <div class=\"modal-footer\"> <a ng-if=\"!$ctrl.helper_exclusive\" class=\"top-buffer btn btn-default ux-txt-success pointer\" ng-class=\"{\'disabled\': !$ctrl.canApply()}\" ng-click=\"$ctrl.ok()\" ng-disabled=\"!$ctrl.canApply()\"> <i class=\"fa fa-lg fa-files-o\" aria-hidden=\"true\"></i> {{\'BUTTON.TITLE.ALL\' | translate }} </a> <button class=\"btn btn-warning\" type=\"button\" ng-click=\"$ctrl.cancel()\">{{\'BUTTON.TITLE.CANCEL\' | translate}}</button> </div></script>");
 $templateCache.put("schema-form/views/schema.form.datastream.template.html","<div><custom-ui-select-datastream on-select-item=\"evalExpr(form.onselectitem, {$item: $$value$$, $model: $model})\" on-remove=\"evalExpr(form.onremove, {$item: $$value$$, $model: $model})\" datastream=$$value$$ multiple=form.multiple></custom-ui-select-datastream></div>");
 $templateCache.put("schema-form/views/schema.form.entity.template.html","<div><custom-ui-select-entity on-select-item=\"evalExpr(form.onselectitem, {$item: $$value$$, $model: $model})\" on-remove=\"evalExpr(form.onremove, {$item: $$value$$, $model: $model})\" entity=$$value$$ multiple=form.multiple></custom-ui-select-entity></div>");
@@ -8994,7 +8993,7 @@ L.Util.saveAs = (function(view) {
 
 angular.module('opengate-angular-js')
     .service('$schemaFormUtils', ['$provisionDatastreamsUtils', '$api', '$q',
-        function($provisionDatastreamsUtils, $api, $q) {
+        function ($provisionDatastreamsUtils, $api, $q) {
             
 
             function checkFieldToForm(field, form) {
@@ -9008,7 +9007,7 @@ angular.module('opengate-angular-js')
 
             function removeFieldToForm(field, form) {
                 checkFieldToForm(field, form);
-                form = form.filter(function(value) {
+                form = form.filter(function (value) {
                     if (typeof value === 'string') {
                         if (typeof field === 'string') {
                             return value !== field;
@@ -9048,7 +9047,7 @@ angular.module('opengate-angular-js')
                 var identifiers = [];
                 var form = [];
 
-                function addToSchema($item, creationMode) {
+                function addToSchema($item, creationMode, withoutHelper) {
                     var identifier = $item.identifier;
                     if ($item.required) {
                         schema.required.push(identifier);
@@ -9058,23 +9057,25 @@ angular.module('opengate-angular-js')
                     }
                     $item.schema.description = $item.description;
                     $item.title = ($item.name || identifier) + ($item.unit && $item.unit.label ? ' (' + $item.unit.label + ')' : '');
-                    $item.schema.title = $item.title
-                    addExtraAttributes($item.schema);
+                    $item.schema.title = $item.title;
+                    addExtraAttributes($item.schema, withoutHelper);
                     addIdentifier(identifier);
                     form = addFieldToForm(identifier, form);
 
                     schema.properties[identifier] = $item.schema;
                 }
 
-                function addExtraAttributes(schema) {
+                function addExtraAttributes(schema, withoutHelper) {
                     var _keys = Object.keys(schema);
-                    _keys.forEach(function(key) {
+                    _keys.forEach(function (key) {
                         var obj = schema[key];
-                        if (obj === 'string' && typeof schema.format === 'undefined' && typeof schema.enum === 'undefined') {
-                            schema.format = 'helperdialog';
+                        if (!withoutHelper) {
+                            if (obj === 'string' && typeof schema.format === 'undefined' && typeof schema.enum === 'undefined') {
+                                schema.format = 'helperdialog';
+                            }
                         }
                         if (angular.isObject(obj)) {
-                            addExtraAttributes(obj);
+                            addExtraAttributes(obj, withoutHelper);
                         }
                     });
                 }
@@ -9085,40 +9086,40 @@ angular.module('opengate-angular-js')
                     }
                 }
 
-                this.updateForm = function(form) {
+                this.updateForm = function (form) {
                     form = angular.copy(form);
                 };
 
 
-                this.addField = function($item, creationMode) {
+                this.addField = function ($item, creationMode, withoutHelper) {
                     var defered = $q.defer();
                     var promise = defered.promise;
 
                     if (typeof $item.schema.$ref === 'string') {
                         var path = '$.' + $item.schema.$ref.split('#')[1];
                         path = path.replace(/[\/]/g, '.');
-                        $api().basicTypesSearchBuilder().withPath(path).execute().then(function(response) {
+                        $api().basicTypesSearchBuilder().withPath(path).execute().then(function (response) {
                             $item.schema = response.data;
-                            addToSchema($item, creationMode);
+                            addToSchema($item, creationMode, withoutHelper);
                             defered.resolve();
-                        }).catch(function(err) {
+                        }).catch(function (err) {
                             console.error(err);
                             defered.reject(err);
                         });
                     } else {
-                        addToSchema($item, creationMode);
+                        addToSchema($item, creationMode, withoutHelper);
                         defered.resolve();
                     }
                     return promise;
                 };
 
-                this.addFields = function(fields, creationMode) {
+                this.addFields = function (fields, creationMode, withoutHelper) {
                     var promisses = [];
                     if (Array.isArray(fields) && fields.length > 0) {
-                        fields.forEach(function(field) {
-                            promisses.push(_this.addField(field, creationMode));
+                        fields.forEach(function (field) {
+                            promisses.push(_this.addField(field, creationMode, withoutHelper));
                         });
-                        return $q.all(promisses).catch(function(err) {
+                        return $q.all(promisses).catch(function (err) {
                             console.error(err);
                         });
                     } else {
@@ -9126,22 +9127,22 @@ angular.module('opengate-angular-js')
                     }
                 };
 
-                this.removeField = function(field) {
+                this.removeField = function (field) {
                     delete schema.properties[field];
                     schema.required.splice(schema.required.indexOf(field), 1);
                     identifiers.splice(identifiers.indexOf(field), 1);
                     form = removeFieldToForm(field, form);
                 };
 
-                this.getSchema = function() {
+                this.getSchema = function () {
                     return schema;
                 };
 
-                this.getForm = function() {
+                this.getForm = function () {
                     return form;
                 };
 
-                this.getIdentifiers = function() {
+                this.getIdentifiers = function () {
                     return identifiers;
                 };
             }
@@ -9149,14 +9150,19 @@ angular.module('opengate-angular-js')
             return {
                 addFieldToForm: addFieldToForm,
                 removeFieldToForm: removeFieldToForm,
-                getSchemaFormCreator: function() {
+                getSchemaFormCreator: function () {
                     return new SchemaFormCreator();
                 },
-                getSchemaFormCreatorFromDatamodel: function(options) {
-                    var filter = $provisionDatastreamsUtils.getFilter();
+                getSchemaFormCreatorFromDatamodel: function (options) {
                     var customfields = options.customFields;
                     var allowedResourceTypes = options.allowedResourceTypes;
                     var creationMode = options.creationMode;
+                    var fromAllDatamodels = options.fromAllDatamodels;
+                    var withoutHelper = options.withoutHelper;
+
+                    var filter = fromAllDatamodels ? {
+                        and: []
+                    } : $provisionDatastreamsUtils.getFilter();
 
                     var defered = $q.defer();
                     var promise = defered.promise;
@@ -9182,43 +9188,45 @@ angular.module('opengate-angular-js')
                     }
 
                     $api().datamodelsSearchBuilder().filter(filter).build().execute()
-                        .then(function(response) {
+                        .then(function (response) {
                             var datamodels = response.data.datamodels;
-                            datamodels = $provisionDatastreamsUtils.filterForCoreDatamodelsCatalog(datamodels);
+                            if (!fromAllDatamodels) {
+                                datamodels = $provisionDatastreamsUtils.filterForCoreDatamodelsCatalog(datamodels);
+                            }
 
-                            var rd = datamodels.reduce(function(first, next) {
+                            var rd = datamodels.reduce(function (first, next) {
                                 var categories = [];
                                 if (next.categories) {
-                                    return first.concat(next.categories.reduce(function(first, next) {
+                                    return first.concat(next.categories.reduce(function (first, next) {
                                         return first.concat(next.datastreams);
                                     }, categories));
                                 }
                                 return first;
                             }, []);
-                            var datastreams = rd.reduce(function(first, ds) {
+                            var datastreams = rd.reduce(function (first, ds) {
                                 first[ds.identifier] = ds;
                                 return first;
                             }, []);
                             var promisses = [];
-                            customfields.forEach(function(identifier) {
+                            customfields.forEach(function (identifier) {
                                 var confDatastream = datastreams[identifier];
                                 if (typeof confDatastream === 'undefined') {
                                     console.error('Datastream ' + identifier + ' no exists or not is custom.');
                                 } else {
-                                    promisses.push(schemaFormCreator.addField(confDatastream));
+                                    promisses.push(schemaFormCreator.addField(confDatastream, undefined, withoutHelper));
                                 }
                             });
                             if (promisses.length > 0) {
-                                $q.all(promisses).then(function() {
+                                $q.all(promisses).then(function () {
                                     defered.resolve(schemaFormCreator);
-                                }).catch(function(err) {
+                                }).catch(function (err) {
                                     console.error(err);
                                     defered.reject(err);
                                 });
                             }
 
                         })
-                        .catch(function(err) {
+                        .catch(function (err) {
                             console.error(err);
                             defered.reject(err);
                         });
@@ -11151,7 +11159,7 @@ angular.module('opengate-angular-js').service('$ogapiErrorParser', ['jsonPath',
 
 angular.module('opengate-angular-js')
     .service('$jsonFinderHelper', ['jsonPath',
-        function(jsonPath) {
+        function (jsonPath) {
             JsonFinderHelper.prototype.jsonPath = jsonPath;
             return {
                 administration: new JsonFinderHelper(),
@@ -11180,22 +11188,23 @@ angular.module('opengate-angular-js')
         }
     ]);
 
-JsonFinderHelper.prototype.getPath = function(field) {
-    if (!this.fields[field]) throw new Error('Field <' + field + '> not found. Available:' + JSON.stringify(Object.keys(this.fields)));
-    return this.fields[field].replace('[]', '[*]');
-};
-JsonFinderHelper.prototype.getOriginalPath = function(field) {
+JsonFinderHelper.prototype.getOriginalPath = function (field) {
     if (!this.fields[field]) throw new Error('Field <' + field + '> not found. Available:' + JSON.stringify(Object.keys(this.fields)));
     return this.fields[field];
 };
-JsonFinderHelper.prototype.getAmpliaPath = function(field) {
+
+JsonFinderHelper.prototype.getPath = function (field) {
+    return this.getOriginalPath(field).replace('[]', '[*]');
+};
+
+JsonFinderHelper.prototype.getAmpliaPath = function (field) {
     if (!this.fields[field]) throw new Error('Field <' + field + '> not found. Available:' + JSON.stringify(Object.keys(this.fields)));
     return this.fields[field];
 };
-JsonFinderHelper.prototype.findOne = function(data, field) {
+JsonFinderHelper.prototype.findOne = function (data, field) {
     return this.findAll(data, field)[0];
 };
-JsonFinderHelper.prototype.findAll = function(data, field) {
+JsonFinderHelper.prototype.findAll = function (data, field) {
     return this.jsonPath(data, this.getPath(field) + '._current.value') || [];
 };
 
@@ -11231,9 +11240,12 @@ function CollectedJsonFinderHelper() {
             'trustedBoot': 'device.trustedBoot',
             'image': 'device.image',
 
+            'commsModule': 'provision.device.communicationModules[]',
+
             'commsModuleIdentifier': 'provision.device.communicationModules[].identifier',
             'commsModuleSpecificType': 'provision.device.communicationModules[].specificType',
             'commsModuleImei': 'provision.device.communicationModules[].mobile.imei',
+            'imei': 'provision.device.communicationModules[].mobile.imei',
 
             'subscriberIdentifier': 'device.communicationModules[].subscriber.identifier',
             'subscriberSerialNumber': 'device.communicationModules[].subscriber.serialNumber',
@@ -11246,11 +11258,16 @@ function CollectedJsonFinderHelper() {
             'subscriptionName': 'device.communicationModules[].subscription.name',
             'subscriptionDescription': 'device.communicationModules[].subscription.description',
             'subscriptionImsi': 'device.communicationModules[].subscription.mobile.imsi',
+            'imsi': 'device.communicationModules[].subscription.mobile.imsi',
             'subscriptionMsisdn': 'device.communicationModules[].subscription.mobile.msisdn',
+            'msisdn': 'device.communicationModules[].subscription.mobile.msisdn',
             'subscriptionMsisdnVoice': 'device.communicationModules[].subscription.mobile.voice.msisdn',
             'subscriptionAddress': 'device.communicationModules[].subscription.address',
+            'address': 'device.communicationModules[].subscription.address',
             'subscriptionHomeOperator': 'device.communicationModules[].subscription.mobile.homeOperator',
-            'subscriptionRegisteredOperator': 'device.communicationModules[].subscription.mobile.registeredOperator'
+            'homeOperator': 'device.communicationModules[].subscription.mobile.homeOperator',
+            'subscriptionRegisteredOperator': 'device.communicationModules[].subscription.mobile.registeredOperator',
+            'registereOperator': 'device.communicationModules[].subscription.mobile.registeredOperator'
         },
         writable: false
     });
@@ -11258,20 +11275,28 @@ function CollectedJsonFinderHelper() {
 
 ProvisionJsonFinderHelper.prototype = new CollectedJsonFinderHelper();
 
-ProvisionJsonFinderHelper.prototype.getPath = function(field) {
+ProvisionJsonFinderHelper.prototype.getPath = function (field) {
     var path = JsonFinderHelper.prototype.getPath.call(this, field);
     if (!path.startsWith('provision.')) {
         path = 'provision.' + path;
     }
     return path;
 };
-ProvisionJsonFinderHelper.prototype.getAmpliaPath = function(field) {
+ProvisionJsonFinderHelper.prototype.getAmpliaPath = function (field) {
     var path = JsonFinderHelper.prototype.getAmpliaPath.call(this, field);
     if (!path.startsWith('provision.')) {
         path = 'provision.' + path;
     }
     return path;
 };
+ProvisionJsonFinderHelper.prototype.getOriginalPath = function (field) {
+    var path = JsonFinderHelper.prototype.getOriginalPath.call(this, field);
+    if (!path.startsWith('provision.')) {
+        path = 'provision.' + path;
+    }
+    return path;
+};
+
 
 function ProvisionJsonFinderHelper() {
     Object.defineProperty(this, 'fields', {
@@ -11281,41 +11306,66 @@ function ProvisionJsonFinderHelper() {
                 'certificates': 'provision.device.certificates',
                 'subscriberAdState': 'device.communicationModules[].subscriber.administrativeState',
                 'subscriptionAdState': 'device.communicationModules[].subscription.administrativeState',
-                'subscriberIcc': 'provision.device.communicationModules[].subscriber.mobile.icc'
+                'subscriberIcc': 'provision.device.communicationModules[].subscriber.mobile.icc',
+                'icc': 'provision.device.communicationModules[].subscriber.mobile.icc'
             }),
         writable: false
     });
 }
 
 SubscriberCollectedJsonFinderHelper.prototype = new CollectedJsonFinderHelper();
-SubscriberCollectedJsonFinderHelper.prototype.getPath = function(field) {
+SubscriberCollectedJsonFinderHelper.prototype.getPath = function (field) {
     var path = CollectedJsonFinderHelper.prototype.getPath.call(this, field);
     return path.replace('device.communicationModules[*].subscriber', '');
+};
+
+SubscriberCollectedJsonFinderHelper.prototype.getOriginalPath = function (field) {
+    var path = CollectedJsonFinderHelper.prototype.getOriginalPath.call(this, field);
+    return path.replace('device.communicationModules[].subscriber', '');
 };
 
 SubscriberProvisionJsonFinderHelper.prototype = new ProvisionJsonFinderHelper();
-SubscriberProvisionJsonFinderHelper.prototype.getPath = function(field) {
+SubscriberProvisionJsonFinderHelper.prototype.getPath = function (field) {
     var path = ProvisionJsonFinderHelper.prototype.getPath.call(this, field);
     return path.replace('device.communicationModules[*].subscriber', '');
 };
+SubscriberProvisionJsonFinderHelper.prototype.getOriginalPath = function (field) {
+    var path = ProvisionJsonFinderHelper.prototype.getOriginalPath.call(this, field);
+    return path.replace('device.communicationModules[].subscriber', '');
+};
+
 
 SubscriptionCollectedJsonFinderHelper.prototype = new CollectedJsonFinderHelper();
-SubscriptionCollectedJsonFinderHelper.prototype.getPath = function(field) {
+SubscriptionCollectedJsonFinderHelper.prototype.getPath = function (field) {
     var path = CollectedJsonFinderHelper.prototype.getPath.call(this, field);
     return path.replace('device.communicationModules[*].subscription', '');
 };
+SubscriptionCollectedJsonFinderHelper.prototype.getOriginalPath = function (field) {
+    var path = CollectedJsonFinderHelper.prototype.getOriginalPath.call(this, field);
+    return path.replace('device.communicationModules[].subscription', '');
+};
 
 SubscriptionProvisionJsonFinderHelper.prototype = new ProvisionJsonFinderHelper();
-SubscriptionProvisionJsonFinderHelper.prototype.getPath = function(field) {
+SubscriptionProvisionJsonFinderHelper.prototype.getPath = function (field) {
     var path = ProvisionJsonFinderHelper.prototype.getPath.call(this, field);
+    return path.replace('device.communicationModules[*].subscription', '');
+};
+
+SubscriptionProvisionJsonFinderHelper.prototype.getOriginalPath = function (field) {
+    var path = ProvisionJsonFinderHelper.prototype.getOriginalPath.call(this, field);
     return path.replace('device.communicationModules[*].subscription', '');
 };
 
 ////////////////////////////
 AssetCollectedJsonFinderHelper.prototype = new CollectedJsonFinderHelper();
 
-AssetCollectedJsonFinderHelper.prototype.getPath = function(field) {
+AssetCollectedJsonFinderHelper.prototype.getPath = function (field) {
     var path = CollectedJsonFinderHelper.prototype.getPath.call(this, field);
+    return path.replace('device.', 'asset.');
+};
+
+AssetCollectedJsonFinderHelper.prototype.getOriginalPath = function (field) {
+    var path = CollectedJsonFinderHelper.prototype.getOriginalPath.call(this, field);
     return path.replace('device.', 'asset.');
 };
 
@@ -11330,10 +11380,15 @@ function AssetCollectedJsonFinderHelper() {
 }
 
 AssetProvisionJsonFinderHelper.prototype = new ProvisionJsonFinderHelper();
-AssetProvisionJsonFinderHelper.prototype.getPath = function(field) {
+AssetProvisionJsonFinderHelper.prototype.getPath = function (field) {
     var path = ProvisionJsonFinderHelper.prototype.getPath.call(this, field);
     return path.replace('device.', 'asset.');
 };
+AssetProvisionJsonFinderHelper.prototype.getOriginalPath = function (field) {
+    var path = ProvisionJsonFinderHelper.prototype.getOriginalPath.call(this, field);
+    return path.replace('device.', 'asset.');
+};
+
 
 function AssetProvisionJsonFinderHelper() {
     Object.defineProperty(this, 'fields', {
@@ -11347,10 +11402,15 @@ function AssetProvisionJsonFinderHelper() {
 
 ////////////////////////////
 TicketProvisionJsonFinderHelper.prototype = new ProvisionJsonFinderHelper();
-TicketProvisionJsonFinderHelper.prototype.getPath = function(field) {
+TicketProvisionJsonFinderHelper.prototype.getPath = function (field) {
     var path = ProvisionJsonFinderHelper.prototype.getPath.call(this, field);
     return path.replace('device.', 'ticket.');
 };
+TicketProvisionJsonFinderHelper.prototype.getOriginalPath = function (field) {
+    var path = ProvisionJsonFinderHelper.prototype.getOriginalPath.call(this, field);
+    return path.replace('device.', 'ticket.');
+};
+
 
 function TicketProvisionJsonFinderHelper() {
     Object.defineProperty(this, 'fields', {
@@ -11384,8 +11444,13 @@ function TicketProvisionJsonFinderHelper() {
 ////////////////////////////
 HumanCollectedJsonFinderHelper.prototype = new AssetCollectedJsonFinderHelper();
 
-HumanCollectedJsonFinderHelper.prototype.getPath = function(field) {
+HumanCollectedJsonFinderHelper.prototype.getPath = function (field) {
     var path = AssetCollectedJsonFinderHelper.prototype.getPath.call(this, field);
+    var result = path.replace('asset.', 'human.');
+    return result.replace('device.', 'human.');
+};
+HumanCollectedJsonFinderHelper.prototype.getOriginalPath = function (field) {
+    var path = AssetCollectedJsonFinderHelper.prototype.getOriginalPath.call(this, field);
     var result = path.replace('asset.', 'human.');
     return result.replace('device.', 'human.');
 };
@@ -11404,11 +11469,17 @@ function HumanCollectedJsonFinderHelper() {
 
 HumanProvisionJsonFinderHelper.prototype = new AssetProvisionJsonFinderHelper();
 
-HumanProvisionJsonFinderHelper.prototype.getPath = function(field) {
+HumanProvisionJsonFinderHelper.prototype.getPath = function (field) {
     var path = AssetProvisionJsonFinderHelper.prototype.getPath.call(this, field);
     var result = path.replace('asset.', 'human.');
     return result.replace('device.', 'human.');
 };
+HumanProvisionJsonFinderHelper.prototype.getOriginalPath = function (field) {
+    var path = AssetProvisionJsonFinderHelper.prototype.getOriginalPath.call(this, field);
+    var result = path.replace('asset.', 'human.');
+    return result.replace('device.', 'human.');
+};
+
 
 function HumanProvisionJsonFinderHelper() {
     Object.defineProperty(this, 'fields', {
@@ -11423,13 +11494,33 @@ function HumanProvisionJsonFinderHelper() {
 }
 ////////////////////////////
 
-function SubscriberProvisionJsonFinderHelper() {}
+function SubscriberProvisionJsonFinderHelper() {
+    Object.defineProperty(this, 'fields', {
+        value: Object.assign({},
+            this.fields, {
+                'adState': 'device.communicationModules[].subscriber.administrativeState',
+                'identifier': 'device.communicationModules[].subscriber.identifier',
+                'specificType': 'device.communicationModules[].subscriber.specificType',
+            }),
+        writable: false
+    });
+}
 
 function SubscriberCollectedJsonFinderHelper() {}
 
 function SubscriptionCollectedJsonFinderHelper() {}
 
-function SubscriptionProvisionJsonFinderHelper() {}
+function SubscriptionProvisionJsonFinderHelper() {
+    Object.defineProperty(this, 'fields', {
+        value: Object.assign({},
+            this.fields, {
+                'adState': 'device.communicationModules[].subscription.administrativeState',
+                'identifier': 'device.communicationModules[].subscription.identifier',
+                'specificType': 'device.communicationModules[].subscription.specificType',
+            }),
+        writable: false
+    });
+}
 
 
 /**

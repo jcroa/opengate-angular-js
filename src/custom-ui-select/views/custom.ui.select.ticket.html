@@ -1,0 +1,36 @@
+<div class="form-group" mass-autocomplete ng-if="$ctrl.multiple">
+    <label class="custom-ui-select-label" translate>FORM.LABEL.TICKET</label>
+    <ui-select custom-ui-select-config="$ctrl.ownConfig" name="entity" ng-model="$ctrl.ticket" theme="bootstrap" title="Choose a ticket" custom-ui-select multiple="true" custom-mass-autocomplete-item="$ctrl.ownConfig" on-select="$ctrl.ticketSelected($item, $model)"
+        on-remove="$ctrl.ticketRemove($item, $model)" ng-required="$ctrl.isRequired">
+        <ui-select-match placeholder="{{ 'FORM.PLACEHOLDER.TICKET' | translate }}" allow-clear="true">
+            {{$item.provision.administration.identifier._current.value || $item.identifier}}
+        </ui-select-match>
+        <ui-select-choices repeat="ticketData in $ctrl.ownConfig.collection track by $index">
+            <span ng-bind-html="ticketData.provision.administration.identifier._current.value | highlight: $select.search"></span>
+            <small>
+                <div ng-if="ticketData.provision.ticket.name._current.value">{{ 'FORM.LABEL.NAME' | translate }}: <span ng-bind-html="ticketData.provision.ticket.name._current.value | highlight: $select.search"></span></div>
+                <div ng-if="ticketData.provision.ticket.type._current.value">{{ 'FORM.LABEL.TYPE' | translate }}: <span ng-bind-html="ticketData.provision.ticket.type._current.value | highlight: $select.search"></span></div>
+                <div ng-if="ticketData.provision.ticket.specificType._current.value">{{ 'FORM.LABEL.SPECIFIC_TYPE' | translate }}: <span ng-bind-html="ticketData.provision.ticket.specificType._current.value | highlight: $select.search"></span></div>
+                <div ng-if="ticketData.provision.ticket.status._current.value">{{ 'FORM.LABEL.STATUS' | translate }}: <span ng-bind-html="ticketData.provision.ticket.status._current.value | highlight: $select.search"></span></div>
+            </small>
+        </ui-select-choices>
+    </ui-select>
+</div>
+<div class="form-group" mass-autocomplete ng-if="!$ctrl.multiple">
+    <label class="custom-ui-select-label" translate>FORM.LABEL.TICKET</label>
+    <ui-select custom-ui-select-config="$ctrl.ownConfig" name="entity" ng-model="$ctrl.ticket" theme="bootstrap" title="Choose a ticket" custom-ui-select multiple="false" custom-mass-autocomplete-item="$ctrl.ownConfig" on-select="$ctrl.ticketSelected($item, $model)"
+        on-remove="$ctrl.ticketRemove($item, $model)" ng-required="$ctrl.isRequired">
+        <ui-select-match placeholder="{{ 'FORM.PLACEHOLDER.TICKET' | translate }}" allow-clear="true">
+            {{$item.provision.administration.identifier._current.value || $item.identifier}}
+        </ui-select-match>
+        <ui-select-choices repeat="ticketData in $ctrl.ownConfig.collection track by $index">
+            <span ng-bind-html="ticketData.provision.administration.identifier._current.value | highlight: $select.search"></span>
+            <small>
+                <div ng-if="ticketData.provision.ticket.name._current.value">{{ 'FORM.LABEL.NAME' | translate }}: <span ng-bind-html="ticketData.provision.ticket.name._current.value | highlight: $select.search"></span></div>
+                <div ng-if="ticketData.provision.ticket.type._current.value">{{ 'FORM.LABEL.TYPE' | translate }}: <span ng-bind-html="ticketData.provision.ticket.type._current.value | highlight: $select.search"></span></div>
+                <div ng-if="ticketData.provision.ticket.specificType._current.value">{{ 'FORM.LABEL.SPECIFIC_TYPE' | translate }}: <span ng-bind-html="ticketData.provision.ticket.specificType._current.value | highlight: $select.search"></span></div>
+                <div ng-if="ticketData.provision.ticket.status._current.value">{{ 'FORM.LABEL.STATUS' | translate }}: <span ng-bind-html="ticketData.provision.ticket.status._current.value | highlight: $select.search"></span></div>
+             </small>
+        </ui-select-choices>
+    </ui-select>
+</div>

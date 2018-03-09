@@ -7,27 +7,44 @@ angular.module('opengate-angular-js').controller('customUiSelectDatastreamContro
         builder: $api().datamodelsSearchBuilder(),
         filter: function(search) {
             ctrl.lastSearch = search;
-            if (!search)
-                return {};
-            return {
-                'or': [
-                    { 'like': { 'datamodels.categories.datastreams.identifier': search } },
-                    { 'like': { 'datamodels.categories.datastreams.name': search } },
-                    { 'like': { 'datamodels.identifier': search } },
-                    { 'like': { 'datamodels.name': search } },
-                    { 'like': { 'datamodels.description': search } },
-                    { 'like': { 'datamodels.version': search } }
-                ]
-            };
+
+            var finalFilter = {};
+            if (ctrl.resourceTypes && angular.isArray(ctrl.resourceTypes) && ctrl.resourceTypes.length > 0) {
+                finalFilter.and = [{ in: { 'datamodels.allowedResourceTypes': ctrl.resourceTypes } }];
+            }
+
+            if (!search) {
+                return finalFilter;
+            } else {
+                var quickSearchFilter = {
+                    'or': [
+                        { 'like': { 'datamodels.categories.datastreams.identifier': search } },
+                        { 'like': { 'datamodels.categories.datastreams.name': search } },
+                        { 'like': { 'datamodels.identifier': search } },
+                        { 'like': { 'datamodels.name': search } },
+                        { 'like': { 'datamodels.description': search } },
+                        { 'like': { 'datamodels.version': search } }
+                    ]
+                };
+
+                if (finalFilter.and) {
+                    finalFilter.and.push(quickSearchFilter);
+                } else {
+                    return quickSearchFilter;
+                }
+                return finalFilter;
+            }
+
+
         },
         rootKey: 'datamodels',
         collection: [],
         processingData: function(data, collection) {
             //if (!ctrl.lastSearch) return $q(function(ok) { ok(); });
-            return $q(function (C_ok) {
+            return $q(function(C_ok) {
                 var _datastreams = [];
                 var datamodels = data.data.datamodels;
-                angular.forEach(datamodels, function (datamodel, key) {
+                angular.forEach(datamodels, function(datamodel, key) {
                     var categories = datamodel.categories;
                     var _datamodel = {
                         identifier: datamodel.identifier,
@@ -35,14 +52,14 @@ angular.module('opengate-angular-js').controller('customUiSelectDatastreamContro
                         name: datamodel.name,
                         organization: datamodel.organizationName
                     };
-                    angular.forEach(categories, function (category, key) {
+                    angular.forEach(categories, function(category, key) {
                         var datastreams = category.datastreams;
                         var _category = { identifier: category.identifier };
                         angular.forEach(datastreams
-                            .filter(function (ds) {
+                            .filter(function(ds) {
                                 return (ds.identifier.toLowerCase().indexOf(ctrl.lastSearch.toLowerCase()) > -1 && !!ctrl.lastSearch.length) || !ctrl.lastSearch;
                             }),
-                            function (datastream, key) {
+                            function(datastream, key) {
                                 var _datastream = angular.copy(datastream);
                                 _datastream.datamodel = _datamodel;
                                 _datastream.category = _category;
@@ -95,6 +112,7 @@ angular.module('opengate-angular-js').component('customUiSelectDatastream', {
         multiple: '<',
         maxResults: '<',
         isRequired: '=',
-        postFilter: '<'
+        postFilter: '<',
+        resourceTypes: '<'
     }
 });

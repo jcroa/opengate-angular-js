@@ -54,7 +54,7 @@ angular.module('opengate-angular-js')
                 var identifiers = [];
                 var form = [];
 
-                function addToSchema($item, creationMode) {
+                function addToSchema($item, creationMode, withoutHelper) {
                     var identifier = $item.identifier;
                     if ($item.required) {
                         schema.required.push(identifier);
@@ -64,22 +64,25 @@ angular.module('opengate-angular-js')
                     }
                     $item.schema.description = $item.description;
                     $item.title = ($item.name || identifier) + ($item.unit && $item.unit.label ? ' (' + $item.unit.label + ')' : '');
-                    addExtraAttributes($item.schema);
+                    $item.schema.title = $item.title;
+                    addExtraAttributes($item.schema, withoutHelper);
                     addIdentifier(identifier);
                     form = addFieldToForm(identifier, form);
 
                     schema.properties[identifier] = $item.schema;
                 }
 
-                function addExtraAttributes(schema) {
+                function addExtraAttributes(schema, withoutHelper) {
                     var _keys = Object.keys(schema);
                     _keys.forEach(function (key) {
                         var obj = schema[key];
-                        if (obj === 'string' && typeof schema.format === 'undefined' && typeof schema.enum === 'undefined') {
-                            schema.format = 'helperdialog';
+                        if (!withoutHelper) {
+                            if (obj === 'string' && typeof schema.format === 'undefined' && typeof schema.enum === 'undefined') {
+                                schema.format = 'helperdialog';
+                            }
                         }
                         if (angular.isObject(obj)) {
-                            addExtraAttributes(obj);
+                            addExtraAttributes(obj, withoutHelper);
                         }
                     });
                 }
@@ -95,7 +98,7 @@ angular.module('opengate-angular-js')
                 };
 
 
-                this.addField = function ($item, creationMode) {
+                this.addField = function ($item, creationMode, withoutHelper) {
                     var defered = $q.defer();
                     var promise = defered.promise;
 
@@ -104,24 +107,24 @@ angular.module('opengate-angular-js')
                         path = path.replace(/[\/]/g, '.');
                         $api().basicTypesSearchBuilder().withPath(path).execute().then(function (response) {
                             $item.schema = response.data;
-                            addToSchema($item, creationMode);
+                            addToSchema($item, creationMode, withoutHelper);
                             defered.resolve();
                         }).catch(function (err) {
                             console.error(err);
                             defered.reject(err);
                         });
                     } else {
-                        addToSchema($item, creationMode);
+                        addToSchema($item, creationMode, withoutHelper);
                         defered.resolve();
                     }
                     return promise;
                 };
 
-                this.addFields = function (fields, creationMode) {
+                this.addFields = function (fields, creationMode, withoutHelper) {
                     var promisses = [];
                     if (Array.isArray(fields) && fields.length > 0) {
                         fields.forEach(function (field) {
-                            promisses.push(_this.addField(field, creationMode));
+                            promisses.push(_this.addField(field, creationMode, withoutHelper));
                         });
                         return $q.all(promisses).catch(function (err) {
                             console.error(err);
@@ -158,10 +161,15 @@ angular.module('opengate-angular-js')
                     return new SchemaFormCreator();
                 },
                 getSchemaFormCreatorFromDatamodel: function (options) {
-                    var filter = $provisionDatastreamsUtils.getFilter();
                     var customfields = options.customFields;
                     var allowedResourceTypes = options.allowedResourceTypes;
                     var creationMode = options.creationMode;
+                    var fromAllDatamodels = options.fromAllDatamodels;
+                    var withoutHelper = options.withoutHelper;
+
+                    var filter = fromAllDatamodels ? {
+                        and: []
+                    } : $provisionDatastreamsUtils.getFilter();
 
                     var defered = $q.defer();
                     var promise = defered.promise;
@@ -189,7 +197,9 @@ angular.module('opengate-angular-js')
                     $api().datamodelsSearchBuilder().filter(filter).build().execute()
                         .then(function (response) {
                             var datamodels = response.data.datamodels;
-                            datamodels = $provisionDatastreamsUtils.filterForCoreDatamodelsCatalog(datamodels);
+                            if (!fromAllDatamodels) {
+                                datamodels = $provisionDatastreamsUtils.filterForCoreDatamodelsCatalog(datamodels);
+                            }
 
                             var rd = datamodels.reduce(function (first, next) {
                                 var categories = [];
@@ -210,7 +220,7 @@ angular.module('opengate-angular-js')
                                 if (typeof confDatastream === 'undefined') {
                                     console.error('Datastream ' + identifier + ' no exists or not is custom.');
                                 } else {
-                                    promisses.push(schemaFormCreator.addField(confDatastream));
+                                    promisses.push(schemaFormCreator.addField(confDatastream, undefined, withoutHelper));
                                 }
                             });
                             if (promisses.length > 0) {

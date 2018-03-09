@@ -441,7 +441,7 @@
     function __overrideClass(clazzToModify, newMembers, overriddenMembers) {
         /*  Parche para modificar la clase (en vez de extender de ella)
             Pendiente extender cuando sea posible personalizar Leaflet desde angular-leaflet */
-        console.warn('WARN: MapUx está usando __overrideClass. Class in development: ',
+        console.debug('WARN: MapUx está usando __overrideClass. Class in development: ',
             clazzToModify.constructor); // eliminar comentario si pruebas OK
         var oldMembers = overriddenMembers || {};
 

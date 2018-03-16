@@ -180,4 +180,20 @@ angular.module('uxleaflet').service('mapExtraApiService',
 
         } // 
 
+
+        // comment this code in production
+        if (document.location.host.startsWith('172.') || document.location.host.startsWith('localhost')) {
+
+            var VAR_NAME = 'google-apikey';
+            var sApiKey = localStorage.getItem(VAR_NAME);
+            if (sApiKey && L.extraApi) {
+                console.info('Found apikey in locaStorage[\'' + VAR_NAME + '\']');
+                L.extraApi.setApikey('google', sApiKey);
+            } else {
+                console.debug('Not Found apikey in locaStorage[\'' + VAR_NAME + '\']');
+                // or l.extraApi not loaded yet
+            }
+
+        }
+
     });

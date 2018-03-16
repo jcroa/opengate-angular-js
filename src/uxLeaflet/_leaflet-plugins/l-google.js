@@ -36,7 +36,8 @@
         initialize: function(type, options) {
             L.Util.setOptions(this, options);
 
-            this._ready = window.google !== undefined;
+            // check param of this scope
+            this._ready = google !== undefined;
             if (!this._ready) {
                 delayInit(this);
             }
@@ -193,6 +194,8 @@
         ensureStarted = true;
         L.extraApi.ensureLib('google', ['google.maps.Map'], function() {
             var i;
+            // refresh 'google' parameter
+            google = window.google;
             for (i = 0; i < L.Google.asyncWait.length; i++) {
                 var o = L.Google.asyncWait[i];
                 o._ready = true;

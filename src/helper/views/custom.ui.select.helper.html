@@ -12,7 +12,7 @@
             <img ng-if="$select.selected && $select.selected.key === 'image'" src="{{ $select.selected.value }}" style="max-height:30px;"></img>
         </ui-select-match>
         <ui-select-choices repeat="parameter.value as (key, parameter) in $ctrl.$helper_keys | filter: $select.search">
-            <span ng-bind-html="parameter.key | highlight: $select.search | humanize"></span>:
+            <span ng-bind-html="parameter.key | highlight: $select.search "></span>:
             <small ng-if="parameter.key !== 'image'" ng-bind-html="parameter.value | highlight: $select.search"></small>
             <img ng-if="parameter.key === 'image'" src="{{ parameter.value }}" style="max-height:30px;"></img>
         </ui-select-choices>

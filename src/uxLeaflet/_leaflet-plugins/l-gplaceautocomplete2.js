@@ -6,7 +6,7 @@
  * Esta clase está preparada para esperar su inicialización hasta que se resuelva la carga de
  * su la librería de la que depende: google.maps.places.Autocomplete.
  * Es necesario un API-KEY de Google para que funcione. 
- * Este API-KEY se está buscando en localStorage / 'google-key'
+ * Este API-KEY se está buscando uando L.extraApi.ensureLib('google', ...)
  */
 (function() {
 

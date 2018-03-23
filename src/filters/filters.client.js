@@ -1,29 +1,8 @@
 'use strict';
 
 angular.module('opengate-angular-js')
-    .filter('humanize', ['$window', function($window) {
-        function hasNumber(myString) {
-            return (/\d/.test(myString));
-        }
 
-        return function(input, optional1, optional2) {
-
-            var output = input;
-
-
-            if ($window.S(output).indexOf('$') !== -1) {
-                output = $window.S(output).strip('$').s;
-            }
-            if (angular.isString(output) && !hasNumber(output)) {
-                output = $window.S(output).humanize().s;
-            }
-
-            return output;
-
-        };
-
-    }])
-    .filter('communicationsInterface', function() {
+.filter('communicationsInterface', function() {
         return function(input) {
 
             var output = input;

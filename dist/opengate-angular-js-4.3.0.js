@@ -12034,20 +12034,20 @@ angular.module('opengate-angular-js').factory('Filter', ['$window', '$sce', '$q'
 
 
 angular.module('opengate-angular-js')
-    .service('$entityFlattenedExtractor', ['$jsonFinderHelper', function ($jsonFinderHelper) {
+    .service('$entityFlattenedExtractor', ['$jsonFinderHelper', function($jsonFinderHelper) {
         function genericExtractor(entityList, element) {
             var resultList = [];
 
             if (entityList && entityList.length > 0) {
                 var resultsFound = {};
-                angular.forEach(entityList, function (entityData, idx) {
+                angular.forEach(entityList, function(entityData, idx) {
                     if (entityData[$jsonFinderHelper.provisioned.getAmpliaPath(element + 'Identifier')] ||
                         entityData[$jsonFinderHelper.collected.getAmpliaPath(element + 'Identifier')]) {
                         // Recorrer cada uno de los item para sacar los de subscriber
-                        angular.forEach(entityData, function (itemData, item) {
+                        angular.forEach(entityData, function(itemData, item) {
                             if (item.startsWith('provision.device.communicationModules[].' + element) ||
                                 item.startsWith('device.communicationModules[].' + element)) {
-                                angular.forEach(itemData, function (value, itemIdx) {
+                                angular.forEach(itemData, function(value, itemIdx) {
                                     if (value._index) {
                                         if (!resultsFound[idx]) {
                                             resultsFound[idx] = {};
@@ -12057,7 +12057,7 @@ angular.module('opengate-angular-js')
                                         resultsFound[idx][item] = value;
                                     }
                                 });
-                            } else if (item.startsWith('provision.administration')) {
+                            } else if (item.startsWith('provision.administration') || item === 'resourceType') {
                                 if (!resultsFound[idx]) {
                                     resultsFound[idx] = {};
 
@@ -12071,7 +12071,7 @@ angular.module('opengate-angular-js')
                 });
 
                 // De todos los leidos hacemos
-                angular.forEach(resultsFound, function (entities, entitiesKey) {
+                angular.forEach(resultsFound, function(entities, entitiesKey) {
                     resultList.push(entities);
                 });
             }
@@ -12102,12 +12102,12 @@ angular.module('opengate-angular-js')
             extractSubscriptions: extractSubscriptions
         };
     }])
-    .service('$entityExtractor', ['$q', function ($q) {
+    .service('$entityExtractor', ['$q', function($q) {
         function genericExtractor(entityList, element) {
             var resultList = [];
 
             if ((entityList && entityList.length > 0) || entityList && entityList.length > 0) {
-                angular.forEach(entityList, function (entityData, idx) {
+                angular.forEach(entityList, function(entityData, idx) {
                     var finalData = null;
                     var entityIdentifier = null;
 
@@ -12115,7 +12115,7 @@ angular.module('opengate-angular-js')
                     if (entityData.provision.device && entityData.provision.device.communicationModules &&
                         entityData.provision.device.communicationModules.length > 0) {
                         // Recorrer cada uno de los item para sacar los de subscriber
-                        angular.forEach(entityData.provision.device.communicationModules, function (commData, commIdx) {
+                        angular.forEach(entityData.provision.device.communicationModules, function(commData, commIdx) {
                             if (commData[element]) {
                                 if (!finalData) {
                                     finalData = {
@@ -12138,7 +12138,7 @@ angular.module('opengate-angular-js')
                     if (entityData.device && entityData.device.communicationModules &&
                         entityData.device.communicationModules.length > 0) {
                         // Recorrer cada uno de los item para sacar los de subscriber
-                        angular.forEach(entityData.device.communicationModules, function (commData, commIdx) {
+                        angular.forEach(entityData.device.communicationModules, function(commData, commIdx) {
                             if (commData[element]) {
                                 if (!finalData) {
                                     finalData = {};
@@ -12195,7 +12195,7 @@ angular.module('opengate-angular-js')
             var finalEntityData = {
                 subscribers: final
             };
-            return $q(function (ok) {
+            return $q(function(ok) {
                 ok(destinationList || finalEntityData);
             });
         }
@@ -12215,7 +12215,7 @@ angular.module('opengate-angular-js')
             var finalEntityData = {
                 subscriptions: final
             };
-            return $q(function (ok) {
+            return $q(function(ok) {
                 ok(destinationList || finalEntityData);
             });
 

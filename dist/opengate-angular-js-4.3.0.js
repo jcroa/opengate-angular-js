@@ -10953,6 +10953,24 @@ angular.module('opengate-angular-js').service('$oguxThemes', [
                 'theme': ['light', 'default', 'fresh', 'freshdark', 'traversed', 'traversed-dark'],
                 'url': ['css/themes/bootstrap-material-design_red.css']
             },
+            'neon-red': {
+                'id': 'neon-red',
+                'sample': '#f44336',
+                'sampleType': 'neon',
+                'rgba': 'rgba(244, 67, 54, 0.5)',
+                'name': 'COLOR.NEON_RED',
+                'theme': ['light', 'fresh', 'traversed'],
+                'url': ['css/themes/bootstrap-material-design_neon-red.css']
+            },
+            'darkneon-red': {
+                'id': 'darkneon-red',
+                'sample': '#f44336',
+                'sampleType': 'neon',
+                'rgba': 'rgba(244, 67, 54, 0.5)',
+                'name': 'COLOR.DARK_NEON_RED',
+                'theme': ['default', 'freshdark', 'traversed-dark'],
+                'url': ['css/themes/bootstrap-material-design_darkneon-red.css']
+            },
             'pink': {
                 'id': 'pink',
                 'sample': '#e91e63',

@@ -28,15 +28,17 @@ angular.module('opengate-angular-js')
                 date: {
                     show: true,
                     text: ' ',
-                    cls: 'btn-sm btn-primary bg-primary oux-button-margin fa fa-calendar'
+                    cls: 'btn-sm btn-info oux-button-margin fa fa-calendar'
                 },
                 time: {
                     show: true,
                     text: ' ',
-                    cls: 'btn-sm btn-primary bg-primary oux-button-margin fa fa-clock-o'
+                    cls: 'btn-sm btn-info oux-button-margin fa fa-clock-o'
                 },
                 close: {
-                    show: false
+                    show: true,
+                    text: ' ',
+                    cls: 'btn-sm btn-success oux-button-margin fa fa-check'
                 },
                 cancel: {
                     show: false

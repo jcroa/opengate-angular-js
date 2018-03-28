@@ -3,7 +3,7 @@
     <button type="button" class="btn btn-xs" ng-class="oneWeekClass" ng-click="oneWeek()" translate="BUTTON.TITLE.LAST_NUMBER_DAY" translate-values="{ number: '7' }"></button>
     <button type="button" class="btn btn-xs" ng-class="oneMonthClass" ng-click="oneMonth()" translate="BUTTON.TITLE.LAST_NUMBER_DAY" translate-values="{ number: '30' }"></button>
     <button type="button" class="btn btn-xs" ng-class="customClass" ng-click="custom()" translate>BUTTON.TITLE.CUSTOM</button>
-    <button type="button" class="btn btn-xs btn-info" ng-if="customEnabled && !fromCalendarOpen && !toCalendarOpen" ng-disabled="!!errorCustomWindow" ng-click="applyCustom()" translate>BUTTON.TITLE.APPLY</button>
+    <button type="button" class="btn btn-xs btn-info" ng-if="customEnabled" ng-disabled="!!errorCustomWindow || fromCalendarOpen || toCalendarOpen" ng-click="applyCustom()" translate>BUTTON.TITLE.APPLY</button>
     <button type="button" class="btn btn-xs btn-info" ng-if="filterApplied" ng-click="clear()" translate>BUTTON.TITLE.CLEAR </button>
     <div ng-if="customEnabled" class="window-time-body">
         <div class="row">
@@ -18,40 +18,6 @@
                     timepicker-options="toOptions.timePicker" when-closed="toChange(args)" popup-placement="auto top-right" datepicker-append-to-body="true">
             </div>
         </div>
-        <!-- <div class="row">
-            <div class="col-xs-12">
-                <p class="input-group">
-                    <label class="control-label">{{ 'FORM.LABEL.FROM' | translate }}: {{fromDate | date:'fullDate'}}</label>
-                    <input readonly="readonly" datepicker-options="fromOptions" type="text" class="form-control" show-button-bar="false" uib-datepicker-popup="{{format}}" ng-model="date.from" is-open="fromPopup.opened" ng-required="true" close-text="Close" ng-change="fromChange()"
-                    />
-                    <span class="input-group-btn">
-                        <a class="btn btn-sm" ng-click="fromOpen()">
-                            <i class="glyphicon glyphicon-calendar"></i>
-                        </a>
-                    </span>
-                </p>
-            </div>
-            <div class="col-xs-12">
-                <div uib-timepicker max="fromMax" ng-model="date.from" show-meridian="false" ng-change="fromChange()"></div>
-            </div>
-        </div> -->
-        <!-- <div class="row">
-            <div class="col-xs-12">
-                <p class="input-group">
-                    <label class="control-label">{{ 'FORM.LABEL.TO' | translate }}: {{toDate | date:'fullDate'}}</label>
-                    <input readonly="readonly" datepicker-options="toOptions" type="text" class="form-control" show-button-bar="false" uib-datepicker-popup="{{format}}" ng-model="date.to" is-open="toPopup.opened" ng-required="true" close-text="Close" ng-change="toChange()"
-                    />
-                    <span class="input-group-btn">
-                        <button type="button" class="btn btn-sm" ng-click="toOpen()">
-                            <i class="glyphicon glyphicon-calendar"></i>
-                        </button>
-                    </span>
-                </p>
-            </div>
-            <div class="col-xs-12">
-                <div uib-timepicker max="toMax" min="toMin" ng-model="date.to" show-meridian="false" ng-change="toChange()"></div>
-            </div>
-        </div> -->
         <alert type="danger" ng-show="errorCustomWindow" class="text-danger" style="display: block;text-align: center;">
             <span ng-bind="errorCustomWindow"></span>
         </alert>

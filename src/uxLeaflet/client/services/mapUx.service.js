@@ -17,7 +17,7 @@ angular.module('uxleaflet')
     l_localtiles: false,
     baseLayers: ['osm', 'dark2', 'ogWorld', 'googleTerrain', 'googleHybrid', 'googleRoadmap', 'googleSatellite'],
     baseLayerDefault: 'osm',
-    overlays: [],
+    overlays: {},
     mapOptions: {
         editPointSize: 10
     }
@@ -350,7 +350,7 @@ angular.module('uxleaflet')
                     minimized: true,
                     width: 100,
                     height: 100,
-                    strings: { hideText: 'Hide Mini Map', showText: 'Show Mini Map' },
+                    strings: { hideText: 'Hide Mini Map asdfasdfasdf', showText: 'Show Mini Map' },
                 },
                 createControlInstance: function(opts) {
                     // minimap has a special constructor: (url, options)

@@ -42,7 +42,7 @@ angular.module('uxleaflet')
     l_localtiles: false,
     baseLayers: ['osm', 'dark2', 'ogWorld', 'googleTerrain', 'googleHybrid', 'googleRoadmap', 'googleSatellite'],
     baseLayerDefault: 'osm',
-    overlays: [],
+    overlays: {},
     mapOptions: {
         editPointSize: 10
     }
@@ -375,7 +375,7 @@ angular.module('uxleaflet')
                     minimized: true,
                     width: 100,
                     height: 100,
-                    strings: { hideText: 'Hide Mini Map', showText: 'Show Mini Map' },
+                    strings: { hideText: 'Hide Mini Map asdfasdfasdf', showText: 'Show Mini Map' },
                 },
                 createControlInstance: function(opts) {
                     // minimap has a special constructor: (url, options)
@@ -6735,7 +6735,7 @@ L.Path.addInitHook(function() {
     /**
      * return map view for most top level and center on bounding box tiles
      */
-    L.TileLayer.prototype.getHomeInfo = function () {
+    L.TileLayer.prototype.getHomeInfo = function() {
         if (this._isUsingLocalTiles) {
             return this._localTiles && this._localTiles.mapview || {};
         } else {
@@ -6746,6 +6746,10 @@ L.Path.addInitHook(function() {
     var _tileLayerGetTileUrl = L.TileLayer.prototype.getTileUrl;
     L.TileLayer.prototype.getTileUrl = function(tilePoint) {
         if (!this._isUsingLocalTiles) {
+            if (!this._url) {
+                this._url = '//{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
+            }
+
             return _tileLayerGetTileUrl.apply(this, arguments);
         }
 
@@ -6782,7 +6786,7 @@ L.Path.addInitHook(function() {
     function getJson(url, resolve, reject) {
         var xhr = new XMLHttpRequest();
         xhr.open('GET', url);
-        xhr.onload = function () {
+        xhr.onload = function() {
             if (xhr.status >= 200 && xhr.status < 300) {
                 var data = xhr.response;
                 if (data[0] === '{') {

@@ -46,7 +46,7 @@ angular.module('opengate-angular-js')
             };
 
             function toLimit() {
-                return window.moment($scope.date.from).add(1, 'hours')._d;
+                return window.moment($scope.date.from).add(1, 'minutes')._d;
             }
 
             function fromLimit() {
@@ -71,7 +71,7 @@ angular.module('opengate-angular-js')
                         closed: $scope.toChange
                     },
                     timePicker: {
-                        min: $scope.toMin,
+                        //min: $scope.toMin,
                         showMeridian: false
                     }
                 }
@@ -81,7 +81,7 @@ angular.module('opengate-angular-js')
                 $scope.date.from = fromDate($scope.date.to);
 
                 $scope.toOptions.datePicker.minDate = toLimit();
-                $scope.toOptions.timePicker.min = toLimit();
+                //$scope.toOptions.timePicker.min = toLimit();
 
                 $scope.toMin = toLimit();
                 $scope.fromMax = fromLimit($scope.date.to);
@@ -95,7 +95,7 @@ angular.module('opengate-angular-js')
                         closed: $scope.fromChange
                     },
                     timePicker: {
-                        max: $scope.fromMax,
+                        //max: $scope.fromMax,
                         showMeridian: false
                     }
                 };
@@ -193,13 +193,13 @@ angular.module('opengate-angular-js')
                     validateCustomWindow();
                     $scope.fromMax = fromLimit($scope.date.to);
                     $scope.fromOptions.datePicker.maxDate = $scope.fromMax;
-                    $scope.fromOptions.timePicker.max = $scope.fromMax;
+                    //$scope.fromOptions.timePicker.max = $scope.fromMax;
                     $scope.toCalendarOpen = false;
                 };
                 $scope.fromChange = function() {
                     validateCustomWindow();
                     $scope.toOptions.datePicker.minDate = toLimit();
-                    $scope.toOptions.timePicker.min = toLimit();
+                    //$scope.toOptions.timePicker.min = toLimit();
 
                     $scope.toMin = toLimit();
                     $scope.fromCalendarOpen = false;

@@ -1,4 +1,4 @@
-<div class="form-group" mass-autocomplete ng-if="$ctrl.multiple">
+<div class="form-group no-margin" mass-autocomplete ng-if="$ctrl.multiple">
     <ui-select custom-ui-select-config="$ctrl.ownConfig" name="asset" ng-model="$ctrl.asset" theme="bootstrap" title="Choose a asset" custom-ui-select multiple="true" custom-mass-autocomplete-item="$ctrl.ownConfig" on-select="$ctrl.assetSelected($item, $model)"
         on-remove="$ctrl.assetRemove($item, $model)" ng-required="$ctrl.isRequired">
         <ui-select-match placeholder="{{ 'FORM.PLACEHOLDER.ENTITY' | translate }}" allow-clear="true">
@@ -13,8 +13,8 @@
         </ui-select-choices>
     </ui-select>
 </div>
-<div class="form-group" mass-autocomplete ng-if="!$ctrl.multiple">
-    <ui-select custom-ui-select-config="$ctrl.ownConfig" name="asset" ng-model="$ctrl.asset" theme="bootstrap" title="Choose a asset" custom-ui-select multiple="false" custom-mass-autocomplete-item="$ctrl.ownConfig" on-select="$ctrl.assetSelected($item, $model)"
+<div class="form-group no-margin" mass-autocomplete ng-if="!$ctrl.multiple">
+    <ui-select custom-ui-select-config="$ctrl.ownConfig" name="asset" ng-model="$ctrl.asset" theme="bootstrap" title="Choose an asset" custom-ui-select multiple="false" custom-mass-autocomplete-item="$ctrl.ownConfig" on-select="$ctrl.assetSelected($item, $model)"
         on-remove="$ctrl.assetRemove($item, $model)" ng-required="$ctrl.isRequired">
         <ui-select-match placeholder="{{ 'FORM.PLACEHOLDER.ENTITY' | translate }}" allow-clear="true">
             {{$item.provision.administration.identifier._current.value || $item.identifier}}

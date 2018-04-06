@@ -3,7 +3,7 @@
 angular.module('uxleaflet', []);
 angular.module('opengate-angular-js', ['schemaForm', 'uxleaflet', 'ui-leaflet']);
 angular.module("opengate-angular-js").run(["$templateCache", function($templateCache) {$templateCache.put("custom-ui-select/views/custom.ui.select.area.html","<div class=form-group mass-autocomplete ng-if=$ctrl.multiple><label class=custom-ui-select-label translate>FORM.LABEL.AREA</label><ui-select custom-ui-select-config=$ctrl.ownConfig name=area ng-model=$ctrl.area theme=bootstrap title=\"{{ \'FORM.PLACEHOLDER.AREA_MULTI\' | translate }}\" custom-ui-select multiple=true custom-mass-autocomplete-item=$ctrl.ownConfig on-select=\"$ctrl.areaSelected($item, $model)\" on-remove=\"$ctrl.areaRemove($item, $model)\" ng-required=$ctrl.isRequired><ui-select-match placeholder=\"{{ \'FORM.PLACEHOLDER.AREA_MULTI\' | translate }}\" allow-clear=true>{{$item.identifier}}</ui-select-match><ui-select-choices repeat=\"area in $ctrl.ownConfig.collection | filter:$select.search track by $index\"><div><span ng-bind-html=\"area.identifier | highlight: $select.search\"></span> - <span ng-bind-html=\"area.name | highlight: $select.search\"></span><br><span ng-bind-html=\"area.organization | highlight: $select.search\"></span></div></ui-select-choices></ui-select></div><div class=form-group mass-autocomplete ng-if=!$ctrl.multiple><label class=custom-ui-select-label translate>FORM.LABEL.AREA</label><ui-select custom-ui-select-config=$ctrl.ownConfig name=area ng-model=$ctrl.area theme=bootstrap title=\"Choose an area\" custom-ui-select multiple=false custom-mass-autocomplete-item=$ctrl.ownConfig on-select=\"$ctrl.areaSelected($item, $model)\" on-remove=\"$ctrl.areaRemove($item, $model)\" ng-required=$ctrl.isRequired><ui-select-match placeholder=\"{{ \'FORM.PLACEHOLDER.AREA\' | translate }}\" allow-clear=true>{{$item.identifier}}</ui-select-match><ui-select-choices repeat=\"area in $ctrl.ownConfig.collection | filter:$select.search track by $index\"><div><span ng-bind-html=\"area.identifier | highlight: $select.search\"></span> - <span ng-bind-html=\"area.name | highlight: $select.search\"></span><br><span ng-bind-html=\"area.organization | highlight: $select.search\"></span></div></ui-select-choices></ui-select></div>");
-$templateCache.put("custom-ui-select/views/custom.ui.select.asset.html","<div class=form-group mass-autocomplete ng-if=$ctrl.multiple><ui-select custom-ui-select-config=$ctrl.ownConfig name=asset ng-model=$ctrl.asset theme=bootstrap title=\"Choose a asset\" custom-ui-select multiple=true custom-mass-autocomplete-item=$ctrl.ownConfig on-select=\"$ctrl.assetSelected($item, $model)\" on-remove=\"$ctrl.assetRemove($item, $model)\" ng-required=$ctrl.isRequired><ui-select-match placeholder=\"{{ \'FORM.PLACEHOLDER.ENTITY\' | translate }}\" allow-clear=true>{{$item.provision.administration.identifier._current.value || $item.identifier}}</ui-select-match><ui-select-choices repeat=\"assetData in $ctrl.ownConfig.collection track by $index\"><span ng-bind-html=\"assetData.provision.administration.identifier._current.value | highlight: $select.search\"></span> <small><div ng-if=assetData.provision.asset.specificType._current.value>{{ \'FORM.LABEL.SPECIFIC_TYPE\' | translate }}: <span ng-bind-html=\"assetData.provision.asset.specificType._current.value | highlight: $select.search\"></span></div><div ng-if=assetData.provision.asset.name._current.value>{{ \'FORM.LABEL.NAME\' | translate }}: <span ng-bind-html=\"\'\'+assetData.provision.asset.name._current.value | highlight: $select.search\"></span></div></small></ui-select-choices></ui-select></div><div class=form-group mass-autocomplete ng-if=!$ctrl.multiple><ui-select custom-ui-select-config=$ctrl.ownConfig name=asset ng-model=$ctrl.asset theme=bootstrap title=\"Choose a asset\" custom-ui-select multiple=false custom-mass-autocomplete-item=$ctrl.ownConfig on-select=\"$ctrl.assetSelected($item, $model)\" on-remove=\"$ctrl.assetRemove($item, $model)\" ng-required=$ctrl.isRequired><ui-select-match placeholder=\"{{ \'FORM.PLACEHOLDER.ENTITY\' | translate }}\" allow-clear=true>{{$item.provision.administration.identifier._current.value || $item.identifier}}</ui-select-match><ui-select-choices repeat=\"assetData in $ctrl.ownConfig.collection track by $index\"><span ng-bind-html=\"assetData.provision.administration.identifier._current.value | highlight: $select.search\"></span> <small><div ng-if=assetData.provision.asset.specificType._current.value>{{ \'FORM.LABEL.SPECIFIC_TYPE\' | translate }}: <span ng-bind-html=\"assetData.provision.asset.specificType._current.value | highlight: $select.search\"></span></div><div ng-if=assetData.provision.asset.name._current.value>{{ \'FORM.LABEL.NAME\' | translate }}: <span ng-bind-html=\"\'\'+assetData.provision.asset.name._current.value | highlight: $select.search\"></span></div></small></ui-select-choices></ui-select></div>");
+$templateCache.put("custom-ui-select/views/custom.ui.select.asset.html","<div class=\"form-group no-margin\" mass-autocomplete ng-if=$ctrl.multiple><ui-select custom-ui-select-config=$ctrl.ownConfig name=asset ng-model=$ctrl.asset theme=bootstrap title=\"Choose a asset\" custom-ui-select multiple=true custom-mass-autocomplete-item=$ctrl.ownConfig on-select=\"$ctrl.assetSelected($item, $model)\" on-remove=\"$ctrl.assetRemove($item, $model)\" ng-required=$ctrl.isRequired><ui-select-match placeholder=\"{{ \'FORM.PLACEHOLDER.ENTITY\' | translate }}\" allow-clear=true>{{$item.provision.administration.identifier._current.value || $item.identifier}}</ui-select-match><ui-select-choices repeat=\"assetData in $ctrl.ownConfig.collection track by $index\"><span ng-bind-html=\"assetData.provision.administration.identifier._current.value | highlight: $select.search\"></span> <small><div ng-if=assetData.provision.asset.specificType._current.value>{{ \'FORM.LABEL.SPECIFIC_TYPE\' | translate }}: <span ng-bind-html=\"assetData.provision.asset.specificType._current.value | highlight: $select.search\"></span></div><div ng-if=assetData.provision.asset.name._current.value>{{ \'FORM.LABEL.NAME\' | translate }}: <span ng-bind-html=\"\'\'+assetData.provision.asset.name._current.value | highlight: $select.search\"></span></div></small></ui-select-choices></ui-select></div><div class=\"form-group no-margin\" mass-autocomplete ng-if=!$ctrl.multiple><ui-select custom-ui-select-config=$ctrl.ownConfig name=asset ng-model=$ctrl.asset theme=bootstrap title=\"Choose an asset\" custom-ui-select multiple=false custom-mass-autocomplete-item=$ctrl.ownConfig on-select=\"$ctrl.assetSelected($item, $model)\" on-remove=\"$ctrl.assetRemove($item, $model)\" ng-required=$ctrl.isRequired><ui-select-match placeholder=\"{{ \'FORM.PLACEHOLDER.ENTITY\' | translate }}\" allow-clear=true>{{$item.provision.administration.identifier._current.value || $item.identifier}}</ui-select-match><ui-select-choices repeat=\"assetData in $ctrl.ownConfig.collection track by $index\"><span ng-bind-html=\"assetData.provision.administration.identifier._current.value | highlight: $select.search\"></span> <small><div ng-if=assetData.provision.asset.specificType._current.value>{{ \'FORM.LABEL.SPECIFIC_TYPE\' | translate }}: <span ng-bind-html=\"assetData.provision.asset.specificType._current.value | highlight: $select.search\"></span></div><div ng-if=assetData.provision.asset.name._current.value>{{ \'FORM.LABEL.NAME\' | translate }}: <span ng-bind-html=\"\'\'+assetData.provision.asset.name._current.value | highlight: $select.search\"></span></div></small></ui-select-choices></ui-select></div>");
 $templateCache.put("custom-ui-select/views/custom.ui.select.bundle.html","<div class=form-group mass-autocomplete ng-if=$ctrl.multiple><label class=custom-ui-select-label translate>FORM.LABEL.BUNDLE</label><ui-select custom-ui-select-config=$ctrl.ownConfig name=bundle ng-model=$ctrl.bundle theme=bootstrap title=\"{{ \'FORM.PLACEHOLDER.BUNDLE_MULTI\' | translate }}\" custom-ui-select multiple=true custom-mass-autocomplete-item=$ctrl.ownConfig on-select=\"$ctrl.bundleSelected($item, $model)\" on-remove=\"$ctrl.bundleRemove($item, $model)\" ng-required=$ctrl.isRequired><ui-select-match placeholder=\"{{ \'FORM.PLACEHOLDER.BUNDLE_MULTI\' | translate }}\" allow-clear=true>{{$item.name}} (v{{$item.version}})</ui-select-match><ui-select-choices repeat=\"bundle in $ctrl.ownConfig.collection | filter:$select.search track by $index\"><div><span ng-bind-html=\"bundle.name | highlight: $select.search\"></span> - <span ng-bind-html=\"bundle.version | highlight: $select.search\"></span><br><span ng-bind-html=\"bundle.description | highlight: $select.search\"></span></div></ui-select-choices></ui-select></div><div class=form-group mass-autocomplete ng-if=!$ctrl.multiple><label class=custom-ui-select-label translate>FORM.LABEL.BUNDLE</label><ui-select custom-ui-select-config=$ctrl.ownConfig name=bundle ng-model=$ctrl.bundle theme=bootstrap title=\"Choose an bundle\" custom-ui-select multiple=false custom-mass-autocomplete-item=$ctrl.ownConfig on-select=\"$ctrl.bundleSelected($item, $model)\" on-remove=\"$ctrl.bundleRemove($item, $model)\" ng-required=$ctrl.isRequired><ui-select-match placeholder=\"{{ \'FORM.PLACEHOLDER.BUNDLE\' | translate }}\" allow-clear=true>{{$item.name}} (v{{$item.version}})</ui-select-match><ui-select-choices repeat=\"bundle in $ctrl.ownConfig.collection | filter:$select.search track by $index\"><div><span ng-bind-html=\"bundle.name | highlight: $select.search\"></span> (v<span ng-bind-html=\"bundle.version | highlight: $select.search\"></span>)<br><span ng-bind-html=\"bundle.description | highlight: $select.search\"></span></div></ui-select-choices></ui-select></div>");
 $templateCache.put("custom-ui-select/views/custom.ui.select.datastream.html","<div class=form-group mass-autocomplete ng-if=$ctrl.multiple><label class=custom-ui-select-label translate>FORM.LABEL.DATASTREAM_ID</label><ui-select custom-ui-select-config=$ctrl.ownConfig name=datastream ng-model=$ctrl.datastream theme=bootstrap title=\"Choose a datastream\" custom-ui-select multiple=true custom-mass-autocomplete-item=$ctrl.ownConfig on-select=\"$ctrl.datastreamSelected($item, $model)\" on-remove=\"$ctrl.datastreamRemove($item, $model)\" ng-required=$ctrl.isRequired><ui-select-match placeholder=\"{{ \'FORM.PLACEHOLDER.DATASTREAM\' | translate }}\" allow-clear=true>{{$item.identifier}}</ui-select-match><ui-select-choices repeat=\"ds in $ctrl.ownConfig.collection | filter:$select.search | limitTo:$ctrl.maxResults track by $index\"><div><span ng-bind-html=\"ds.identifier | highlight: $select.search\"></span> - <span ng-bind-html=\"ds.name | highlight: $select.search\"></span></div><small><div ng-if=ds.category.name>{{ \'FORM.LABEL.CATEGORY\' | translate }} <span ng-bind-html=\"ds.category.name | highlight: $select.search\"></span></div><div ng-if=ds.feed>{{ \'FORM.LABEL.FEED\' | translate }}:<span ng-bind-html=\"ds.feed | highlight: $select.search\"></span></div><div ng-if=ds.datamodel><div>{{ \'FORM.LABEL.DATAMODEL\' | translate }}:</div><div>- {{ \'FORM.LABEL.ID\' | translate }}: <span ng-bind-html=\"ds.datamodel.identifier | highlight: $select.search\"></span><div>- {{ \'FORM.LABEL.ORGANIZATION\' | translate }}: <span ng-bind-html=\"ds.datamodel.organization | highlight: $select.search\"></span><div>- {{ \'FORM.LABEL.NAME\' | translate }}:<span ng-bind-html=\"ds.datamodel.name | highlight: $select.search\"></span><div>- {{ \'FORM.LABEL.DESCRIPTION\' | translate }}: <span ng-bind-html=\"ds.datamodel.description | highlight: $select.search\"></span><div>- {{ \'FORM.LABEL.VERSION\' | translate }}: <span ng-bind-html=\"ds.datamodel.version | highlight: $select.search\"></span></div></div></div></div></div></div></small></ui-select-choices></ui-select></div><div class=form-group mass-autocomplete ng-if=!$ctrl.multiple><label class=custom-ui-select-label translate>FORM.LABEL.DATASTREAM_ID</label><ui-select custom-ui-select-config=$ctrl.ownConfig name=datastream ng-model=$ctrl.datastream theme=bootstrap title=\"Choose a datastream\" custom-ui-select multiple=false custom-mass-autocomplete-item=$ctrl.ownConfig on-select=\"$ctrl.datastreamSelected($item, $model)\" on-remove=\"$ctrl.datastreamRemove($item, $model)\" ng-required=$ctrl.isRequired><ui-select-match placeholder=\"{{ \'FORM.PLACEHOLDER.DATASTREAM\' | translate }}\" allow-clear=true>{{$item.identifier}}</ui-select-match><ui-select-choices repeat=\"ds in $ctrl.ownConfig.collection | filter:$select.search | limitTo:$ctrl.maxResults track by $index\"><div><span ng-bind-html=\"ds.identifier | highlight: $select.search\"></span> - <span ng-bind-html=\"ds.name | highlight: $select.search\"></span></div><small><div ng-if=ds.category.name>{{ \'FORM.LABEL.CATEGORY\' | translate }} <span ng-bind-html=\"ds.category.name | highlight: $select.search\"></span></div><div ng-if=ds.feed>{{ \'FORM.LABEL.FEED\' | translate }}:<span ng-bind-html=\"ds.feed | highlight: $select.search\"></span></div><div ng-if=ds.datamodel><div>{{ \'FORM.LABEL.DATAMODEL\' | translate }}:</div><div>- {{ \'FORM.LABEL.ID\' | translate }}: <span ng-bind-html=\"ds.datamodel.identifier | highlight: $select.search\"></span><div>- {{ \'FORM.LABEL.ORGANIZATION\' | translate }}:<span ng-bind-html=\"ds.datamodel.organization | highlight: $select.search\"></span><div>- {{ \'FORM.LABEL.NAME\' | translate }}:<span ng-bind-html=\"ds.datamodel.name | highlight: $select.search\"></span><div>- {{ \'FORM.LABEL.DESCRIPTION\' | translate }}: <span ng-bind-html=\"ds.datamodel.description | highlight: $select.search\"></span><div>- {{ \'FORM.LABEL.VERSION\' | translate }}: <span ng-bind-html=\"ds.datamodel.version | highlight: $select.search\"></span></div></div></div></div></div></div></small></ui-select-choices></ui-select></div>");
 $templateCache.put("custom-ui-select/views/custom.ui.select.device.html","<div class=form-group mass-autocomplete ng-if=$ctrl.multiple><label class=custom-ui-select-label translate>FORM.LABEL.ENTITY_KEY</label><ui-select custom-ui-select-config=$ctrl.ownConfig name=entity ng-model=$ctrl.entity theme=bootstrap title=\"Choose a entity\" custom-ui-select multiple=true custom-mass-autocomplete-item=$ctrl.ownConfig on-select=\"$ctrl.entitySelected($item, $model)\" on-remove=\"$ctrl.entityRemove($item, $model)\" ng-required=$ctrl.isRequired><ui-select-match placeholder=\"{{ \'FORM.PLACEHOLDER.ENTITY\' | translate }}\" allow-clear=true>{{$item.provision.administration.identifier._current.value || $item.identifier}}</ui-select-match><ui-select-choices repeat=\"entityData in $ctrl.ownConfig.collection track by $index\"><span ng-bind-html=\"entityData.provision.administration.identifier._current.value | highlight: $select.search\"></span> <small><div ng-if=entityData.provision.device.specificType._current.value>{{ \'FORM.LABEL.SPECIFIC_TYPE\' | translate }}: <span ng-bind-html=\"entityData.provision.device.specificType._current.value | highlight: $select.search\"></span></div><div ng-if=entityData.provision.device.operationalStatus._current.value>{{ \'FORM.LABEL.OP_STATUS\' | translate }}: <span ng-bind-html=\"\'\'+entityData.provision.device.operationalStatus._current.value | highlight: $select.search\"></span></div><div ng-if=\"!entityData.provision.device.specificType && entityData.provision.device.communicationsModule[0].subscriber.specificType._current.value\">{{ \'FORM.LABEL.SPECIFIC_TYPE\' | translate }}: <span ng-bind-html=\"entityData.provision.device.communicationsModule[0].subscriber.specificType._current.value | highlight: $select.search\"></span></div><div ng-if=\"!entityData.provision.device.specificType && entityData.provision.device.communicationsModule[0].subscription.specificType._current.value\">{{ \'FORM.LABEL.SPECIFIC_TYPE\' | translate }}: <span ng-bind-html=\"entityData.provision.device.communicationsModule[0].subscriber.specificType._current.value | highlight: $select.search\"></span></div></small></ui-select-choices></ui-select></div><div class=form-group mass-autocomplete ng-if=!$ctrl.multiple><label class=custom-ui-select-label translate>FORM.LABEL.ENTITY_KEY</label><ui-select custom-ui-select-config=$ctrl.ownConfig name=entity ng-model=$ctrl.entity theme=bootstrap title=\"Choose a entity\" custom-ui-select multiple=false custom-mass-autocomplete-item=$ctrl.ownConfig on-select=\"$ctrl.entitySelected($item, $model)\" on-remove=\"$ctrl.entityRemove($item, $model)\" ng-required=$ctrl.isRequired><ui-select-match placeholder=\"{{ \'FORM.PLACEHOLDER.ENTITY\' | translate }}\" allow-clear=true>{{$item.provision.administration.identifier._current.value || $item.identifier}}</ui-select-match><ui-select-choices repeat=\"entityData in $ctrl.ownConfig.collection track by $index\"><span ng-bind-html=\"entityData.provision.administration.identifier._current.value | highlight: $select.search\"></span> <small><div ng-if=entityData.provision.device.specificType._current.value>{{ \'FORM.LABEL.SPECIFIC_TYPE\' | translate }}: <span ng-bind-html=\"entityData.provision.device.specificType._current.value | highlight: $select.search\"></span></div><div ng-if=entityData.provision.device.operationalStatus._current.value>{{ \'FORM.LABEL.OP_STATUS\' | translate }}: <span ng-bind-html=\"\'\'+entityData.provision.device.operationalStatus._current.value | highlight: $select.search\"></span></div><div ng-if=\"!entityData.provision.device.specificType && entityData.provision.device.communicationsModule[0].subscriber.specificType._current.value\">{{ \'FORM.LABEL.SPECIFIC_TYPE\' | translate }}: <span ng-bind-html=\"entityData.provision.device.communicationsModule[0].subscriber.specificType._current.value | highlight: $select.search\"></span></div><div ng-if=\"!entityData.provision.device.specificType && entityData.provision.device.communicationsModule[0].subscription.specificType._current.value\">{{ \'FORM.LABEL.SPECIFIC_TYPE\' | translate }}: <span ng-bind-html=\"entityData.provision.device.communicationsModule[0].subscriber.specificType._current.value | highlight: $select.search\"></span></div></small></ui-select-choices></ui-select></div>");
@@ -11420,7 +11420,7 @@ angular.module('opengate-angular-js').service('$ogapiErrorParser', ['jsonPath',
 
 angular.module('opengate-angular-js')
     .service('$jsonFinderHelper', ['jsonPath',
-        function (jsonPath) {
+        function(jsonPath) {
             JsonFinderHelper.prototype.jsonPath = jsonPath;
             return {
                 administration: new JsonFinderHelper(),
@@ -11449,23 +11449,23 @@ angular.module('opengate-angular-js')
         }
     ]);
 
-JsonFinderHelper.prototype.getOriginalPath = function (field) {
+JsonFinderHelper.prototype.getOriginalPath = function(field) {
     if (!this.fields[field]) throw new Error('Field <' + field + '> not found. Available:' + JSON.stringify(Object.keys(this.fields)));
     return this.fields[field];
 };
 
-JsonFinderHelper.prototype.getPath = function (field) {
+JsonFinderHelper.prototype.getPath = function(field) {
     return this.getOriginalPath(field).replace('[]', '[*]');
 };
 
-JsonFinderHelper.prototype.getAmpliaPath = function (field) {
+JsonFinderHelper.prototype.getAmpliaPath = function(field) {
     if (!this.fields[field]) throw new Error('Field <' + field + '> not found. Available:' + JSON.stringify(Object.keys(this.fields)));
     return this.fields[field];
 };
-JsonFinderHelper.prototype.findOne = function (data, field) {
+JsonFinderHelper.prototype.findOne = function(data, field) {
     return this.findAll(data, field)[0];
 };
-JsonFinderHelper.prototype.findAll = function (data, field) {
+JsonFinderHelper.prototype.findAll = function(data, field) {
     return this.jsonPath(data, this.getPath(field) + '._current.value') || [];
 };
 
@@ -11500,6 +11500,8 @@ function CollectedJsonFinderHelper() {
             'software': 'device.software',
             'trustedBoot': 'device.trustedBoot',
             'image': 'device.image',
+
+            'related': 'device.related',
 
             'commsModule': 'provision.device.communicationModules[]',
 
@@ -11536,21 +11538,21 @@ function CollectedJsonFinderHelper() {
 
 ProvisionJsonFinderHelper.prototype = new CollectedJsonFinderHelper();
 
-ProvisionJsonFinderHelper.prototype.getPath = function (field) {
+ProvisionJsonFinderHelper.prototype.getPath = function(field) {
     var path = JsonFinderHelper.prototype.getPath.call(this, field);
     if (!path.startsWith('provision.')) {
         path = 'provision.' + path;
     }
     return path;
 };
-ProvisionJsonFinderHelper.prototype.getAmpliaPath = function (field) {
+ProvisionJsonFinderHelper.prototype.getAmpliaPath = function(field) {
     var path = JsonFinderHelper.prototype.getAmpliaPath.call(this, field);
     if (!path.startsWith('provision.')) {
         path = 'provision.' + path;
     }
     return path;
 };
-ProvisionJsonFinderHelper.prototype.getOriginalPath = function (field) {
+ProvisionJsonFinderHelper.prototype.getOriginalPath = function(field) {
     var path = JsonFinderHelper.prototype.getOriginalPath.call(this, field);
     if (!path.startsWith('provision.')) {
         path = 'provision.' + path;
@@ -11575,44 +11577,44 @@ function ProvisionJsonFinderHelper() {
 }
 
 SubscriberCollectedJsonFinderHelper.prototype = new CollectedJsonFinderHelper();
-SubscriberCollectedJsonFinderHelper.prototype.getPath = function (field) {
+SubscriberCollectedJsonFinderHelper.prototype.getPath = function(field) {
     var path = CollectedJsonFinderHelper.prototype.getPath.call(this, field);
     return path.replace('device.communicationModules[*].subscriber', '');
 };
 
-SubscriberCollectedJsonFinderHelper.prototype.getOriginalPath = function (field) {
+SubscriberCollectedJsonFinderHelper.prototype.getOriginalPath = function(field) {
     var path = CollectedJsonFinderHelper.prototype.getOriginalPath.call(this, field);
     return path.replace('device.communicationModules[].subscriber', '');
 };
 
 SubscriberProvisionJsonFinderHelper.prototype = new ProvisionJsonFinderHelper();
-SubscriberProvisionJsonFinderHelper.prototype.getPath = function (field) {
+SubscriberProvisionJsonFinderHelper.prototype.getPath = function(field) {
     var path = ProvisionJsonFinderHelper.prototype.getPath.call(this, field);
     return path.replace('device.communicationModules[*].subscriber', '');
 };
-SubscriberProvisionJsonFinderHelper.prototype.getOriginalPath = function (field) {
+SubscriberProvisionJsonFinderHelper.prototype.getOriginalPath = function(field) {
     var path = ProvisionJsonFinderHelper.prototype.getOriginalPath.call(this, field);
     return path.replace('device.communicationModules[].subscriber', '');
 };
 
 
 SubscriptionCollectedJsonFinderHelper.prototype = new CollectedJsonFinderHelper();
-SubscriptionCollectedJsonFinderHelper.prototype.getPath = function (field) {
+SubscriptionCollectedJsonFinderHelper.prototype.getPath = function(field) {
     var path = CollectedJsonFinderHelper.prototype.getPath.call(this, field);
     return path.replace('device.communicationModules[*].subscription', '');
 };
-SubscriptionCollectedJsonFinderHelper.prototype.getOriginalPath = function (field) {
+SubscriptionCollectedJsonFinderHelper.prototype.getOriginalPath = function(field) {
     var path = CollectedJsonFinderHelper.prototype.getOriginalPath.call(this, field);
     return path.replace('device.communicationModules[].subscription', '');
 };
 
 SubscriptionProvisionJsonFinderHelper.prototype = new ProvisionJsonFinderHelper();
-SubscriptionProvisionJsonFinderHelper.prototype.getPath = function (field) {
+SubscriptionProvisionJsonFinderHelper.prototype.getPath = function(field) {
     var path = ProvisionJsonFinderHelper.prototype.getPath.call(this, field);
     return path.replace('device.communicationModules[*].subscription', '');
 };
 
-SubscriptionProvisionJsonFinderHelper.prototype.getOriginalPath = function (field) {
+SubscriptionProvisionJsonFinderHelper.prototype.getOriginalPath = function(field) {
     var path = ProvisionJsonFinderHelper.prototype.getOriginalPath.call(this, field);
     return path.replace('device.communicationModules[*].subscription', '');
 };
@@ -11620,12 +11622,12 @@ SubscriptionProvisionJsonFinderHelper.prototype.getOriginalPath = function (fiel
 ////////////////////////////
 AssetCollectedJsonFinderHelper.prototype = new CollectedJsonFinderHelper();
 
-AssetCollectedJsonFinderHelper.prototype.getPath = function (field) {
+AssetCollectedJsonFinderHelper.prototype.getPath = function(field) {
     var path = CollectedJsonFinderHelper.prototype.getPath.call(this, field);
     return path.replace('device.', 'asset.');
 };
 
-AssetCollectedJsonFinderHelper.prototype.getOriginalPath = function (field) {
+AssetCollectedJsonFinderHelper.prototype.getOriginalPath = function(field) {
     var path = CollectedJsonFinderHelper.prototype.getOriginalPath.call(this, field);
     return path.replace('device.', 'asset.');
 };
@@ -11641,11 +11643,11 @@ function AssetCollectedJsonFinderHelper() {
 }
 
 AssetProvisionJsonFinderHelper.prototype = new ProvisionJsonFinderHelper();
-AssetProvisionJsonFinderHelper.prototype.getPath = function (field) {
+AssetProvisionJsonFinderHelper.prototype.getPath = function(field) {
     var path = ProvisionJsonFinderHelper.prototype.getPath.call(this, field);
     return path.replace('device.', 'asset.');
 };
-AssetProvisionJsonFinderHelper.prototype.getOriginalPath = function (field) {
+AssetProvisionJsonFinderHelper.prototype.getOriginalPath = function(field) {
     var path = ProvisionJsonFinderHelper.prototype.getOriginalPath.call(this, field);
     return path.replace('device.', 'asset.');
 };
@@ -11663,11 +11665,11 @@ function AssetProvisionJsonFinderHelper() {
 
 ////////////////////////////
 TicketProvisionJsonFinderHelper.prototype = new ProvisionJsonFinderHelper();
-TicketProvisionJsonFinderHelper.prototype.getPath = function (field) {
+TicketProvisionJsonFinderHelper.prototype.getPath = function(field) {
     var path = ProvisionJsonFinderHelper.prototype.getPath.call(this, field);
     return path.replace('device.', 'ticket.');
 };
-TicketProvisionJsonFinderHelper.prototype.getOriginalPath = function (field) {
+TicketProvisionJsonFinderHelper.prototype.getOriginalPath = function(field) {
     var path = ProvisionJsonFinderHelper.prototype.getOriginalPath.call(this, field);
     return path.replace('device.', 'ticket.');
 };
@@ -11705,12 +11707,12 @@ function TicketProvisionJsonFinderHelper() {
 ////////////////////////////
 HumanCollectedJsonFinderHelper.prototype = new AssetCollectedJsonFinderHelper();
 
-HumanCollectedJsonFinderHelper.prototype.getPath = function (field) {
+HumanCollectedJsonFinderHelper.prototype.getPath = function(field) {
     var path = AssetCollectedJsonFinderHelper.prototype.getPath.call(this, field);
     var result = path.replace('asset.', 'human.');
     return result.replace('device.', 'human.');
 };
-HumanCollectedJsonFinderHelper.prototype.getOriginalPath = function (field) {
+HumanCollectedJsonFinderHelper.prototype.getOriginalPath = function(field) {
     var path = AssetCollectedJsonFinderHelper.prototype.getOriginalPath.call(this, field);
     var result = path.replace('asset.', 'human.');
     return result.replace('device.', 'human.');
@@ -11730,12 +11732,12 @@ function HumanCollectedJsonFinderHelper() {
 
 HumanProvisionJsonFinderHelper.prototype = new AssetProvisionJsonFinderHelper();
 
-HumanProvisionJsonFinderHelper.prototype.getPath = function (field) {
+HumanProvisionJsonFinderHelper.prototype.getPath = function(field) {
     var path = AssetProvisionJsonFinderHelper.prototype.getPath.call(this, field);
     var result = path.replace('asset.', 'human.');
     return result.replace('device.', 'human.');
 };
-HumanProvisionJsonFinderHelper.prototype.getOriginalPath = function (field) {
+HumanProvisionJsonFinderHelper.prototype.getOriginalPath = function(field) {
     var path = AssetProvisionJsonFinderHelper.prototype.getOriginalPath.call(this, field);
     var result = path.replace('asset.', 'human.');
     return result.replace('device.', 'human.');

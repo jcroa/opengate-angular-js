@@ -151,8 +151,9 @@ angular.module('opengate-angular-js')
                     winTime.rawdate = false;
                 }
                 /* jshint ignore:end */
-                if (fire_event)
+                if (fire_event) {
                     $scope.$emit('onWindowTimeChanged', winTime);
+                }
             };
             $scope.oneDay = function(no_fire_event) {
                 $scope.oneDayClass = 'btn-success';
@@ -171,16 +172,22 @@ angular.module('opengate-angular-js')
             };
 
             $scope.applyCustom = function(no_fire_event) {
-                $scope.fromCalendarOpen = false;
-                $scope.toCalendarOpen = false;
+                if ($scope.fromCalendarOpen) {
+                    $scope.fromChange();
+                } else if ($scope.toCalendarOpen) {
+                    $scope.toChange()
+                } else {
+                    $scope.fromCalendarOpen = false;
+                    $scope.toCalendarOpen = false;
 
-                $scope.customClass = 'btn-success';
-                $scope.oneWeekClass = $scope.oneDayClass = $scope.oneMonthClass = 'btn-info';
-                $scope.apply({
-                    type: 'custom',
-                    to: $scope.date.to,
-                    from: $scope.date.from
-                }, !no_fire_event);
+                    $scope.customClass = 'btn-success';
+                    $scope.oneWeekClass = $scope.oneDayClass = $scope.oneMonthClass = 'btn-info';
+                    $scope.apply({
+                        type: 'custom',
+                        to: $scope.date.to,
+                        from: $scope.date.from
+                    }, !no_fire_event);
+                }
             };
 
             // Config custom window

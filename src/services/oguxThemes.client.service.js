@@ -282,6 +282,7 @@ angular.module('opengate-angular-js').service('$oguxThemes', [
             }
         };
 
+
         return {
             setThemeComposition: function(_themeComposition) {
                 themeComposition = _themeComposition;
@@ -327,6 +328,16 @@ angular.module('opengate-angular-js').service('$oguxThemes', [
             },
             getColorFromThemeComposition: function() {
                 return colorThemes[themeCompositionColor];
+            },
+            getColorsCombinationFromTheme: function() {
+                var scheme = new ColorScheme;
+                scheme.from_hex(colorThemes[themeCompositionColor].sample.substring(1));
+                scheme.scheme('analogic');
+                scheme.distance(1.0);
+                scheme.add_complement(true);
+                scheme.variation('light');
+
+                return scheme.colors();
             }
         };
     }

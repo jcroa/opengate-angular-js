@@ -808,6 +808,63 @@ angular.module('uxleaflet')
         return obj;
     };
 
+    _this.enableRightClickToZoom = function(map, scope) {
+        map.scrollWheelZoom.disable();
+
+        var timeoutMessage;
+
+        function hideMessage() {
+            scope.showClickMessage = false;
+            scope.$apply();
+        }
+
+        map.on('fullscreenchange', function(event) {
+            if (event.target._isFullscreen) {
+                map.scrollWheelZoom.enable();
+            } else {
+                map.scrollWheelZoom.disable();
+            }
+        });
+
+        map.on('contextmenu', function(event) {
+            scope.showClickMessage = false;
+            map.scrollWheelZoom.enable();
+        });
+        map.on('click', function(event) {
+            scope.showClickMessage = false;
+            map.scrollWheelZoom.enable();
+        });
+        // map.on('mouseup', function(event) {
+        //     map.scrollWheelZoom.disable();
+        // });
+        map.on('mouseout', function(event) {
+            map.scrollWheelZoom.disable();
+
+            if (timeoutMessage) clearTimeout(timeoutMessage);
+            timeoutMessage = setTimeout(hideMessage, 2000);
+        });
+        map.on('blur', function(event) {
+            map.scrollWheelZoom.disable();
+
+            if (timeoutMessage) clearTimeout(timeoutMessage);
+            timeoutMessage = setTimeout(hideMessage, 2000);
+        });
+        map.on('mousemove', function(event) {
+            if (!event.target._isFullscreen) {
+                if (!map.scrollWheelZoom._enabled) {
+                    scope.showClickMessage = true;
+
+                    if (timeoutMessage) clearTimeout(timeoutMessage);
+                    timeoutMessage = setTimeout(hideMessage, 2000);
+                }
+            } else {
+                if (!map.scrollWheelZoom._enabled) {
+                    map.scrollWheelZoom.enable();
+                }
+            }
+        });
+    }
+
     // v ---- ya existe en servicio geomUxService
     _this.circleToPolygon = geomUxService.circleToPolygon;
     _this.createVectorLayer = geomUxService.createVectorLayer;
@@ -11497,6 +11554,7 @@ angular.module('opengate-angular-js').service('$oguxThemes', [
             }
         };
 
+
         return {
             setThemeComposition: function(_themeComposition) {
                 themeComposition = _themeComposition;
@@ -11542,6 +11600,16 @@ angular.module('opengate-angular-js').service('$oguxThemes', [
             },
             getColorFromThemeComposition: function() {
                 return colorThemes[themeCompositionColor];
+            },
+            getColorsCombinationFromTheme: function() {
+                var scheme = new ColorScheme;
+                scheme.from_hex(colorThemes[themeCompositionColor].sample.substring(1));
+                scheme.scheme('analogic');
+                scheme.distance(1.0);
+                scheme.add_complement(true);
+                scheme.variation('light');
+
+                return scheme.colors();
             }
         };
     }

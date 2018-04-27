@@ -7,7 +7,7 @@ angular.module('opengate-angular-js').factory('Filter', ['$window', '$sce', '$q'
         //var customSelectors = [];
         var conditionSelectors = [];
         //var separators = [' ', '\n', '-', '!', '=', '~', '>', '<', '&', 'or', 'and', '(', ')', 'eq', 'neq', '==', 'like', 'gt', 'gte', 'lt', 'lte', '<=', '>='];
-        var separators = [' ', '\n', '-', '!', '=', '~', '>', '<', '&', 'or', 'and', ')', 'in', ',', 'neq', 'like'];
+        var separators = [' ', '\n', '!', '=', '~', '>', '<', '&', 'or', 'and', ')', 'in', ',', 'neq', 'like'];
 
         function suggest_field(term, customSelectors) {
             var results = [];
@@ -172,7 +172,13 @@ angular.module('opengate-angular-js').factory('Filter', ['$window', '$sce', '$q'
             if (parse_tree.type === 'BinaryExpression' && /\eq|\neq|\like|\gt|\lt|\gte|\lte|\=|\'<'|\'>'|\~|\!/.test(parse_tree.operator)) {
                 id = getId(parse_tree.left).split('.').reverse().join('.');
                 id = id.replace('.undefined', '[]');
-                value = parse_tree.right.name || parse_tree.right.value;
+                var right = parse_tree.right;
+                if (right.type === 'UnaryExpression' && right.prefix) {
+                    var ue = right.operator + right.argument.value;
+                    value = isNaN(ue) ? ue : (ue * 1);
+                } else {
+                    value = right.name || right.value;
+                }
                 op = getSimpleOperator(parse_tree.operator);
 
                 newFilter[op] = {};

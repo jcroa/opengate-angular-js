@@ -11,9 +11,9 @@
 
 angular.
 module('uxleaflet-directive', ['ui-leaflet']).
-directive('uxleaflet', ['$q', 'leafletData', 'leafletMapDefaults', 'leafletHelpers', 'leafletMapEvents', uxLeafletDirective]);
+directive('uxleaflet', ['$q', 'leafletData', 'leafletMapDefaults', UxLeafletDirective]);
 
-function uxLeafletDirective($q, leafletData, leafletMapDefaults, leafletHelpers, leafletMapEvents) {
+function UxLeafletDirective($q, leafletData, leafletMapDefaults) {
 
     // It uses  L.UxMap if exist, else L.Map
     var _MAP_CLASS = L.UxMap || L.Map;
@@ -53,10 +53,7 @@ function uxLeafletDirective($q, leafletData, leafletMapDefaults, leafletHelpers,
         }],
 
         link: function(scope, element, attrs, ctrl) {
-            var isDefined = leafletHelpers.isDefined;
             var defaults = leafletMapDefaults.setDefaults(scope.defaults, attrs.id);
-            var mapEvents = leafletMapEvents.getAvailableMapEvents();
-            var addEvents = leafletMapEvents.addEvents;
 
             var map; // create after check attributes
 
@@ -144,12 +141,6 @@ function uxLeafletDirective($q, leafletData, leafletMapDefaults, leafletHelpers,
                 map.zoomsliderControl.removeFrom(map);
             }
 
-            // if no event-broadcast attribute, all events are broadcasted
-            if (!isDefined(attrs.eventBroadcast)) {
-                var logic = 'broadcast';
-                addEvents(map, mapEvents, 'eventName', scope, logic);
-            }
-
             // Resolve the map object to the promises
             map.whenReady(function() {
                 leafletData.setMap(map, attrs.id);
@@ -169,4 +160,11 @@ function uxLeafletDirective($q, leafletData, leafletMapDefaults, leafletHelpers,
             });
         },
     };
+
+    // utils
+
+    function isDefined(v) {
+        return angular.isDefined(v) && v !== null;
+    }
+
 }

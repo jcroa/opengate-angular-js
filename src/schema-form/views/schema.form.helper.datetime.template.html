@@ -1,0 +1,6 @@
+<div ng-class="{'has-error': hasError(), 'has-success': hasSuccess(), 'has-feedback': form.feedback !== false }" class="form-group {{form.htmlClass}}">
+    <label ng-show="showTitle()">{{form.title}}</label>
+    <datetime-select id="{{form.id}}" name="{{form.name}}" ng-model="$$value$$" sf-changed="form" schema-validate="form" sf-field-model="replaceAll" ng-disabled="form.readonly" ng-required="false" placeholder="{{form.date.placeholder }}" mode="{{form.type}}"
+        format="{{form.date.format}}" ng-value="form.value" />
+    <div class="help-block" sf-message="form.description"></div>
+</div>

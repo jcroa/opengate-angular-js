@@ -17,7 +17,7 @@ angular.module('uxleaflet')
     l_localtiles: false,
     baseLayers: ['osm', 'dark2', 'ogWorld', 'googleTerrain', 'googleHybrid', 'googleRoadmap', 'googleSatellite'],
     baseLayerDefault: 'osm',
-    overlays: [],
+    overlays: {},
     mapOptions: {
         editPointSize: 10
     }
@@ -246,6 +246,18 @@ angular.module('uxleaflet')
         return allNgBaseLayers;
     };
 
+    _this.getBaseLayerConfigByName = function(name) {
+        var allConfigs = _this.getAllBaseLayerConfigs();
+        var curLayer = null;
+        angular.forEach(allConfigs, function(layer, key) {
+            if (!curLayer && layer.name === name) {
+                curLayer = layer;
+                curLayer.identifier = key;
+            }
+        });
+        return curLayer;
+    };
+
     /**
      * Create a JSON configuraton of basemaps for angular-leaflet-directive.
      * It may be assingned to 'options.layers.baselayers'
@@ -257,16 +269,47 @@ angular.module('uxleaflet')
         var baseDefault = uxOptions.baseLayerDefault || '';
         var allConfigs = this.getAllBaseLayerConfigs();
         var retConfigs = {};
+
         var failed = [];
-        for (var i = 0; i < mapBaseLayerConfig.length; i++) {
-            var config = mapBaseLayerConfig[i];
-            var key = (config instanceof Object) ? (config.id || 'layer_' + i) : config;
-            try {
-                retConfigs[key] = createNgLayerConfig(config, allConfigs, baseDefault);
-            } catch (err) {
-                failed.push(config);
+
+        if (baseDefault) {
+            for (var i = 0; i < mapBaseLayerConfig.length; i++) {
+                var config = mapBaseLayerConfig[i];
+                var key = (config instanceof Object) ? (config.id || 'layer_' + i) : config;
+                try {
+                    if (baseDefault === key) {
+                        retConfigs[key] = createNgLayerConfig(config, allConfigs, baseDefault);
+                    }
+                } catch (err) {
+                    failed.push(config);
+                }
             }
+
+            for (var i = 0; i < mapBaseLayerConfig.length; i++) {
+                var config = mapBaseLayerConfig[i];
+                var key = (config instanceof Object) ? (config.id || 'layer_' + i) : config;
+                try {
+                    if (baseDefault !== key) {
+                        retConfigs[key] = createNgLayerConfig(config, allConfigs, baseDefault);
+                    }
+                } catch (err) {
+                    failed.push(config);
+                }
+            }
+        } else {
+            for (var i = 0; i < mapBaseLayerConfig.length; i++) {
+                var config = mapBaseLayerConfig[i];
+                var key = (config instanceof Object) ? (config.id || 'layer_' + i) : config;
+                try {
+                    retConfigs[key] = createNgLayerConfig(config, allConfigs, baseDefault);
+                } catch (err) {
+                    failed.push(config);
+                }
+            }
+
         }
+
+
         // 
         if (failed.length > 0) {
             var sText = 'Not found basemaps: [' + failed.join(', ') +
@@ -350,7 +393,7 @@ angular.module('uxleaflet')
                     minimized: true,
                     width: 100,
                     height: 100,
-                    strings: { hideText: 'Hide Mini Map', showText: 'Show Mini Map' },
+                    strings: { hideText: 'Hide Mini Map asdfasdfasdf', showText: 'Show Mini Map' },
                 },
                 createControlInstance: function(opts) {
                     // minimap has a special constructor: (url, options)
@@ -736,6 +779,63 @@ angular.module('uxleaflet')
         }
         return obj;
     };
+
+    _this.enableRightClickToZoom = function(map, scope) {
+        map.scrollWheelZoom.disable();
+
+        var timeoutMessage;
+
+        function hideMessage() {
+            scope.showClickMessage = false;
+            scope.$apply();
+        }
+
+        map.on('fullscreenchange', function(event) {
+            if (event.target._isFullscreen) {
+                map.scrollWheelZoom.enable();
+            } else {
+                map.scrollWheelZoom.disable();
+            }
+        });
+
+        map.on('contextmenu', function(event) {
+            scope.showClickMessage = false;
+            map.scrollWheelZoom.enable();
+        });
+        map.on('click', function(event) {
+            scope.showClickMessage = false;
+            map.scrollWheelZoom.enable();
+        });
+        // map.on('mouseup', function(event) {
+        //     map.scrollWheelZoom.disable();
+        // });
+        map.on('mouseout', function(event) {
+            map.scrollWheelZoom.disable();
+
+            if (timeoutMessage) clearTimeout(timeoutMessage);
+            timeoutMessage = setTimeout(hideMessage, 2000);
+        });
+        map.on('blur', function(event) {
+            map.scrollWheelZoom.disable();
+
+            if (timeoutMessage) clearTimeout(timeoutMessage);
+            timeoutMessage = setTimeout(hideMessage, 2000);
+        });
+        map.on('mousemove', function(event) {
+            if (!event.target._isFullscreen) {
+                if (!map.scrollWheelZoom._enabled) {
+                    scope.showClickMessage = true;
+
+                    if (timeoutMessage) clearTimeout(timeoutMessage);
+                    timeoutMessage = setTimeout(hideMessage, 2000);
+                }
+            } else {
+                if (!map.scrollWheelZoom._enabled) {
+                    map.scrollWheelZoom.enable();
+                }
+            }
+        });
+    }
 
     // v ---- ya existe en servicio geomUxService
     _this.circleToPolygon = geomUxService.circleToPolygon;

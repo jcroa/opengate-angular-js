@@ -2,25 +2,44 @@ angular.module('opengate-angular-js').config(function(schemaFormProvider, schema
     'use strict';
     var helper = function(name, schema, options) {
         var f;
-        if (schema.type === 'string' && schema.format === 'helperdialog') {
+        if (schema.type === 'string' && (schema.format === 'helperdialog' || schema.format === 'date' || schema.format === 'time' || schema.format === 'datetime' || schema.format === 'date-time')) {
             f = schemaFormProvider.stdFormObj(name, schema, options);
             f.key = options.path;
-            //f.key = sfPathProvider.stringify(options.path);
-            f.type = 'helperdialog';
 
-            options.lookup[sfPathProvider.stringify(options.path)] = f;
-            return f;
+            if (schema.format === 'helperdialog') {
+                f.type = 'helperdialog';
+            } else if (schema.format === 'date') {
+                f.type = 'date';
+            } else if (schema.format === 'datetime' || schema.format === 'date-time') {
+                f.type = 'datetime';
+            } else if (schema.format === 'time') {
+                f.type = 'time';
+            }
+        } else if (schema.type === 'object' && (schema.format === 'date' || schema.format === 'time' || schema.format === 'datetime' || schema.format === 'date-time')) {
+            f = schemaFormProvider.stdFormObj(name, schema, options);
+            f.key = options.path;
+
+            if (schema.format === 'date') {
+                f.type = 'date';
+            } else if (schema.format === 'datetime' || schema.format === 'date-time') {
+                f.type = 'datetime';
+            } else if (schema.format === 'time') {
+                f.type = 'time';
+            }
         } else if (schema.type === 'boolean') {
             f = schemaFormProvider.stdFormObj(name, schema, options);
             f.key = options.path;
             f.type = 'boolean';
+        }
 
+        if (f) {
             options.lookup[sfPathProvider.stringify(options.path)] = f;
             return f;
         }
     };
 
     schemaFormProvider.defaults.string.unshift(helper);
+    schemaFormProvider.defaults.object.unshift(helper);
     schemaFormProvider.defaults.boolean.unshift(helper);
 
     // schemaFormProvider.defaults.radios.unshift(helper);
@@ -66,6 +85,37 @@ angular.module('opengate-angular-js').config(function(schemaFormProvider, schema
         'schema-form/views/schema.form.helper.radiosinline.template.html', // Template name in $templateCache
         sfBuilderProvider.stdBuilders // List of builder functions to apply.
     );
+
+    ///////////////////////////////////////////////////////////////
+    // todos los tipos para el selector de fechas
+    schemaFormDecoratorsProvider.defineAddOn(
+        'bootstrapDecorator', // Name of the decorator you want to add to.
+        'datetime', // Form type that should render this add-on
+        'schema-form/views/schema.form.helper.datetime.template.html', // Template name in $templateCache
+        sfBuilderProvider.stdBuilders // List of builder functions to apply.
+    );
+
+    schemaFormDecoratorsProvider.defineAddOn(
+        'bootstrapDecorator', // Name of the decorator you want to add to.
+        'date-time', // Form type that should render this add-on
+        'schema-form/views/schema.form.helper.datetime.template.html', // Template name in $templateCache
+        sfBuilderProvider.stdBuilders // List of builder functions to apply.
+    );
+
+    schemaFormDecoratorsProvider.defineAddOn(
+        'bootstrapDecorator', // Name of the decorator you want to add to.
+        'date', // Form type that should render this add-on
+        'schema-form/views/schema.form.helper.datetime.template.html', // Template name in $templateCache
+        sfBuilderProvider.stdBuilders // List of builder functions to apply.
+    );
+
+    schemaFormDecoratorsProvider.defineAddOn(
+        'bootstrapDecorator', // Name of the decorator you want to add to.
+        'time', // Form type that should render this add-on
+        'schema-form/views/schema.form.helper.datetime.template.html', // Template name in $templateCache
+        sfBuilderProvider.stdBuilders // List of builder functions to apply.
+    );
+    ///////////////////////////////////////////////////////////////
 
     var customUiSelect = function(name, schema, options) {
         if (schema.type === 'string' && schema.format === 'customuiselect') {

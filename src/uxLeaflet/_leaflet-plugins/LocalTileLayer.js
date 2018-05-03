@@ -123,7 +123,7 @@
     /**
      * return map view for most top level and center on bounding box tiles
      */
-    L.TileLayer.prototype.getHomeInfo = function () {
+    L.TileLayer.prototype.getHomeInfo = function() {
         if (this._isUsingLocalTiles) {
             return this._localTiles && this._localTiles.mapview || {};
         } else {
@@ -134,6 +134,10 @@
     var _tileLayerGetTileUrl = L.TileLayer.prototype.getTileUrl;
     L.TileLayer.prototype.getTileUrl = function(tilePoint) {
         if (!this._isUsingLocalTiles) {
+            if (!this._url) {
+                this._url = '//{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
+            }
+
             return _tileLayerGetTileUrl.apply(this, arguments);
         }
 
@@ -170,7 +174,7 @@
     function getJson(url, resolve, reject) {
         var xhr = new XMLHttpRequest();
         xhr.open('GET', url);
-        xhr.onload = function () {
+        xhr.onload = function() {
             if (xhr.status >= 200 && xhr.status < 300) {
                 var data = xhr.response;
                 if (data[0] === '{') {

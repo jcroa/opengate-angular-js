@@ -28,15 +28,17 @@ angular.module('opengate-angular-js')
                 date: {
                     show: true,
                     text: ' ',
-                    cls: 'btn-sm btn-primary bg-primary oux-button-margin fa fa-calendar'
+                    cls: 'btn-sm btn-info oux-button-margin fa fa-calendar'
                 },
                 time: {
                     show: true,
                     text: ' ',
-                    cls: 'btn-sm btn-primary bg-primary oux-button-margin fa fa-clock-o'
+                    cls: 'btn-sm btn-info oux-button-margin fa fa-clock-o'
                 },
                 close: {
-                    show: false
+                    show: true,
+                    text: ' ',
+                    cls: 'btn-sm btn-success oux-button-margin fa fa-check'
                 },
                 cancel: {
                     show: false
@@ -44,7 +46,7 @@ angular.module('opengate-angular-js')
             };
 
             function toLimit() {
-                return window.moment($scope.date.from).add(1, 'hours')._d;
+                return window.moment($scope.date.from).add(1, 'minutes')._d;
             }
 
             function fromLimit() {
@@ -69,7 +71,7 @@ angular.module('opengate-angular-js')
                         closed: $scope.toChange
                     },
                     timePicker: {
-                        min: $scope.toMin,
+                        //min: $scope.toMin,
                         showMeridian: false
                     }
                 }
@@ -79,7 +81,7 @@ angular.module('opengate-angular-js')
                 $scope.date.from = fromDate($scope.date.to);
 
                 $scope.toOptions.datePicker.minDate = toLimit();
-                $scope.toOptions.timePicker.min = toLimit();
+                //$scope.toOptions.timePicker.min = toLimit();
 
                 $scope.toMin = toLimit();
                 $scope.fromMax = fromLimit($scope.date.to);
@@ -93,7 +95,7 @@ angular.module('opengate-angular-js')
                         closed: $scope.fromChange
                     },
                     timePicker: {
-                        max: $scope.fromMax,
+                        //max: $scope.fromMax,
                         showMeridian: false
                     }
                 };
@@ -149,8 +151,9 @@ angular.module('opengate-angular-js')
                     winTime.rawdate = false;
                 }
                 /* jshint ignore:end */
-                if (fire_event)
+                if (fire_event) {
                     $scope.$emit('onWindowTimeChanged', winTime);
+                }
             };
             $scope.oneDay = function(no_fire_event) {
                 $scope.oneDayClass = 'btn-success';
@@ -169,16 +172,22 @@ angular.module('opengate-angular-js')
             };
 
             $scope.applyCustom = function(no_fire_event) {
-                $scope.fromCalendarOpen = false;
-                $scope.toCalendarOpen = false;
+                if ($scope.fromCalendarOpen) {
+                    $scope.fromChange();
+                } else if ($scope.toCalendarOpen) {
+                    $scope.toChange()
+                } else {
+                    $scope.fromCalendarOpen = false;
+                    $scope.toCalendarOpen = false;
 
-                $scope.customClass = 'btn-success';
-                $scope.oneWeekClass = $scope.oneDayClass = $scope.oneMonthClass = 'btn-info';
-                $scope.apply({
-                    type: 'custom',
-                    to: $scope.date.to,
-                    from: $scope.date.from
-                }, !no_fire_event);
+                    $scope.customClass = 'btn-success';
+                    $scope.oneWeekClass = $scope.oneDayClass = $scope.oneMonthClass = 'btn-info';
+                    $scope.apply({
+                        type: 'custom',
+                        to: $scope.date.to,
+                        from: $scope.date.from
+                    }, !no_fire_event);
+                }
             };
 
             // Config custom window
@@ -191,13 +200,13 @@ angular.module('opengate-angular-js')
                     validateCustomWindow();
                     $scope.fromMax = fromLimit($scope.date.to);
                     $scope.fromOptions.datePicker.maxDate = $scope.fromMax;
-                    $scope.fromOptions.timePicker.max = $scope.fromMax;
+                    //$scope.fromOptions.timePicker.max = $scope.fromMax;
                     $scope.toCalendarOpen = false;
                 };
                 $scope.fromChange = function() {
                     validateCustomWindow();
                     $scope.toOptions.datePicker.minDate = toLimit();
-                    $scope.toOptions.timePicker.min = toLimit();
+                    //$scope.toOptions.timePicker.min = toLimit();
 
                     $scope.toMin = toLimit();
                     $scope.fromCalendarOpen = false;

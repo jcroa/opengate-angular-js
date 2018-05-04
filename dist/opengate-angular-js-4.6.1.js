@@ -12174,7 +12174,7 @@ angular.module('opengate-angular-js').service('$faIcons', [
 // Filter service
 angular.module('opengate-angular-js').factory('Filter', ['$window', '$sce', '$q',
 
-    function ($window, $sce, $q) {
+    function($window, $sce, $q) {
         //var customSelectors = [];
         var conditionSelectors = [];
         //var separators = [' ', '\n', '-', '!', '=', '~', '>', '<', '&', 'or', 'and', '(', ')', 'eq', 'neq', '==', 'like', 'gt', 'gte', 'lt', 'lte', '<=', '>='];
@@ -12187,10 +12187,17 @@ angular.module('opengate-angular-js').factory('Filter', ['$window', '$sce', '$q'
             if (!term || term.trim().length === 0) {
                 for (i = 0; i < customSelectors.length && results.length < 8; i++) {
                     customSelector = customSelectors[i];
-                    results.push({
-                        label: $sce.trustAsHtml(highlight(customSelector, term)),
-                        value: customSelector
+
+                    var exists = results.find(function(data) {
+                        return data.value === customSelector;
                     });
+
+                    if (!exists) {
+                        results.push({
+                            label: $sce.trustAsHtml(highlight(customSelector, term)),
+                            value: customSelector
+                        });
+                    }
                 }
 
                 for (i = 0; i < conditionSelectors.length && results.length < 12; i++) {
@@ -12206,11 +12213,18 @@ angular.module('opengate-angular-js').factory('Filter', ['$window', '$sce', '$q'
                 // Find first 10 allSelectors that start with `term`.
                 for (i = 0; i < customSelectors.length && results.length < 8; i++) {
                     customSelector = customSelectors[i];
-                    if (customSelector.toLowerCase().indexOf(q) > -1)
-                        results.push({
-                            label: $sce.trustAsHtml(highlight(customSelector, term)),
-                            value: customSelector
+                    if (customSelector.toLowerCase().indexOf(q) > -1) {
+                        var exists = results.find(function(data) {
+                            return data.value === customSelector;
                         });
+
+                        if (!exists) {
+                            results.push({
+                                label: $sce.trustAsHtml(highlight(customSelector, term)),
+                                value: customSelector
+                            });
+                        }
+                    }
                 }
 
                 for (i = 0; i < conditionSelectors.length && results.length < 12; i++) {
@@ -12229,7 +12243,7 @@ angular.module('opengate-angular-js').factory('Filter', ['$window', '$sce', '$q'
 
         function suggest_field_delimited(term, target_element, query) {
             var deferred = $q.defer();
-            query.findFields(term).then(function (fields) {
+            query.findFields(term).then(function(fields) {
                 var values = fields;
                 var idx = -1;
 
@@ -12267,12 +12281,12 @@ angular.module('opengate-angular-js').factory('Filter', ['$window', '$sce', '$q'
                     suggestions = suggest_field();
                 }
 
-                suggestions.forEach(function (s) {
+                suggestions.forEach(function(s) {
                     s.value = s.value;
                 });
                 deferred.resolve(suggestions);
 
-            }).catch(function (err) {
+            }).catch(function(err) {
                 console.error(err);
                 deferred.reject(err);
             });
@@ -12421,12 +12435,12 @@ angular.module('opengate-angular-js').factory('Filter', ['$window', '$sce', '$q'
 
 
         return {
-            suggest_field_delimited: function (term, target_element, selectors) {
+            suggest_field_delimited: function(term, target_element, selectors) {
                 var customSelectors = selectors;
                 var result = suggest_field_delimited(term, target_element, selectors);
                 return result;
             },
-            parseQuery: function (values) {
+            parseQuery: function(values) {
                 var result = parseQuery(values);
                 return result;
             }

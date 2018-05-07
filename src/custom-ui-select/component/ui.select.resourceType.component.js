@@ -32,7 +32,7 @@ angular.module('opengate-angular-js').component('uiSelectResourceType', {
         onRemove: '&',
         resourceType: '=',
         multiple: '<',
-        isRequired: '='
+        required: '='
     }
 
 });

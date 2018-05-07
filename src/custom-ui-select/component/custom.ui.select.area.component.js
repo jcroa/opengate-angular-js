@@ -68,7 +68,7 @@ angular.module('opengate-angular-js').component('customUiSelectArea', {
         onRemove: '&',
         area: '=',
         multiple: '<',
-        isRequired: '=',
+        required: '=',
         organization: '<'
     }
 });

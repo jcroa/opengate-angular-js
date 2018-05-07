@@ -49,6 +49,6 @@ angular.module('opengate-angular-js').component('customUiSelectBundle', {
         onRemove: '&',
         bundle: '=',
         multiple: '<',
-        isRequired: '='
+        required: '='
     }
 });

@@ -1,8 +1,7 @@
 <div class="form-group no-margin" mass-autocomplete ng-if="$ctrl.multiple">
-    <label class="custom-ui-select-label" translate>FORM.LABEL.DATASTREAM_ID</label>
-    <ui-select custom-ui-select-config="$ctrl.ownConfig" name="datastream" ng-model="$ctrl.datastream"
-        theme="bootstrap" title="Choose a datastream" custom-ui-select multiple="true" custom-mass-autocomplete-item="$ctrl.ownConfig"
-        on-select="$ctrl.datastreamSelected($item, $model)" on-remove="$ctrl.datastreamRemove($item, $model)" ng-required="$ctrl.isRequired">
+    <label class="custom-ui-select-label">{{ 'FORM.LABEL.DATASTREAM_ID' | translate }} <field-options required="$ctrl.required" multiple="$ctrl.multiple" /></label>
+    <ui-select custom-ui-select-config="$ctrl.ownConfig" name="datastream" ng-model="$ctrl.datastream" theme="bootstrap" title="Choose a datastream" custom-ui-select multiple="true" custom-mass-autocomplete-item="$ctrl.ownConfig" on-select="$ctrl.datastreamSelected($item, $model)"
+        on-remove="$ctrl.datastreamRemove($item, $model)" ng-required="$ctrl.required">
         <ui-select-match placeholder="{{ 'FORM.PLACEHOLDER.DATASTREAM' | translate }}" allow-clear="true"> {{$item.identifier}} </ui-select-match>
         <ui-select-choices repeat="ds in $ctrl.ownConfig.collection | limitTo:$ctrl.maxResults track by $index">
             <div>
@@ -32,19 +31,18 @@
             </small>
         </ui-select-choices>
     </ui-select>
-    </div>
-    <div class="form-group no-margin" mass-autocomplete ng-if="!$ctrl.multiple">
-        <label class="custom-ui-select-label" translate>FORM.LABEL.DATASTREAM_ID</label>
-        <ui-select custom-ui-select-config="$ctrl.ownConfig" name="datastream" ng-model="$ctrl.datastream"
-            theme="bootstrap" title="Choose a datastream" custom-ui-select multiple="false" custom-mass-autocomplete-item="$ctrl.ownConfig"
-            on-select="$ctrl.datastreamSelected($item, $model)" on-remove="$ctrl.datastreamRemove($item, $model)" ng-required="$ctrl.isRequired">
-            <ui-select-match placeholder="{{ 'FORM.PLACEHOLDER.DATASTREAM' | translate }}" allow-clear="true"> {{$item.identifier}} </ui-select-match>
-            <ui-select-choices repeat="ds in $ctrl.ownConfig.collection | limitTo:$ctrl.maxResults track by $index">
-                <div>
-                    <span ng-bind-html="ds.identifier | highlight: $select.search"></span> -
-                    <span ng-bind-html="ds.name | highlight: $select.search"></span>
-                </div>
-                <small>
+</div>
+<div class="form-group no-margin" mass-autocomplete ng-if="!$ctrl.multiple">
+    <label class="custom-ui-select-label">{{'FORM.LABEL.DATASTREAM_ID' | translate}} <field-options required="$ctrl.required" multiple="$ctrl.multiple" /></label>
+    <ui-select custom-ui-select-config="$ctrl.ownConfig" name="datastream" ng-model="$ctrl.datastream" theme="bootstrap" title="Choose a datastream" custom-ui-select multiple="false" custom-mass-autocomplete-item="$ctrl.ownConfig" on-select="$ctrl.datastreamSelected($item, $model)"
+        on-remove="$ctrl.datastreamRemove($item, $model)" ng-required="$ctrl.required">
+        <ui-select-match placeholder="{{ 'FORM.PLACEHOLDER.DATASTREAM' | translate }}" allow-clear="true"> {{$item.identifier}} </ui-select-match>
+        <ui-select-choices repeat="ds in $ctrl.ownConfig.collection | limitTo:$ctrl.maxResults track by $index">
+            <div>
+                <span ng-bind-html="ds.identifier | highlight: $select.search"></span> -
+                <span ng-bind-html="ds.name | highlight: $select.search"></span>
+            </div>
+            <small>
                     <div ng-if="ds.category.name"> {{ 'FORM.LABEL.CATEGORY' | translate }}
                         <span ng-bind-html="ds.category.name | highlight: $select.search"></span>
                     </div>
@@ -65,6 +63,6 @@
                                             <span ng-bind-html="ds.datamodel.version | highlight: $select.search"></span>
                                         </div>
                 </small>
-            </ui-select-choices>
-        </ui-select>
-        </div>
+        </ui-select-choices>
+    </ui-select>
+</div>

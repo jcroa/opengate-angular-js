@@ -1,7 +1,7 @@
 <div class="form-group no-margin" mass-autocomplete ng-if="$ctrl.multiple">
-    <label class="custom-ui-select-label" translate>FORM.LABEL.BUNDLE</label>
+    <label class="custom-ui-select-label">{{ 'FORM.LABEL.BUNDLE' | translate }} <field-options required="$ctrl.required" multiple="$ctrl.multiple" /></label>
     <ui-select custom-ui-select-config="$ctrl.ownConfig" name="bundle" ng-model="$ctrl.bundle" theme="bootstrap" title="{{ 'FORM.PLACEHOLDER.BUNDLE_MULTI' | translate }}" custom-ui-select multiple="true" custom-mass-autocomplete-item="$ctrl.ownConfig" on-select="$ctrl.bundleSelected($item, $model)"
-        on-remove="$ctrl.bundleRemove($item, $model)" ng-required="$ctrl.isRequired">
+        on-remove="$ctrl.bundleRemove($item, $model)" ng-required="$ctrl.required">
         <ui-select-match placeholder="{{ 'FORM.PLACEHOLDER.BUNDLE_MULTI' | translate }}" allow-clear="true">
             {{$item.name}} (v{{$item.version}})
         </ui-select-match>
@@ -15,9 +15,9 @@
     </ui-select>
 </div>
 <div class="form-group no-margin" mass-autocomplete ng-if="!$ctrl.multiple">
-    <label class="custom-ui-select-label" translate>FORM.LABEL.BUNDLE</label>
+    <label class="custom-ui-select-label">{{ 'FORM.LABEL.BUNDLE' | translate }} <field-options required="$ctrl.required" multiple="$ctrl.multiple" /></label>
     <ui-select custom-ui-select-config="$ctrl.ownConfig" name="bundle" ng-model="$ctrl.bundle" theme="bootstrap" title="Choose an bundle" custom-ui-select multiple="false" custom-mass-autocomplete-item="$ctrl.ownConfig" on-select="$ctrl.bundleSelected($item, $model)"
-        on-remove="$ctrl.bundleRemove($item, $model)" ng-required="$ctrl.isRequired">
+        on-remove="$ctrl.bundleRemove($item, $model)" ng-required="$ctrl.required">
         <ui-select-match placeholder="{{ 'FORM.PLACEHOLDER.BUNDLE' | translate }}" allow-clear="true">
             {{$item.name}} (v{{$item.version}})
         </ui-select-match>

@@ -39,7 +39,7 @@ angular.module('opengate-angular-js').component('customUiSelectAsset', {
         onRemove: '&',
         asset: '=',
         multiple: '<',
-        isRequired: '='
+        required: '='
     }
 
 });

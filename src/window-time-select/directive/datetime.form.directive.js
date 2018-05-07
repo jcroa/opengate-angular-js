@@ -20,7 +20,7 @@ angular.module('opengate-angular-js')
                 $scope.inputMode = $scope.mode;
             }
 
-            $scope.isRequired = !$scope.ngRequired ? false : !!$scope.ngRequired;
+            $scope.required = !$scope.ngRequired ? false : !!$scope.ngRequired;
 
             $scope.calendarOpen = false;
             $scope.enableDate = !$scope.inputMode || $scope.inputMode === 'datetime' || $scope.inputMode === 'date';

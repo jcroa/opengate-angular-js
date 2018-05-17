@@ -111,8 +111,9 @@ angular.module('opengate-angular-js').component('customUiSelectDatastream', {
         datastream: '=',
         multiple: '<',
         maxResults: '<',
-        isRequired: '=',
+        required: '=',
         postFilter: '<',
-        resourceTypes: '<'
+        resourceTypes: '<',
+        placeholder: '='
     }
 });

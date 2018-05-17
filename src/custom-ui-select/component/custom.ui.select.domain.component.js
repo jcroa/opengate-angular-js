@@ -1,13 +1,13 @@
 'use strict';
 
 
-angular.module('opengate-angular-js').controller('customUiSelectDomainController', ['$scope', '$element', '$attrs', '$api', function ($scope, $element, $attrs, $api) {
+angular.module('opengate-angular-js').controller('customUiSelectDomainController', ['$scope', '$element', '$attrs', '$api', function($scope, $element, $attrs, $api) {
     var ctrl = this;
     ctrl.ownConfig = {
         builder: $api().domainsSearchBuilder(),
         rootKey: 'domains',
         collection: [],
-        filter: function (search) {
+        filter: function(search) {
             return {
                 'or': [{
                         'like': {
@@ -25,14 +25,14 @@ angular.module('opengate-angular-js').controller('customUiSelectDomainController
         customSelectors: $api().domainsSearchBuilder()
     };
 
-    ctrl.domainSelected = function ($item, $model) {
+    ctrl.domainSelected = function($item, $model) {
         var returnObj = {};
         returnObj.$item = $item;
         returnObj.$model = $model;
         ctrl.onSelectItem(returnObj);
     };
 
-    ctrl.domainRemove = function ($item, $model) {
+    ctrl.domainRemove = function($item, $model) {
         ctrl.onRemove($item, $model);
     };
 }]);
@@ -46,7 +46,8 @@ angular.module('opengate-angular-js').component('customUiSelectDomain', {
         onRemove: '&',
         domain: '=',
         multiple: '<',
-        isRequired: '='
+        required: '=',
+        label: '='
     }
 
 });

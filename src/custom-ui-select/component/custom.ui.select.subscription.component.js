@@ -19,15 +19,15 @@ angular.module('opengate-angular-js').controller('customUiSelectSubscriptionCont
                             filter,
                             {
                                 'or': [{
-                                    'eq': {
-                                        'device.communicationModules[].subscription.specificType': ctrl.specificType
+                                        'eq': {
+                                            'device.communicationModules[].subscription.specificType': ctrl.specificType
+                                        }
+                                    },
+                                    {
+                                        'eq': {
+                                            'provision.device.communicationModules[].subscription.specificType': ctrl.specificType
+                                        }
                                     }
-                                },
-                                {
-                                    'eq': {
-                                        'provision.device.communicationModules[].subscription.specificType': ctrl.specificType
-                                    }
-                                }
                                 ]
                             }
                         ]
@@ -65,7 +65,7 @@ angular.module('opengate-angular-js').component('customUiSelectSubscription', {
         entity: '=',
         specificType: '@',
         multiple: '<',
-        isRequired: '='
+        required: '='
     }
 
 });

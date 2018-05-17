@@ -42,7 +42,7 @@ angular.module('opengate-angular-js').component('customUiSelectTicket', {
         onRemove: '&',
         ticket: '=',
         multiple: '<',
-        isRequired: '='
+        required: '='
     }
 
 });

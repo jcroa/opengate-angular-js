@@ -362,11 +362,12 @@ angular.module('uxleaflet')
     /**
      * Return an array of instances of plugings configured as options parameters.
      * @param options
-     * @param searchCalls: placefinderCb, searchCb
+     * @param {JSON optional} : searchCalls {placefinderCb:fn, searchCb:fn}
      * @returns Array of leafletplugins 
      */
     _this.createCustomWidgets = function(options, searchCalls) {
         /* known plugins, constructor and default options for ux-map plugins  */
+        searchCalls = typeof searchCalls === 'object' ? searchCalls : {};
 
         /* jshint ignore:start */
         var knownPlugins = {

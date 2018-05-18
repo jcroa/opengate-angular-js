@@ -91,6 +91,7 @@ function CollectedJsonFinderHelper() {
             'commsModuleSpecificType': 'provision.device.communicationModules[].specificType',
             'commsModuleImei': 'provision.device.communicationModules[].mobile.imei',
             'imei': 'provision.device.communicationModules[].mobile.imei',
+            'pac': 'provision.device.communicationModules[].sigfox.pac',
 
             'subscriberIdentifier': 'device.communicationModules[].subscriber.identifier',
             'subscriberSerialNumber': 'device.communicationModules[].subscriber.serialNumber',

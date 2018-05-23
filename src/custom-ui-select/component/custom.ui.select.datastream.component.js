@@ -12,6 +12,12 @@ angular.module('opengate-angular-js').controller('customUiSelectDatastreamContro
             if (ctrl.resourceTypes && angular.isArray(ctrl.resourceTypes) && ctrl.resourceTypes.length > 0) {
                 finalFilter.and = [{ in: { 'datamodels.allowedResourceTypes': ctrl.resourceTypes } }];
             }
+            if (ctrl.organization && ctrl.organization.length > 0) {
+                if (!finalFilter.and) {
+                    finalFilter.and = [];
+                }
+                finalFilter.and.push({ 'eq': { 'datamodels.organizationName': ctrl.organization } });
+            }
 
             if (!search) {
                 return finalFilter;
@@ -113,7 +119,8 @@ angular.module('opengate-angular-js').component('customUiSelectDatastream', {
         maxResults: '<',
         required: '=',
         postFilter: '<',
-        resourceTypes: '<',
+        resourceTypes: '=',
+        organization: '=',
         placeholder: '='
     }
 });

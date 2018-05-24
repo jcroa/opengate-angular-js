@@ -35,6 +35,28 @@ angular.module('opengate-angular-js').controller('customUiSelectSubscriberContro
                         ]
                     };
                 }
+
+                if (ctrl.excludeDevices) {
+                    if (filter.and) {
+                        filter.and.push({
+                            'eq': {
+                                'resourceType': 'entity.subscriber'
+                            }
+                        });
+                    } else {
+                        filter = {
+                            'and': [
+                                filter,
+                                {
+                                    'eq': {
+                                        'resourceType': 'entity.subscriber'
+                                    }
+                                }
+                            ]
+                        };
+                    }
+                }
+
                 return filter;
             },
             rootKey: 'devices',
@@ -66,7 +88,8 @@ angular.module('opengate-angular-js').component('customUiSelectSubscriber', {
         entity: '=',
         specificType: '@',
         multiple: '<',
-        required: '='
+        required: '=',
+        excludeDevices: '='
     }
 
 });

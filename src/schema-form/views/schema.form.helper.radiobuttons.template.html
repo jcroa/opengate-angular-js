@@ -1,5 +1,5 @@
 <div class="{{form.schema?form.schema.htmlClass:''}}">
-    <div class="form-group">
+    <div class="form-group" ng-class="{'has-error': hasError(), 'has-success': hasSuccess(), 'has-feedback': form.feedback !== false }">
         <label for="$$value$$" ng-model="$$value$$">{{ form.title }}</label><br>
         <div class="btn-group">
             <label ng-repeat="data in form.titleMap  track by $index" class="btn btn-sm" ng-class="{ 'btn-primary': data.value === $$value$$, 'btn-default': data.value !== $$value$$ }" sf-field-model="replaceAll">

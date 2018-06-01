@@ -13,14 +13,20 @@ angular.module('opengate-angular-js').service('$ogapiErrorParser', ['jsonPath',
     function(jsonPath) {
         return {
             toString: function(error, errorSeparatorString) {
-                var errorMessage = '';
-                var errors = jsonPath(error, '$..message');
+                if (error.data && !angular.isString(error.data)) {
+                    var errorMessage = '';
+                    var errors = jsonPath(error, '$..message');
 
-                for (var i = 0; i < errors.length; i++) {
-                    errorMessage += errors[i] + (errorSeparatorString ? errorSeparatorString : '\n');
+                    for (var i = 0; i < errors.length; i++) {
+                        errorMessage += errors[i] + (errorSeparatorString ? errorSeparatorString : '\n');
+                    }
+
+                    return errorMessage;
+                } else if (error.data && angular.isString(error.data)) {
+                    return error.data;
+                } else {
+                    return error;
                 }
-
-                return errorMessage;
             },
             toStringArray: function(error) {
                 var errorMessage = jsonPath(error, '$..message');

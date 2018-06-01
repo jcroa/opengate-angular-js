@@ -55,6 +55,9 @@ _wizard.controller('helperDialogController', ['$scope', '$element', '$attrs', '$
                 specific_type: function() {
                     return $helper.specificType;
                 },
+                exclude_devices: function() {
+                    return $helper.excludeDevices === 'true';
+                },
                 helper_extra: function() {
                     return $helper.helperExtra;
                 },
@@ -92,8 +95,8 @@ _wizard.controller('helperDialogController', ['$scope', '$element', '$attrs', '$
     };
 }]);
 
-_wizard.controller('helperDialogModalController', ['$scope', '$uibModalInstance', 'helper_id', 'helper_exclusive', 'specific_type', 'helper_extra', 'helper_selected', 'Upload', 'mapUxService',
-    function($scope, $uibModalInstance, helper_id, helper_exclusive, specific_type, helper_extra, helper_selected, Upload, mapUxService) {
+_wizard.controller('helperDialogModalController', ['$scope', '$uibModalInstance', 'helper_id', 'helper_exclusive', 'specific_type', 'exclude_devices', 'helper_extra', 'helper_selected', 'Upload', 'mapUxService',
+    function($scope, $uibModalInstance, helper_id, helper_exclusive, specific_type, exclude_devices, helper_extra, helper_selected, Upload, mapUxService) {
         var $ctrl = this;
         $ctrl.helper_extra = helper_extra;
 
@@ -109,6 +112,8 @@ _wizard.controller('helperDialogModalController', ['$scope', '$uibModalInstance'
         }
         $ctrl.helper_keys = {};
         $ctrl.specific_type = specific_type;
+        $ctrl.exclude_devices = exclude_devices;
+
         var events = [];
 
         var ngOptions = mapUxService.getDefaultOptions();
@@ -467,6 +472,7 @@ _wizard.component('helperDialog', {
         onCopy: '&',
         helperId: '@',
         specificType: '@',
+        excludeDevices: '@',
         helperButton: '@',
         helperTitle: '@',
         helperExclusive: '@',

@@ -113,7 +113,8 @@ function CollectedJsonFinderHelper() {
             'subscriptionHomeOperator': 'device.communicationModules[].subscription.mobile.homeOperator',
             'homeOperator': 'device.communicationModules[].subscription.mobile.homeOperator',
             'subscriptionRegisteredOperator': 'device.communicationModules[].subscription.mobile.registeredOperator',
-            'registereOperator': 'device.communicationModules[].subscription.mobile.registeredOperator'
+            'registereOperator': 'device.communicationModules[].subscription.mobile.registeredOperator',
+            'sigfoxDeviceType': 'device.communicationModules[].subscription.sigfox.deviceType'
         },
         writable: false
     });

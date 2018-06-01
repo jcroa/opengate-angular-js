@@ -19,6 +19,14 @@ angular.module('opengate-angular-js').controller('customUiSelectProvisionDatastr
                         }
                     });
                 }
+
+                if (ctrl.organization && ctrl.organization.length > 0) {
+                    if (!filter.and) {
+                        filter.and = [];
+                    }
+                    filter.and.push({ 'eq': { 'datamodels.organizationName': ctrl.organization } });
+                }
+
                 if (search) {
                     var orFilter = {
                         or: [{
@@ -105,6 +113,7 @@ angular.module('opengate-angular-js').component('customUiSelectProvisionDatastre
         datastream: '=',
         multiple: '<',
         required: '=',
+        organization: '=',
         allowedResourceTypes: '='
     }
 

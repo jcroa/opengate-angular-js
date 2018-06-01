@@ -103,7 +103,11 @@ angular.module('opengate-angular-js')
 
             $scope.$watch('rawdata', function(newValue) {
                 if (newValue) {
-                    $scope.ngModel = uibDateParser.filter(newValue, $scope.outputFormat);
+                    if ($scope.outputFormat !== 'yyyy-MM-ddTHH:mm:ss.sssZ') {
+                        $scope.ngModel = uibDateParser.filter(newValue, $scope.outputFormat);
+                    } else {
+                        $scope.ngModel = newValue.toISOString();
+                    }
                 } else {
                     $scope.ngModel = undefined;
                 }

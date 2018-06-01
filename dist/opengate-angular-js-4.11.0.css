@@ -1,3 +1,6 @@
+.input-group span.ui-select-toggle {
+    display: inline-block !important;
+}
 /* esri-leaflet-geocoder */
 .geocoder-control-input{
     position:absolute;left:0;top:0;

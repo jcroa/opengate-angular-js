@@ -2,6 +2,8 @@
  * [uxleaflet/client] 
  * https://github.com/ardhi/Leaflet.ZoomWheelToggle
  * File: l-zoomwheeltoggle.js 
+ * 
+ * NO añadir todavía a Options activado por defecto. HMI usa leaflet y aparecería el mensaje
  */
 
 (function() {
@@ -32,7 +34,19 @@
         },
 
         removeFrom: function(map) {
-            this._map._container.removeChild(this._container);
+            if (map && map !== this._map) {
+                throw new Error("Invalid map for removing from: ", map);
+            }
+            this._setMouseWheelEnabled(true);
+            // removing from current map.
+            map = this._map;
+            map._container.removeChild(this._container);
+            map.off('fullscreenchange', this._onFullScreenChanged, this);
+            map.off('contextmenu', this._onMouseWheelEnabling, this);
+            map.off('click', this._onMouseWheelEnabling, this);
+            map.off('mouseout', this._onMouseWheelDisabling, this);
+            map.off('mousemove', this._onMouseMoving, this);
+            this._map = null;
         },
 
         _isBodyScrollVisible: function() {
@@ -46,37 +60,18 @@
         _timeout: null,
 
         _suscribeEvents: function(map) {
+
             if (this._isBodyScrollVisible()) {
                 map.scrollWheelZoom.disable();
                 this._setTextVisible(false);
             }
             var _this = this;
 
-            map.on('fullscreenchange', function(event) {
-                var enable = event.target._isFullscreen;
-                _this._setMouseWheelEnabled(enable, true);
-            });
-
-            map.on('contextmenu', function(event) {
-                _this._setMouseWheelEnabled(true);
-            });
-            map.on('click', function(event) {
-                _this._setMouseWheelEnabled(true);
-            });
-
-            map.on('mouseout', function(event) {
-                _this._setMouseWheelEnabled(false, true);
-            });
-            map.on('blur', function(event) {
-                // _this._setMouseWheelEnabled(false);
-            });
-            map.on('mousemove', function(event) {
-                if (!event.target._isFullscreen) {
-                    if (!map.scrollWheelZoom._enabled) {
-                        _this._setTextVisible(true);
-                    }
-                }
-            });
+            map.on('fullscreenchange', this._onFullScreenChanged, this);
+            map.on('contextmenu', this._onMouseWheelEnabling, this);
+            map.on('click', this._onMouseWheelEnabling, this);
+            map.on('mouseout', this._onMouseWheelDisabling, this);
+            map.on('mousemove', this._onMouseMoving, this);
         },
 
         _setMouseWheelEnabled: function(v, preCondition) {
@@ -112,6 +107,27 @@
             }, millis || 0);
         },
 
+        _onFullScreenChanged: function(event) {
+            var enable = event.target._isFullscreen;
+            this._setMouseWheelEnabled(enable, true);
+        },
+
+        _onMouseWheelEnabling: function(event) {
+            this._setMouseWheelEnabled(true);
+        },
+
+        _onMouseWheelDisabling: function(event) {
+            this._setMouseWheelEnabled(false, true);
+        },
+
+        _onMouseMoving: function(event) {
+            if (!event.target._isFullscreen && this._map) {
+                if (!this._map.scrollWheelZoom._enabled) {
+                    this._setTextVisible(true);
+                }
+            }
+        },
+
         _windowResized: function(evt) {
             // TODO - detectar si hay scroll para evitar desactivar zoom-wheel
             if ($("body").height() > $(window).height()) {}
@@ -131,8 +147,21 @@
 
     });
 
+    /**
+     * Opciones por defecto de L.Map: zoomWheelToggle activado
+     */
     L.Map.mergeOptions({
-        zoomWheelToggle: false
+        // habilitado por defecto
+        zoomWheelToggle: { text: 'clic into map for enable zoom-wheel' }
+        // deshabililtado por defecto
+        //zoomWheelToggle: false
+    });
+
+    /** Importante. Deshabilitado por defecto en el MiniMap, si estuviera
+     * activado por defecto en L.Map
+     */
+    L.Control.MiniMap.mergeOptions({
+        mapOptions: { zoomWheelToggle: false }
     });
 
     L.Map.addInitHook(function() {
@@ -144,9 +173,32 @@
         }
     });
 
+    /** Enable plugin for enable/disable wheel zoom.
+     * @param { string | JSON } if string then text of message will be replaced
+     * whit this text
+     */
     L.Map.prototype.enableWheelZoomToggle = function(options) {
-        this.zoomWheelToggleControl = new L.Control.ZoomWheelToggle(options);
-        this.addControl(this.zoomWheelToggleControl);
+        if (typeof options === 'string') {
+            // default propery is text
+            options = { text: options };
+        }
+        if (!this.zoomWheelToggleControl) {
+            this.zoomWheelToggleControl = new L.Control.ZoomWheelToggle(options);
+            this.addControl(this.zoomWheelToggleControl);
+        } else {
+            this.zoomWheelToggleControl.setOptions(options);
+        }
+    };
+
+    /**
+     * Diaslbe plugin for enable/disable wheel zoom.
+     */
+    L.Map.prototype.disableWheelZoomToggle = function(options) {
+        if (this.zoomWheelToggleControl) {
+            // removeFrom is overriden. No need map parameter
+            this.zoomWheelToggleControl.removeFrom();
+            this.zoomWheelToggleControl = null;
+        }
     };
 
     L.control.zoomWheelToggle = function(options) {

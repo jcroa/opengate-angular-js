@@ -1097,50 +1097,51 @@ L.Marker.include({
 
 });
 
-var MultiEditableMixin = {
+if (L.version.startsWith('0.7')) {
+    var MultiEditableMixin = {
 
-    enableEdit: function() {
-        this.eachLayer(function(layer) {
-            layer.multi = this;
-            layer.enableEdit();
-        }, this);
-    },
+        enableEdit: function() {
+            this.eachLayer(function(layer) {
+                layer.multi = this;
+                layer.enableEdit();
+            }, this);
+        },
 
-    disableEdit: function() {
-        this.eachLayer(function(layer) {
-            layer.disableEdit();
-        });
-    },
+        disableEdit: function() {
+            this.eachLayer(function(layer) {
+                layer.disableEdit();
+            });
+        },
 
-    toggleEdit: function(e) {
-        if (!e.layer.editor) {
-            this.enableEdit(e);
-        } else {
-            this.disableEdit();
+        toggleEdit: function(e) {
+            if (!e.layer.editor) {
+                this.enableEdit(e);
+            } else {
+                this.disableEdit();
+            }
+        },
+
+        onEditEnabled: function() {
+            if (!this._editEnabled) {
+                this._editEnabled = true;
+                this.fire('editable:multi:edit:enabled');
+            }
+        },
+
+        onEditDisabled: function() {
+            if (this._editEnabled) {
+                this._editEnabled = false;
+                this.fire('editable:multi:edit:disabled');
+            }
+        },
+
+        editEnabled: function() {
+            return !!this._editEnabled;
         }
-    },
 
-    onEditEnabled: function() {
-        if (!this._editEnabled) {
-            this._editEnabled = true;
-            this.fire('editable:multi:edit:enabled');
-        }
-    },
-
-    onEditDisabled: function() {
-        if (this._editEnabled) {
-            this._editEnabled = false;
-            this.fire('editable:multi:edit:disabled');
-        }
-    },
-
-    editEnabled: function() {
-        return !!this._editEnabled;
-    }
-
-};
-L.MultiPolygon.include(MultiEditableMixin);
-L.MultiPolyline.include(MultiEditableMixin);
-
+    };
+    L.MultiPolygon.include(MultiEditableMixin);
+    L.MultiPolyline.include(MultiEditableMixin);
+}
 
 /// end extensions and enhacement for leaflet 0.7

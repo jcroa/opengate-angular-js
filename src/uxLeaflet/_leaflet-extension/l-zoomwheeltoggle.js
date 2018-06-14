@@ -9,11 +9,18 @@
 (function() {
     'use strict';
 
+    var BOX_Z_INDEX = 800; // greate than other main divs in leaflet container.
+
     L.Control.ZoomWheelToggle = L.Control.extend({
         options: {
             position: 'topleft',
             text: 'Click to enable zoom with mouse wheel',
             detectBodyScroll: true
+        },
+
+        setOptions: function(options) {
+            L.setOptions(this, options);
+            this._refreshText();
         },
 
         onAdd: function(map) {
@@ -44,7 +51,7 @@
             map.off('fullscreenchange', this._onFullScreenChanged, this);
             map.off('contextmenu', this._onMouseWheelEnabling, this);
             map.off('click', this._onMouseWheelEnabling, this);
-            map.off('mouseout', this._onMouseWheelDisabling, this);
+            map.off('mouseout', this._onMouseOut, this);
             map.off('mousemove', this._onMouseMoving, this);
             this._map = null;
         },
@@ -67,10 +74,11 @@
             }
             var _this = this;
 
+            // FIXME - corregir 
             map.on('fullscreenchange', this._onFullScreenChanged, this);
             map.on('contextmenu', this._onMouseWheelEnabling, this);
             map.on('click', this._onMouseWheelEnabling, this);
-            map.on('mouseout', this._onMouseWheelDisabling, this);
+            map.on('mouseout', this._onMouseOut, this);
             map.on('mousemove', this._onMouseMoving, this);
         },
 
@@ -107,6 +115,11 @@
             }, millis || 0);
         },
 
+        _onMouseEnter: function() {
+            // false, only if scrollbar exists
+            this._setMouseWheelEnabled(false, true);
+        },
+
         _onFullScreenChanged: function(event) {
             var enable = event.target._isFullscreen;
             this._setMouseWheelEnabled(enable, true);
@@ -116,21 +129,21 @@
             this._setMouseWheelEnabled(true);
         },
 
-        _onMouseWheelDisabling: function(event) {
+        _onMouseOut: function(event) {
+            this._isOutside = false;
             this._setMouseWheelEnabled(false, true);
         },
 
         _onMouseMoving: function(event) {
+            if (!this._isOutside) {
+                this._onMouseEnter(event);
+            }
+            this._isOutside = true;
             if (!event.target._isFullscreen && this._map) {
                 if (!this._map.scrollWheelZoom._enabled) {
                     this._setTextVisible(true);
                 }
             }
-        },
-
-        _windowResized: function(evt) {
-            // TODO - detectar si hay scroll para evitar desactivar zoom-wheel
-            if ($("body").height() > $(window).height()) {}
         },
 
         onRemove: function(map) {
@@ -208,6 +221,7 @@
     var styleElem = document.createElement('style');
     styleElem.type = 'text/css';
 
+    /* leaflet 1.x requires z-index greater than 400 */
     styleElem.innerHTML = ' \n ' +
         '.leaflet-control-zoomwheeltoggle {  \n ' +
         '    position: absolute;  \n ' +
@@ -215,7 +229,7 @@
         '    pointer-events: none;  \n ' +
         '    width: 98%;  \n ' +
         '    opacity: .5;  \n ' +
-        '    z-index: 1;  \n ' +
+        '    z-index: ' + BOX_Z_INDEX + '; \n ' +
         '    transition: 1s;  \n ' +
         '    padding-top: 30px;  \n ' +
         ' } \n ' +

@@ -15,7 +15,7 @@ angular.module('uxleaflet')
     l_scale: false, //{ position: 'bottomleft', numDigits: 4 },
     l_magnifying: { scale: 3, radius: 180 },
     l_localtiles: false,
-    // l_mousewheeltoggle: 'clic to zoom with mouse wheel'  // no activar todavía. HMI lo usaría por defecto.
+    l_mousewheeltoggle: 'clic to zoom with mouse wheel', // no activar todavía. HMI lo usaría por defecto.
     baseLayers: ['osm', 'dark2', 'ogWorld', 'googleTerrain', 'googleHybrid', 'googleRoadmap', 'googleSatellite'],
     baseLayerDefault: 'osm',
     overlays: {},

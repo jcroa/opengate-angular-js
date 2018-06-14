@@ -21,9 +21,11 @@ angular.module('uxleaflet').service('mapExtraApiService',
         // TODO - extraer API-KEY y resto de parámetros
         // solo asignable una vez
         var EXT_APIS = {
-            /** Api de Google, incluyendo drawing and places  AIzaSyCaoa14apu4sn1ubM3karbgt8A8V-E7J3s */
+            /** Api de Google, incluyendo drawing and places
+             *  jc: AIzaSyCaoa14apu4sn1ubM3karbgt8A8V-E7J3s 
+             *  amplia:  AIzaSyARgQHYrwsifIJsATWrWB5iySZ_ucyQJjI*/
             google: {
-                apikey: null, // 'AIzaSyCaoa14apu4sn1ubM3karbgt8A8V-E7J3s',
+                apikey: 'AIzaSyARgQHYrwsifIJsATWrWB5iySZ_ucyQJjI', // default google apiley
                 isApikeyRequired: true,
                 options: { libraries: 'drawing,places' },
                 getUrl: function() {

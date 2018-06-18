@@ -1,10 +1,11 @@
 'use strict';
 
 
-angular.module('opengate-angular-js').controller('customUiSelectDatastreamController', ['$scope', '$element', '$attrs', '$api', '$q', function($scope, $element, $attrs, $api, $q) {
+angular.module('opengate-angular-js').controller('customUiSelectDatastreamController', ['$api', '$q', 'Authentication', function($api, $q, Authentication) {
     var ctrl = this;
     ctrl.ownConfig = {
         builder: $api().datamodelsSearchBuilder(),
+        limit: 5,
         filter: function(search) {
             ctrl.lastSearch = search;
 
@@ -20,6 +21,13 @@ angular.module('opengate-angular-js').controller('customUiSelectDatastreamContro
             }
 
             if (!search) {
+                if (Authentication && Authentication.user && Authentication.user.domain && (!ctrl.organization || ctrl.organization.length <= 0)) {
+                    if (!finalFilter.and) {
+                        finalFilter.and = [];
+                    }
+
+                    finalFilter.and.push({ 'eq': { 'datamodels.organizationName': Authentication.user.domain } });
+                }
                 return finalFilter;
             } else {
                 var quickSearchFilter = {

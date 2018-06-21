@@ -2467,7 +2467,7 @@ angular.module('opengate-angular-js')
                 } else {
                     $scope.ngModel = undefined;
                 }
-                $scope.ngValue = newValue;
+                //$scope.ngValue = newValue;
             });
 
             // Config custom window

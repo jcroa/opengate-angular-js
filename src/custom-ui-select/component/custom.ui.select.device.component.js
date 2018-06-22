@@ -40,7 +40,8 @@ angular.module('opengate-angular-js').component('customUiSelectDevice', {
         onRemove: '&',
         device: '=',
         multiple: '<',
-        required: '='
+        required: '=',
+        label: '='
     }
 
 });

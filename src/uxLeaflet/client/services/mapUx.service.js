@@ -55,22 +55,34 @@ angular.module('uxleaflet')
     googleTerrain: {
         name: 'Google Terrain',
         layerType: 'TERRAIN',
-        type: 'google'
+        type: 'google',
+        layerParams: {
+            maxZoom: 20
+        }
     },
     googleHybrid: {
         name: 'Google Hybrid',
         layerType: 'HYBRID',
-        type: 'google'
+        type: 'google',
+        layerParams: {
+            maxZoom: 20
+        }
     },
     googleRoadmap: {
         name: 'Google Streets',
         layerType: 'ROADMAP',
-        type: 'google'
+        type: 'google',
+        layerParams: {
+            maxZoom: 20
+        }
     },
     googleSatellite: {
         name: 'Google Satellite',
         layerType: 'SATELLITE',
-        type: 'google'
+        type: 'google',
+        layerParams: {
+            maxZoom: 20
+        }
     }
     // google: {
     //     name: 'Google Maps',

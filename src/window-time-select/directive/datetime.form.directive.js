@@ -11,7 +11,12 @@ angular.module('opengate-angular-js')
             ngRequired: '=',
             placeholder: '@',
             format: '@',
-            mode: '@'
+            mode: '@',
+            ngChange: '<',
+            dateOptions: '=',
+            timeOptions: '=',
+            min: '=',
+            max: '='
         },
         controller: function($scope, $element, $attrs, $translate, uibDateParser) {
             if (!$scope.mode || $scope.mode === 'date-time') {
@@ -59,7 +64,9 @@ angular.module('opengate-angular-js')
                     show: false
                 },
                 today: {
-                    show: false
+                    show: true,
+                    text: ' ',
+                    cls: 'btn-sm btn-info oux-button-margin fa fa-calendar-o'
                 },
                 clear: {
                     show: true,
@@ -97,21 +104,75 @@ angular.module('opengate-angular-js')
                 }
             };
 
+            if ($scope.dateOptions) {
+                angular.merge($scope.pickerOptions.datePicker, $scope.dateOptions);
+            }
+
+            if ($scope.timeOptions) {
+                angular.merge($scope.pickerOptions.timePicker, $scope.timeOptions);
+            }
+
             $scope.openCalendar = function() {
                 $scope.calendarOpen = true;
             };
 
-            $scope.$watch('rawdata', function(newValue) {
+            //$scope.$watch('rawdata', function(newValue) {
+            $scope.changedRawdata = function() {
+                var newValue = $scope.rawdata;
                 if (newValue) {
-                    if ($scope.outputFormat !== 'yyyy-MM-ddTHH:mm:ss.sssZ') {
-                        $scope.ngModel = uibDateParser.filter(newValue, $scope.outputFormat);
+                    if (($scope.min && (newValue < $scope.min || newValue < uibDateParser.parse($scope.min, $scope.outputFormat))) ||
+                        ($scope.max && (newValue > $scope.max || newValue > uibDateParser.parse($scope.max, $scope.outputFormat)))) {
+                        $scope.rawdata = undefined;
+
+                        if ($scope.ngModel) {
+                            $scope.ngModel = undefined;
+                            if ($scope.ngChange) {
+                                $scope.ngChange($scope.ngModel);
+                            }
+                        }
                     } else {
-                        $scope.ngModel = newValue.toISOString();
+                        var parsedNewValue;
+                        if ($scope.outputFormat !== 'yyyy-MM-ddTHH:mm:ss.sssZ') {
+                            parsedNewValue = uibDateParser.filter(newValue, $scope.outputFormat);
+                        } else {
+                            parsedNewValue = newValue.toISOString();
+                        }
+
+                        if (parsedNewValue !== $scope.ngModel) {
+                            $scope.ngModel = parsedNewValue;
+                            if ($scope.ngChange) {
+                                $scope.ngChange($scope.ngModel);
+                            }
+                        }
                     }
+
                 } else {
-                    $scope.ngModel = undefined;
+                    $scope.rawdata = undefined;
+
+                    if ($scope.ngModel) {
+                        $scope.ngModel = undefined;
+                        if ($scope.ngChange) {
+                            $scope.ngChange($scope.ngModel);
+                        }
+                    }
+
                 }
                 //$scope.ngValue = newValue;
+            };
+
+            $scope.$watch('ngModel', function(newValue) {
+                if (newValue) {
+                    if (uibDateParser.parse(newValue, $scope.outputFormat)) {
+                        $scope.rawdata = uibDateParser.parse(newValue, $scope.outputFormat);
+                    } else {
+                        $scope.rawdata = new Date(newValue);
+                    }
+                } else
+                    $scope.rawdata = undefined;
+
+                if ($scope.ngChange) {
+                    $scope.ngChange($scope.ngModel);
+                }
             });
 
             // Config custom window

@@ -25,7 +25,7 @@ $templateCache.put("schema-form/views/schema.form.helper.radiobuttons.template.h
 $templateCache.put("schema-form/views/schema.form.helper.radios.template.html","<div class=\"{{form.schema?form.schema.htmlClass:\'\'}}\"><div class=form-group ng-class=\"{\'has-error\': hasError(), \'has-success\': hasSuccess(), \'has-feedback\': form.feedback !== false }\"><label for={{$$value$$}} ng-model=$$value$$>{{ form.title }}</label><br><div class=\"radio radio-primary\" ng-if=form.titleMap ng-repeat=\"data in form.titleMap track by $index\"><label><input type=radio id=$$value$$ name=$$value$$ ng-model=$$value$$ sf-field-model=replaceAll value={{data.value}} sf-changed=form ng-disabled=form.readonly schema-validate=form ng-model-options=form.ngModelOptions> <span class=circle></span> <span class=check></span><p ng-bind-html=data.name class=text-left></p></label></div><div ng-if=form.description class=help-inline ng-bind-html=form.description></div></div></div>");
 $templateCache.put("schema-form/views/schema.form.helper.radiosinline.template.html","<div class=\"{{form.schema?form.schema.htmlClass:\'\'}}\"><div class=form-group ng-class=\"{\'has-error\': hasError(), \'has-success\': hasSuccess(), \'has-feedback\': form.feedback !== false }\"><label for={{$$value$$}} ng-model=$$value$$ sf-field-model=replaceAll>{{ form.title }}</label><br><div class=\"radio radio-primary\" ng-if=form.titleMap ng-repeat=\"data in form.titleMap track by $index\" style=\"display: inline;\"><label><input type=radio id=\"{{$$value$$ + \'_\' + $index}}\" name={{$$value$$}} ng-model=$$value$$ sf-field-model=replaceAll value={{data.value}} sf-changed=form ng-disabled=form.readonly schema-validate=form ng-model-options=form.ngModelOptions> <span class=circle></span> <span class=check></span><p ng-bind-html=data.name class=text-left></p></label></div><div ng-if=form.description class=help-inline ng-bind-html=form.description></div></div></div>");
 $templateCache.put("schema-form/views/schema.form.helper.template.html","<div class=\"{{form.schema?form.schema.htmlClass:\'\'}}\"><div class=form-group ng-class=\"{\'has-error\': hasError(), \'has-success\': hasSuccess(), \'has-feedback\': form.feedback !== false }\"><helper-dialog helper-id={{form.helperid}} helper-exclusive={{form.exclusive}}><helper-ui-select id={{form.id}} name={{form.name}} label-text={{form.title}} helper-model=$$value$$ sf-field-model=replaceAll label-error={{form.labelerror}}><helper-ui-select-input><label for={{form.name}}>{{form.title}}</label> <input class=form-control name={{form.name}} type=text id={{form.id}} ng-model=$$value$$ sf-field-model=replaceAll></helper-ui-select-input></helper-ui-select></helper-dialog></div></div>");
-$templateCache.put("window-time-select/views/datetime.select.view.html","<p class=\"datetime-container input-group form-group no-margin\"><input readonly type=text class=\"form-control text-left no-margin\" ng-model=rawdata ng-required=required ng-disabled=ngDisabled button-bar=customButtonBar ng-click=openCalendar() datetime-picker={{visibleFormat}} is-open=calendarOpen datepicker-options=pickerOptions.datePicker timepicker-options=pickerOptions.timePicker popup-placement=\"auto top-right\" enable-date=enableDate enable-time=enableTime datepicker-append-to-body=false placeholder={{placeholder}}> <span class=input-group-btn><button class=\"btn btn-default no-padding fa\" ng-class=\"{\'fa-calendar\' : enableDate, \'fa-clock-o\' : !enableDate && enableTime}\" ng-click=openCalendar() aria-hidden=true></button></span></p>");
+$templateCache.put("window-time-select/views/datetime.select.view.html","<p class=\"datetime-container input-group form-group no-margin\"><input readonly type=text class=\"form-control text-left no-margin\" ng-model=rawdata ng-required=required ng-disabled=ngDisabled button-bar=customButtonBar ng-click=openCalendar() datetime-picker={{visibleFormat}} is-open=calendarOpen datepicker-options=pickerOptions.datePicker timepicker-options=pickerOptions.timePicker popup-placement=\"auto top-right\" enable-date=enableDate enable-time=enableTime datepicker-append-to-body=true placeholder={{placeholder}} ng-change=changedRawdata()> <span class=input-group-btn><button class=\"btn btn-default no-padding fa\" ng-class=\"{\'fa-calendar\' : enableDate, \'fa-clock-o\' : !enableDate && enableTime}\" ng-click=openCalendar() aria-hidden=true></button></span></p>");
 $templateCache.put("window-time-select/views/window-time.select.view.html","<div permission permission-only=\"\'dateFilter\'\" class=window-time-container><button type=button class=\"btn btn-xs\" ng-class=oneDayClass ng-click=oneDay() translate>BUTTON.TITLE.LAST_DAY</button> <button type=button class=\"btn btn-xs\" ng-class=oneWeekClass ng-click=oneWeek() translate=BUTTON.TITLE.LAST_NUMBER_DAY translate-values=\"{ number: \'7\' }\"></button> <button type=button class=\"btn btn-xs\" ng-class=oneMonthClass ng-click=oneMonth() translate=BUTTON.TITLE.LAST_NUMBER_DAY translate-values=\"{ number: \'30\' }\"></button> <button type=button class=\"btn btn-xs\" ng-class=customClass ng-click=custom() translate>BUTTON.TITLE.CUSTOM</button> <button type=button class=\"btn btn-xs btn-info\" ng-if=filterApplied ng-click=clear() translate>BUTTON.TITLE.CLEAR</button><div ng-if=customEnabled class=\"window-time-body panel panel-body\"><div class=col-xs-12><div class=row><div class=\"col-xs-6 text-left\"><label translate>BUTTON.TITLE.CUSTOM</label></div><div class=\"col-xs-6 text-right\"><button type=button class=\"btn btn-xs oux-button-margin btn-success\" ng-disabled=\"!!errorCustomWindow || fromCalendarOpen || toCalendarOpen\" ng-click=applyCustom() translate>BUTTON.TITLE.APPLY</button></div></div><div class=row><div class=\"col-xs-12 col-md-2 text-left\"><label class=control-label><i class=\"fa fa-calendar\" aria-hidden=true></i> {{ \'FORM.LABEL.FROM\' | translate }}: {{fromDate | date:\'fullDate\'}}</label></div><div class=\"col-xs-12 col-md-4\"><input readonly type=text class=\"form-control text-left no-margin\" ng-model=date.from button-bar=customButtonBar ng-click=openCalendarFrom() ng-required=true datetime-picker={{format}} is-open=fromCalendarOpen datepicker-options=fromOptions.datePicker timepicker-options=fromOptions.timePicker when-closed=fromChange(args) popup-placement=\"auto top-right\" datepicker-append-to-body=true></div><div class=\"col-xs-12 col-md-2 text-left\"><label class=control-label><i class=\"fa fa-calendar\" aria-hidden=true></i> {{ \'FORM.LABEL.TO\' | translate }}: {{fromDate | date:\'fullDate\'}}</label></div><div class=\"col-xs-12 col-md-4\"><input readonly type=text class=\"form-control text-left no-margin\" ng-model=date.to button-bar=customButtonBar ng-click=openCalendarTo() ng-required=true datetime-picker={{format}} is-open=toCalendarOpen datepicker-options=toOptions.datePicker timepicker-options=toOptions.timePicker when-closed=toChange(args) popup-placement=\"auto top-right\" datepicker-append-to-body=true></div></div></div><alert type=danger ng-show=errorCustomWindow class=text-danger style=\"display: block;text-align: center;\"><span ng-bind=errorCustomWindow></span></alert></div></div>");}]);
 
 
@@ -2379,7 +2379,12 @@ angular.module('opengate-angular-js')
             ngRequired: '=',
             placeholder: '@',
             format: '@',
-            mode: '@'
+            mode: '@',
+            ngChange: '<',
+            dateOptions: '=',
+            timeOptions: '=',
+            min: '=',
+            max: '='
         },
         controller: ["$scope", "$element", "$attrs", "$translate", "uibDateParser", function($scope, $element, $attrs, $translate, uibDateParser) {
             if (!$scope.mode || $scope.mode === 'date-time') {
@@ -2427,7 +2432,9 @@ angular.module('opengate-angular-js')
                     show: false
                 },
                 today: {
-                    show: false
+                    show: true,
+                    text: ' ',
+                    cls: 'btn-sm btn-info oux-button-margin fa fa-calendar-o'
                 },
                 clear: {
                     show: true,
@@ -2465,21 +2472,75 @@ angular.module('opengate-angular-js')
                 }
             };
 
+            if ($scope.dateOptions) {
+                angular.merge($scope.pickerOptions.datePicker, $scope.dateOptions);
+            }
+
+            if ($scope.timeOptions) {
+                angular.merge($scope.pickerOptions.timePicker, $scope.timeOptions);
+            }
+
             $scope.openCalendar = function() {
                 $scope.calendarOpen = true;
             };
 
-            $scope.$watch('rawdata', function(newValue) {
+            //$scope.$watch('rawdata', function(newValue) {
+            $scope.changedRawdata = function() {
+                var newValue = $scope.rawdata;
                 if (newValue) {
-                    if ($scope.outputFormat !== 'yyyy-MM-ddTHH:mm:ss.sssZ') {
-                        $scope.ngModel = uibDateParser.filter(newValue, $scope.outputFormat);
+                    if (($scope.min && (newValue < $scope.min || newValue < uibDateParser.parse($scope.min, $scope.outputFormat))) ||
+                        ($scope.max && (newValue > $scope.max || newValue > uibDateParser.parse($scope.max, $scope.outputFormat)))) {
+                        $scope.rawdata = undefined;
+
+                        if ($scope.ngModel) {
+                            $scope.ngModel = undefined;
+                            if ($scope.ngChange) {
+                                $scope.ngChange($scope.ngModel);
+                            }
+                        }
                     } else {
-                        $scope.ngModel = newValue.toISOString();
+                        var parsedNewValue;
+                        if ($scope.outputFormat !== 'yyyy-MM-ddTHH:mm:ss.sssZ') {
+                            parsedNewValue = uibDateParser.filter(newValue, $scope.outputFormat);
+                        } else {
+                            parsedNewValue = newValue.toISOString();
+                        }
+
+                        if (parsedNewValue !== $scope.ngModel) {
+                            $scope.ngModel = parsedNewValue;
+                            if ($scope.ngChange) {
+                                $scope.ngChange($scope.ngModel);
+                            }
+                        }
                     }
+
                 } else {
-                    $scope.ngModel = undefined;
+                    $scope.rawdata = undefined;
+
+                    if ($scope.ngModel) {
+                        $scope.ngModel = undefined;
+                        if ($scope.ngChange) {
+                            $scope.ngChange($scope.ngModel);
+                        }
+                    }
+
                 }
                 //$scope.ngValue = newValue;
+            };
+
+            $scope.$watch('ngModel', function(newValue) {
+                if (newValue) {
+                    if (uibDateParser.parse(newValue, $scope.outputFormat)) {
+                        $scope.rawdata = uibDateParser.parse(newValue, $scope.outputFormat);
+                    } else {
+                        $scope.rawdata = new Date(newValue);
+                    }
+                } else
+                    $scope.rawdata = undefined;
+
+                if ($scope.ngChange) {
+                    $scope.ngChange($scope.ngModel);
+                }
             });
 
             // Config custom window

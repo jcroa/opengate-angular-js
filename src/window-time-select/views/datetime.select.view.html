@@ -1,6 +1,6 @@
 <p class="datetime-container input-group form-group no-margin">
     <input readonly="readonly" type="text" class="form-control text-left no-margin" ng-model="rawdata" ng-required="required" ng-disabled="ngDisabled" button-bar="customButtonBar" ng-click="openCalendar()" datetime-picker="{{visibleFormat}}" is-open="calendarOpen"
-        datepicker-options="pickerOptions.datePicker" timepicker-options="pickerOptions.timePicker" popup-placement="auto top-right" enable-date="enableDate" enable-time="enableTime" datepicker-append-to-body="false" placeholder="{{placeholder}}">
+        datepicker-options="pickerOptions.datePicker" timepicker-options="pickerOptions.timePicker" popup-placement="auto top-right" enable-date="enableDate" enable-time="enableTime" datepicker-append-to-body="true" placeholder="{{placeholder}}" ng-change="changedRawdata()">
 
     <span class="input-group-btn">
         <button class="btn btn-default no-padding fa" ng-class="{'fa-calendar' : enableDate, 'fa-clock-o' : !enableDate && enableTime}" ng-click="openCalendar()" aria-hidden="true"></button>

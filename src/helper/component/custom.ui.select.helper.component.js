@@ -1,19 +1,19 @@
 'use strict';
 
-angular.module('opengate-angular-js').controller('helperUiSelectController', ['$scope', '$element', '$attrs', function ($scope, $element, $attrs) {
+angular.module('opengate-angular-js').controller('helperUiSelectController', ['$scope', '$element', '$attrs', function($scope, $element, $attrs) {
     var $ctrl = this;
     $ctrl.$helper_keys = {};
     $ctrl.labelError = $ctrl.labelError ? $ctrl.labelError : 'Parameter is required';
     $ctrl.labelText = $ctrl.labelText ? $ctrl.labelText : 'Parameter';
 
-    $ctrl.helperTagTransform = function (newTag) {
+    $ctrl.helperTagTransform = function(newTag) {
         return {
             key: 'custom',
             value: newTag
         };
     };
 
-    $ctrl._onCopy = function (copy_obj) {
+    $ctrl._onCopy = function(copy_obj) {
         $ctrl.$helper_keys = copy_obj.$helper_keys;
         $ctrl.have_helper_keys = true;
         if ($ctrl.helperModel && $ctrl.helperModel.length > 0) {
@@ -21,7 +21,7 @@ angular.module('opengate-angular-js').controller('helperUiSelectController', ['$
         }
     };
 
-    $ctrl.$onChanges = function (changesObj) {
+    $ctrl.$onChanges = function(changesObj) {
         //console.log(JSON.stringify(changesObj));
         if (changesObj && changesObj.selectedKeys && changesObj.selectedKeys.currentValue) {
             if (Object.keys(changesObj.selectedKeys.currentValue).length > 0) {
@@ -34,7 +34,7 @@ angular.module('opengate-angular-js').controller('helperUiSelectController', ['$
         }
     };
 
-    $ctrl.$onInit = function () {
+    $ctrl.$onInit = function() {
         if (!$ctrl.helperCtrl.onMulti) {
             $ctrl.helperCtrl.onMulti = [];
         }
@@ -48,13 +48,17 @@ angular.module('opengate-angular-js').controller('helperUiSelectController', ['$
         $ctrl.have_helper_keys = false;
     };
 
+    $ctrl.clean = function() {
+        $ctrl.$helper_keys = {};
+        $ctrl.have_helper_keys = false;
+    };
 }]);
 
 angular.module('opengate-angular-js').component('helperUiSelect', {
     templateUrl: 'helper/views/custom.ui.select.helper.html',
     transclude: {
         input: '?helperUiSelectInput'
-        //,custom: '?helperUiSelectCustom'
+            //,custom: '?helperUiSelectCustom'
     },
     require: {
         helperCtrl: '^^helperDialog'

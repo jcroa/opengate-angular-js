@@ -47,7 +47,6 @@ _wizard.controller('helperDialogController', ['$scope', '$element', '$attrs', '$
                     } else {
                         return $helper.helperId;
                     }
-
                 },
                 helper_exclusive: function() {
                     return $helper.helperExclusive === 'true';
@@ -60,6 +59,9 @@ _wizard.controller('helperDialogController', ['$scope', '$element', '$attrs', '$
                 },
                 helper_extra: function() {
                     return $helper.helperExtra;
+                },
+                helper_type: function() {
+                    return $helper.helperType;
                 },
                 helper_selected: function() {
                     if ($helper.helperExtra && $helper.helperExtra.selected) {
@@ -95,8 +97,8 @@ _wizard.controller('helperDialogController', ['$scope', '$element', '$attrs', '$
     };
 }]);
 
-_wizard.controller('helperDialogModalController', ['$scope', '$uibModalInstance', 'helper_id', 'helper_exclusive', 'specific_type', 'exclude_devices', 'helper_extra', 'helper_selected', 'Upload', 'mapUxService',
-    function($scope, $uibModalInstance, helper_id, helper_exclusive, specific_type, exclude_devices, helper_extra, helper_selected, Upload, mapUxService) {
+_wizard.controller('helperDialogModalController', ['$scope', '$uibModalInstance', 'helper_id', 'helper_exclusive', 'specific_type', 'exclude_devices', 'helper_extra', 'helper_selected', 'helper_type', 'Upload', 'mapUxService', '$translate',
+    function($scope, $uibModalInstance, helper_id, helper_exclusive, specific_type, exclude_devices, helper_extra, helper_selected, helper_type, Upload, mapUxService, $translate) {
         var $ctrl = this;
         $ctrl.helper_extra = helper_extra;
 
@@ -106,11 +108,21 @@ _wizard.controller('helperDialogModalController', ['$scope', '$uibModalInstance'
             helper_id = regex.exec(helper_id.toLowerCase())[0];
 
             $ctrl.helper_id = helper_id;
-
             $ctrl[helper_id + 'IsOpen'] = true;
             $ctrl[helper_id + 'IsExclusive'] = $ctrl.helper_exclusive = helper_exclusive;
         }
+
+        if (helper_type) {
+            $ctrl[helper_type + 'IsOpen'] = true;
+            $ctrl[helper_type + 'IsExclusive'] = true;
+            $ctrl.helper_exclusive = true;
+        }
+
         $ctrl.helper_keys = {};
+
+        $ctrl.helper_keys.__clean = {};
+        $ctrl.helper_keys.__clean[$translate.instant('FORM.HELPER.FIELD.EMPTY')] = '';
+
         $ctrl.specific_type = specific_type;
         $ctrl.exclude_devices = exclude_devices;
 
@@ -281,6 +293,68 @@ _wizard.controller('helperDialogModalController', ['$scope', '$uibModalInstance'
             delete $ctrl.helper_keys.entity;
         };
 
+        //config device
+        $ctrl.device = {};
+        if (helper_selected && helper_selected.deviceKey) {
+            $ctrl.helper_keys.device = {
+                deviceKey: helper_selected.deviceKey
+            };
+            $ctrl.device = {
+                selected: [{
+                    provision: {
+                        administration: {
+                            identifier: {
+                                _current: {
+                                    value: helper_selected.deviceKey
+                                }
+                            }
+                        }
+                    }
+                }]
+            };
+        }
+
+        $ctrl.onSelectDeviceKey = function($item, $model) {
+            $ctrl.helper_keys.device = {
+                deviceKey: $item.provision.administration.identifier._current.value
+            };
+        };
+
+        $ctrl.onDeleteDeviceKey = function() {
+            delete $ctrl.helper_keys.device;
+        };
+
+        //config asset
+        $ctrl.asset = {};
+        if (helper_selected && helper_selected.assetKey) {
+            $ctrl.helper_keys.asset = {
+                assetKey: helper_selected.assetKey
+            };
+            $ctrl.asset = {
+                selected: [{
+                    provision: {
+                        administration: {
+                            identifier: {
+                                _current: {
+                                    value: helper_selected.assetKey
+                                }
+                            }
+                        }
+                    }
+                }]
+            };
+        }
+
+        $ctrl.onSelectAssetKey = function($item, $model) {
+            $ctrl.helper_keys.asset = {
+                assetKey: $item.provision.administration.identifier._current.value
+            };
+        };
+
+        $ctrl.onDeleteAssetKey = function() {
+            delete $ctrl.helper_keys.asset;
+        };
+
         //config subscriber
         $ctrl.subscriber = {};
         if (helper_selected && helper_selected.subscriberKey) {
@@ -431,23 +505,23 @@ _wizard.controller('helperDialogModalController', ['$scope', '$uibModalInstance'
 
         //Modal methods
         $ctrl.ok = function(helper) {
-            if (helper) {
-                $uibModalInstance.close($ctrl.helper_keys[helper]);
-            } else {
-                var finalKeys = {};
-                angular.forEach($ctrl.helper_keys, function(value, key) {
-                    if (key.trim().toLowerCase() === 'subscriber' || key.trim().toLowerCase() === 'subscription') {
-                        var identifier = value.provision[key.trim().toLowerCase()].identifier._current.value;
-                        finalKeys[key.trim().toLowerCase() + 'Key'] = identifier;
-                    } else {
-                        angular.forEach(value, function(finalValue, finalkey) {
-                            finalKeys[finalkey] = finalValue;
-                        });
-                    }
-                });
+            // if (helper) {
+            //     $uibModalInstance.close($ctrl.helper_keys[helper]);
+            // } else {
+            var finalKeys = {};
+            angular.forEach($ctrl.helper_keys, function(value, key) {
+                if (key.trim().toLowerCase() === 'subscriber' || key.trim().toLowerCase() === 'subscription') {
+                    var identifier = value.provision[key.trim().toLowerCase()].identifier._current.value;
+                    finalKeys[key.trim().toLowerCase() + 'Key'] = identifier;
+                } else {
+                    angular.forEach(value, function(finalValue, finalkey) {
+                        finalKeys[finalkey] = finalValue;
+                    });
+                }
+            });
 
-                $uibModalInstance.close(finalKeys);
-            }
+            $uibModalInstance.close(finalKeys);
+            // }
         };
         $ctrl.cancel = function() {
             $uibModalInstance.dismiss('cancel');
@@ -477,6 +551,7 @@ _wizard.component('helperDialog', {
         helperTitle: '@',
         helperExclusive: '@',
         helperExtra: '<',
+        helperType: '@?',
         modalTemplate: '@',
         modalController: '@',
         onMulti: '<'

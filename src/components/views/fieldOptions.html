@@ -6,3 +6,6 @@
             <i class="fa fa-check fa-stack-1x"></i>
     </span>
 </small>
+<small ng-if="$ctrl.action" class="pointer" permission permission-only="$ctrl.action.permissions" title="{{$ctrl.action.title}}" ng-click="$ctrl.action.action(choice.value)">
+    <i class="{{$ctrl.action.icon}} text-primary pointer" style="font-size:1.2em;"></i>
+</small>

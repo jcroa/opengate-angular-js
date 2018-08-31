@@ -2,6 +2,7 @@
 
 angular.module('opengate-angular-js')
     .directive('customUiSelect', ['$compile', 'Filter', function($compile, Filter) {
+        var actionButton = angular.element('<div title="" style="cursor:pointer" class="custom-ui-select-button input-group-addon btn btn-xs no-padding" permission><i class="text-primary"></i>&nbsp;<small>...</small>{{$ctrl.model}}</div>');
         var button = angular.element('<div title="Toggle Advanced/Basic filter search" ng-click="complex()" style="cursor:pointer" class="custom-ui-select-button input-group-addon"><i class="fa fa-filter"></i><i class="filter-icon fa fa-bold text-muted"></i></div>');
         var container = angular.element('<div class="custom-ui-select-container input-group"></div>');
         var style = angular.element('<style title="custom-ui-select-no-multiple">.custom-ui-select-no-multiple .ui-select-search[placeholder=""]{display:none}</style>');
@@ -146,9 +147,11 @@ angular.module('opengate-angular-js')
                                     } else {
                                         _processingData(datas);
                                     }
+
                                     $scope.$apply();
                                 } else {
                                     uiConfig.collection.splice(0, uiConfig.collection.length);
+
                                     if (data.statusCode !== 204) {
                                         //toastr.error('Loading error');
                                         console.error(JSON.stringify(data));
@@ -168,6 +171,7 @@ angular.module('opengate-angular-js')
                 }
             },
             compile: function(templateElement, templateAttributes) {
+                templateAttributes.$$actionButton = actionButton.clone();
                 templateAttributes.$$button = button.clone();
                 templateAttributes.$$container = container.clone();
                 var simple = templateAttributes.multiple !== 'true';
@@ -212,6 +216,8 @@ angular.module('opengate-angular-js')
                     if ($attrs.customMassAutocompleteItem) {
                         $element.addClass(maus);
                         var massAutocompleteItem = getMassAutocompleteItem();
+                        var action = getAction();
+
                         if (!massAutocompleteItem.suggest) {
                             massAutocompleteItem.suggest = Filter.suggest_field_delimited;
                         }
@@ -219,7 +225,6 @@ angular.module('opengate-angular-js')
                         filterInput.attr('mass-autocomplete-item', $attrs.customMassAutocompleteItem);
                         //filterInput.attr('ng-change', 'debugQuery()');
                         $compile(filterInput)($scope);
-
 
                         $attrs.$$container.empty();
                         $element.before($attrs.$$container);
@@ -249,6 +254,25 @@ angular.module('opengate-angular-js')
                                 keys.splice(0, keys.length);
                             }
                         });
+
+                        if (action) {
+                            $attrs.$$actionButton.attr('title', action.title);
+                            $attrs.$$actionButton.bind('click', action.action);
+
+                            //$attrs.$$actionButton.addClass(action.icon);
+                            $attrs.$$actionButton.children()[0].className = $attrs.$$actionButton.children()[0].className + ' ' + action.icon;
+                            $attrs.$$actionButton.children()[1].innerText = action.title;
+
+                            if (angular.isArray(action.permissions)) {
+                                $attrs.$$actionButton.attr('permission-only', action.permissions.toString());
+                            } else {
+                                $attrs.$$actionButton.attr('permission-only', '\'' + action.permissions + '\'');
+                            }
+
+                            $compile($attrs.$$actionButton)($scope);
+                            $attrs.$$container.append($attrs.$$actionButton);
+                        }
+
                     } else {
                         $element.addClass(aus);
                     }
@@ -263,6 +287,24 @@ angular.module('opengate-angular-js')
                                 config = config[path];
                             });
                             return config;
+                        }
+                    }
+
+                    function getAction() {
+                        if ($attrs.customUiSelectAction) {
+
+                            var configPath = $attrs.customUiSelectAction.split('.');
+                            if (configPath.length === 1) {
+                                return $scope[$attrs.customUiSelectAction];
+                            } else {
+                                var config = $scope;
+                                configPath.forEach(function(path) {
+                                    config = config[path];
+                                });
+                                return config;
+                            }
+                        } else {
+                            return;
                         }
                     }
                 };

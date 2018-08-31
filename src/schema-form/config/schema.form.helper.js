@@ -143,4 +143,18 @@ angular.module('opengate-angular-js').config(function(schemaFormProvider, schema
         sfBuilderProvider.stdBuilders // List of builder functions to apply.
     );
 
+    schemaFormDecoratorsProvider.defineAddOn(
+        'bootstrapDecorator', // Name of the decorator you want to add to.
+        'device', // Form type that should render this add-on
+        'schema-form/views/schema.form.device.template.html', // Template name in $templateCache
+        sfBuilderProvider.stdBuilders // List of builder functions to apply.
+    );
+
+    schemaFormDecoratorsProvider.defineAddOn(
+        'bootstrapDecorator', // Name of the decorator you want to add to.
+        'asset', // Form type that should render this add-on
+        'schema-form/views/schema.form.asset.template.html', // Template name in $templateCache
+        sfBuilderProvider.stdBuilders // List of builder functions to apply.
+    );
+
 });

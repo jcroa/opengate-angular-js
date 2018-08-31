@@ -47,7 +47,8 @@ angular.module('opengate-angular-js').component('customUiSelectEntity', {
         entity: '=',
         multiple: '<',
         required: '=',
-        label: '='
+        label: '=',
+        action: '=?'
     }
 
 });

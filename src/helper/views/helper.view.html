@@ -8,14 +8,15 @@
         <span ng-switch-when="title_button">
             <i ng-class="$helper.helperButton" aria-hidden="true"></i>{{$helper.helperTitle}}</span>
         <span ng-switch-default>
-            <i ng-if="!$helper.helperTitle && !$helper.helperButton" class="fa fa-lg fa-search-plus" title="{{ 'FORM.HELPER' | translate }}" aria-hidden="true"></i></span>
+        <i ng-if="!$helper.helperTitle && !$helper.helperButton" class="fa fa-lg fa-search-plus" title="{{ 'FORM.HELPER.TITLE' | translate }}" aria-hidden="true"></i>
+        </span>
         <!-- {{ 'FORM.HELPER' | translate }} -->
     </a>
 </div>
 
 <script type="text/ng-template" id="helper.view.modal.html">
     <div class="modal-header">
-        <h4 class="modal-title">{{ 'FORM.HELPER' | translate }}</h4>
+        <h4 class="modal-title">{{ 'FORM.HELPER.TITLE' | translate }}</h4>
     </div>
     <div class="modal-body without-padding-top">
         <uib-accordion close-others="true">
@@ -47,6 +48,34 @@
                     </div>
                 </div>
             </div>
+            <div uib-accordion-group is-open="$ctrl.deviceIsOpen" ng-hide="$ctrl.helper_exclusive ? (!$ctrl.entityIsExclusive && !$ctrl.deviceIsExclusive): false" class="device-option">
+                <div uib-accordion-heading>{{ 'FORM.DEVICES' | translate }}</div>
+                <div class="row row-eq-height">
+                    <div class="col-xs-10">
+                        <custom-ui-select-device on-select-item="$ctrl.onSelectDeviceKey($item, $model)" on-remove="$ctrl.onDeleteDeviceKey()" device="$ctrl.device.selected" multiple="false" specific-type="{{$ctrl.specific_type}}"> </custom-ui-select-device>
+                    </div>
+                    <div class="col-xs-2 vcenter no-padding" ng-if="$ctrl.helper_exclusive">
+                        <a class="top-buffer btn btn-default ux-txt-success pointer" ng-class="{'disabled': !$ctrl.helper_keys.device}" ng-click="$ctrl.ok('device')" ng-disabled="!$ctrl.helper_keys.device">
+                            <i class="fa fa-lg fa-files-o" aria-hidden="true"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div uib-accordion-group is-open="$ctrl.assetIsOpen" ng-hide="$ctrl.helper_exclusive ? (!$ctrl.entityIsExclusive && !$ctrl.assetIsExclusive): false" class="asset-option">
+                <div uib-accordion-heading>{{ 'FORM.ASSETS' | translate }}</div>
+                <div class="row row-eq-height">
+                    <div class="col-xs-10">
+                        <custom-ui-select-asset on-select-item="$ctrl.onSelectAssetKey($item, $model)" on-remove="$ctrl.onDeleteAssetKey()" asset="$ctrl.asset.selected" multiple="false" specific-type="{{$ctrl.specific_type}}"></custom-ui-select-asset>
+                    </div>
+                    <div class="col-xs-2 vcenter no-padding" ng-if="$ctrl.helper_exclusive">
+                        <a class="top-buffer btn btn-default ux-txt-success pointer" ng-class="{'disabled': !$ctrl.helper_keys.asset}" ng-click="$ctrl.ok('asset')" ng-disabled="!$ctrl.helper_keys.asset">
+                            <i class="fa fa-lg fa-files-o" aria-hidden="true"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
             <div uib-accordion-group is-open="$ctrl.subscriberIsOpen" class="subscriber-option" ng-hide="$ctrl.helper_exclusive ? (!$ctrl.entityIsExclusive && !$ctrl.subscriberIsExclusive): false">
                 <div uib-accordion-heading>{{ 'FORM.SUBSCRIBERS' | translate }}</div>
                 <div class="row row-eq-height">

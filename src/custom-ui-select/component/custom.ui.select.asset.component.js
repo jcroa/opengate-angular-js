@@ -10,7 +10,8 @@ angular.module('opengate-angular-js').controller('customUiSelectAssetController'
                 var filter = {
                     'or': [
                         { 'like': { 'provision.administration.identifier': search } },
-                        { 'like': { 'provision.asset.specificType': search } }
+                        { 'like': { 'provision.asset.specificType': search } },
+                        { 'like': { 'asset.specificType': search } }
                     ]
                 };
 
@@ -43,14 +44,32 @@ angular.module('opengate-angular-js').controller('customUiSelectAssetController'
         };
 
         ctrl.assetSelected = function($item, $model) {
-            var returnObj = {};
-            returnObj.$item = $item;
-            returnObj.$model = $model;
-            ctrl.onSelectItem(returnObj);
+            if (ctrl.multiple) {
+                var identifierTmp = [];
+
+                angular.forEach(ctrl.asset, function(assetTmp) {
+                    identifierTmp.push(assetTmp.provision.administration.identifier._current.value);
+                });
+
+                ctrl.ngModel = identifierTmp;
+            } else {
+                ctrl.ngModel = $item.provision.administration.identifier._current.value;
+            }
+
+            if (ctrl.onSelectItem) {
+                var returnObj = {};
+                returnObj.$item = $item;
+                returnObj.$model = $model;
+                ctrl.onSelectItem(returnObj);
+            }
         };
 
         ctrl.assetRemove = function($item, $model) {
-            ctrl.onRemove($item, $model);
+            if (ctrl.onRemove) {
+                ctrl.onRemove($item, $model);
+            }
+            ctrl.ngModel = null;
+
         };
 
         if (!ctrl.action) {
@@ -71,6 +90,65 @@ angular.module('opengate-angular-js').controller('customUiSelectAssetController'
             };
         }
 
+        ctrl.$onChanges = function(changesObj) {
+            if (changesObj && changesObj.identifier) {
+                mapIdentifier(changesObj.identifier.currentValue);
+            }
+        };
+
+        if (ctrl.identifier) {
+            mapIdentifier(ctrl.identifier);
+        }
+
+        function mapIdentifier(identifierSrc) {
+            var identifier = identifierSrc;
+            if (identifier) {
+                if (identifier._current) {
+                    identifier = identifier._current.value;
+                }
+
+                if (ctrl.multiple) {
+                    if (angular.isArray(identifier)) {
+                        ctrl.asset = [];
+
+                        angular.forEach(identifier, function(idTmp) {
+                            ctrl.asset.push({
+                                provision: {
+                                    administration: {
+                                        identifier: {
+                                            _current: { value: idTmp }
+                                        }
+                                    },
+                                    asset: {
+                                        identifier: {
+                                            _current: { value: idTmp }
+                                        }
+                                    }
+                                }
+                            })
+                        });
+                    }
+
+                } else {
+                    ctrl.asset = [{
+                        provision: {
+                            administration: {
+                                identifier: {
+                                    _current: { value: ctrl.identifier }
+                                }
+                            },
+                            asset: {
+                                identifier: {
+                                    _current: { value: ctrl.identifier }
+                                }
+                            }
+                        }
+                    }];
+                }
+            } else {
+                ctrl.asset = [];
+            }
+        }
     }
 ]);
 
@@ -82,11 +160,14 @@ angular.module('opengate-angular-js').component('customUiSelectAsset', {
         onSelectItem: '&',
         onRemove: '&',
         asset: '=',
+        identifier: '<?',
         multiple: '<',
         required: '=',
         label: '=',
         action: '=?',
-        specificType: '@?'
+        specificType: '@?',
+        disabled: '<?',
+        ngModel: '=?'
     }
 
 });

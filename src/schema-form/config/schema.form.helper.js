@@ -30,6 +30,12 @@ angular.module('opengate-angular-js').config(function(schemaFormProvider, schema
             f = schemaFormProvider.stdFormObj(name, schema, options);
             f.key = options.path;
             f.type = 'boolean';
+        } else if (schema.type === 'object') {
+            if (schema.properties && schema.properties.position && schema.properties.zoom) {
+                f = schemaFormProvider.stdFormObj(name, schema, options);
+                f.key = options.path;
+                f.type = 'map';
+            }
         }
 
         if (f) {
@@ -113,6 +119,13 @@ angular.module('opengate-angular-js').config(function(schemaFormProvider, schema
         'bootstrapDecorator', // Name of the decorator you want to add to.
         'time', // Form type that should render this add-on
         'schema-form/views/schema.form.helper.datetime.template.html', // Template name in $templateCache
+        sfBuilderProvider.stdBuilders // List of builder functions to apply.
+    );
+
+    schemaFormDecoratorsProvider.defineAddOn(
+        'bootstrapDecorator', // Name of the decorator you want to add to.
+        'map', // Form type that should render this add-on
+        'schema-form/views/schema.form.map.template.html', // Template name in $templateCache
         sfBuilderProvider.stdBuilders // List of builder functions to apply.
     );
     ///////////////////////////////////////////////////////////////

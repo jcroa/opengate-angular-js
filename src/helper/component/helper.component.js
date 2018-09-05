@@ -159,7 +159,7 @@ _wizard.controller('helperDialogModalController', ['$scope', '$uibModalInstance'
                     lng: helper_selected.longitude,
                     draggable: true,
                     focus: true,
-                    message: 'Drag me to move. Click me to remove'
+                    message: $translate.instant('LOG.DRAG_ME')
                 }
             };
             setPosition(helper_selected.latitude, helper_selected.longitude, helper_selected.zoom);
@@ -173,7 +173,7 @@ _wizard.controller('helperDialogModalController', ['$scope', '$uibModalInstance'
                     marker: {
                         draggable: true,
                         focus: true,
-                        message: 'Drag me to move. Click me to remove'
+                        message: $translate.instant('LOG.DRAG_ME')
                     }
                 };
                 $ctrl.map = _.merge($ctrl.map, helper_extra.map, markers);
@@ -206,7 +206,7 @@ _wizard.controller('helperDialogModalController', ['$scope', '$uibModalInstance'
                         lng: latlng.lng,
                         draggable: true,
                         focus: true,
-                        message: 'Drag me to move. Click me to remove'
+                        message: $translate.instant('LOG.DRAG_ME')
                     }
                 };
                 setPosition(latlng.lat, latlng.lng, args.leafletObject._zoom);

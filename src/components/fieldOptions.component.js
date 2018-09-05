@@ -12,6 +12,7 @@ angular.module('opengate-angular-js').component('fieldOptions', {
     bindings: {
         multiple: '<',
         required: '<',
+        loading: '<',
         action: '='
     }
 

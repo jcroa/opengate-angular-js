@@ -69,7 +69,7 @@ angular.module('opengate-angular-js').component('helperUiSelect', {
         name: '@',
         labelText: '@',
         helperModel: '=',
-        required: '=',
+        required: '<',
         multiple: '<',
         labelError: '@',
         selectedKeys: '<'

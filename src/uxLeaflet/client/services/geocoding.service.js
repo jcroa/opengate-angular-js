@@ -44,7 +44,7 @@ function UxLeaflet_GeocodingService($http) {
      *   'address':{'city':'Madrid','county':'Área metropolitana de Madrid y Corredor del Henares',
      *       'state':'Comunidad de Madrid','country':'España','country_code':'es'}}]
      */
-    _this.search = function (sDescription, options, callback) {
+    _this.search = function(sDescription, options, callback) {
 
         var escapedText = sDescription; // TODO - escapar
         var limit = (!options && '2') || (options.limit || '3');
@@ -61,12 +61,12 @@ function UxLeaflet_GeocodingService($http) {
      * @param {*} optFormat. formato del json respuesta, por defecto se devuelve todo lo que responde el webservce
      * @return JSON object with data and metadata of this location
      */
-    _this.reverseSearch = function (lat, lon, zoom, callback, optFormat) {
+    _this.reverseSearch = function(lat, lon, zoom, callback, optFormat, language_code) {
 
         var resp = $.extend({}, FULL_RESPONSE_TEMPLATE);
         optFormat = $.extend({}, optFormat);
 
-        _geoCodingService.reverseSearch(lat, lon, zoom, function (err, data) {
+        _geoCodingService.reverseSearch(lat, lon, zoom, function(err, data) {
             // 
             if (err) {
                 callback(err);
@@ -75,7 +75,7 @@ function UxLeaflet_GeocodingService($http) {
                 var resp2 = formatGeoResponse(data);
                 callback(null, resp2);
             }
-        }, optFormat);
+        }, optFormat, language_code);
 
     };
 

@@ -98,18 +98,76 @@ angular.module('opengate-angular-js').controller('customUiSelectDatastreamContro
     };
 
     ctrl.datastreamSelected = function($item, $model) {
-        var returnObj = {};
-        returnObj.$item = $item;
-        returnObj.$model = $model;
-        ctrl.onSelectItem(returnObj);
+        if (ctrl.multiple) {
+            var identifierTmp = ctrl.ngModel || [];
+
+            angular.forEach(ctrl.datastream, function(datastreamTmp) {
+                identifierTmp.push(datastreamTmp.identifier);
+            });
+
+            ctrl.ngModel = identifierTmp;
+        } else {
+            ctrl.ngModel = $item.identifier;
+        }
+
+        if (ctrl.onSelectItem) {
+            var returnObj = {};
+            returnObj.$item = $item;
+            returnObj.$model = $model;
+            ctrl.onSelectItem(returnObj);
+        }
     };
 
     ctrl.datastreamRemove = function($item, $model) {
-        var returnObj = {};
-        returnObj.$item = $item;
-        returnObj.$model = $model;
-        ctrl.onRemove(returnObj);
+        if (ctrl.onRemove) {
+            var returnObj = {};
+            returnObj.$item = $item;
+            returnObj.$model = $model;
+            ctrl.onRemove(returnObj);
+        }
+
+        ctrl.ngModel = null;
     };
+
+    ctrl.$onChanges = function(changesObj) {
+        if (changesObj && changesObj.identifier) {
+            mapIdentifier(changesObj.identifier.currentValue);
+        }
+    };
+
+    if (ctrl.identifier) {
+        mapIdentifier(ctrl.identifier);
+    }
+
+    function mapIdentifier(identifierSource) {
+        var identifier = identifierSource;
+
+        if (identifier) {
+            if (identifier._current) {
+                identifier = identifier._current.value;
+            }
+
+            if (ctrl.multiple) {
+                if (angular.isArray(identifier)) {
+                    ctrl.datastream = [];
+
+                    angular.forEach(identifier, function(idTmp) {
+                        ctrl.datastream.push({
+                            identifier: idTmp
+
+                        })
+                    });
+                }
+            } else {
+                ctrl.datastream = [{
+                    identifier: ctrl.identifier
+
+                }];
+            }
+        } else {
+            ctrl.datastream = [];
+        }
+    }
 
     if (!ctrl.maxResults) {
         ctrl.maxResults = 100;
@@ -129,6 +187,8 @@ angular.module('opengate-angular-js').component('customUiSelectDatastream', {
         postFilter: '<',
         resourceTypes: '=',
         organization: '=',
-        placeholder: '='
+        placeholder: '=',
+        identifier: '<?',
+        ngModel: '=?'
     }
 });

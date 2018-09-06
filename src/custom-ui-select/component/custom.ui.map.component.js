@@ -5,6 +5,11 @@ angular.module('opengate-angular-js').controller('customUiMapController', ['$sco
     function($scope, $element, $attrs, $api, mapUxService, geocodingService, $translate, Authentication, $timeout) {
         var $ctrl = this;
 
+        $ctrl.coordsObj = {
+            current: { lat: null, lng: null },
+            new: { lat: null, lng: null }
+        };
+
         $ctrl.reloadingInfo = false;
         $ctrl.getInfo = function() {
             $ctrl.reloadingInfo = true;
@@ -16,7 +21,7 @@ angular.module('opengate-angular-js').controller('customUiMapController', ['$sco
             $ctrl.location.address = undefined;
             $ctrl.display_name = undefined;
             if ($ctrl.map.markers.marker) {
-                geocodingService.reverseSearch($ctrl.map.markers.marker.lat, $ctrl.map.markers.marker.lng, 19,
+                geocodingService.reverseSearch($ctrl.map.markers.marker.lat, $ctrl.map.markers.marker.lng, 18,
                     function(err, data) {
                         $ctrl.reloadingInfo = false;
                         if (data && data.address) {
@@ -71,6 +76,25 @@ angular.module('opengate-angular-js').controller('customUiMapController', ['$sco
 
         $ctrl.map.id = $scope.$id;
 
+
+        $ctrl.searchCoords = function() {
+            $ctrl.map.center = {
+                lat: $ctrl.coordsObj.new.lat,
+                lng: $ctrl.coordsObj.new.lng,
+                zoom: 17
+            };
+
+            $ctrl.coordsObj = {
+                current: { lat: $ctrl.coordsObj.new.lat, lng: $ctrl.coordsObj.new.lng },
+                new: { lat: $ctrl.coordsObj.new.lat, lng: $ctrl.coordsObj.new.lng }
+            };
+
+            mapUxService.getMapWithId($ctrl.map.id, function(map) {
+                map.invalidateSize();
+                map.fireEvent('focus')
+            });
+        };
+
         var events = [];
 
         events.push(
@@ -119,6 +143,11 @@ angular.module('opengate-angular-js').controller('customUiMapController', ['$sco
             }
 
             $ctrl.location.position.coordinates = [lng, lat];
+
+            $ctrl.coordsObj = {
+                current: { lat: lat, lng: lng },
+                new: { lat: lat, lng: lng }
+            };
 
             $ctrl.location.zoom = zoom ? zoom : $ctrl.map.center.zoom;
 
@@ -179,9 +208,9 @@ angular.module('opengate-angular-js').controller('customUiMapController', ['$sco
             $scope.$apply();
             mapUxService.getMapWithId($ctrl.map.id, function(map) {
                 map.invalidateSize();
-                //map.fireEvent('focus')
+                map.fireEvent('focus')
             });
-        }, 250);
+        }, 500);
 
         //clear events
         $ctrl.$onDestroy = function() {

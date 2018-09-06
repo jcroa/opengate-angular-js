@@ -498,7 +498,7 @@
 
             var reverseSearchUrl = _baseAddress + '/reverse';
             var url = reverseSearchUrl + '?format=json&lat=' + lat + '&lon=' + lon +
-                '&zoom=' + zoom + '&addressdetails=1' + (language_code ? '&accept-language=' + language_code : '');
+                '&zoom=' + zoom + '&addressdetails=1&polygon_geojson=1' + (language_code ? '&accept-language=' + language_code : '');
 
             $http({
                 method: 'GET',

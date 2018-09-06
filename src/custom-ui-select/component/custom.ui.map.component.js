@@ -95,6 +95,25 @@ angular.module('opengate-angular-js').controller('customUiMapController', ['$sco
             });
         };
 
+        $ctrl.applyCoords = function() {
+            $ctrl.coordsObj = {
+                current: { lat: $ctrl.coordsObj.new.lat, lng: $ctrl.coordsObj.new.lng },
+                new: { lat: $ctrl.coordsObj.new.lat, lng: $ctrl.coordsObj.new.lng }
+            };
+
+            mapUxService.getMapWithId($ctrl.map.id, function(map) {
+                map.invalidateSize();
+                map.fireEvent('focus')
+            });
+
+            if (!$ctrl.disabled) {
+                delete $ctrl.map.markers.marker;
+                setPosition($ctrl.coordsObj.new.lat, $ctrl.coordsObj.new.lng);
+
+                $ctrl.getInfo();
+            }
+        };
+
         var events = [];
 
         events.push(

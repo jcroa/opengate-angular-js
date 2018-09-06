@@ -3,7 +3,10 @@
     <div class="row" ng-if="!$ctrl.disabled">
         <div class="col-xs-3 form-group no-margin"><input ng-required="$ctrl.required" type="number" class="form-control" title="{{ 'FORM.TITLE.LATITUDE' | translate }}" placeholder="{{ 'FORM.TITLE.LATITUDE' | translate }}" ng-model="$ctrl.coordsObj.new.lat"></div>
         <div class="col-xs-3 form-group no-margin"><input ng-required="$ctrl.required" type="number" class="form-control" title="{{ 'FORM.TITLE.LONGITUDE' | translate }}" placeholder="{{ 'FORM.TITLE.LONGITUDE' | translate }}" ng-model="$ctrl.coordsObj.new.lng"></div>
-        <div class="col-xs-2 form-group no-margin"><button type="button" ng-disabled="$ctrl.coordsObj.current.lat === $ctrl.coordsObj.new.lat && $ctrl.coordsObj.current.lng === $ctrl.coordsObj.new.lng" class="btn btn-default no-margin" ng-click="$ctrl.searchCoords()"><i class="fa fa-search"></i></button></div>
+        <div class="col-xs-2 form-group no-margin">
+            <button type="button" ng-disabled="$ctrl.coordsObj.current.lat === $ctrl.coordsObj.new.lat && $ctrl.coordsObj.current.lng === $ctrl.coordsObj.new.lng" class="btn btn-info no-margin" ng-click="$ctrl.searchCoords()"><i class="fa fa-search"></i></button>
+            <button type="button" ng-if="!$ctrl.disabled" class="btn btn-default no-margin" ng-click="$ctrl.applyCoords()"><i class="fa fa-map-marker"></i></button>
+        </div>
     </div>
     <div class="col-xs-12"><small>{{ $ctrl.display_name }}&nbsp;</small></div>
     <leaflet ng-show="$ctrl.showMap" id="{{ $ctrl.map.id }}" lf-center="$ctrl.map.center" layers="$ctrl.map.layers" controls="$ctrl.map.controls" event-broadcast="$ctrl.map.events" markers="$ctrl.map.markers" width="100%" height="150px"></leaflet>

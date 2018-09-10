@@ -8,7 +8,7 @@ angular.module('opengate-angular-js')
         scope: {
             ngModel: '=',
             ngValue: '=',
-            ngRequired: '=',
+            ngRequired: '<',
             placeholder: '@',
             format: '@',
             mode: '@',
@@ -36,7 +36,7 @@ angular.module('opengate-angular-js')
                     $scope.format = 'yyyy-MM-dd';
                     $scope.visibleFormat = 'dd MMMM yyyy';
                 } else if (!$scope.enableDate && $scope.enableTime) {
-                    $scope.format = 'HH:mm';
+                    $scope.format = 'HH:mm:ss';
                     $scope.visibleFormat = 'HH:mm';
                 } else {
                     $scope.format = 'yyyy-MM-ddTHH:mm:ss.sssZ';

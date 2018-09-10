@@ -96,11 +96,13 @@ angular.module('opengate-angular-js')
             $scope.pickerOptions = {
                 datePicker: {
                     startingDay: 1,
-                    showWeeks: false
+                    showWeeks: false,
+                    appendToBody: true
                 },
                 timePicker: {
                     //max: $scope.fromMax,
-                    showMeridian: false
+                    showMeridian: false,
+                    appendToBody: true
                 }
             };
 

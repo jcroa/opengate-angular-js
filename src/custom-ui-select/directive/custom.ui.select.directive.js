@@ -116,7 +116,7 @@ angular.module('opengate-angular-js')
                     function _loadCollectionTimeout(filter) {
                         var builder = uiConfig.builder,
                             id = uiConfig.rootKey,
-                            limit = uiConfig.limit ? uiConfig.limit : 1000;
+                            limit = uiConfig.limit ? uiConfig.limit : 25;
 
                         function _processingData(datas) {
                             var _collection = [];

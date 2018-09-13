@@ -3,9 +3,34 @@
 
 angular.module('opengate-angular-js').controller('customUiSelectAssetController', ['$scope', '$element', '$attrs', '$api', '$doActions', '$translate',
     function($scope, $element, $attrs, $api, $doActions, $translate) {
+        var selectBuilder = $api().newSelectBuilder();
+        var SE = $api().SE;
+
+        selectBuilder.add(SE.element('provision.administration.identifier', [{
+            field: 'value'
+        }]));
+        selectBuilder.add(SE.element('provision.administration.organization', [{
+            field: 'value'
+        }]));
+        selectBuilder.add(SE.element('provision.administration.channel', [{
+            field: 'value'
+        }]));
+        selectBuilder.add(SE.element('resourceType', [{
+            field: 'value'
+        }]));
+        selectBuilder.add(SE.element('provision.asset.identifier', [{
+            field: 'value'
+        }]));
+        selectBuilder.add(SE.element('provision.asset.name', [{
+            field: 'value'
+        }]));
+        selectBuilder.add(SE.element('provision.asset.specificType', [{
+            field: 'value'
+        }]));
+
         var ctrl = this;
         ctrl.ownConfig = {
-            builder: $api().assetsSearchBuilder(),
+            builder: $api().assetsSearchBuilder().select(selectBuilder),
             filter: function(search) {
                 var filter = {
                     'or': [

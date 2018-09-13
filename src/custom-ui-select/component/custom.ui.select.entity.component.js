@@ -5,8 +5,49 @@ angular.module('opengate-angular-js').controller('customUiSelectEntityController
     function($scope, $element, $attrs, $api) {
         var ctrl = this;
 
+        var selectBuilder = $api().newSelectBuilder();
+        var SE = $api().SE;
+
+        selectBuilder.add(SE.element('provision.administration.identifier', [{
+            field: 'value'
+        }]));
+        selectBuilder.add(SE.element('provision.administration.organization', [{
+            field: 'value'
+        }]));
+        selectBuilder.add(SE.element('provision.administration.channel', [{
+            field: 'value'
+        }]));
+        selectBuilder.add(SE.element('resourceType', [{
+            field: 'value'
+        }]));
+        selectBuilder.add(SE.element('provision.device.identifier', [{
+            field: 'value'
+        }]));
+        selectBuilder.add(SE.element('provision.device.specificType', [{
+            field: 'value'
+        }]));
+        selectBuilder.add(SE.element('provision.device.operationalStatus', [{
+            field: 'value'
+        }]));
+        selectBuilder.add(SE.element('provision.device.communicationModules[].specificType', [{
+            field: 'value'
+        }]));
+        selectBuilder.add(SE.element('provision.device.communicationModules[].subscription.specificType', [{
+            field: 'value'
+        }]));
+        selectBuilder.add(SE.element('provision.device.communicationModules[].subscriber.specificType', [{
+            field: 'value'
+        }]));
+
+        selectBuilder.add(SE.element('provision.asset.identifier', [{
+            field: 'value'
+        }]));
+        selectBuilder.add(SE.element('provision.asset.specificType', [{
+            field: 'value'
+        }]));
+
         ctrl.ownConfig = {
-            builder: $api().entitiesSearchBuilder(),
+            builder: $api().entitiesSearchBuilder().select(selectBuilder),
             filter: function(search) {
                 return {
                     'or': [
@@ -14,11 +55,7 @@ angular.module('opengate-angular-js').controller('customUiSelectEntityController
                         { 'like': { 'provision.device.specificType': search } },
                         { 'like': { 'device.specificType': search } },
                         { 'like': { 'provision.entity.specificType': search } },
-                        { 'like': { 'provision.device.communicationModules[].subscriber.identifier': search } },
-                        { 'like': { 'device.communicationModules[].subscriber.identifier': search } },
-                        { 'like': { 'provision.device.communicationModules[].subscriber.mobile.icc': search } },
-                        { 'like': { 'device.communicationModules[].subscriber.specificType': search } },
-                        { 'like': { 'provision.device.communicationModules[].subscriber.specificType': search } }
+                        { 'like': { 'provision.device.communicationModules[].specificType': search } }
                     ]
                 };
             },

@@ -3,9 +3,44 @@
 
 angular.module('opengate-angular-js').controller('customUiSelectDeviceController', ['$scope', '$element', '$attrs', '$api', '$translate', '$doActions',
     function($scope, $element, $attrs, $api, $translate, $doActions) {
+        var selectBuilder = $api().newSelectBuilder();
+        var SE = $api().SE;
+
+        selectBuilder.add(SE.element('provision.administration.identifier', [{
+            field: 'value'
+        }]));
+        selectBuilder.add(SE.element('provision.administration.organization', [{
+            field: 'value'
+        }]));
+        selectBuilder.add(SE.element('provision.administration.channel', [{
+            field: 'value'
+        }]));
+        selectBuilder.add(SE.element('resourceType', [{
+            field: 'value'
+        }]));
+        selectBuilder.add(SE.element('provision.device.identifier', [{
+            field: 'value'
+        }]));
+        selectBuilder.add(SE.element('provision.device.specificType', [{
+            field: 'value'
+        }]));
+        selectBuilder.add(SE.element('provision.device.operationalStatus', [{
+            field: 'value'
+        }]));
+
+        selectBuilder.add(SE.element('provision.device.communicationModules[].specificType', [{
+            field: 'value'
+        }]));
+        selectBuilder.add(SE.element('provision.device.communicationModules[].subscription.specificType', [{
+            field: 'value'
+        }]));
+        selectBuilder.add(SE.element('provision.device.communicationModules[].subscriber.specificType', [{
+            field: 'value'
+        }]));
+
         var ctrl = this;
         ctrl.ownConfig = {
-            builder: $api().devicesSearchBuilder(),
+            builder: $api().devicesSearchBuilder().select(selectBuilder),
             filter: function(search) {
                 var filter = {
                     'or': [

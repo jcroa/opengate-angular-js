@@ -69,6 +69,9 @@ _wizard.controller('helperDialogController', ['$scope', '$element', '$attrs', '$
                     } else {
                         return $helper.selected;
                     }
+                },
+                fullCopy: function() {
+                    return $helper.fullCopy;
                 }
             }
         });
@@ -97,8 +100,8 @@ _wizard.controller('helperDialogController', ['$scope', '$element', '$attrs', '$
     };
 }]);
 
-_wizard.controller('helperDialogModalController', ['$scope', '$uibModalInstance', 'helper_id', 'helper_exclusive', 'specific_type', 'exclude_devices', 'helper_extra', 'helper_selected', 'helper_type', 'Upload', 'mapUxService', '$translate',
-    function($scope, $uibModalInstance, helper_id, helper_exclusive, specific_type, exclude_devices, helper_extra, helper_selected, helper_type, Upload, mapUxService, $translate) {
+_wizard.controller('helperDialogModalController', ['$scope', '$uibModalInstance', 'helper_id', 'helper_exclusive', 'specific_type', 'exclude_devices', 'helper_extra', 'helper_selected', 'helper_type', 'Upload', 'mapUxService', '$translate', 'fullCopy',
+    function($scope, $uibModalInstance, helper_id, helper_exclusive, specific_type, exclude_devices, helper_extra, helper_selected, helper_type, Upload, mapUxService, $translate, fullCopy) {
         var $ctrl = this;
         $ctrl.helper_extra = helper_extra;
 
@@ -505,23 +508,23 @@ _wizard.controller('helperDialogModalController', ['$scope', '$uibModalInstance'
 
         //Modal methods
         $ctrl.ok = function(helper) {
-            // if (helper) {
-            //     $uibModalInstance.close($ctrl.helper_keys[helper]);
-            // } else {
-            var finalKeys = {};
-            angular.forEach($ctrl.helper_keys, function(value, key) {
-                if (key.trim().toLowerCase() === 'subscriber' || key.trim().toLowerCase() === 'subscription') {
-                    var identifier = value.provision[key.trim().toLowerCase()].identifier._current.value;
-                    finalKeys[key.trim().toLowerCase() + 'Key'] = identifier;
-                } else {
-                    angular.forEach(value, function(finalValue, finalkey) {
-                        finalKeys[finalkey] = finalValue;
-                    });
-                }
-            });
+            if (helper && fullCopy) {
+                $uibModalInstance.close($ctrl.helper_keys[helper]);
+            } else {
+                var finalKeys = {};
+                angular.forEach($ctrl.helper_keys, function(value, key) {
+                    if (key.trim().toLowerCase() === 'subscriber' || key.trim().toLowerCase() === 'subscription') {
+                        var identifier = value.provision[key.trim().toLowerCase()].identifier._current.value;
+                        finalKeys[key.trim().toLowerCase() + 'Key'] = identifier;
+                    } else {
+                        angular.forEach(value, function(finalValue, finalkey) {
+                            finalKeys[finalkey] = finalValue;
+                        });
+                    }
+                });
 
-            $uibModalInstance.close(finalKeys);
-            // }
+                $uibModalInstance.close(finalKeys);
+            }
         };
         $ctrl.cancel = function() {
             $uibModalInstance.dismiss('cancel');
@@ -554,6 +557,7 @@ _wizard.component('helperDialog', {
         helperType: '@?',
         modalTemplate: '@',
         modalController: '@',
-        onMulti: '<'
+        onMulti: '<',
+        fullCopy: '='
     }
 });

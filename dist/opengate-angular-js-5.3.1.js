@@ -9838,6 +9838,9 @@ _wizard.controller('helperDialogController', ['$scope', '$element', '$attrs', '$
                     } else {
                         return $helper.selected;
                     }
+                },
+                fullCopy: function() {
+                    return $helper.fullCopy;
                 }
             }
         });
@@ -9866,8 +9869,8 @@ _wizard.controller('helperDialogController', ['$scope', '$element', '$attrs', '$
     };
 }]);
 
-_wizard.controller('helperDialogModalController', ['$scope', '$uibModalInstance', 'helper_id', 'helper_exclusive', 'specific_type', 'exclude_devices', 'helper_extra', 'helper_selected', 'helper_type', 'Upload', 'mapUxService', '$translate',
-    function($scope, $uibModalInstance, helper_id, helper_exclusive, specific_type, exclude_devices, helper_extra, helper_selected, helper_type, Upload, mapUxService, $translate) {
+_wizard.controller('helperDialogModalController', ['$scope', '$uibModalInstance', 'helper_id', 'helper_exclusive', 'specific_type', 'exclude_devices', 'helper_extra', 'helper_selected', 'helper_type', 'Upload', 'mapUxService', '$translate', 'fullCopy',
+    function($scope, $uibModalInstance, helper_id, helper_exclusive, specific_type, exclude_devices, helper_extra, helper_selected, helper_type, Upload, mapUxService, $translate, fullCopy) {
         var $ctrl = this;
         $ctrl.helper_extra = helper_extra;
 
@@ -10274,23 +10277,23 @@ _wizard.controller('helperDialogModalController', ['$scope', '$uibModalInstance'
 
         //Modal methods
         $ctrl.ok = function(helper) {
-            // if (helper) {
-            //     $uibModalInstance.close($ctrl.helper_keys[helper]);
-            // } else {
-            var finalKeys = {};
-            angular.forEach($ctrl.helper_keys, function(value, key) {
-                if (key.trim().toLowerCase() === 'subscriber' || key.trim().toLowerCase() === 'subscription') {
-                    var identifier = value.provision[key.trim().toLowerCase()].identifier._current.value;
-                    finalKeys[key.trim().toLowerCase() + 'Key'] = identifier;
-                } else {
-                    angular.forEach(value, function(finalValue, finalkey) {
-                        finalKeys[finalkey] = finalValue;
-                    });
-                }
-            });
+            if (helper && fullCopy) {
+                $uibModalInstance.close($ctrl.helper_keys[helper]);
+            } else {
+                var finalKeys = {};
+                angular.forEach($ctrl.helper_keys, function(value, key) {
+                    if (key.trim().toLowerCase() === 'subscriber' || key.trim().toLowerCase() === 'subscription') {
+                        var identifier = value.provision[key.trim().toLowerCase()].identifier._current.value;
+                        finalKeys[key.trim().toLowerCase() + 'Key'] = identifier;
+                    } else {
+                        angular.forEach(value, function(finalValue, finalkey) {
+                            finalKeys[finalkey] = finalValue;
+                        });
+                    }
+                });
 
-            $uibModalInstance.close(finalKeys);
-            // }
+                $uibModalInstance.close(finalKeys);
+            }
         };
         $ctrl.cancel = function() {
             $uibModalInstance.dismiss('cancel');
@@ -10323,7 +10326,8 @@ _wizard.component('helperDialog', {
         helperType: '@?',
         modalTemplate: '@',
         modalController: '@',
-        onMulti: '<'
+        onMulti: '<',
+        fullCopy: '='
     }
 });
 
@@ -13885,6 +13889,108 @@ DataUrlFormatter.prototype.format = function (value) {
 function DataUrlFormatter() {}
 
 
+/**
+ * Edits by Ryan Hutchison
+ * Credit: https://github.com/paulyoder/angular-bootstrap-show-errors */
+
+angular.module('opengate-angular-js')
+    .directive('showErrors', ['$timeout', '$interpolate', function($timeout, $interpolate) {
+        var linkFn = function(scope, el, attrs, formCtrl) {
+            var inputEl, inputName, inputNgEl, options, showSuccess, toggleClasses,
+                initCheck = false,
+                showValidationMessages = false,
+                blurred = false;
+
+            options = scope.$eval(attrs.showErrors) || {};
+            showSuccess = options.showSuccess || false;
+            inputEl = el[0].querySelector('.form-control[name]') || el[0].querySelector('[name]');
+            inputNgEl = angular.element(inputEl);
+            inputName = $interpolate(inputNgEl.attr('name') || '')(scope);
+
+            if (!inputName) {
+                throw 'show-errors element has no child input elements with a \'name\' attribute class';
+            }
+
+            var reset = function() {
+                return $timeout(function() {
+                    el.removeClass('has-error');
+                    el.removeClass('has-success');
+                    showValidationMessages = false;
+                }, 0, false);
+            };
+
+            scope.$watch(function() {
+                return formCtrl[inputName] && formCtrl[inputName].$invalid;
+            }, function(invalid) {
+                return toggleClasses(invalid);
+            });
+
+            scope.$on('show-errors-check-validity', function(event, name) {
+                if (angular.isUndefined(name) || formCtrl.$name === name) {
+                    initCheck = true;
+                    showValidationMessages = true;
+
+                    return toggleClasses(formCtrl[inputName].$invalid);
+                }
+            });
+
+            scope.$on('show-errors-reset', function(event, name) {
+                if (angular.isUndefined(name) || formCtrl.$name === name) {
+                    return reset();
+                }
+            });
+
+            toggleClasses = function(invalid) {
+                el.toggleClass('has-error', showValidationMessages && invalid);
+                if (showSuccess) {
+                    return el.toggleClass('has-success', showValidationMessages && !invalid);
+                }
+            };
+        };
+
+        return {
+            restrict: 'A',
+            require: '^form',
+            compile: function(elem, attrs) {
+                if (attrs.showErrors.indexOf('skipFormGroupCheck') === -1) {
+                    if (!(elem.hasClass('form-group') || elem.hasClass('input-group'))) {
+                        throw 'show-errors element does not have the \'form-group\' or \'input-group\' class';
+                    }
+                }
+                return linkFn;
+            }
+        };
+    }]);
+
+
+angular.module('opengate-angular-js')
+    .directive('elemReady', ["$parse", function($parse) {
+        return {
+            restrict: 'A',
+            link: function($scope, elem, attrs) {
+                elem.ready(function() {
+                    $scope.$apply(function() {
+                        var func = $parse(attrs.elemReady);
+                        func($scope);
+                    });
+                });
+            }
+        };
+    }]);
+
+
+angular.module('opengate-angular-js').directive('disallowSpaces', function() {
+    return {
+        restrict: 'A',
+        link: function($scope, $element) {
+            $element.bind('input', function() {
+                window.$(this).val(window.$(this).val().replace(/ /g, ''));
+            });
+        }
+    };
+});
+
+
 angular.module('opengate-angular-js')
 
 .filter('communicationsInterface', function() {
@@ -14019,108 +14125,6 @@ angular.module('opengate-angular-js')
             return input;
         };
     });
-
-
-/**
- * Edits by Ryan Hutchison
- * Credit: https://github.com/paulyoder/angular-bootstrap-show-errors */
-
-angular.module('opengate-angular-js')
-    .directive('showErrors', ['$timeout', '$interpolate', function($timeout, $interpolate) {
-        var linkFn = function(scope, el, attrs, formCtrl) {
-            var inputEl, inputName, inputNgEl, options, showSuccess, toggleClasses,
-                initCheck = false,
-                showValidationMessages = false,
-                blurred = false;
-
-            options = scope.$eval(attrs.showErrors) || {};
-            showSuccess = options.showSuccess || false;
-            inputEl = el[0].querySelector('.form-control[name]') || el[0].querySelector('[name]');
-            inputNgEl = angular.element(inputEl);
-            inputName = $interpolate(inputNgEl.attr('name') || '')(scope);
-
-            if (!inputName) {
-                throw 'show-errors element has no child input elements with a \'name\' attribute class';
-            }
-
-            var reset = function() {
-                return $timeout(function() {
-                    el.removeClass('has-error');
-                    el.removeClass('has-success');
-                    showValidationMessages = false;
-                }, 0, false);
-            };
-
-            scope.$watch(function() {
-                return formCtrl[inputName] && formCtrl[inputName].$invalid;
-            }, function(invalid) {
-                return toggleClasses(invalid);
-            });
-
-            scope.$on('show-errors-check-validity', function(event, name) {
-                if (angular.isUndefined(name) || formCtrl.$name === name) {
-                    initCheck = true;
-                    showValidationMessages = true;
-
-                    return toggleClasses(formCtrl[inputName].$invalid);
-                }
-            });
-
-            scope.$on('show-errors-reset', function(event, name) {
-                if (angular.isUndefined(name) || formCtrl.$name === name) {
-                    return reset();
-                }
-            });
-
-            toggleClasses = function(invalid) {
-                el.toggleClass('has-error', showValidationMessages && invalid);
-                if (showSuccess) {
-                    return el.toggleClass('has-success', showValidationMessages && !invalid);
-                }
-            };
-        };
-
-        return {
-            restrict: 'A',
-            require: '^form',
-            compile: function(elem, attrs) {
-                if (attrs.showErrors.indexOf('skipFormGroupCheck') === -1) {
-                    if (!(elem.hasClass('form-group') || elem.hasClass('input-group'))) {
-                        throw 'show-errors element does not have the \'form-group\' or \'input-group\' class';
-                    }
-                }
-                return linkFn;
-            }
-        };
-    }]);
-
-
-angular.module('opengate-angular-js')
-    .directive('elemReady', ["$parse", function($parse) {
-        return {
-            restrict: 'A',
-            link: function($scope, elem, attrs) {
-                elem.ready(function() {
-                    $scope.$apply(function() {
-                        var func = $parse(attrs.elemReady);
-                        func($scope);
-                    });
-                });
-            }
-        };
-    }]);
-
-
-angular.module('opengate-angular-js').directive('disallowSpaces', function() {
-    return {
-        restrict: 'A',
-        link: function($scope, $element) {
-            $element.bind('input', function() {
-                window.$(this).val(window.$(this).val().replace(/ /g, ''));
-            });
-        }
-    };
-});
 
 
 

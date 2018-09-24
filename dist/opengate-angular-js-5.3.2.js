@@ -3,8 +3,6 @@
 angular.module('uxleaflet', []);
 angular.module('opengate-angular-js', ['schemaForm', 'uxleaflet', 'ui-leaflet']);
 angular.module("opengate-angular-js").run(["$templateCache", function($templateCache) {$templateCache.put("components/views/fieldOptions.html","<small class=ux-txt-danger ng-if=$ctrl.required title=\"{{ \'FORM.FIELD.REQUIRED\' | translate }}\">*</small> <small class=ux-txt-warning ng-if=$ctrl.optional title=\"{{ \'FORM.FIELD.OPTIONAL\' | translate }}\">(-)</small> <small class=ux-txt-info ng-if=$ctrl.multiple title=\"{{ \'FORM.FIELD.MULTIPLE\' | translate }}\"><span class=fa-stack style=font-size:0.5em;><i class=\"fa fa-clone fa-stack-2x\"></i> <i class=\"fa fa-check fa-stack-1x\"></i></span></small> <small class=ux-txt-info ng-if=$ctrl.loading><span class=\"fa fa-spinner fa-spin\" style=font-size:1.2em;></span></small> <small ng-if=$ctrl.action class=pointer permission permission-only=$ctrl.action.permissions title={{$ctrl.action.title}} ng-click=$ctrl.action.action(choice.value)><i class=\"{{$ctrl.action.icon}} text-primary pointer\" style=font-size:1.2em;></i></small>");
-$templateCache.put("helper/views/custom.ui.select.helper.html","<div class=form-group ng-hide=$ctrl.have_helper_keys ng-transclude=input><label for={{$ctrl.id}}>{{$ctrl.labelText | translate }}<field-options required=$ctrl.required></field-options></label> <input class=form-control name={{$ctrl.name}} type=text id={{$ctrl.id}} ng-model=$ctrl.helperModel ng-required=$ctrl.required> <span class=help-inline ng-show=\"!$ctrl.helperModel && $ctrl.required\">{{$ctrl.labelError}}</span></div><div class=form-group ng-hide=!$ctrl.have_helper_keys><label for={{$ctrl.id}}>{{$ctrl.labelText | translate }}<field-options required=$ctrl.required></field-options></label><ui-select id={{$ctrl.id}} name={{$ctrl.name}} ng-model=$ctrl.helperModel theme=bootstrap title=\"Choose an option\" ng-required=$ctrl.required tagging=$ctrl.helperTagTransform tagging-label=false><ui-select-match placeholder=\"Choose an option\"><span ng-if=\"$select.selected && $select.selected.key !== \'image\'\">{{$select.selected.value}}</span> <img ng-if=\"$select.selected && $select.selected.key === \'image\'\" src=\"{{ $select.selected.value }}\" style=max-height:30px;></ui-select-match><ui-select-choices repeat=\"parameter.value as (key, parameter) in $ctrl.$helper_keys | filter: $select.search\"><span ng-bind-html=\"parameter.key | highlight: $select.search\"></span>: <small ng-if=\"parameter.key !== \'image\'\" ng-bind-html=\"parameter.value | highlight: $select.search\"></small> <img ng-if=\"parameter.key === \'image\'\" src=\"{{ parameter.value }}\" style=max-height:30px;></ui-select-choices></ui-select></div>");
-$templateCache.put("helper/views/helper.view.html","<div class=\"container col-md-12 col-xs-12\" style=padding-left:0;padding-right:0 ng-transclude></div><div class=\"col-xs-12 col-md-12 text-right no-margin no-padding\"><a class=\"btn btn-default btn-xs ux-txt-info pointer oux-button-margin\" ng-href ng-click=$helper.open() ng-switch=$helper.mode><span ng-switch-when=button><i ng-class=$helper.helperButton aria-hidden=true></i></span> <span ng-switch-when=title>{{$helper.helperTitle}}</span> <span ng-switch-when=title_button><i ng-class=$helper.helperButton aria-hidden=true></i>{{$helper.helperTitle}}</span> <span ng-switch-default><i ng-if=\"!$helper.helperTitle && !$helper.helperButton\" class=\"fa fa-lg fa-search-plus\" title=\"{{ \'FORM.HELPER.TITLE\' | translate }}\" aria-hidden=true></i></span></a></div><script type=text/ng-template id=helper.view.modal.html><div class=\"modal-header\"> <h4 class=\"modal-title\">{{ \'FORM.HELPER.TITLE\' | translate }}</h4> </div> <div class=\"modal-body without-padding-top\"> <uib-accordion close-others=\"true\"> <div uib-accordion-group is-open=\"$ctrl.mapIsOpen\" ng-hide=\"$ctrl.helper_exclusive ? !$ctrl.mapIsExclusive : false\" class=\"map-option\"> <div uib-accordion-heading>Map</div> <div class=\"row\" ng-if=\"$ctrl.mapIsOpen\"> <div class=\"col-xs-12\"> <div class=\"form-group leaflet-container\"> <leaflet id=\"map-marker\" lf-center=\"$ctrl.map.center\" layers=\"$ctrl.map.layers\" controls=\"$ctrl.map.controls\" event-broadcast=\"$ctrl.map.events\" markers=\"$ctrl.map.markers\" width=\"100% \" height=\"300px\"></leaflet> </div> </div> <div class=\"col-xs-12 text-right\" ng-if=\"$ctrl.helper_exclusive\"> <a class=\"top-buffer btn btn-default ux-txt-success pointer\" ng-class=\"{\'disabled\': !$ctrl.helper_keys.map}\" ng-click=\"$ctrl.ok(\'map\')\" ng-disabled=\"!$ctrl.helper_keys.map\"> <i class=\"fa fa-lg fa-files-o\" aria-hidden=\"true\"></i> </a> </div> </div> </div> <div uib-accordion-group is-open=\"$ctrl.entityIsOpen\" ng-hide=\"$ctrl.helper_exclusive ? !$ctrl.entityIsExclusive: false\" class=\"entity-option\"> <div uib-accordion-heading>{{ \'FORM.ENTITY\' | translate }}</div> <div class=\"row row-eq-height\"> <div class=\"col-xs-10\"> <custom-ui-select-entity on-select-item=\"$ctrl.onSelectEntityKey($item, $model)\" on-remove=\"$ctrl.onDeleteEntityKey()\" entity=\"$ctrl.entity.selected\" multiple=\"false\"> </custom-ui-select-entity> </div> <div class=\"col-xs-2 vcenter no-padding\" ng-if=\"$ctrl.helper_exclusive\"> <a class=\"top-buffer btn btn-default ux-txt-success pointer\" ng-class=\"{\'disabled\': !$ctrl.helper_keys.entity}\" ng-click=\"$ctrl.ok(\'entity\')\" ng-disabled=\"!$ctrl.helper_keys.entity\"> <i class=\"fa fa-lg fa-files-o\" aria-hidden=\"true\"></i> </a> </div> </div> </div> <div uib-accordion-group is-open=\"$ctrl.deviceIsOpen\" ng-hide=\"$ctrl.helper_exclusive ? (!$ctrl.entityIsExclusive && !$ctrl.deviceIsExclusive): false\" class=\"device-option\"> <div uib-accordion-heading>{{ \'FORM.DEVICES\' | translate }}</div> <div class=\"row row-eq-height\"> <div class=\"col-xs-10\"> <custom-ui-select-device on-select-item=\"$ctrl.onSelectDeviceKey($item, $model)\" on-remove=\"$ctrl.onDeleteDeviceKey()\" device=\"$ctrl.device.selected\" multiple=\"false\" specific-type=\"{{$ctrl.specific_type}}\"> </custom-ui-select-device> </div> <div class=\"col-xs-2 vcenter no-padding\" ng-if=\"$ctrl.helper_exclusive\"> <a class=\"top-buffer btn btn-default ux-txt-success pointer\" ng-class=\"{\'disabled\': !$ctrl.helper_keys.device}\" ng-click=\"$ctrl.ok(\'device\')\" ng-disabled=\"!$ctrl.helper_keys.device\"> <i class=\"fa fa-lg fa-files-o\" aria-hidden=\"true\"></i> </a> </div> </div> </div> <div uib-accordion-group is-open=\"$ctrl.assetIsOpen\" ng-hide=\"$ctrl.helper_exclusive ? (!$ctrl.entityIsExclusive && !$ctrl.assetIsExclusive): false\" class=\"asset-option\"> <div uib-accordion-heading>{{ \'FORM.ASSETS\' | translate }}</div> <div class=\"row row-eq-height\"> <div class=\"col-xs-10\"> <custom-ui-select-asset on-select-item=\"$ctrl.onSelectAssetKey($item, $model)\" on-remove=\"$ctrl.onDeleteAssetKey()\" asset=\"$ctrl.asset.selected\" multiple=\"false\" specific-type=\"{{$ctrl.specific_type}}\"></custom-ui-select-asset> </div> <div class=\"col-xs-2 vcenter no-padding\" ng-if=\"$ctrl.helper_exclusive\"> <a class=\"top-buffer btn btn-default ux-txt-success pointer\" ng-class=\"{\'disabled\': !$ctrl.helper_keys.asset}\" ng-click=\"$ctrl.ok(\'asset\')\" ng-disabled=\"!$ctrl.helper_keys.asset\"> <i class=\"fa fa-lg fa-files-o\" aria-hidden=\"true\"></i> </a> </div> </div> </div> <div uib-accordion-group is-open=\"$ctrl.subscriberIsOpen\" class=\"subscriber-option\" ng-hide=\"$ctrl.helper_exclusive ? (!$ctrl.entityIsExclusive && !$ctrl.subscriberIsExclusive): false\"> <div uib-accordion-heading>{{ \'FORM.SUBSCRIBERS\' | translate }}</div> <div class=\"row row-eq-height\"> <div class=\"col-xs-10\"> <custom-ui-select-subscriber on-select-item=\"$ctrl.onSelectSubscriberKey($item, $model)\" specific-type=\"{{$ctrl.specific_type}}\" exclude-devices=\"$ctrl.exclude_devices\" on-remove=\"$ctrl.onDeleteSubscriberKey()\" entity=\"$ctrl.subscriber.selected\" multiple=\"false\"> </custom-ui-select-subscriber> </div> <div class=\"col-xs-2 vcenter no-padding\" ng-if=\"$ctrl.helper_exclusive\"> <a class=\"top-buffer btn btn-default ux-txt-success pointer\" ng-class=\"{\'disabled\': !$ctrl.helper_keys.subscriber}\" ng-click=\"$ctrl.ok(\'subscriber\')\" ng-disabled=\"!$ctrl.helper_keys.subscriber\"> <i class=\"fa fa-lg fa-files-o\" aria-hidden=\"true\"></i> </a> </div> </div> </div> <div uib-accordion-group is-open=\"$ctrl.subscriptionIsOpen\" class=\"subscription-option\" ng-hide=\"$ctrl.helper_exclusive ? (!$ctrl.entityIsExclusive && !$ctrl.subscriptionIsExclusive): false\"> <div uib-accordion-heading>{{ \'FORM.SUBSCRIPTIONS\' | translate }}</div> <div class=\"row row-eq-height\"> <div class=\"col-xs-10\"> <custom-ui-select-subscription on-select-item=\"$ctrl.onSelectSubscriptionKey($item, $model)\" specific-type=\"{{$ctrl.specific_type}}\" exclude-devices=\"$ctrl.exclude_devices\" on-remove=\"$ctrl.onDeleteSubscriptionKey()\" entity=\"$ctrl.subscription.selected\" multiple=\"false\"> </custom-ui-select-subscription> </div> <div class=\"col-xs-2 vcenter no-padding\" ng-if=\"$ctrl.helper_exclusive\"> <a class=\"top-buffer btn btn-default ux-txt-success pointer\" ng-class=\"{\'disabled\': !$ctrl.helper_keys.subscription}\" ng-click=\"$ctrl.ok(\'subscription\')\" ng-disabled=\"!$ctrl.helper_keys.subscription\"> <i class=\"fa fa-lg fa-files-o\" aria-hidden=\"true\"></i> </a> </div> </div> </div> <div uib-accordion-group is-open=\"$ctrl.datastreamIsOpen\" ng-hide=\"$ctrl.helper_exclusive ? !$ctrl.datastreamIsExclusive: false\" class=\"datastream-option\"> <div uib-accordion-heading>{{ \'FORM.DATASTREAM\' | translate }}</div> <div class=\"row row-eq-height\"> <div class=\"col-xs-10\"> <custom-ui-select-datastream on-select-item=\"$ctrl.onSelectDatastreamKey($item, $model)\" on-remove=\"$ctrl.onDeleteDatastreamKey()\" datastream=\"$ctrl.datastream.selected\" multiple=\"false\"> </custom-ui-select-datastream> </div> <div class=\"col-xs-2 vcenter no-padding\" ng-if=\"$ctrl.helper_exclusive\"> <a class=\"top-buffer btn btn-default ux-txt-success pointer\" ng-class=\"{\'disabled\': !$ctrl.helper_keys.datastream}\" ng-click=\"$ctrl.ok(\'datastream\')\" ng-disabled=\"!$ctrl.helper_keys.datastream\"> <i class=\"fa fa-lg fa-files-o\" aria-hidden=\"true\"></i> </a> </div> </div> </div> <div uib-accordion-group is-open=\"$ctrl.domainIsOpen\" class=\"domain-option\" ng-hide=\"$ctrl.helper_exclusive ? !$ctrl.domainIsExclusive: false\"> <div uib-accordion-heading>{{ \'FORM.DOMAINS\' | translate }}</div> <div class=\"row row-eq-height\"> <div class=\"col-xs-10\"> <custom-ui-select-domain on-select-item=\"$ctrl.onSelectDomainKey($item, $model)\" on-remove=\"$ctrl.onDeleteDomainKey()\" domain=\"$ctrl.domain.selected\" multiple=\"false\"> </custom-ui-select-domain> </div> <div class=\"col-xs-2 vcenter no-padding\" ng-if=\"$ctrl.helper_exclusive\"> <a class=\"top-buffer btn btn-default ux-txt-success pointer\" ng-class=\"{\'disabled\': !$ctrl.helper_keys.domain}\" ng-click=\"$ctrl.ok(\'domain\')\" ng-disabled=\"!$ctrl.helper_keys.domain\"> <i class=\"fa fa-lg fa-files-o\" aria-hidden=\"true\"></i> </a> </div> </div> </div> <div uib-accordion-group is-open=\"$ctrl.areaIsOpen\" class=\"area-option\" ng-hide=\"$ctrl.helper_exclusive ? !$ctrl.areaIsExclusive: false\"> <div uib-accordion-heading>{{ \'FORM.AREAS\' | translate }}</div> <div class=\"row row-eq-height\"> <div class=\"col-xs-10\"> <custom-ui-select-area on-select-item=\"$ctrl.onSelectAreaKey($item, $model)\" on-remove=\"$ctrl.onDeleteAreaKey()\" area=\"$ctrl.area.selected\" organization=\"$ctrl.area.organization\" multiple=\"false\"> </custom-ui-select-area> </div> <div class=\"col-xs-2 vcenter no-padding\" ng-if=\"$ctrl.helper_exclusive\"> <a class=\"top-buffer btn btn-default ux-txt-success pointer\" ng-class=\"{\'disabled\': !$ctrl.helper_keys.area}\" ng-click=\"$ctrl.ok(\'area\')\" ng-disabled=\"!$ctrl.helper_keys.area\"> <i class=\"fa fa-lg fa-files-o\" aria-hidden=\"true\"></i> </a> </div> </div> </div> <div uib-accordion-group is-open=\"$ctrl.bundleIsOpen\" class=\"bundle-option\" ng-hide=\"$ctrl.helper_exclusive ? !$ctrl.bundleIsExclusive: false\"> <div uib-accordion-heading>{{ \'FORM.BUNDLES\' | translate }}</div> <div class=\"row row-eq-height\"> <div class=\"col-xs-10\"> <custom-ui-select-bundle on-select-item=\"$ctrl.onSelectBundleKey($item, $model)\" on-remove=\"$ctrl.onDeleteBundleKey()\" bundle=\"$ctrl.bundle.selected\" multiple=\"false\"> </custom-ui-select-bundle> </div> <div class=\"col-xs-2 vcenter no-padding\" ng-if=\"$ctrl.helper_exclusive\"> <a class=\"top-buffer btn btn-default ux-txt-success pointer\" ng-class=\"{\'disabled\': !$ctrl.helper_keys.bundle}\" ng-click=\"$ctrl.ok(\'bundle\')\" ng-disabled=\"!$ctrl.helper_keys.bundle\"> <i class=\"fa fa-lg fa-files-o\" aria-hidden=\"true\"></i> </a> </div> </div> </div> <div uib-accordion-group is-open=\"$ctrl.imageIsOpen\" class=\"image-option\" ng-hide=\"$ctrl.helper_exclusive ? !$ctrl.imageIsExclusive: false\"> <div uib-accordion-heading>{{ \'FORM.IMAGE\' | translate }}</div> <div class=\"row row-eq-height\"> <div class=\"col-xs-12 col-md-8\"> <div name=\"image\" ng-if=\"!$ctrl.helper_keys.image && !$ctrl.helper_keys.image.image\" ngf-drop=\"$ctrl.imageSelected($file)\" ng-model=\"$ctrl.image\" ngf-max-size=\"1MB\" ngf-select=\"$ctrl.imageSelected($file)\" class=\"drop-box pointer\" ngf-drag-over-class=\"\'dragover\'\" ngf-multiple=\"false\" ng-required=\"$ctrl.helper_keys.image\" ngf-accept=\"\'image/*\'\" ngf-pattern=\"\'image/*\'\">{{ \'FORM.DRAG_DROP\' | translate }} <br>{{ \'FORM.MAX_SIZE\' | translate }}</div> <img ng-if=\"$ctrl.helper_keys.image && $ctrl.helper_keys.image.image\" src=\"{{ $ctrl.helper_keys.image.image }}\" style=\"max-height:200px;\" name=\"image\" /> </div> <div class=\"col-xs-12 col-md-4\"> <button id=\"idRemoveFileLink\" ng-if=\"$ctrl.helper_keys.image && $ctrl.helper_keys.image.image\" ng-click=\"$ctrl.removeDataFile()\" class=\"btn btn-warning ux-txt-warning pointer\"> <i class=\"fa fa-trash\" aria-hidden=\"true\"></i> {{ \'BUTTON.TITLE.REMOVE\' | translate }}</button> <a ng-if=\"$ctrl.helper_exclusive\" class=\"top-buffer btn btn-default ux-txt-success pointer\" ng-class=\"{\'disabled\': !$ctrl.helper_keys.bundle}\" ng-click=\"$ctrl.ok(\'bundle\')\" ng-disabled=\"!$ctrl.helper_keys.bundle\"> <i class=\"fa fa-lg fa-files-o\" aria-hidden=\"true\"></i> </a> </div> </div> </div> </uib-accordion> </div> <div class=\"modal-footer\"> <a ng-if=\"!$ctrl.helper_exclusive\" class=\"top-buffer btn btn-default ux-txt-success pointer\" ng-class=\"{\'disabled\': !$ctrl.canApply()}\" ng-click=\"$ctrl.ok()\" ng-disabled=\"!$ctrl.canApply()\"> <i class=\"fa fa-lg fa-files-o\" aria-hidden=\"true\"></i> {{\'BUTTON.TITLE.ALL\' | translate }} </a> <button class=\"btn btn-warning\" type=\"button\" ng-click=\"$ctrl.cancel()\">{{\'BUTTON.TITLE.CANCEL\' | translate}}</button> </div></script>");
 $templateCache.put("custom-ui-select/views/custom.ui.map.html","<div class=no-margin><div class=\"col-xs-12 no-padding\"><label class=custom-ui-select-label>{{ ($ctrl.label?$ctrl.label:\'FORM.LABEL.ENTITY_KEY\') | translate }}<field-options required=$ctrl.required multiple=$ctrl.multiple loading=$ctrl.reloadingInfo></field-options></label></div><div class=row ng-if=!$ctrl.disabled><div class=\"col-xs-3 form-group no-margin\"><input ng-required=$ctrl.required type=number class=form-control title=\"{{ \'FORM.TITLE.LATITUDE\' | translate }}\" placeholder=\"{{ \'FORM.TITLE.LATITUDE\' | translate }}\" ng-model=$ctrl.coordsObj.new.lat></div><div class=\"col-xs-3 form-group no-margin\"><input ng-required=$ctrl.required type=number class=form-control title=\"{{ \'FORM.TITLE.LONGITUDE\' | translate }}\" placeholder=\"{{ \'FORM.TITLE.LONGITUDE\' | translate }}\" ng-model=$ctrl.coordsObj.new.lng></div><div class=\"col-xs-2 form-group no-margin\"><button type=button ng-disabled=\"$ctrl.coordsObj.current.lat === $ctrl.coordsObj.new.lat && $ctrl.coordsObj.current.lng === $ctrl.coordsObj.new.lng\" class=\"btn btn-info no-margin\" ng-click=$ctrl.searchCoords()><i class=\"fa fa-search\"></i></button> <button type=button ng-if=!$ctrl.disabled class=\"btn btn-default no-margin\" ng-click=$ctrl.applyCoords()><i class=\"fa fa-map-marker\"></i></button></div></div><div class=col-xs-12><small>{{ $ctrl.display_name }}&nbsp;</small></div><leaflet ng-show=$ctrl.showMap id=\"{{ $ctrl.map.id }}\" lf-center=$ctrl.map.center layers=$ctrl.map.layers controls=$ctrl.map.controls event-broadcast=$ctrl.map.events markers=$ctrl.map.markers width=100% height=150px></leaflet><div class=row ng-if=\"!$ctrl.disabled && !$ctrl.onlyMap\"><div class=\"col-xs-12 col-md-5 form-group no-margin\"><input ng-required=$ctrl.required type=text class=form-control title=\"{{ \'FORM.TITLE.ADDRESS\' | translate }}\" placeholder=\"{{ \'FORM.TITLE.ADDRESS\' | translate }}\" ng-model=$ctrl.location.address></div><div class=\"col-xs-12 col-md-5 form-group no-margin\"><input ng-required=$ctrl.required type=text class=form-control title=\"{{ \'FORM.TITLE.TOWN\' | translate }}\" placeholder=\"{{ \'FORM.TITLE.TOWN\' | translate }}\" ng-model=$ctrl.location.town></div><div class=\"col-xs-12 col-md-2 form-group no-margin\"><input ng-required=$ctrl.required type=text class=form-control title=\"{{ \'FORM.TITLE.POSTAL_CODE\' | translate }}\" placeholder=\"{{ \'FORM.TITLE.POSTAL_CODE\' | translate }}\" ng-model=$ctrl.location.postal></div></div><div class=row ng-if=\"!$ctrl.disabled && !$ctrl.onlyMap\"><div class=\"col-xs-12 col-md-5 form-group no-margin\"><input ng-required=$ctrl.required type=text class=form-control title=\"{{ \'FORM.TITLE.PROVINCE\' | translate }}\" placeholder=\"{{ \'FORM.TITLE.PROVINCE\' | translate }}\" ng-model=$ctrl.location.province></div><div class=\"col-xs-12 col-md-5 form-group no-margin\"><input ng-required=$ctrl.required type=text class=form-control title=\"{{ \'FORM.TITLE.REGION\' | translate }}\" placeholder=\"{{ \'FORM.TITLE.REGION\' | translate }}\" ng-model=$ctrl.location.region></div><div class=\"col-xs-12 col-md-2 form-group no-margin\"><input ng-required=$ctrl.required type=text class=form-control title=\"{{ \'FORM.TITLE.COUNTRY.NAME\' | translate }}\" placeholder=\"{{ \'FORM.TITLE.COUNTRY.NAME\' | translate }}\" ng-model=$ctrl.location.country></div></div></div>");
 $templateCache.put("custom-ui-select/views/custom.ui.select.area.html","<div class=\"form-group no-margin\" mass-autocomplete ng-if=$ctrl.multiple><label class=custom-ui-select-label>{{ \'FORM.LABEL.AREA\' | translate }}<field-options required=$ctrl.required multiple=$ctrl.multiple></field-options></label><ui-select custom-ui-select-config=$ctrl.ownConfig name=area ng-model=$ctrl.area theme=bootstrap title=\"{{ \'FORM.PLACEHOLDER.AREA_MULTI\' | translate }}\" custom-ui-select multiple=true custom-mass-autocomplete-item=$ctrl.ownConfig on-select=\"$ctrl.areaSelected($item, $model)\" on-remove=\"$ctrl.areaRemove($item, $model)\" ng-required=$ctrl.required><ui-select-match placeholder=\"{{ \'FORM.PLACEHOLDER.AREA_MULTI\' | translate }}\" allow-clear=true>{{$item.identifier}}</ui-select-match><ui-select-choices repeat=\"area in $ctrl.ownConfig.collection | filter:$select.search track by $index\"><div><span ng-bind-html=\"area.identifier | highlight: $select.search\"></span> - <span ng-bind-html=\"area.name | highlight: $select.search\"></span><br><span ng-bind-html=\"area.organization | highlight: $select.search\"></span></div></ui-select-choices></ui-select></div><div class=\"form-group no-margin\" mass-autocomplete ng-if=!$ctrl.multiple><label class=custom-ui-select-label>{{ \'FORM.LABEL.AREA\' | translate }}<field-options required=$ctrl.required multiple=$ctrl.multiple></field-options></label><ui-select custom-ui-select-config=$ctrl.ownConfig name=area ng-model=$ctrl.area theme=bootstrap title=\"Choose an area\" custom-ui-select multiple=false custom-mass-autocomplete-item=$ctrl.ownConfig on-select=\"$ctrl.areaSelected($item, $model)\" on-remove=\"$ctrl.areaRemove($item, $model)\" ng-required=$ctrl.required><ui-select-match placeholder=\"{{ \'FORM.PLACEHOLDER.AREA\' | translate }}\" allow-clear=true>{{$item.identifier}}</ui-select-match><ui-select-choices repeat=\"area in $ctrl.ownConfig.collection | filter:$select.search track by $index\"><div><span ng-bind-html=\"area.identifier | highlight: $select.search\"></span> - <span ng-bind-html=\"area.name | highlight: $select.search\"></span><br><span ng-bind-html=\"area.organization | highlight: $select.search\"></span></div></ui-select-choices></ui-select></div>");
 $templateCache.put("custom-ui-select/views/custom.ui.select.asset.html","<div class=\"form-group no-margin\" mass-autocomplete ng-if=$ctrl.multiple><label ng-if=$ctrl.label class=custom-ui-select-label>{{ $ctrl.label | translate }}<field-options required=$ctrl.required multiple=$ctrl.multiple></field-options></label><ui-select custom-ui-select-config=$ctrl.ownConfig ng-disabled=$ctrl.disabled name=asset ng-model=$ctrl.asset theme=bootstrap title=\"Choose a asset\" custom-ui-select custom-ui-select-action=$ctrl.action multiple=true custom-mass-autocomplete-item=$ctrl.ownConfig on-select=\"$ctrl.assetSelected($item, $model)\" on-remove=\"$ctrl.assetRemove($item, $model)\" ng-required=$ctrl.required><ui-select-match placeholder=\"{{ \'FORM.PLACEHOLDER.ENTITY\' | translate }}\" allow-clear=true>{{$item.provision.administration.identifier._current.value || $item.identifier}}</ui-select-match><ui-select-choices repeat=\"assetData in $ctrl.ownConfig.collection track by $index\"><span ng-bind-html=\"assetData.provision.administration.identifier._current.value | highlight: $select.search\"></span> <small><div ng-if=assetData.provision.asset.specificType._current.value>{{ \'FORM.LABEL.SPECIFIC_TYPE\' | translate }}: <span ng-bind-html=\"assetData.provision.asset.specificType._current.value | highlight: $select.search\"></span></div><div ng-if=assetData.provision.asset.name._current.value>{{ \'FORM.LABEL.NAME\' | translate }}: <span ng-bind-html=\"\'\'+assetData.provision.asset.name._current.value | highlight: $select.search\"></span></div></small></ui-select-choices></ui-select></div><div class=\"form-group no-margin\" mass-autocomplete ng-if=!$ctrl.multiple><label ng-if=$ctrl.label class=custom-ui-select-label>{{ $ctrl.label | translate }}<field-options required=$ctrl.required multiple=$ctrl.multiple></field-options></label><ui-select custom-ui-select-config=$ctrl.ownConfig ng-disabled=$ctrl.disabled name=asset ng-model=$ctrl.asset theme=bootstrap title=\"Choose an asset\" custom-ui-select custom-ui-select-action=$ctrl.action multiple=false custom-mass-autocomplete-item=$ctrl.ownConfig on-select=\"$ctrl.assetSelected($item, $model)\" on-remove=\"$ctrl.assetRemove($item, $model)\" ng-required=$ctrl.required><ui-select-match placeholder=\"{{ \'FORM.PLACEHOLDER.ENTITY\' | translate }}\" allow-clear=true>{{$item.provision.administration.identifier._current.value || $item.identifier}}</ui-select-match><ui-select-choices repeat=\"assetData in $ctrl.ownConfig.collection track by $index\"><span ng-bind-html=\"assetData.provision.administration.identifier._current.value | highlight: $select.search\"></span> <small><div ng-if=assetData.provision.asset.specificType._current.value>{{ \'FORM.LABEL.SPECIFIC_TYPE\' | translate }}: <span ng-bind-html=\"assetData.provision.asset.specificType._current.value | highlight: $select.search\"></span></div><div ng-if=assetData.provision.asset.name._current.value>{{ \'FORM.LABEL.NAME\' | translate }}: <span ng-bind-html=\"\'\'+assetData.provision.asset.name._current.value | highlight: $select.search\"></span></div></small></ui-select-choices></ui-select></div>");
@@ -17,6 +15,8 @@ $templateCache.put("custom-ui-select/views/custom.ui.select.subscriber.html","<d
 $templateCache.put("custom-ui-select/views/custom.ui.select.subscription.html","<div class=\"form-group no-margin\" mass-autocomplete ng-if=$ctrl.multiple><label class=custom-ui-select-label>{{\'FORM.LABEL.ENTITY_KEY\' | translate }}<field-options required=$ctrl.required multiple=$ctrl.multiple></field-options></label><ui-select custom-ui-select-config=$ctrl.ownConfig name=entity ng-model=$ctrl.entity theme=bootstrap title=\"Choose a entity\" custom-ui-select custom-ui-select-action=$ctrl.action multiple=true custom-mass-autocomplete-item=$ctrl.ownConfig on-select=\"$ctrl.entitySelected($item, $model)\" on-remove=\"$ctrl.entityRemove($item, $model)\" ng-required=$ctrl.required><ui-select-match placeholder=\"Choose a entity\" allow-clear=true>{{$item.provision.subscription.identifier._current.value}}</ui-select-match><ui-select-choices repeat=\"subscriptionData in $ctrl.ownConfig.collection track by $index\"><span ng-bind-html=\"subscriptionData.provision.subscription.identifier._current.value | highlight: $select.search\"></span> <small><div ng-if=subscriptionData.provision.subscription.name._current.value>{{ \'FORM.LABEL.NAME\' | translate }}: <span ng-bind-html=\"\'\'+subscriptionData.provision.subscription.name._current.value | highlight: $select.search\"></span></div></small></ui-select-choices></ui-select></div><div class=\"form-group no-margin\" mass-autocomplete ng-if=!$ctrl.multiple><label class=custom-ui-select-label>{{\'FORM.LABEL.ENTITY_KEY\' | translate }}<field-options required=$ctrl.required multiple=$ctrl.multiple></field-options></label><ui-select custom-ui-select-config=$ctrl.ownConfig name=entity ng-model=$ctrl.entity theme=bootstrap title=\"Choose a entity\" custom-ui-select custom-ui-select-action=$ctrl.action multiple=false custom-mass-autocomplete-item=$ctrl.ownConfig on-select=\"$ctrl.entitySelected($item, $model)\" on-remove=\"$ctrl.entityRemove($item, $model)\" ng-required=$ctrl.required><ui-select-match placeholder=\"Choose a entity\" allow-clear=true>{{$item.provision.subscription.identifier._current.value}}</ui-select-match><ui-select-choices repeat=\"subscriptionData in $ctrl.ownConfig.collection track by $index\"><span ng-bind-html=\"subscriptionData.provision.subscription.identifier._current.value | highlight: $select.search\"></span> <small><div ng-if=subscriptionData.provision.subscription.name._current.value>{{ \'FORM.LABEL.NAME\' | translate }}: <span ng-bind-html=\"\'\'+subscriptionData.provision.subscription.name._current.value | highlight: $select.search\"></span></div></small></ui-select-choices></ui-select></div>");
 $templateCache.put("custom-ui-select/views/custom.ui.select.ticket.html","<div class=\"form-group no-margin\" mass-autocomplete ng-if=$ctrl.multiple><label class=custom-ui-select-label>{{\'FORM.LABEL.TICKET\' | translate}}<field-options required=$ctrl.required multiple=$ctrl.multiple></field-options></label><ui-select custom-ui-select-config=$ctrl.ownConfig name=entity ng-model=$ctrl.ticket theme=bootstrap title=\"Choose a ticket\" custom-ui-select multiple=true custom-mass-autocomplete-item=$ctrl.ownConfig on-select=\"$ctrl.ticketSelected($item, $model)\" on-remove=\"$ctrl.ticketRemove($item, $model)\" ng-required=$ctrl.required><ui-select-match placeholder=\"{{ \'FORM.PLACEHOLDER.TICKET\' | translate }}\" allow-clear=true>{{$item.provision.administration.identifier._current.value || $item.identifier}}</ui-select-match><ui-select-choices repeat=\"ticketData in $ctrl.ownConfig.collection track by $index\"><span ng-bind-html=\"ticketData.provision.administration.identifier._current.value | highlight: $select.search\"></span> <small><div ng-if=ticketData.provision.ticket.name._current.value>{{ \'FORM.LABEL.NAME\' | translate }}: <span ng-bind-html=\"ticketData.provision.ticket.name._current.value | highlight: $select.search\"></span></div><div ng-if=ticketData.provision.ticket.type._current.value>{{ \'FORM.LABEL.TYPE\' | translate }}: <span ng-bind-html=\"ticketData.provision.ticket.type._current.value | highlight: $select.search\"></span></div><div ng-if=ticketData.provision.ticket.specificType._current.value>{{ \'FORM.LABEL.SPECIFIC_TYPE\' | translate }}: <span ng-bind-html=\"ticketData.provision.ticket.specificType._current.value | highlight: $select.search\"></span></div><div ng-if=ticketData.provision.ticket.status._current.value>{{ \'FORM.LABEL.STATUS\' | translate }}: <span ng-bind-html=\"ticketData.provision.ticket.status._current.value | highlight: $select.search\"></span></div></small></ui-select-choices></ui-select></div><div class=\"form-group no-margin\" mass-autocomplete ng-if=!$ctrl.multiple><label class=custom-ui-select-label>{{\'FORM.LABEL.TICKET\' | translate}}<field-options required=$ctrl.required multiple=$ctrl.multiple></field-options></label><ui-select custom-ui-select-config=$ctrl.ownConfig name=entity ng-model=$ctrl.ticket theme=bootstrap title=\"Choose a ticket\" custom-ui-select multiple=false custom-mass-autocomplete-item=$ctrl.ownConfig on-select=\"$ctrl.ticketSelected($item, $model)\" on-remove=\"$ctrl.ticketRemove($item, $model)\" ng-required=$ctrl.required><ui-select-match placeholder=\"{{ \'FORM.PLACEHOLDER.TICKET\' | translate }}\" allow-clear=true>{{$item.provision.administration.identifier._current.value || $item.identifier}}</ui-select-match><ui-select-choices repeat=\"ticketData in $ctrl.ownConfig.collection track by $index\"><span ng-bind-html=\"ticketData.provision.administration.identifier._current.value | highlight: $select.search\"></span> <small><div ng-if=ticketData.provision.ticket.name._current.value>{{ \'FORM.LABEL.NAME\' | translate }}: <span ng-bind-html=\"ticketData.provision.ticket.name._current.value | highlight: $select.search\"></span></div><div ng-if=ticketData.provision.ticket.type._current.value>{{ \'FORM.LABEL.TYPE\' | translate }}: <span ng-bind-html=\"ticketData.provision.ticket.type._current.value | highlight: $select.search\"></span></div><div ng-if=ticketData.provision.ticket.specificType._current.value>{{ \'FORM.LABEL.SPECIFIC_TYPE\' | translate }}: <span ng-bind-html=\"ticketData.provision.ticket.specificType._current.value | highlight: $select.search\"></span></div><div ng-if=ticketData.provision.ticket.status._current.value>{{ \'FORM.LABEL.STATUS\' | translate }}: <span ng-bind-html=\"ticketData.provision.ticket.status._current.value | highlight: $select.search\"></span></div></small></ui-select-choices></ui-select></div>");
 $templateCache.put("custom-ui-select/views/ui.select.resourceType.html","<div class=\"form-group no-margin\" ng-if=$ctrl.multiple><label class=custom-ui-select-label>{{\'FORM.LABEL.RESOURCE_TYPE\' | translate }}<field-options required=$ctrl.required multiple=$ctrl.multiple></field-options></label><ui-select custom-ui-select-config=$ctrl.ownConfig name=resourceType ng-model=$ctrl.resourceType theme=bootstrap title=\"{{ \'FORM.PLACEHOLDER.RESOURCE_TYPE_MULTI\' | translate }}\" custom-ui-select multiple=true on-select=\"$ctrl.resourceTypeSelected($item, $model)\" on-remove=\"$ctrl.resourceTypeRemove($item, $model)\" ng-required=$ctrl.required><ui-select-match placeholder=\"{{ \'FORM.PLACEHOLDER.RESOURCE_TYPE\' | translate }}\" allow-clear=true>{{$item.identifier | translate}}</ui-select-match><ui-select-choices repeat=\"resourceType in $ctrl.ownConfig.collection | filter:$select.search track by $index\"><div><span ng-bind-html=\"resourceType.identifier | translate | highlight: $select.search\"></span></div></ui-select-choices></ui-select></div><div class=\"form-group no-margin\" ng-if=!$ctrl.multiple><label class=custom-ui-select-label>{{\'FORM.LABEL.RESOURCE_TYPE\' | translate }}<field-options required=$ctrl.required multiple=$ctrl.multiple></field-options></label><ui-select custom-ui-select-config=$ctrl.ownConfig name=resourceType ng-model=$ctrl.resourceType theme=bootstrap title=\"Choose an resourceType\" custom-ui-select multiple=false on-select=\"$ctrl.resourceTypeSelected($item, $model)\" on-remove=\"$ctrl.resourceTypeRemove($item, $model)\" ng-required=$ctrl.required><ui-select-match placeholder=\"{{ \'FORM.PLACEHOLDER.RESOURCE_TYPE\' | translate }}\" allow-clear=true>{{$item.identifier | translate}}</ui-select-match><ui-select-choices repeat=\"resourceType in $ctrl.ownConfig.collection | filter:$select.search track by $index\"><div><span ng-bind-html=\"resourceType.identifier | translate | highlight: $select.search\"></span></div></ui-select-choices></ui-select></div>");
+$templateCache.put("helper/views/custom.ui.select.helper.html","<div class=form-group ng-hide=$ctrl.have_helper_keys ng-transclude=input><label for={{$ctrl.id}}>{{$ctrl.labelText | translate }}<field-options required=$ctrl.required></field-options></label> <input class=form-control name={{$ctrl.name}} type=text id={{$ctrl.id}} ng-model=$ctrl.helperModel ng-required=$ctrl.required> <span class=help-inline ng-show=\"!$ctrl.helperModel && $ctrl.required\">{{$ctrl.labelError}}</span></div><div class=form-group ng-hide=!$ctrl.have_helper_keys><label for={{$ctrl.id}}>{{$ctrl.labelText | translate }}<field-options required=$ctrl.required></field-options></label><ui-select id={{$ctrl.id}} name={{$ctrl.name}} ng-model=$ctrl.helperModel theme=bootstrap title=\"Choose an option\" ng-required=$ctrl.required tagging=$ctrl.helperTagTransform tagging-label=false><ui-select-match placeholder=\"Choose an option\"><span ng-if=\"$select.selected && $select.selected.key !== \'image\'\">{{$select.selected.value}}</span> <img ng-if=\"$select.selected && $select.selected.key === \'image\'\" src=\"{{ $select.selected.value }}\" style=max-height:30px;></ui-select-match><ui-select-choices repeat=\"parameter.value as (key, parameter) in $ctrl.$helper_keys | filter: $select.search\"><span ng-bind-html=\"parameter.key | highlight: $select.search\"></span>: <small ng-if=\"parameter.key !== \'image\'\" ng-bind-html=\"parameter.value | highlight: $select.search\"></small> <img ng-if=\"parameter.key === \'image\'\" src=\"{{ parameter.value }}\" style=max-height:30px;></ui-select-choices></ui-select></div>");
+$templateCache.put("helper/views/helper.view.html","<div class=\"container col-md-12 col-xs-12\" style=padding-left:0;padding-right:0 ng-transclude></div><div class=\"col-xs-12 col-md-12 text-right no-margin no-padding\"><a class=\"btn btn-default btn-xs ux-txt-info pointer oux-button-margin\" ng-href ng-click=$helper.open() ng-switch=$helper.mode><span ng-switch-when=button><i ng-class=$helper.helperButton aria-hidden=true></i></span> <span ng-switch-when=title>{{$helper.helperTitle}}</span> <span ng-switch-when=title_button><i ng-class=$helper.helperButton aria-hidden=true></i>{{$helper.helperTitle}}</span> <span ng-switch-default><i ng-if=\"!$helper.helperTitle && !$helper.helperButton\" class=\"fa fa-lg fa-search-plus\" title=\"{{ \'FORM.HELPER.TITLE\' | translate }}\" aria-hidden=true></i></span></a></div><script type=text/ng-template id=helper.view.modal.html><div class=\"modal-header\"> <h4 class=\"modal-title\">{{ \'FORM.HELPER.TITLE\' | translate }}</h4> </div> <div class=\"modal-body without-padding-top\"> <uib-accordion close-others=\"true\"> <div uib-accordion-group is-open=\"$ctrl.mapIsOpen\" ng-hide=\"$ctrl.helper_exclusive ? !$ctrl.mapIsExclusive : false\" class=\"map-option\"> <div uib-accordion-heading>Map</div> <div class=\"row\" ng-if=\"$ctrl.mapIsOpen\"> <div class=\"col-xs-12\"> <div class=\"form-group leaflet-container\"> <leaflet id=\"map-marker\" lf-center=\"$ctrl.map.center\" layers=\"$ctrl.map.layers\" controls=\"$ctrl.map.controls\" event-broadcast=\"$ctrl.map.events\" markers=\"$ctrl.map.markers\" width=\"100% \" height=\"300px\"></leaflet> </div> </div> <div class=\"col-xs-12 text-right\" ng-if=\"$ctrl.helper_exclusive\"> <a class=\"top-buffer btn btn-default ux-txt-success pointer\" ng-class=\"{\'disabled\': !$ctrl.helper_keys.map}\" ng-click=\"$ctrl.ok(\'map\')\" ng-disabled=\"!$ctrl.helper_keys.map\"> <i class=\"fa fa-lg fa-files-o\" aria-hidden=\"true\"></i> </a> </div> </div> </div> <div uib-accordion-group is-open=\"$ctrl.entityIsOpen\" ng-hide=\"$ctrl.helper_exclusive ? !$ctrl.entityIsExclusive: false\" class=\"entity-option\"> <div uib-accordion-heading>{{ \'FORM.ENTITY\' | translate }}</div> <div class=\"row row-eq-height\"> <div class=\"col-xs-10\"> <custom-ui-select-entity on-select-item=\"$ctrl.onSelectEntityKey($item, $model)\" on-remove=\"$ctrl.onDeleteEntityKey()\" entity=\"$ctrl.entity.selected\" multiple=\"false\"> </custom-ui-select-entity> </div> <div class=\"col-xs-2 vcenter no-padding\" ng-if=\"$ctrl.helper_exclusive\"> <a class=\"top-buffer btn btn-default ux-txt-success pointer\" ng-class=\"{\'disabled\': !$ctrl.helper_keys.entity}\" ng-click=\"$ctrl.ok(\'entity\')\" ng-disabled=\"!$ctrl.helper_keys.entity\"> <i class=\"fa fa-lg fa-files-o\" aria-hidden=\"true\"></i> </a> </div> </div> </div> <div uib-accordion-group is-open=\"$ctrl.deviceIsOpen\" ng-hide=\"$ctrl.helper_exclusive ? (!$ctrl.entityIsExclusive && !$ctrl.deviceIsExclusive): false\" class=\"device-option\"> <div uib-accordion-heading>{{ \'FORM.DEVICES\' | translate }}</div> <div class=\"row row-eq-height\"> <div class=\"col-xs-10\"> <custom-ui-select-device on-select-item=\"$ctrl.onSelectDeviceKey($item, $model)\" on-remove=\"$ctrl.onDeleteDeviceKey()\" device=\"$ctrl.device.selected\" multiple=\"false\" specific-type=\"{{$ctrl.specific_type}}\"> </custom-ui-select-device> </div> <div class=\"col-xs-2 vcenter no-padding\" ng-if=\"$ctrl.helper_exclusive\"> <a class=\"top-buffer btn btn-default ux-txt-success pointer\" ng-class=\"{\'disabled\': !$ctrl.helper_keys.device}\" ng-click=\"$ctrl.ok(\'device\')\" ng-disabled=\"!$ctrl.helper_keys.device\"> <i class=\"fa fa-lg fa-files-o\" aria-hidden=\"true\"></i> </a> </div> </div> </div> <div uib-accordion-group is-open=\"$ctrl.assetIsOpen\" ng-hide=\"$ctrl.helper_exclusive ? (!$ctrl.entityIsExclusive && !$ctrl.assetIsExclusive): false\" class=\"asset-option\"> <div uib-accordion-heading>{{ \'FORM.ASSETS\' | translate }}</div> <div class=\"row row-eq-height\"> <div class=\"col-xs-10\"> <custom-ui-select-asset on-select-item=\"$ctrl.onSelectAssetKey($item, $model)\" on-remove=\"$ctrl.onDeleteAssetKey()\" asset=\"$ctrl.asset.selected\" multiple=\"false\" specific-type=\"{{$ctrl.specific_type}}\"></custom-ui-select-asset> </div> <div class=\"col-xs-2 vcenter no-padding\" ng-if=\"$ctrl.helper_exclusive\"> <a class=\"top-buffer btn btn-default ux-txt-success pointer\" ng-class=\"{\'disabled\': !$ctrl.helper_keys.asset}\" ng-click=\"$ctrl.ok(\'asset\')\" ng-disabled=\"!$ctrl.helper_keys.asset\"> <i class=\"fa fa-lg fa-files-o\" aria-hidden=\"true\"></i> </a> </div> </div> </div> <div uib-accordion-group is-open=\"$ctrl.subscriberIsOpen\" class=\"subscriber-option\" ng-hide=\"$ctrl.helper_exclusive ? (!$ctrl.entityIsExclusive && !$ctrl.subscriberIsExclusive): false\"> <div uib-accordion-heading>{{ \'FORM.SUBSCRIBERS\' | translate }}</div> <div class=\"row row-eq-height\"> <div class=\"col-xs-10\"> <custom-ui-select-subscriber on-select-item=\"$ctrl.onSelectSubscriberKey($item, $model)\" specific-type=\"{{$ctrl.specific_type}}\" exclude-devices=\"$ctrl.exclude_devices\" on-remove=\"$ctrl.onDeleteSubscriberKey()\" entity=\"$ctrl.subscriber.selected\" multiple=\"false\"> </custom-ui-select-subscriber> </div> <div class=\"col-xs-2 vcenter no-padding\" ng-if=\"$ctrl.helper_exclusive\"> <a class=\"top-buffer btn btn-default ux-txt-success pointer\" ng-class=\"{\'disabled\': !$ctrl.helper_keys.subscriber}\" ng-click=\"$ctrl.ok(\'subscriber\')\" ng-disabled=\"!$ctrl.helper_keys.subscriber\"> <i class=\"fa fa-lg fa-files-o\" aria-hidden=\"true\"></i> </a> </div> </div> </div> <div uib-accordion-group is-open=\"$ctrl.subscriptionIsOpen\" class=\"subscription-option\" ng-hide=\"$ctrl.helper_exclusive ? (!$ctrl.entityIsExclusive && !$ctrl.subscriptionIsExclusive): false\"> <div uib-accordion-heading>{{ \'FORM.SUBSCRIPTIONS\' | translate }}</div> <div class=\"row row-eq-height\"> <div class=\"col-xs-10\"> <custom-ui-select-subscription on-select-item=\"$ctrl.onSelectSubscriptionKey($item, $model)\" specific-type=\"{{$ctrl.specific_type}}\" exclude-devices=\"$ctrl.exclude_devices\" on-remove=\"$ctrl.onDeleteSubscriptionKey()\" entity=\"$ctrl.subscription.selected\" multiple=\"false\"> </custom-ui-select-subscription> </div> <div class=\"col-xs-2 vcenter no-padding\" ng-if=\"$ctrl.helper_exclusive\"> <a class=\"top-buffer btn btn-default ux-txt-success pointer\" ng-class=\"{\'disabled\': !$ctrl.helper_keys.subscription}\" ng-click=\"$ctrl.ok(\'subscription\')\" ng-disabled=\"!$ctrl.helper_keys.subscription\"> <i class=\"fa fa-lg fa-files-o\" aria-hidden=\"true\"></i> </a> </div> </div> </div> <div uib-accordion-group is-open=\"$ctrl.datastreamIsOpen\" ng-hide=\"$ctrl.helper_exclusive ? !$ctrl.datastreamIsExclusive: false\" class=\"datastream-option\"> <div uib-accordion-heading>{{ \'FORM.DATASTREAM\' | translate }}</div> <div class=\"row row-eq-height\"> <div class=\"col-xs-10\"> <custom-ui-select-datastream on-select-item=\"$ctrl.onSelectDatastreamKey($item, $model)\" on-remove=\"$ctrl.onDeleteDatastreamKey()\" datastream=\"$ctrl.datastream.selected\" multiple=\"false\"> </custom-ui-select-datastream> </div> <div class=\"col-xs-2 vcenter no-padding\" ng-if=\"$ctrl.helper_exclusive\"> <a class=\"top-buffer btn btn-default ux-txt-success pointer\" ng-class=\"{\'disabled\': !$ctrl.helper_keys.datastream}\" ng-click=\"$ctrl.ok(\'datastream\')\" ng-disabled=\"!$ctrl.helper_keys.datastream\"> <i class=\"fa fa-lg fa-files-o\" aria-hidden=\"true\"></i> </a> </div> </div> </div> <div uib-accordion-group is-open=\"$ctrl.domainIsOpen\" class=\"domain-option\" ng-hide=\"$ctrl.helper_exclusive ? !$ctrl.domainIsExclusive: false\"> <div uib-accordion-heading>{{ \'FORM.DOMAINS\' | translate }}</div> <div class=\"row row-eq-height\"> <div class=\"col-xs-10\"> <custom-ui-select-domain on-select-item=\"$ctrl.onSelectDomainKey($item, $model)\" on-remove=\"$ctrl.onDeleteDomainKey()\" domain=\"$ctrl.domain.selected\" multiple=\"false\"> </custom-ui-select-domain> </div> <div class=\"col-xs-2 vcenter no-padding\" ng-if=\"$ctrl.helper_exclusive\"> <a class=\"top-buffer btn btn-default ux-txt-success pointer\" ng-class=\"{\'disabled\': !$ctrl.helper_keys.domain}\" ng-click=\"$ctrl.ok(\'domain\')\" ng-disabled=\"!$ctrl.helper_keys.domain\"> <i class=\"fa fa-lg fa-files-o\" aria-hidden=\"true\"></i> </a> </div> </div> </div> <div uib-accordion-group is-open=\"$ctrl.areaIsOpen\" class=\"area-option\" ng-hide=\"$ctrl.helper_exclusive ? !$ctrl.areaIsExclusive: false\"> <div uib-accordion-heading>{{ \'FORM.AREAS\' | translate }}</div> <div class=\"row row-eq-height\"> <div class=\"col-xs-10\"> <custom-ui-select-area on-select-item=\"$ctrl.onSelectAreaKey($item, $model)\" on-remove=\"$ctrl.onDeleteAreaKey()\" area=\"$ctrl.area.selected\" organization=\"$ctrl.area.organization\" multiple=\"false\"> </custom-ui-select-area> </div> <div class=\"col-xs-2 vcenter no-padding\" ng-if=\"$ctrl.helper_exclusive\"> <a class=\"top-buffer btn btn-default ux-txt-success pointer\" ng-class=\"{\'disabled\': !$ctrl.helper_keys.area}\" ng-click=\"$ctrl.ok(\'area\')\" ng-disabled=\"!$ctrl.helper_keys.area\"> <i class=\"fa fa-lg fa-files-o\" aria-hidden=\"true\"></i> </a> </div> </div> </div> <div uib-accordion-group is-open=\"$ctrl.bundleIsOpen\" class=\"bundle-option\" ng-hide=\"$ctrl.helper_exclusive ? !$ctrl.bundleIsExclusive: false\"> <div uib-accordion-heading>{{ \'FORM.BUNDLES\' | translate }}</div> <div class=\"row row-eq-height\"> <div class=\"col-xs-10\"> <custom-ui-select-bundle on-select-item=\"$ctrl.onSelectBundleKey($item, $model)\" on-remove=\"$ctrl.onDeleteBundleKey()\" bundle=\"$ctrl.bundle.selected\" multiple=\"false\"> </custom-ui-select-bundle> </div> <div class=\"col-xs-2 vcenter no-padding\" ng-if=\"$ctrl.helper_exclusive\"> <a class=\"top-buffer btn btn-default ux-txt-success pointer\" ng-class=\"{\'disabled\': !$ctrl.helper_keys.bundle}\" ng-click=\"$ctrl.ok(\'bundle\')\" ng-disabled=\"!$ctrl.helper_keys.bundle\"> <i class=\"fa fa-lg fa-files-o\" aria-hidden=\"true\"></i> </a> </div> </div> </div> <div uib-accordion-group is-open=\"$ctrl.imageIsOpen\" class=\"image-option\" ng-hide=\"$ctrl.helper_exclusive ? !$ctrl.imageIsExclusive: false\"> <div uib-accordion-heading>{{ \'FORM.IMAGE\' | translate }}</div> <div class=\"row row-eq-height\"> <div class=\"col-xs-12 col-md-8\"> <div name=\"image\" ng-if=\"!$ctrl.helper_keys.image && !$ctrl.helper_keys.image.image\" ngf-drop=\"$ctrl.imageSelected($file)\" ng-model=\"$ctrl.image\" ngf-max-size=\"1MB\" ngf-select=\"$ctrl.imageSelected($file)\" class=\"drop-box pointer\" ngf-drag-over-class=\"\'dragover\'\" ngf-multiple=\"false\" ng-required=\"$ctrl.helper_keys.image\" ngf-accept=\"\'image/*\'\" ngf-pattern=\"\'image/*\'\">{{ \'FORM.DRAG_DROP\' | translate }} <br>{{ \'FORM.MAX_SIZE\' | translate }}</div> <img ng-if=\"$ctrl.helper_keys.image && $ctrl.helper_keys.image.image\" src=\"{{ $ctrl.helper_keys.image.image }}\" style=\"max-height:200px;\" name=\"image\" /> </div> <div class=\"col-xs-12 col-md-4\"> <button id=\"idRemoveFileLink\" ng-if=\"$ctrl.helper_keys.image && $ctrl.helper_keys.image.image\" ng-click=\"$ctrl.removeDataFile()\" class=\"btn btn-warning ux-txt-warning pointer\"> <i class=\"fa fa-trash\" aria-hidden=\"true\"></i> {{ \'BUTTON.TITLE.REMOVE\' | translate }}</button> <a ng-if=\"$ctrl.helper_exclusive\" class=\"top-buffer btn btn-default ux-txt-success pointer\" ng-class=\"{\'disabled\': !$ctrl.helper_keys.bundle}\" ng-click=\"$ctrl.ok(\'bundle\')\" ng-disabled=\"!$ctrl.helper_keys.bundle\"> <i class=\"fa fa-lg fa-files-o\" aria-hidden=\"true\"></i> </a> </div> </div> </div> </uib-accordion> </div> <div class=\"modal-footer\"> <a ng-if=\"!$ctrl.helper_exclusive\" class=\"top-buffer btn btn-default ux-txt-success pointer\" ng-class=\"{\'disabled\': !$ctrl.canApply()}\" ng-click=\"$ctrl.ok()\" ng-disabled=\"!$ctrl.canApply()\"> <i class=\"fa fa-lg fa-files-o\" aria-hidden=\"true\"></i> {{\'BUTTON.TITLE.ALL\' | translate }} </a> <button class=\"btn btn-warning\" type=\"button\" ng-click=\"$ctrl.cancel()\">{{\'BUTTON.TITLE.CANCEL\' | translate}}</button> </div></script>");
 $templateCache.put("schema-form/views/schema.form.asset.template.html","<div ng-class=\"{\'has-error\': hasError(), \'has-success\': hasSuccess(), \'has-feedback\': form.feedback !== false }\" class=\"form-group {{form.htmlClass}}\"><custom-ui-select-asset label=form.title specific-type={{form.specificType}} on-select-item=\"evalExpr(form.onselectitem, {$item: $$value$$, $model: $model})\" on-remove=\"evalExpr(form.onremove, {$item: $$value$$, $model: $model})\" ng-model=$$value$$ identifier=$$value$$ multiple=form.multiple sf-field-model=replaceAll asset=form.dummy required=form.required></custom-ui-select-asset></div>");
 $templateCache.put("schema-form/views/schema.form.datastream.template.html","<div ng-class=\"{\'has-error\': hasError(), \'has-success\': hasSuccess(), \'has-feedback\': form.feedback !== false }\" class=\"form-group {{form.htmlClass}}\"><custom-ui-select-datastream on-select-item=\"evalExpr(form.onselectitem, {$item: $$value$$, $model: $model})\" on-remove=\"evalExpr(form.onremove, {$item: $$value$$, $model: $model})\" ng-model=$$value$$ datastream=form.dummy identifier=$$value$$ multiple=form.multiple sf-field-model=replaceAll required=form.required></custom-ui-select-datastream></div>");
 $templateCache.put("schema-form/views/schema.form.device.template.html","<div ng-class=\"{\'has-error\': hasError(), \'has-success\': hasSuccess(), \'has-feedback\': form.feedback !== false }\" class=\"form-group {{form.htmlClass}}\"><custom-ui-select-device label=form.title specific-type={{form.specificType}} on-select-item=\"evalExpr(form.onselectitem, {$item: $$value$$, $model: $model})\" on-remove=\"evalExpr(form.onremove, {$item: $$value$$, $model: $model})\" identifier=$$value$$ multiple=form.multiple sf-field-model=replaceAll device=form.dummy ng-model=$$value$$ required=form.required></custom-ui-select-device></div>");
@@ -13157,137 +13157,6 @@ function SubscriptionProvisionJsonFinderHelper() {
 }
 
 
-/**
- * Service that contains a list of font awesome 4.7.x icons
- */
-angular.module('opengate-angular-js').service('$faIcons', [
-    function() {
-        var availableIcons = ['fa-500px', 'fa-address-book', 'fa-address-book-o', 'fa-address-card', 'fa-address-card-o', 'fa-adjust', 'fa-adn',
-            'fa-align-center', 'fa-align-justify', 'fa-align-left', 'fa-align-right', 'fa-amazon', 'fa-ambulance',
-            'fa-american-sign-language-interpreting', 'fa-anchor', 'fa-android', 'fa-angellist', 'fa-angle-double-down',
-            'fa-angle-double-left', 'fa-angle-double-right', 'fa-angle-double-up', 'fa-angle-down', 'fa-angle-left', 'fa-angle-right',
-            'fa-angle-up', 'fa-apple', 'fa-archive', 'fa-area-chart', 'fa-arrow-circle-down', 'fa-arrow-circle-left',
-            'fa-arrow-circle-o-down', 'fa-arrow-circle-o-left', 'fa-arrow-circle-o-right', 'fa-arrow-circle-o-up',
-            'fa-arrow-circle-right', 'fa-arrow-circle-up', 'fa-arrow-down', 'fa-arrow-left', 'fa-arrow-right', 'fa-arrow-up', 'fa-arrows',
-            'fa-arrows-alt', 'fa-arrows-h', 'fa-arrows-v', 'fa-asl-interpreting', 'fa-assistive-listening-systems', 'fa-asterisk',
-            'fa-at', 'fa-audio-description', 'fa-automobile', 'fa-backward', 'fa-balance-scale', 'fa-ban', 'fa-bandcamp', 'fa-bank',
-            'fa-bar-chart', 'fa-bar-chart-o', 'fa-barcode', 'fa-bars', 'fa-bath', 'fa-bathtub', 'fa-battery', 'fa-battery-0',
-            'fa-battery-1', 'fa-battery-2', 'fa-battery-3', 'fa-battery-4', 'fa-battery-empty', 'fa-battery-full', 'fa-battery-half',
-            'fa-battery-quarter', 'fa-battery-three-quarters', 'fa-bed', 'fa-beer', 'fa-behance', 'fa-behance-square', 'fa-bell',
-            'fa-bell-o', 'fa-bell-slash', 'fa-bell-slash-o', 'fa-bicycle', 'fa-binoculars', 'fa-birthday-cake', 'fa-bitbucket',
-            'fa-bitbucket-square', 'fa-bitcoin', 'fa-black-tie', 'fa-blind', 'fa-bluetooth', 'fa-bluetooth-b', 'fa-bold', 'fa-bolt',
-            'fa-bomb', 'fa-book', 'fa-bookmark', 'fa-bookmark-o', 'fa-braille', 'fa-briefcase', 'fa-btc', 'fa-bug', 'fa-building',
-            'fa-building-o', 'fa-bullhorn', 'fa-bullseye', 'fa-bus', 'fa-buysellads', 'fa-cab', 'fa-calculator', 'fa-calendar',
-            'fa-calendar-check-o', 'fa-calendar-minus-o', 'fa-calendar-o', 'fa-calendar-plus-o', 'fa-calendar-times-o', 'fa-camera',
-            'fa-camera-retro', 'fa-car', 'fa-caret-down', 'fa-caret-left', 'fa-caret-right', 'fa-caret-square-o-down',
-            'fa-caret-square-o-left', 'fa-caret-square-o-right', 'fa-caret-square-o-up', 'fa-caret-up', 'fa-cart-arrow-down',
-            'fa-cart-plus', 'fa-cc', 'fa-cc-amex', 'fa-cc-diners-club', 'fa-cc-discover', 'fa-cc-jcb', 'fa-cc-mastercard', 'fa-cc-paypal',
-            'fa-cc-stripe', 'fa-cc-visa', 'fa-certificate', 'fa-chain', 'fa-chain-broken', 'fa-check', 'fa-check-circle',
-            'fa-check-circle-o', 'fa-check-square', 'fa-check-square-o', 'fa-chevron-circle-down', 'fa-chevron-circle-left',
-            'fa-chevron-circle-right', 'fa-chevron-circle-up', 'fa-chevron-down', 'fa-chevron-left', 'fa-chevron-right', 'fa-chevron-up',
-            'fa-child', 'fa-chrome', 'fa-circle', 'fa-circle-o', 'fa-circle-o-notch', 'fa-circle-thin', 'fa-clipboard', 'fa-clock-o',
-            'fa-clone', 'fa-close', 'fa-cloud', 'fa-cloud-download', 'fa-cloud-upload', 'fa-cny', 'fa-code', 'fa-code-fork', 'fa-codepen',
-            'fa-codiepie', 'fa-coffee', 'fa-cog', 'fa-cogs', 'fa-columns', 'fa-comment', 'fa-comment-o', 'fa-commenting',
-            'fa-commenting-o', 'fa-comments', 'fa-comments-o', 'fa-compass', 'fa-compress', 'fa-connectdevelop', 'fa-contao', 'fa-copy',
-            'fa-copyright', 'fa-creative-commons', 'fa-credit-card', 'fa-credit-card-alt', 'fa-crop', 'fa-crosshairs', 'fa-css3',
-            'fa-cube', 'fa-cubes', 'fa-cut', 'fa-cutlery', 'fa-dashboard', 'fa-dashcube', 'fa-database', 'fa-deaf', 'fa-deafness',
-            'fa-dedent', 'fa-delicious', 'fa-desktop', 'fa-deviantart', 'fa-diamond', 'fa-digg', 'fa-dollar', 'fa-dot-circle-o',
-            'fa-download', 'fa-dribbble', 'fa-drivers-license', 'fa-drivers-license-o', 'fa-dropbox', 'fa-drupal', 'fa-edge', 'fa-edit',
-            'fa-eercast', 'fa-eject', 'fa-ellipsis-h', 'fa-ellipsis-v', 'fa-empire', 'fa-envelope', 'fa-envelope-o', 'fa-envelope-open',
-            'fa-envelope-open-o', 'fa-envelope-square', 'fa-envira', 'fa-eraser', 'fa-etsy', 'fa-eur', 'fa-euro', 'fa-exchange',
-            'fa-exclamation', 'fa-exclamation-circle', 'fa-exclamation-triangle', 'fa-expand', 'fa-expeditedssl', 'fa-external-link',
-            'fa-external-link-square', 'fa-eye', 'fa-eye-slash', 'fa-eyedropper', 'fa-fa', 'fa-facebook', 'fa-facebook-f',
-            'fa-facebook-official', 'fa-facebook-square', 'fa-fast-backward', 'fa-fast-forward', 'fa-fax', 'fa-feed', 'fa-female',
-            'fa-fighter-jet', 'fa-file', 'fa-file-archive-o', 'fa-file-audio-o', 'fa-file-code-o', 'fa-file-excel-o', 'fa-file-image-o',
-            'fa-file-movie-o', 'fa-file-o', 'fa-file-pdf-o', 'fa-file-photo-o', 'fa-file-picture-o', 'fa-file-powerpoint-o',
-            'fa-file-sound-o', 'fa-file-text', 'fa-file-text-o', 'fa-file-video-o', 'fa-file-word-o', 'fa-file-zip-o', 'fa-files-o',
-            'fa-film', 'fa-filter', 'fa-fire', 'fa-fire-extinguisher', 'fa-firefox', 'fa-first-order', 'fa-flag', 'fa-flag-checkered',
-            'fa-flag-o', 'fa-flash', 'fa-flask', 'fa-flickr', 'fa-floppy-o', 'fa-folder', 'fa-folder-o', 'fa-folder-open',
-            'fa-folder-open-o', 'fa-font', 'fa-font-awesome', 'fa-fonticons', 'fa-fort-awesome', 'fa-forumbee', 'fa-forward',
-            'fa-foursquare', 'fa-free-code-camp', 'fa-frown-o', 'fa-futbol-o', 'fa-gamepad', 'fa-gavel', 'fa-gbp', 'fa-ge', 'fa-gear',
-            'fa-gears', 'fa-genderless', 'fa-get-pocket', 'fa-gg', 'fa-gg-circle', 'fa-gift', 'fa-git', 'fa-git-square', 'fa-github',
-            'fa-github-alt', 'fa-github-square', 'fa-gitlab', 'fa-gittip', 'fa-glass', 'fa-glide', 'fa-glide-g', 'fa-globe', 'fa-google',
-            'fa-google-plus', 'fa-google-plus-circle', 'fa-google-plus-official', 'fa-google-plus-square', 'fa-google-wallet',
-            'fa-graduation-cap', 'fa-gratipay', 'fa-grav', 'fa-group', 'fa-h-square', 'fa-hacker-news', 'fa-hand-grab-o',
-            'fa-hand-lizard-o', 'fa-hand-o-down', 'fa-hand-o-left', 'fa-hand-o-right', 'fa-hand-o-up', 'fa-hand-paper-o',
-            'fa-hand-peace-o', 'fa-hand-pointer-o', 'fa-hand-rock-o', 'fa-hand-scissors-o', 'fa-hand-spock-o', 'fa-hand-stop-o',
-            'fa-handshake-o', 'fa-hard-of-hearing', 'fa-hashtag', 'fa-hdd-o', 'fa-header', 'fa-headphones', 'fa-heart', 'fa-heart-o',
-            'fa-heartbeat', 'fa-history', 'fa-home', 'fa-hospital-o', 'fa-hotel', 'fa-hourglass', 'fa-hourglass-1', 'fa-hourglass-2',
-            'fa-hourglass-3', 'fa-hourglass-end', 'fa-hourglass-half', 'fa-hourglass-o', 'fa-hourglass-start', 'fa-houzz', 'fa-html5',
-            'fa-i-cursor', 'fa-id-badge', 'fa-id-card', 'fa-id-card-o', 'fa-ils', 'fa-image', 'fa-imdb', 'fa-inbox', 'fa-indent',
-            'fa-industry', 'fa-info', 'fa-info-circle', 'fa-inr', 'fa-instagram', 'fa-institution', 'fa-internet-explorer', 'fa-intersex',
-            'fa-ioxhost', 'fa-italic', 'fa-joomla', 'fa-jpy', 'fa-jsfiddle', 'fa-key', 'fa-keyboard-o', 'fa-krw', 'fa-language',
-            'fa-laptop', 'fa-lastfm', 'fa-lastfm-square', 'fa-leaf', 'fa-leanpub', 'fa-legal', 'fa-lemon-o', 'fa-level-down',
-            'fa-level-up', 'fa-life-bouy', 'fa-life-buoy', 'fa-life-ring', 'fa-life-saver', 'fa-lightbulb-o', 'fa-line-chart', 'fa-link',
-            'fa-linkedin', 'fa-linkedin-square', 'fa-linode', 'fa-linux', 'fa-list', 'fa-list-alt', 'fa-list-ol', 'fa-list-ul',
-            'fa-location-arrow', 'fa-lock', 'fa-long-arrow-down', 'fa-long-arrow-left', 'fa-long-arrow-right', 'fa-long-arrow-up',
-            'fa-low-vision', 'fa-magic', 'fa-magnet', 'fa-mail-forward', 'fa-mail-reply', 'fa-mail-reply-all', 'fa-male', 'fa-map',
-            'fa-map-marker', 'fa-map-o', 'fa-map-pin', 'fa-map-signs', 'fa-mars', 'fa-mars-double', 'fa-mars-stroke', 'fa-mars-stroke-h',
-            'fa-mars-stroke-v', 'fa-maxcdn', 'fa-meanpath', 'fa-medium', 'fa-medkit', 'fa-meetup', 'fa-meh-o', 'fa-mercury',
-            'fa-microchip', 'fa-microphone', 'fa-microphone-slash', 'fa-minus', 'fa-minus-circle', 'fa-minus-square', 'fa-minus-square-o',
-            'fa-mixcloud', 'fa-mobile', 'fa-mobile-phone', 'fa-modx', 'fa-money', 'fa-moon-o', 'fa-mortar-board', 'fa-motorcycle',
-            'fa-mouse-pointer', 'fa-music', 'fa-navicon', 'fa-neuter', 'fa-newspaper-o', 'fa-object-group', 'fa-object-ungroup',
-            'fa-odnoklassniki', 'fa-odnoklassniki-square', 'fa-opencart', 'fa-openid', 'fa-opera', 'fa-optin-monster', 'fa-outdent',
-            'fa-pagelines', 'fa-paint-brush', 'fa-paper-plane', 'fa-paper-plane-o', 'fa-paperclip', 'fa-paragraph', 'fa-paste',
-            'fa-pause', 'fa-pause-circle', 'fa-pause-circle-o', 'fa-paw', 'fa-paypal', 'fa-pencil', 'fa-pencil-square',
-            'fa-pencil-square-o', 'fa-percent', 'fa-phone', 'fa-phone-square', 'fa-photo', 'fa-picture-o', 'fa-pie-chart',
-            'fa-pied-piper', 'fa-pied-piper-alt', 'fa-pied-piper-pp', 'fa-pinterest', 'fa-pinterest-p', 'fa-pinterest-square', 'fa-plane',
-            'fa-play', 'fa-play-circle', 'fa-play-circle-o', 'fa-plug', 'fa-plus', 'fa-plus-circle', 'fa-plus-square', 'fa-plus-square-o',
-            'fa-podcast', 'fa-power-off', 'fa-print', 'fa-product-hunt', 'fa-puzzle-piece', 'fa-qq', 'fa-qrcode', 'fa-question',
-            'fa-question-circle', 'fa-question-circle-o', 'fa-quora', 'fa-quote-left', 'fa-quote-right', 'fa-ra', 'fa-random',
-            'fa-ravelry', 'fa-rebel', 'fa-recycle', 'fa-reddit', 'fa-reddit-alien', 'fa-reddit-square', 'fa-refresh', 'fa-registered',
-            'fa-remove', 'fa-renren', 'fa-reorder', 'fa-repeat', 'fa-reply', 'fa-reply-all', 'fa-resistance', 'fa-retweet', 'fa-rmb',
-            'fa-road', 'fa-rocket', 'fa-rotate-left', 'fa-rotate-right', 'fa-rouble', 'fa-rss', 'fa-rss-square', 'fa-rub', 'fa-ruble',
-            'fa-rupee', 'fa-s15', 'fa-safari', 'fa-save', 'fa-scissors', 'fa-scribd', 'fa-search', 'fa-search-minus', 'fa-search-plus',
-            'fa-sellsy', 'fa-send', 'fa-send-o', 'fa-server', 'fa-share', 'fa-share-alt', 'fa-share-alt-square', 'fa-share-square',
-            'fa-share-square-o', 'fa-shekel', 'fa-sheqel', 'fa-shield', 'fa-ship', 'fa-shirtsinbulk', 'fa-shopping-bag',
-            'fa-shopping-basket', 'fa-shopping-cart', 'fa-shower', 'fa-sign-in', 'fa-sign-language', 'fa-sign-out', 'fa-signal',
-            'fa-signing', 'fa-simplybuilt', 'fa-sitemap', 'fa-skyatlas', 'fa-skype', 'fa-slack', 'fa-sliders', 'fa-slideshare',
-            'fa-smile-o', 'fa-snapchat', 'fa-snapchat-ghost', 'fa-snapchat-square', 'fa-snowflake-o', 'fa-soccer-ball-o', 'fa-sort',
-            'fa-sort-alpha-asc', 'fa-sort-alpha-desc', 'fa-sort-amount-asc', 'fa-sort-amount-desc', 'fa-sort-asc', 'fa-sort-desc',
-            'fa-sort-down', 'fa-sort-numeric-asc', 'fa-sort-numeric-desc', 'fa-sort-up', 'fa-soundcloud', 'fa-space-shuttle',
-            'fa-spinner', 'fa-spoon', 'fa-spotify', 'fa-square', 'fa-square-o', 'fa-stack-exchange', 'fa-stack-overflow', 'fa-star',
-            'fa-star-half', 'fa-star-half-empty', 'fa-star-half-full', 'fa-star-half-o', 'fa-star-o', 'fa-steam', 'fa-steam-square',
-            'fa-step-backward', 'fa-step-forward', 'fa-stethoscope', 'fa-sticky-note', 'fa-sticky-note-o', 'fa-stop', 'fa-stop-circle',
-            'fa-stop-circle-o', 'fa-street-view', 'fa-strikethrough', 'fa-stumbleupon', 'fa-stumbleupon-circle', 'fa-subscript',
-            'fa-subway', 'fa-suitcase', 'fa-sun-o', 'fa-superpowers', 'fa-superscript', 'fa-support', 'fa-table', 'fa-tablet',
-            'fa-tachometer', 'fa-tag', 'fa-tags', 'fa-tasks', 'fa-taxi', 'fa-telegram', 'fa-television', 'fa-tencent-weibo',
-            'fa-terminal', 'fa-text-height', 'fa-text-width', 'fa-th', 'fa-th-large', 'fa-th-list', 'fa-themeisle', 'fa-thermometer',
-            'fa-thermometer-0', 'fa-thermometer-1', 'fa-thermometer-2', 'fa-thermometer-3', 'fa-thermometer-4', 'fa-thermometer-empty',
-            'fa-thermometer-full', 'fa-thermometer-half', 'fa-thermometer-quarter', 'fa-thermometer-three-quarters', 'fa-thumb-tack',
-            'fa-thumbs-down', 'fa-thumbs-o-down', 'fa-thumbs-o-up', 'fa-thumbs-up', 'fa-ticket', 'fa-times', 'fa-times-circle',
-            'fa-times-circle-o', 'fa-times-rectangle', 'fa-times-rectangle-o', 'fa-tint', 'fa-toggle-down', 'fa-toggle-left',
-            'fa-toggle-off', 'fa-toggle-on', 'fa-toggle-right', 'fa-toggle-up', 'fa-trademark', 'fa-train', 'fa-transgender',
-            'fa-transgender-alt', 'fa-trash', 'fa-trash-o', 'fa-tree', 'fa-trello', 'fa-tripadvisor', 'fa-trophy', 'fa-truck', 'fa-try',
-            'fa-tty', 'fa-tumblr', 'fa-tumblr-square', 'fa-turkish-lira', 'fa-tv', 'fa-twitch', 'fa-twitter', 'fa-twitter-square',
-            'fa-umbrella', 'fa-underline', 'fa-undo', 'fa-universal-access', 'fa-university', 'fa-unlink', 'fa-unlock', 'fa-unlock-alt',
-            'fa-unsorted', 'fa-upload', 'fa-usb', 'fa-usd', 'fa-user', 'fa-user-circle', 'fa-user-circle-o', 'fa-user-md', 'fa-user-o',
-            'fa-user-plus', 'fa-user-secret', 'fa-user-times', 'fa-users', 'fa-vcard', 'fa-vcard-o', 'fa-venus', 'fa-venus-double',
-            'fa-venus-mars', 'fa-viacoin', 'fa-viadeo', 'fa-viadeo-square', 'fa-video-camera', 'fa-vimeo', 'fa-vimeo-square', 'fa-vine',
-            'fa-vk', 'fa-volume-control-phone', 'fa-volume-down', 'fa-volume-off', 'fa-volume-up', 'fa-warning', 'fa-wechat', 'fa-weibo',
-            'fa-weixin', 'fa-whatsapp', 'fa-wheelchair', 'fa-wheelchair-alt', 'fa-wifi', 'fa-wikipedia-w', 'fa-window-close',
-            'fa-window-close-o', 'fa-window-maximize', 'fa-window-minimize', 'fa-window-restore', 'fa-windows', 'fa-won', 'fa-wordpress',
-            'fa-wpbeginner', 'fa-wpexplorer', 'fa-wpforms', 'fa-wrench', 'fa-xing', 'fa-xing-square', 'fa-y-combinator',
-            'fa-y-combinator-square', 'fa-yahoo', 'fa-yc', 'fa-yc-square', 'fa-yelp', 'fa-yen', 'fa-yoast', 'fa-youtube',
-            'fa-youtube-play', 'fa-youtube-square'
-        ];
-
-        return {
-            list: function() {
-                return availableIcons;
-            },
-            exists: function(icon) {
-                if (availableIcons.indexOf(icon) > -1) {
-                    return true;
-                } else {
-                    return false;
-                }
-            }
-        };
-    }
-]);
-
-
 // Filter service
 angular.module('opengate-angular-js').factory('Filter', ['$window', '$sce', '$q',
 
@@ -14027,108 +13896,6 @@ DataUrlFormatter.prototype.format = function (value) {
 function DataUrlFormatter() {}
 
 
-/**
- * Edits by Ryan Hutchison
- * Credit: https://github.com/paulyoder/angular-bootstrap-show-errors */
-
-angular.module('opengate-angular-js')
-    .directive('showErrors', ['$timeout', '$interpolate', function($timeout, $interpolate) {
-        var linkFn = function(scope, el, attrs, formCtrl) {
-            var inputEl, inputName, inputNgEl, options, showSuccess, toggleClasses,
-                initCheck = false,
-                showValidationMessages = false,
-                blurred = false;
-
-            options = scope.$eval(attrs.showErrors) || {};
-            showSuccess = options.showSuccess || false;
-            inputEl = el[0].querySelector('.form-control[name]') || el[0].querySelector('[name]');
-            inputNgEl = angular.element(inputEl);
-            inputName = $interpolate(inputNgEl.attr('name') || '')(scope);
-
-            if (!inputName) {
-                throw 'show-errors element has no child input elements with a \'name\' attribute class';
-            }
-
-            var reset = function() {
-                return $timeout(function() {
-                    el.removeClass('has-error');
-                    el.removeClass('has-success');
-                    showValidationMessages = false;
-                }, 0, false);
-            };
-
-            scope.$watch(function() {
-                return formCtrl[inputName] && formCtrl[inputName].$invalid;
-            }, function(invalid) {
-                return toggleClasses(invalid);
-            });
-
-            scope.$on('show-errors-check-validity', function(event, name) {
-                if (angular.isUndefined(name) || formCtrl.$name === name) {
-                    initCheck = true;
-                    showValidationMessages = true;
-
-                    return toggleClasses(formCtrl[inputName].$invalid);
-                }
-            });
-
-            scope.$on('show-errors-reset', function(event, name) {
-                if (angular.isUndefined(name) || formCtrl.$name === name) {
-                    return reset();
-                }
-            });
-
-            toggleClasses = function(invalid) {
-                el.toggleClass('has-error', showValidationMessages && invalid);
-                if (showSuccess) {
-                    return el.toggleClass('has-success', showValidationMessages && !invalid);
-                }
-            };
-        };
-
-        return {
-            restrict: 'A',
-            require: '^form',
-            compile: function(elem, attrs) {
-                if (attrs.showErrors.indexOf('skipFormGroupCheck') === -1) {
-                    if (!(elem.hasClass('form-group') || elem.hasClass('input-group'))) {
-                        throw 'show-errors element does not have the \'form-group\' or \'input-group\' class';
-                    }
-                }
-                return linkFn;
-            }
-        };
-    }]);
-
-
-angular.module('opengate-angular-js')
-    .directive('elemReady', ["$parse", function($parse) {
-        return {
-            restrict: 'A',
-            link: function($scope, elem, attrs) {
-                elem.ready(function() {
-                    $scope.$apply(function() {
-                        var func = $parse(attrs.elemReady);
-                        func($scope);
-                    });
-                });
-            }
-        };
-    }]);
-
-
-angular.module('opengate-angular-js').directive('disallowSpaces', function() {
-    return {
-        restrict: 'A',
-        link: function($scope, $element) {
-            $element.bind('input', function() {
-                window.$(this).val(window.$(this).val().replace(/ /g, ''));
-            });
-        }
-    };
-});
-
-
 angular.module('opengate-angular-js')
 
 .filter('communicationsInterface', function() {
@@ -14263,6 +14030,108 @@ angular.module('opengate-angular-js')
             return input;
         };
     });
+
+
+/**
+ * Edits by Ryan Hutchison
+ * Credit: https://github.com/paulyoder/angular-bootstrap-show-errors */
+
+angular.module('opengate-angular-js')
+    .directive('showErrors', ['$timeout', '$interpolate', function($timeout, $interpolate) {
+        var linkFn = function(scope, el, attrs, formCtrl) {
+            var inputEl, inputName, inputNgEl, options, showSuccess, toggleClasses,
+                initCheck = false,
+                showValidationMessages = false,
+                blurred = false;
+
+            options = scope.$eval(attrs.showErrors) || {};
+            showSuccess = options.showSuccess || false;
+            inputEl = el[0].querySelector('.form-control[name]') || el[0].querySelector('[name]');
+            inputNgEl = angular.element(inputEl);
+            inputName = $interpolate(inputNgEl.attr('name') || '')(scope);
+
+            if (!inputName) {
+                throw 'show-errors element has no child input elements with a \'name\' attribute class';
+            }
+
+            var reset = function() {
+                return $timeout(function() {
+                    el.removeClass('has-error');
+                    el.removeClass('has-success');
+                    showValidationMessages = false;
+                }, 0, false);
+            };
+
+            scope.$watch(function() {
+                return formCtrl[inputName] && formCtrl[inputName].$invalid;
+            }, function(invalid) {
+                return toggleClasses(invalid);
+            });
+
+            scope.$on('show-errors-check-validity', function(event, name) {
+                if (angular.isUndefined(name) || formCtrl.$name === name) {
+                    initCheck = true;
+                    showValidationMessages = true;
+
+                    return toggleClasses(formCtrl[inputName].$invalid);
+                }
+            });
+
+            scope.$on('show-errors-reset', function(event, name) {
+                if (angular.isUndefined(name) || formCtrl.$name === name) {
+                    return reset();
+                }
+            });
+
+            toggleClasses = function(invalid) {
+                el.toggleClass('has-error', showValidationMessages && invalid);
+                if (showSuccess) {
+                    return el.toggleClass('has-success', showValidationMessages && !invalid);
+                }
+            };
+        };
+
+        return {
+            restrict: 'A',
+            require: '^form',
+            compile: function(elem, attrs) {
+                if (attrs.showErrors.indexOf('skipFormGroupCheck') === -1) {
+                    if (!(elem.hasClass('form-group') || elem.hasClass('input-group'))) {
+                        throw 'show-errors element does not have the \'form-group\' or \'input-group\' class';
+                    }
+                }
+                return linkFn;
+            }
+        };
+    }]);
+
+
+angular.module('opengate-angular-js')
+    .directive('elemReady', ["$parse", function($parse) {
+        return {
+            restrict: 'A',
+            link: function($scope, elem, attrs) {
+                elem.ready(function() {
+                    $scope.$apply(function() {
+                        var func = $parse(attrs.elemReady);
+                        func($scope);
+                    });
+                });
+            }
+        };
+    }]);
+
+
+angular.module('opengate-angular-js').directive('disallowSpaces', function() {
+    return {
+        restrict: 'A',
+        link: function($scope, $element) {
+            $element.bind('input', function() {
+                window.$(this).val(window.$(this).val().replace(/ /g, ''));
+            });
+        }
+    };
+});
 
 
 

@@ -135,6 +135,10 @@ angular.module('opengate-angular-js').controller('customUiSelectDatastreamContro
         }
     };
 
+    if (ctrl.required !== undefined) {
+        ctrl.ngRequired = ctrl.required;
+    }
+
     if (ctrl.identifier) {
         mapIdentifier(ctrl.identifier);
     }
@@ -183,7 +187,8 @@ angular.module('opengate-angular-js').component('customUiSelectDatastream', {
         datastream: '=',
         multiple: '<',
         maxResults: '<',
-        required: '=',
+        ngRequired: '<',
+        required: '<',
         postFilter: '<',
         resourceTypes: '=',
         organization: '=',

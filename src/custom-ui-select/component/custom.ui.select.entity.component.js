@@ -99,6 +99,10 @@ angular.module('opengate-angular-js').controller('customUiSelectEntityController
             }
         };
 
+        if (ctrl.required !== undefined) {
+            ctrl.ngRequired = ctrl.required;
+        }
+
         if (ctrl.identifier) {
             mapIdentifier(ctrl.identifier);
         }
@@ -155,7 +159,8 @@ angular.module('opengate-angular-js').component('customUiSelectEntity', {
         entity: '=',
         identifier: '<?',
         multiple: '<',
-        required: '=',
+        ngRequired: '<',
+        required: '<',
         label: '<',
         action: '<?',
         disabled: '<?',

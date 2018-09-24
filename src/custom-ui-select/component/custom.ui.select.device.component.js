@@ -75,7 +75,8 @@ angular.module('opengate-angular-js').controller('customUiSelectDeviceController
             },
             rootKey: 'devices',
             collection: [],
-            customSelectors: $api().devicesSearchBuilder()
+            customSelectors: $api().devicesSearchBuilder(),
+            specificType: ctrl.specificType
         };
 
         ctrl.deviceSelected = function($item, $model) {
@@ -130,6 +131,10 @@ angular.module('opengate-angular-js').controller('customUiSelectDeviceController
                 mapIdentifier(changesObj.identifier.currentValue);
             }
         };
+
+        if (ctrl.required !== undefined) {
+            ctrl.ngRequired = ctrl.required;
+        }
 
         if (ctrl.identifier) {
             mapIdentifier(ctrl.identifier);
@@ -196,7 +201,8 @@ angular.module('opengate-angular-js').component('customUiSelectDevice', {
         device: '=',
         identifier: '<?',
         multiple: '<',
-        required: '=',
+        ngRequired: '<',
+        required: '<',
         label: '=',
         action: '=?',
         specificType: '@?',

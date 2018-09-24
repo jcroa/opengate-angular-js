@@ -60,7 +60,8 @@ angular.module('opengate-angular-js').controller('customUiSelectSubscriptionCont
             rootKey: 'devices',
             collection: [],
             customSelectors: $api().subscriptionsSearchBuilder().provisioned(),
-            processingData: $entityExtractor.extractSubscriptions
+            processingData: $entityExtractor.extractSubscriptions,
+            specificType: ctrl.specificType
         };
 
         ctrl.entitySelected = function($item, $model) {
@@ -85,6 +86,10 @@ angular.module('opengate-angular-js').controller('customUiSelectSubscriptionCont
                 permissions: 'manageEntity'
             };
         }
+
+        if (ctrl.required !== undefined) {
+            ctrl.ngRequired = ctrl.required;
+        }
     }
 ]);
 
@@ -98,7 +103,8 @@ angular.module('opengate-angular-js').component('customUiSelectSubscription', {
         entity: '=',
         specificType: '@',
         multiple: '<',
-        required: '=',
+        ngRequired: '<',
+        required: '<',
         excludeDevices: '=',
         action: '=?'
     }

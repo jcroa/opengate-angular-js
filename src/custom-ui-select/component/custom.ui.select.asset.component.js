@@ -65,7 +65,8 @@ angular.module('opengate-angular-js').controller('customUiSelectAssetController'
             },
             rootKey: 'assets',
             collection: [],
-            customSelectors: $api().assetsSearchBuilder()
+            customSelectors: $api().assetsSearchBuilder(),
+            specificType: ctrl.specificType
         };
 
         ctrl.assetSelected = function($item, $model) {
@@ -93,7 +94,7 @@ angular.module('opengate-angular-js').controller('customUiSelectAssetController'
             if (ctrl.onRemove) {
                 ctrl.onRemove($item, $model);
             }
-            ctrl.ngModel = null;
+            ctrl.ngModel = undefined;
 
         };
 
@@ -120,6 +121,10 @@ angular.module('opengate-angular-js').controller('customUiSelectAssetController'
                 mapIdentifier(changesObj.identifier.currentValue);
             }
         };
+
+        if (ctrl.required !== undefined) {
+            ctrl.ngRequired = ctrl.required;
+        }
 
         if (ctrl.identifier) {
             mapIdentifier(ctrl.identifier);
@@ -187,7 +192,8 @@ angular.module('opengate-angular-js').component('customUiSelectAsset', {
         asset: '=',
         identifier: '<?',
         multiple: '<',
-        required: '=',
+        ngRequired: '<',
+        required: '<',
         label: '=',
         action: '=?',
         specificType: '@?',

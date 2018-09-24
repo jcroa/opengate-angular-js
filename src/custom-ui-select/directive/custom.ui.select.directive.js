@@ -216,7 +216,7 @@ angular.module('opengate-angular-js')
 
                         if ($attrs.customMassAutocompleteItem) {
                             $element.addClass(maus);
-                            var massAutocompleteItem = getMassAutocompleteItem();
+                            var massAutocompleteItem = getAttribute('customMassAutocompleteItem');
                             //var action = getAction();
                             var action = getAttribute('customUiSelectAction');
                             var disabled = getAttribute('ngDisabled');
@@ -259,12 +259,19 @@ angular.module('opengate-angular-js')
                             });
 
                             if (action && !disabled) {
+                                var ownConfig = getAttribute('customUiSelectConfig');
+
                                 $attrs.$$actionButton.attr('title', action.title);
                                 $attrs.$$actionButton.bind('click', action.action);
 
                                 //$attrs.$$actionButton.addClass(action.icon);
                                 $attrs.$$actionButton.children()[0].className = $attrs.$$actionButton.children()[0].className + ' ' + action.icon;
-                                $attrs.$$actionButton.children()[1].innerText = action.title;
+
+                                if (ownConfig.specificType) {
+                                    $attrs.$$actionButton.children()[1].innerText = ownConfig.specificType;
+                                } else {
+                                    $attrs.$$actionButton.children()[1].innerText = action.title;
+                                }
 
                                 if (angular.isArray(action.permissions)) {
                                     $attrs.$$actionButton.attr('permission-only', action.permissions.toString());
@@ -280,18 +287,18 @@ angular.module('opengate-angular-js')
                             $element.addClass(aus);
                         }
 
-                        function getMassAutocompleteItem() {
-                            var configPath = $attrs.customMassAutocompleteItem.split('.');
-                            if (configPath.length === 1) {
-                                return $scope[$attrs.customMassAutocompleteItem];
-                            } else {
-                                var config = $scope;
-                                configPath.forEach(function(path) {
-                                    config = config[path];
-                                });
-                                return config;
-                            }
-                        }
+                        // function getMassAutocompleteItem() {
+                        //     var configPath = $attrs.customMassAutocompleteItem.split('.');
+                        //     if (configPath.length === 1) {
+                        //         return $scope[$attrs.customMassAutocompleteItem];
+                        //     } else {
+                        //         var config = $scope;
+                        //         configPath.forEach(function(path) {
+                        //             config = config[path];
+                        //         });
+                        //         return config;
+                        //     }
+                        // }
 
                         function getAttribute(attr) {
                             if ($attrs[attr]) {

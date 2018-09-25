@@ -2,8 +2,8 @@
 
 angular.module('uxleaflet', []);
 angular.module('opengate-angular-js', ['schemaForm', 'uxleaflet', 'ui-leaflet']);
-angular.module("opengate-angular-js").run(["$templateCache", function($templateCache) {$templateCache.put("components/views/fieldOptions.html","<small class=ux-txt-danger ng-if=$ctrl.required title=\"{{ \'FORM.FIELD.REQUIRED\' | translate }}\">*</small> <small class=ux-txt-warning ng-if=$ctrl.optional title=\"{{ \'FORM.FIELD.OPTIONAL\' | translate }}\">(-)</small> <small class=ux-txt-info ng-if=$ctrl.multiple title=\"{{ \'FORM.FIELD.MULTIPLE\' | translate }}\"><span class=fa-stack style=font-size:0.5em;><i class=\"fa fa-clone fa-stack-2x\"></i> <i class=\"fa fa-check fa-stack-1x\"></i></span></small> <small class=ux-txt-info ng-if=$ctrl.loading><span class=\"fa fa-spinner fa-spin\" style=font-size:1.2em;></span></small> <small ng-if=$ctrl.action class=pointer permission permission-only=$ctrl.action.permissions title={{$ctrl.action.title}} ng-click=$ctrl.action.action(choice.value)><i class=\"{{$ctrl.action.icon}} text-primary pointer\" style=font-size:1.2em;></i></small>");
-$templateCache.put("custom-ui-select/views/custom.ui.map.html","<div class=no-margin><div class=\"col-xs-12 no-padding\"><label class=custom-ui-select-label>{{ ($ctrl.label?$ctrl.label:\'FORM.LABEL.ENTITY_KEY\') | translate }}<field-options required=$ctrl.required multiple=$ctrl.multiple loading=$ctrl.reloadingInfo></field-options></label></div><div class=row ng-if=!$ctrl.disabled><div class=\"col-xs-3 form-group no-margin\"><input ng-required=$ctrl.required type=number class=form-control title=\"{{ \'FORM.TITLE.LATITUDE\' | translate }}\" placeholder=\"{{ \'FORM.TITLE.LATITUDE\' | translate }}\" ng-model=$ctrl.coordsObj.new.lat></div><div class=\"col-xs-3 form-group no-margin\"><input ng-required=$ctrl.required type=number class=form-control title=\"{{ \'FORM.TITLE.LONGITUDE\' | translate }}\" placeholder=\"{{ \'FORM.TITLE.LONGITUDE\' | translate }}\" ng-model=$ctrl.coordsObj.new.lng></div><div class=\"col-xs-2 form-group no-margin\"><button type=button ng-disabled=\"$ctrl.coordsObj.current.lat === $ctrl.coordsObj.new.lat && $ctrl.coordsObj.current.lng === $ctrl.coordsObj.new.lng\" class=\"btn btn-info no-margin\" ng-click=$ctrl.searchCoords()><i class=\"fa fa-search\"></i></button> <button type=button ng-if=!$ctrl.disabled class=\"btn btn-default no-margin\" ng-click=$ctrl.applyCoords()><i class=\"fa fa-map-marker\"></i></button></div></div><div class=col-xs-12><small>{{ $ctrl.display_name }}&nbsp;</small></div><leaflet ng-show=$ctrl.showMap id=\"{{ $ctrl.map.id }}\" lf-center=$ctrl.map.center layers=$ctrl.map.layers controls=$ctrl.map.controls event-broadcast=$ctrl.map.events markers=$ctrl.map.markers width=100% height=150px></leaflet><div class=row ng-if=\"!$ctrl.disabled && !$ctrl.onlyMap\"><div class=\"col-xs-12 col-md-5 form-group no-margin\"><input ng-required=$ctrl.required type=text class=form-control title=\"{{ \'FORM.TITLE.ADDRESS\' | translate }}\" placeholder=\"{{ \'FORM.TITLE.ADDRESS\' | translate }}\" ng-model=$ctrl.location.address></div><div class=\"col-xs-12 col-md-5 form-group no-margin\"><input ng-required=$ctrl.required type=text class=form-control title=\"{{ \'FORM.TITLE.TOWN\' | translate }}\" placeholder=\"{{ \'FORM.TITLE.TOWN\' | translate }}\" ng-model=$ctrl.location.town></div><div class=\"col-xs-12 col-md-2 form-group no-margin\"><input ng-required=$ctrl.required type=text class=form-control title=\"{{ \'FORM.TITLE.POSTAL_CODE\' | translate }}\" placeholder=\"{{ \'FORM.TITLE.POSTAL_CODE\' | translate }}\" ng-model=$ctrl.location.postal></div></div><div class=row ng-if=\"!$ctrl.disabled && !$ctrl.onlyMap\"><div class=\"col-xs-12 col-md-5 form-group no-margin\"><input ng-required=$ctrl.required type=text class=form-control title=\"{{ \'FORM.TITLE.PROVINCE\' | translate }}\" placeholder=\"{{ \'FORM.TITLE.PROVINCE\' | translate }}\" ng-model=$ctrl.location.province></div><div class=\"col-xs-12 col-md-5 form-group no-margin\"><input ng-required=$ctrl.required type=text class=form-control title=\"{{ \'FORM.TITLE.REGION\' | translate }}\" placeholder=\"{{ \'FORM.TITLE.REGION\' | translate }}\" ng-model=$ctrl.location.region></div><div class=\"col-xs-12 col-md-2 form-group no-margin\"><input ng-required=$ctrl.required type=text class=form-control title=\"{{ \'FORM.TITLE.COUNTRY.NAME\' | translate }}\" placeholder=\"{{ \'FORM.TITLE.COUNTRY.NAME\' | translate }}\" ng-model=$ctrl.location.country></div></div></div>");
+angular.module("opengate-angular-js").run(["$templateCache", function($templateCache) {$templateCache.put("components/views/custom.ui.map.html","<div class=no-margin><div class=\"col-xs-12 no-padding\"><label class=custom-ui-select-label>{{ ($ctrl.label?$ctrl.label:\'FORM.LABEL.ENTITY_KEY\') | translate }}<field-options required=$ctrl.required multiple=$ctrl.multiple loading=$ctrl.reloadingInfo></field-options></label></div><div class=row ng-if=!$ctrl.disabled><div class=\"col-xs-3 form-group no-margin\"><input ng-required=$ctrl.required type=number class=form-control title=\"{{ \'FORM.TITLE.LATITUDE\' | translate }}\" placeholder=\"{{ \'FORM.TITLE.LATITUDE\' | translate }}\" ng-model=$ctrl.coordsObj.new.lat></div><div class=\"col-xs-3 form-group no-margin\"><input ng-required=$ctrl.required type=number class=form-control title=\"{{ \'FORM.TITLE.LONGITUDE\' | translate }}\" placeholder=\"{{ \'FORM.TITLE.LONGITUDE\' | translate }}\" ng-model=$ctrl.coordsObj.new.lng></div><div class=\"col-xs-2 form-group no-margin\"><button type=button ng-disabled=\"$ctrl.coordsObj.current.lat === $ctrl.coordsObj.new.lat && $ctrl.coordsObj.current.lng === $ctrl.coordsObj.new.lng\" class=\"btn btn-info no-margin\" ng-click=$ctrl.searchCoords()><i class=\"fa fa-search\"></i></button> <button type=button ng-if=!$ctrl.disabled class=\"btn btn-default no-margin\" ng-click=$ctrl.applyCoords()><i class=\"fa fa-map-marker\"></i></button></div></div><div class=col-xs-12><small>{{ $ctrl.display_name }}&nbsp;</small></div><leaflet ng-if=$ctrl.showMap id=\"{{ $ctrl.map.id }}\" lf-center=$ctrl.map.center layers=$ctrl.map.layers controls=$ctrl.map.controls event-broadcast=$ctrl.map.events markers=$ctrl.map.markers width=100% height=150px></leaflet><div class=row ng-if=\"!$ctrl.disabled && !$ctrl.onlyMap\"><div class=\"col-xs-12 col-md-5 form-group no-margin\"><input ng-required=$ctrl.required type=text class=form-control title=\"{{ \'FORM.TITLE.ADDRESS\' | translate }}\" placeholder=\"{{ \'FORM.TITLE.ADDRESS\' | translate }}\" ng-model=$ctrl.location.address></div><div class=\"col-xs-12 col-md-5 form-group no-margin\"><input ng-required=$ctrl.required type=text class=form-control title=\"{{ \'FORM.TITLE.TOWN\' | translate }}\" placeholder=\"{{ \'FORM.TITLE.TOWN\' | translate }}\" ng-model=$ctrl.location.town></div><div class=\"col-xs-12 col-md-2 form-group no-margin\"><input ng-required=$ctrl.required type=text class=form-control title=\"{{ \'FORM.TITLE.POSTAL_CODE\' | translate }}\" placeholder=\"{{ \'FORM.TITLE.POSTAL_CODE\' | translate }}\" ng-model=$ctrl.location.postal></div></div><div class=row ng-if=\"!$ctrl.disabled && !$ctrl.onlyMap\"><div class=\"col-xs-12 col-md-5 form-group no-margin\"><input ng-required=$ctrl.required type=text class=form-control title=\"{{ \'FORM.TITLE.PROVINCE\' | translate }}\" placeholder=\"{{ \'FORM.TITLE.PROVINCE\' | translate }}\" ng-model=$ctrl.location.province></div><div class=\"col-xs-12 col-md-5 form-group no-margin\"><input ng-required=$ctrl.required type=text class=form-control title=\"{{ \'FORM.TITLE.REGION\' | translate }}\" placeholder=\"{{ \'FORM.TITLE.REGION\' | translate }}\" ng-model=$ctrl.location.region></div><div class=\"col-xs-12 col-md-2 form-group no-margin\"><input ng-required=$ctrl.required type=text class=form-control title=\"{{ \'FORM.TITLE.COUNTRY.NAME\' | translate }}\" placeholder=\"{{ \'FORM.TITLE.COUNTRY.NAME\' | translate }}\" ng-model=$ctrl.location.country></div></div></div>");
+$templateCache.put("components/views/fieldOptions.html","<small class=ux-txt-danger ng-if=$ctrl.required title=\"{{ \'FORM.FIELD.REQUIRED\' | translate }}\">*</small> <small class=ux-txt-warning ng-if=$ctrl.optional title=\"{{ \'FORM.FIELD.OPTIONAL\' | translate }}\">(-)</small> <small class=ux-txt-info ng-if=$ctrl.multiple title=\"{{ \'FORM.FIELD.MULTIPLE\' | translate }}\"><span class=fa-stack style=font-size:0.5em;><i class=\"fa fa-clone fa-stack-2x\"></i> <i class=\"fa fa-check fa-stack-1x\"></i></span></small> <small class=ux-txt-info ng-if=$ctrl.loading><span class=\"fa fa-spinner fa-spin\" style=font-size:1.2em;></span></small> <small ng-if=$ctrl.action class=pointer permission permission-only=$ctrl.action.permissions title={{$ctrl.action.title}} ng-click=$ctrl.action.action(choice.value)><i class=\"{{$ctrl.action.icon}} text-primary pointer\" style=font-size:1.2em;></i></small>");
 $templateCache.put("custom-ui-select/views/custom.ui.select.area.html","<div class=\"form-group no-margin\" mass-autocomplete ng-if=$ctrl.multiple><label class=custom-ui-select-label>{{ \'FORM.LABEL.AREA\' | translate }}<field-options required=$ctrl.required multiple=$ctrl.multiple></field-options></label><ui-select custom-ui-select-config=$ctrl.ownConfig name=area ng-model=$ctrl.area theme=bootstrap title=\"{{ \'FORM.PLACEHOLDER.AREA_MULTI\' | translate }}\" custom-ui-select multiple=true custom-mass-autocomplete-item=$ctrl.ownConfig on-select=\"$ctrl.areaSelected($item, $model)\" on-remove=\"$ctrl.areaRemove($item, $model)\" ng-required=$ctrl.required><ui-select-match placeholder=\"{{ \'FORM.PLACEHOLDER.AREA_MULTI\' | translate }}\" allow-clear=true>{{$item.identifier}}</ui-select-match><ui-select-choices repeat=\"area in $ctrl.ownConfig.collection | filter:$select.search track by $index\"><div><span ng-bind-html=\"area.identifier | highlight: $select.search\"></span> - <span ng-bind-html=\"area.name | highlight: $select.search\"></span><br><span ng-bind-html=\"area.organization | highlight: $select.search\"></span></div></ui-select-choices></ui-select></div><div class=\"form-group no-margin\" mass-autocomplete ng-if=!$ctrl.multiple><label class=custom-ui-select-label>{{ \'FORM.LABEL.AREA\' | translate }}<field-options required=$ctrl.required multiple=$ctrl.multiple></field-options></label><ui-select custom-ui-select-config=$ctrl.ownConfig name=area ng-model=$ctrl.area theme=bootstrap title=\"Choose an area\" custom-ui-select multiple=false custom-mass-autocomplete-item=$ctrl.ownConfig on-select=\"$ctrl.areaSelected($item, $model)\" on-remove=\"$ctrl.areaRemove($item, $model)\" ng-required=$ctrl.required><ui-select-match placeholder=\"{{ \'FORM.PLACEHOLDER.AREA\' | translate }}\" allow-clear=true>{{$item.identifier}}</ui-select-match><ui-select-choices repeat=\"area in $ctrl.ownConfig.collection | filter:$select.search track by $index\"><div><span ng-bind-html=\"area.identifier | highlight: $select.search\"></span> - <span ng-bind-html=\"area.name | highlight: $select.search\"></span><br><span ng-bind-html=\"area.organization | highlight: $select.search\"></span></div></ui-select-choices></ui-select></div>");
 $templateCache.put("custom-ui-select/views/custom.ui.select.asset.html","<div class=\"form-group no-margin\" mass-autocomplete ng-if=$ctrl.multiple><label ng-if=$ctrl.label class=custom-ui-select-label>{{ $ctrl.label | translate }}<field-options required=$ctrl.ngRequired multiple=$ctrl.multiple></field-options></label><ui-select custom-ui-select-config=$ctrl.ownConfig ng-disabled=$ctrl.disabled name=asset ng-model=$ctrl.asset theme=bootstrap title=\"Choose a asset\" custom-ui-select custom-ui-select-action=$ctrl.action multiple=true custom-mass-autocomplete-item=$ctrl.ownConfig on-select=\"$ctrl.assetSelected($item, $model)\" on-remove=\"$ctrl.assetRemove($item, $model)\" ng-required=$ctrl.ngRequired><ui-select-match placeholder=\"{{ \'FORM.PLACEHOLDER.ENTITY\' | translate }}\" allow-clear=true>{{$item.provision.administration.identifier._current.value || $item.identifier}}</ui-select-match><ui-select-choices repeat=\"assetData in $ctrl.ownConfig.collection track by $index\"><span ng-bind-html=\"assetData.provision.administration.identifier._current.value | highlight: $select.search\"></span> <small><div ng-if=assetData.provision.asset.specificType._current.value>{{ \'FORM.LABEL.SPECIFIC_TYPE\' | translate }}: <span ng-bind-html=\"assetData.provision.asset.specificType._current.value | highlight: $select.search\"></span></div><div ng-if=assetData.provision.asset.name._current.value>{{ \'FORM.LABEL.NAME\' | translate }}: <span ng-bind-html=\"\'\'+assetData.provision.asset.name._current.value | highlight: $select.search\"></span></div></small></ui-select-choices></ui-select></div><div class=\"form-group no-margin\" mass-autocomplete ng-if=!$ctrl.multiple><label ng-if=$ctrl.label class=custom-ui-select-label>{{ $ctrl.label | translate }}<field-options required=$ctrl.ngRequired multiple=$ctrl.multiple></field-options></label><ui-select custom-ui-select-config=$ctrl.ownConfig ng-disabled=$ctrl.disabled name=asset ng-model=$ctrl.asset theme=bootstrap title=\"Choose an asset\" custom-ui-select custom-ui-select-action=$ctrl.action multiple=false custom-mass-autocomplete-item=$ctrl.ownConfig on-select=\"$ctrl.assetSelected($item, $model)\" on-remove=\"$ctrl.assetRemove($item, $model)\" ng-required=$ctrl.ngRequired><ui-select-match placeholder=\"{{ \'FORM.PLACEHOLDER.ENTITY\' | translate }}\" allow-clear=true>{{$item.provision.administration.identifier._current.value || $item.identifier}}</ui-select-match><ui-select-choices repeat=\"assetData in $ctrl.ownConfig.collection track by $index\"><span ng-bind-html=\"assetData.provision.administration.identifier._current.value | highlight: $select.search\"></span> <small><div ng-if=assetData.provision.asset.specificType._current.value>{{ \'FORM.LABEL.SPECIFIC_TYPE\' | translate }}: <span ng-bind-html=\"assetData.provision.asset.specificType._current.value | highlight: $select.search\"></span></div><div ng-if=assetData.provision.asset.name._current.value>{{ \'FORM.LABEL.NAME\' | translate }}: <span ng-bind-html=\"\'\'+assetData.provision.asset.name._current.value | highlight: $select.search\"></span></div></small></ui-select-choices></ui-select></div>");
 $templateCache.put("custom-ui-select/views/custom.ui.select.bundle.html","<div class=\"form-group no-margin\" mass-autocomplete ng-if=$ctrl.multiple><label class=custom-ui-select-label>{{ \'FORM.LABEL.BUNDLE_NAME\' | translate }}<field-options required=$ctrl.required multiple=$ctrl.multiple></field-options></label><ui-select custom-ui-select-config=$ctrl.ownConfig name=bundle ng-model=$ctrl.bundle theme=bootstrap title=\"{{ \'FORM.PLACEHOLDER.BUNDLE_MULTI\' | translate }}\" custom-ui-select multiple=true custom-mass-autocomplete-item=$ctrl.ownConfig on-select=\"$ctrl.bundleSelected($item, $model)\" on-remove=\"$ctrl.bundleRemove($item, $model)\" ng-required=$ctrl.required><ui-select-match placeholder=\"{{ \'FORM.PLACEHOLDER.BUNDLE_MULTI\' | translate }}\" allow-clear=true>{{$item.name}} (v{{$item.version}})</ui-select-match><ui-select-choices repeat=\"bundle in $ctrl.ownConfig.collection | filter:$select.search track by $index\"><div><span ng-bind-html=\"bundle.name | highlight: $select.search\"></span> - <span ng-bind-html=\"bundle.version | highlight: $select.search\"></span><br><span ng-bind-html=\"bundle.description | highlight: $select.search\"></span></div></ui-select-choices></ui-select></div><div class=\"form-group no-margin\" mass-autocomplete ng-if=!$ctrl.multiple><label class=custom-ui-select-label>{{ \'FORM.LABEL.BUNDLE_NAME\' | translate }}<field-options required=$ctrl.required multiple=$ctrl.multiple></field-options></label><ui-select custom-ui-select-config=$ctrl.ownConfig name=bundle ng-model=$ctrl.bundle theme=bootstrap title=\"Choose an bundle\" custom-ui-select multiple=false custom-mass-autocomplete-item=$ctrl.ownConfig on-select=\"$ctrl.bundleSelected($item, $model)\" on-remove=\"$ctrl.bundleRemove($item, $model)\" ng-required=$ctrl.required><ui-select-match placeholder=\"{{ \'FORM.PLACEHOLDER.BUNDLE\' | translate }}\" allow-clear=true>{{$item.name}} (v{{$item.version}})</ui-select-match><ui-select-choices repeat=\"bundle in $ctrl.ownConfig.collection | filter:$select.search track by $index\"><div><span ng-bind-html=\"bundle.name | highlight: $select.search\"></span> (v<span ng-bind-html=\"bundle.version | highlight: $select.search\"></span>)<br><span ng-bind-html=\"bundle.description | highlight: $select.search\"></span></div></ui-select-choices></ui-select></div>");
@@ -9343,7 +9343,7 @@ L.Util.saveAs = (function(view) {
 
 angular.module('opengate-angular-js')
     .service('$schemaFormUtils', ['$provisionDatastreamsUtils', '$api', '$q',
-        function($provisionDatastreamsUtils, $api, $q) {
+        function ($provisionDatastreamsUtils, $api, $q) {
             
 
             function checkFieldToForm(field, form) {
@@ -9357,7 +9357,7 @@ angular.module('opengate-angular-js')
 
             function removeFieldToForm(field, form) {
                 checkFieldToForm(field, form);
-                form = form.filter(function(value) {
+                form = form.filter(function (value) {
                     if (typeof value === 'string') {
                         if (typeof field === 'string') {
                             return value !== field;
@@ -9417,7 +9417,7 @@ angular.module('opengate-angular-js')
 
                 function addExtraAttributes(schema, withoutHelper) {
                     var _keys = Object.keys(schema);
-                    _keys.forEach(function(key) {
+                    _keys.forEach(function (key) {
                         var obj = schema[key];
                         if (!withoutHelper) {
                             if (obj === 'string' && typeof schema.format === 'undefined' && typeof schema.enum === 'undefined') {
@@ -9436,23 +9436,23 @@ angular.module('opengate-angular-js')
                     }
                 }
 
-                this.updateForm = function(form) {
+                this.updateForm = function (form) {
                     form = angular.copy(form);
                 };
 
 
-                this.addField = function($item, creationMode, withoutHelper) {
+                this.addField = function ($item, creationMode, withoutHelper) {
                     var defered = $q.defer();
                     var promise = defered.promise;
 
                     if (typeof $item.schema.$ref === 'string') {
                         var path = '$.' + $item.schema.$ref.split('#')[1];
                         path = path.replace(/[\/]/g, '.');
-                        $api().basicTypesSearchBuilder().withPath(path).execute().then(function(response) {
+                        $api().basicTypesSearchBuilder().withPath(path).execute().then(function (response) {
                             $item.schema = response.data;
                             addToSchema($item, creationMode, withoutHelper);
                             defered.resolve();
-                        }).catch(function(err) {
+                        }).catch(function (err) {
                             console.error(err);
                             defered.reject(err);
                         });
@@ -9463,13 +9463,13 @@ angular.module('opengate-angular-js')
                     return promise;
                 };
 
-                this.addFields = function(fields, creationMode, withoutHelper) {
+                this.addFields = function (fields, creationMode, withoutHelper) {
                     var promisses = [];
                     if (Array.isArray(fields) && fields.length > 0) {
-                        fields.forEach(function(field) {
+                        fields.forEach(function (field) {
                             promisses.push(_this.addField(field, creationMode, withoutHelper));
                         });
-                        return $q.all(promisses).catch(function(err) {
+                        return $q.all(promisses).catch(function (err) {
                             console.error(err);
                         });
                     } else {
@@ -9477,22 +9477,22 @@ angular.module('opengate-angular-js')
                     }
                 };
 
-                this.removeField = function(field) {
+                this.removeField = function (field) {
                     delete schema.properties[field];
                     schema.required.splice(schema.required.indexOf(field), 1);
                     identifiers.splice(identifiers.indexOf(field), 1);
                     form = removeFieldToForm(field, form);
                 };
 
-                this.getSchema = function() {
+                this.getSchema = function () {
                     return schema;
                 };
 
-                this.getForm = function() {
+                this.getForm = function () {
                     return form;
                 };
 
-                this.getIdentifiers = function() {
+                this.getIdentifiers = function () {
                     return identifiers;
                 };
             }
@@ -9500,10 +9500,10 @@ angular.module('opengate-angular-js')
             return {
                 addFieldToForm: addFieldToForm,
                 removeFieldToForm: removeFieldToForm,
-                getSchemaFormCreator: function() {
+                getSchemaFormCreator: function () {
                     return new SchemaFormCreator();
                 },
-                getSchemaFormCreatorFromDatamodel: function(options) {
+                getSchemaFormCreatorFromDatamodel: function (options) {
                     var customfields = options.customFields;
                     var allowedResourceTypes = options.allowedResourceTypes;
                     var organization = options.organization;
@@ -9547,27 +9547,29 @@ angular.module('opengate-angular-js')
                     }
 
                     $api().datamodelsSearchBuilder().filter(filter).build().execute()
-                        .then(function(response) {
+                        .then(function (response) {
                             var datamodels = response.data.datamodels;
                             if (!fromAllDatamodels) {
                                 datamodels = $provisionDatastreamsUtils.filterForCoreDatamodelsCatalog(datamodels);
                             }
 
-                            var rd = datamodels.reduce(function(first, next) {
+                            var rd = datamodels.reduce(function (first, next) {
                                 var categories = [];
                                 if (next.categories) {
-                                    return first.concat(next.categories.reduce(function(first, next) {
-                                        return first.concat(next.datastreams);
+                                    return first.concat(next.categories.reduce(function (first, next) {
+                                        if (next.datastreams)
+                                            return first.concat(next.datastreams);
+                                        return first;
                                     }, categories));
                                 }
                                 return first;
                             }, []);
-                            var datastreams = rd.reduce(function(first, ds) {
+                            var datastreams = rd.reduce(function (first, ds) {
                                 first[ds.identifier] = ds;
                                 return first;
                             }, []);
                             var promisses = [];
-                            customfields.forEach(function(identifier) {
+                            customfields.forEach(function (identifier) {
                                 var confDatastream = datastreams[identifier];
                                 if (typeof confDatastream === 'undefined') {
                                     console.error('Datastream ' + identifier + ' no exists or not is custom.');
@@ -9576,16 +9578,16 @@ angular.module('opengate-angular-js')
                                 }
                             });
                             if (promisses.length > 0) {
-                                $q.all(promisses).then(function() {
+                                $q.all(promisses).then(function () {
                                     defered.resolve(schemaFormCreator);
-                                }).catch(function(err) {
+                                }).catch(function (err) {
                                     console.error(err);
                                     defered.reject(err);
                                 });
                             }
 
                         })
-                        .catch(function(err) {
+                        .catch(function (err) {
                             console.error(err);
                             defered.reject(err);
                         });
@@ -11088,13 +11090,13 @@ angular.module('opengate-angular-js').component('customUiSelectSubscriber', {
 
 
 angular.module('opengate-angular-js').controller('customUiSelectProvisionDatastreamController', ['$scope', '$element', '$attrs', '$api', '$q', '$http', '$provisionDatastreamsUtils',
-    function($scope, $element, $attrs, $api, $q, $http, $provisionDatastreamsUtils) {
+    function ($scope, $element, $attrs, $api, $q, $http, $provisionDatastreamsUtils) {
         var ctrl = this;
         ctrl.filter = 'provision.';
 
         ctrl.ownConfig = {
             builder: $api().datamodelsSearchBuilder(),
-            filter: function(search) {
+            filter: function (search) {
                 ctrl.lastSearch = search;
                 var filter = $provisionDatastreamsUtils.getFilter();
                 if (ctrl.allowedResourceTypes) {
@@ -11110,7 +11112,11 @@ angular.module('opengate-angular-js').controller('customUiSelectProvisionDatastr
                     if (!filter.and) {
                         filter.and = [];
                     }
-                    filter.and.push({ 'eq': { 'datamodels.organizationName': ctrl.organization } });
+                    filter.and.push({
+                        'eq': {
+                            'datamodels.organizationName': ctrl.organization
+                        }
+                    });
                 }
 
                 if (search) {
@@ -11133,13 +11139,13 @@ angular.module('opengate-angular-js').controller('customUiSelectProvisionDatastr
             },
             rootKey: 'datamodels',
             collection: [],
-            processingData: function(data, collection) {
+            processingData: function (data, collection) {
                 //if (!ctrl.lastSearch) return $q(function(ok) { ok([]); });
-                return $q(function(ok) {
+                return $q(function (ok) {
                     var _datastreams = [];
                     var datamodels = data.data.datamodels;
                     datamodels = $provisionDatastreamsUtils.filterForCoreDatamodelsCatalog(datamodels);
-                    angular.forEach(datamodels, function(datamodel, key) {
+                    angular.forEach(datamodels, function (datamodel, key) {
                         var categories = datamodel.categories;
                         var _datamodel = {
                             identifier: datamodel.identifier,
@@ -11147,24 +11153,26 @@ angular.module('opengate-angular-js').controller('customUiSelectProvisionDatastr
                             name: datamodel.name,
                             organization: datamodel.organizationName
                         };
-                        angular.forEach(categories, function(category, key) {
+                        angular.forEach(categories, function (category, key) {
                             var datastreams = category.datastreams;
-                            var _category = {
-                                identifier: category.identifier
-                            };
-                            angular.forEach(datastreams
-                                .filter(function(ds) {
-                                    if (/^(provision\.).*/.test(ds.identifier)) {
-                                        return (ds.identifier.indexOf(ctrl.lastSearch) > -1 && !!ctrl.lastSearch.length) || !ctrl.lastSearch;
-                                    }
-                                    return false;
-                                }),
-                                function(datastream, key) {
-                                    var _datastream = angular.copy(datastream);
-                                    _datastream.datamodel = _datamodel;
-                                    _datastream.category = _category;
-                                    _datastreams.push(_datastream);
-                                });
+                            if (datastreams) {
+                                var _category = {
+                                    identifier: category.identifier
+                                };
+                                angular.forEach(datastreams
+                                    .filter(function (ds) {
+                                        if (/^(provision\.).*/.test(ds.identifier)) {
+                                            return (ds.identifier.indexOf(ctrl.lastSearch) > -1 && !!ctrl.lastSearch.length) || !ctrl.lastSearch;
+                                        }
+                                        return false;
+                                    }),
+                                    function (datastream, key) {
+                                        var _datastream = angular.copy(datastream);
+                                        _datastream.datamodel = _datamodel;
+                                        _datastream.category = _category;
+                                        _datastreams.push(_datastream);
+                                    });
+                            }
                         });
                     });
                     angular.copy(_datastreams, collection);
@@ -11174,14 +11182,14 @@ angular.module('opengate-angular-js').controller('customUiSelectProvisionDatastr
             customSelectors: $api().datamodelsSearchBuilder()
         };
 
-        ctrl.datastreamSelected = function($item, $model) {
+        ctrl.datastreamSelected = function ($item, $model) {
             var returnObj = {};
             returnObj.$item = $item;
             returnObj.$model = $model;
             ctrl.onSelectItem(returnObj);
         };
 
-        ctrl.datastreamRemove = function($item, $model) {
+        ctrl.datastreamRemove = function ($item, $model) {
             var returnObj = {};
             returnObj.$item = $item;
             returnObj.$model = $model;
@@ -11710,26 +11718,28 @@ angular.module('opengate-angular-js').controller('customUiSelectDatastreamContro
                     };
                     angular.forEach(categories, function(category, key) {
                         var datastreams = category.datastreams;
-                        var _category = { identifier: category.identifier };
-                        angular.forEach(datastreams
-                            .filter(function(ds) {
-                                return (ds.identifier.toLowerCase().indexOf(ctrl.lastSearch.toLowerCase()) > -1 && !!ctrl.lastSearch.length) || !ctrl.lastSearch;
-                            }),
-                            function(datastream, key) {
-                                var _datastream = angular.copy(datastream);
-                                _datastream.datamodel = _datamodel;
-                                _datastream.category = _category;
+                        if (datastreams) {
+                            var _category = { identifier: category.identifier };
+                            angular.forEach(datastreams
+                                .filter(function (ds) {
+                                    return (ds.identifier.toLowerCase().indexOf(ctrl.lastSearch.toLowerCase()) > -1 && !!ctrl.lastSearch.length) || !ctrl.lastSearch;
+                                }),
+                                function (datastream, key) {
+                                    var _datastream = angular.copy(datastream);
+                                    _datastream.datamodel = _datamodel;
+                                    _datastream.category = _category;
 
-                                if (ctrl.postFilter) {
-                                    var filter = ctrl.postFilter(_datastream);
+                                    if (ctrl.postFilter) {
+                                        var filter = ctrl.postFilter(_datastream);
 
-                                    if (!filter) {
+                                        if (!filter) {
+                                            _datastreams.push(_datastream);
+                                        }
+                                    } else {
                                         _datastreams.push(_datastream);
                                     }
-                                } else {
-                                    _datastreams.push(_datastream);
-                                }
-                            });
+                                });
+                        }
                     });
                 });
                 angular.copy(_datastreams, collection);
@@ -12170,261 +12180,6 @@ angular.module('opengate-angular-js').component('customUiSelectArea', {
         required: '=',
         organization: '<'
     }
-});
-
-
-
-angular.module('opengate-angular-js').controller('customUiMapController', ['$scope', '$element', '$attrs', '$api', 'mapUxService', 'geocodingService', '$translate', 'Authentication', '$timeout',
-    function($scope, $element, $attrs, $api, mapUxService, geocodingService, $translate, Authentication, $timeout) {
-        var $ctrl = this;
-
-        $ctrl.coordsObj = {
-            current: { lat: null, lng: null },
-            new: { lat: null, lng: null }
-        };
-
-        $ctrl.reloadingInfo = false;
-        $ctrl.getInfo = function() {
-            $ctrl.reloadingInfo = true;
-            $ctrl.location.country = undefined; // Pais
-            $ctrl.location.region = undefined; // Comunidad
-            $ctrl.location.province = undefined; // provincia
-            $ctrl.location.town = undefined; // ciudad
-            $ctrl.location.postal = undefined;
-            $ctrl.location.address = undefined;
-            $ctrl.display_name = undefined;
-            if ($ctrl.map.markers.marker) {
-                geocodingService.reverseSearch($ctrl.map.markers.marker.lat, $ctrl.map.markers.marker.lng, 18,
-                    function(err, data) {
-                        $ctrl.reloadingInfo = false;
-                        if (data && data.address) {
-                            $ctrl.location.country = data.address.country || undefined; // Pais
-                            $ctrl.location.region = data.address.state || undefined; // Comunidad
-                            $ctrl.location.province = data.address.county || undefined; // provincia
-                            $ctrl.location.town = data.address.city || data.address.village || data.address.town || undefined; // ciudad
-                            $ctrl.location.postal = data.address.postcode || undefined;
-                            $ctrl.location.address = data.address.road || data.address.pedestrian || undefined;
-                        }
-                        $ctrl.display_name = buildCompleteAddress($ctrl.location);
-                        $ctrl.map.markers.marker.message = buildCompleteAddress($ctrl.location, true);
-                    }, {}, Authentication.user.langCode);
-            } else {
-                $ctrl.reloadingInfo = false;
-            }
-        };
-
-        var ngOptions = mapUxService.getDefaultOptions();
-        delete ngOptions.l_gohome;
-        delete ngOptions.l_print;
-
-        $ctrl.map = mapUxService.createNgOptions(ngOptions);
-
-        //config map helper
-        angular.extend($ctrl.map, {
-            center: {
-                lat: 40.095,
-                lng: -3.823,
-                zoom: 4
-            },
-            markers: {},
-            events: {
-                markers: {
-                    enable: ['dragend', 'click'],
-                    logic: 'emit'
-                },
-                map: {
-                    enable: ['click', 'focus'],
-                    logic: 'emit'
-                }
-            }
-        });
-
-        if ($ctrl.location) {
-            if ($ctrl.location.position && $ctrl.location.position.coordinates) {
-                setPosition($ctrl.location.position.coordinates[1], $ctrl.location.position.coordinates[0], $ctrl.location.zoom)
-            }
-
-            $ctrl.display_name = buildCompleteAddress($ctrl.location);
-        }
-
-        $ctrl.map.id = $scope.$id;
-
-
-        $ctrl.searchCoords = function() {
-            $ctrl.map.center = {
-                lat: $ctrl.coordsObj.new.lat,
-                lng: $ctrl.coordsObj.new.lng,
-                zoom: 17
-            };
-
-            $ctrl.coordsObj = {
-                current: { lat: $ctrl.coordsObj.new.lat, lng: $ctrl.coordsObj.new.lng },
-                new: { lat: $ctrl.coordsObj.new.lat, lng: $ctrl.coordsObj.new.lng }
-            };
-
-            mapUxService.getMapWithId($ctrl.map.id, function(map) {
-                map.invalidateSize();
-                map.fireEvent('focus')
-            });
-        };
-
-        $ctrl.applyCoords = function() {
-            $ctrl.coordsObj = {
-                current: { lat: $ctrl.coordsObj.new.lat, lng: $ctrl.coordsObj.new.lng },
-                new: { lat: $ctrl.coordsObj.new.lat, lng: $ctrl.coordsObj.new.lng }
-            };
-
-            mapUxService.getMapWithId($ctrl.map.id, function(map) {
-                map.invalidateSize();
-                map.fireEvent('focus')
-            });
-
-            if (!$ctrl.disabled) {
-                delete $ctrl.map.markers.marker;
-                setPosition($ctrl.coordsObj.new.lat, $ctrl.coordsObj.new.lng);
-
-                $ctrl.getInfo();
-            }
-        };
-
-        var events = [];
-
-        events.push(
-            $scope.$on('leafletDirectiveMarker.' + $ctrl.map.id + '.click', function(event, args) {
-                args.leafletObject._map.invalidateSize();
-
-                if (!args.leafletObject.getPopup()._isOpen) {
-                    removeMarker();
-                }
-
-            }));
-
-        events.push(
-            $scope.$on('leafletDirectiveMap.' + $ctrl.map.id + '.focus', function(event, args) {
-                args.leafletObject.invalidateSize();
-            }));
-
-        events.push(
-            $scope.$on('leafletDirectiveMap.' + $ctrl.map.id + '.click', function(event, args) {
-                args.leafletObject.invalidateSize();
-
-                if (!$ctrl.disabled) {
-                    var latlng = args.leafletEvent.latlng;
-                    delete $ctrl.map.markers.marker;
-                    setPosition(latlng.lat, latlng.lng, args.leafletObject._zoom);
-
-                    $ctrl.getInfo();
-                }
-            }));
-
-        events.push(
-            $scope.$on('leafletDirectiveMarker.' + $ctrl.map.id + '.dragend', function(event, args) {
-                var point = args.leafletEvent.target._leaflet_events.dragend[0].context._latlng;
-                delete $ctrl.map.markers.marker;
-                setPosition(point.lat, point.lng, args.leafletObject._zoom);
-
-                $ctrl.getInfo();
-            })
-        );
-
-        function setPosition(lat, lng, zoom) {
-            if (!$ctrl.location.position) {
-                $ctrl.location.position = {
-                    type: 'Point'
-                };
-            }
-
-            $ctrl.location.position.coordinates = [lng, lat];
-
-            $ctrl.coordsObj = {
-                current: { lat: lat, lng: lng },
-                new: { lat: lat, lng: lng }
-            };
-
-            $ctrl.location.zoom = zoom ? zoom : $ctrl.map.center.zoom;
-
-            if (!$ctrl.map.markers.marker) {
-                $ctrl.map.center = {
-                    lat: lat,
-                    lng: lng,
-                    zoom: zoom ? zoom : $ctrl.map.center.zoom
-                };
-                $ctrl.map.markers = {
-                    marker: {
-                        lat: lat,
-                        lng: lng,
-                        draggable: $ctrl.disabled ? false : true,
-                        message: buildCompleteAddress($ctrl.location, true),
-                        compileMessage: true,
-                        getMessageScope: function() {
-                            $scope.removeMarker = removeMarker;
-                            return $scope;
-                        }
-                    }
-                };
-
-            }
-        }
-
-        function removeMarker() {
-            if (!$ctrl.disabled) {
-                $ctrl.map.markers = {};
-                if ($ctrl.location.position) {
-                    delete $ctrl.location.position;
-                }
-
-                $ctrl.getInfo();
-            }
-        }
-
-        function buildCompleteAddress(data, showButton) {
-            var display_name = '';
-
-            display_name += data.address ? data.address : '';
-            display_name += data.postal ? (display_name ? ', ' : '') + data.postal : '';
-            display_name += data.town ? (display_name ? ', ' : '') + data.town : '';
-            display_name += data.province ? (display_name ? ', ' : '') + data.province : '';
-            display_name += data.region ? (display_name ? ', ' : '') + data.region : '';
-            display_name += data.country ? (display_name ? ', ' : '') + data.country : '';
-
-            if (showButton && !$ctrl.disabled) {
-                display_name += '<br><div class="text-right"><button type="button" class="btn btn-warning text-danger btn-xs no-margin" ng-click="removeMarker()"><i class="fa fa-trash"></i></button></div>';
-            }
-
-            return display_name;
-        }
-
-        $ctrl.showMap = false;
-        $timeout(function() {
-            $ctrl.showMap = true;
-            $scope.$apply();
-            mapUxService.getMapWithId($ctrl.map.id, function(map) {
-                map.invalidateSize();
-                map.fireEvent('focus')
-            });
-        }, 500);
-
-        //clear events
-        $ctrl.$onDestroy = function() {
-            angular.forEach(events, function(eventToDestroy) {
-                eventToDestroy();
-            });
-        };
-    }
-]);
-
-angular.module('opengate-angular-js').component('customUiMap', {
-
-    templateUrl: 'custom-ui-select/views/custom.ui.map.html',
-    controller: 'customUiMapController',
-    bindings: {
-        label: '=',
-        location: '=',
-        required: '=',
-        disabled: '=',
-        onlyMap: '='
-    }
-
 });
 angular.module('opengate-angular-js')
     .service('$provisionDatastreamsUtils', [function () {
@@ -14242,6 +13997,284 @@ angular.module('opengate-angular-js').component('fieldOptions', {
         required: '<',
         loading: '<',
         action: '='
+    }
+
+});
+
+
+
+angular.module('opengate-angular-js').controller('customUiMapController', ['$scope', '$element', '$attrs', '$api', 'mapUxService', 'geocodingService', '$translate', 'Authentication', '$timeout',
+    function ($scope, $element, $attrs, $api, mapUxService, geocodingService, $translate, Authentication, $timeout) {
+        var $ctrl = this;
+
+        $ctrl.coordsObj = {
+            current: {
+                lat: null,
+                lng: null
+            },
+            new: {
+                lat: null,
+                lng: null
+            }
+        };
+
+        $ctrl.reloadingInfo = false;
+        $ctrl.getInfo = function () {
+            $ctrl.reloadingInfo = true;
+            $ctrl.location.country = undefined; // Pais
+            $ctrl.location.region = undefined; // Comunidad
+            $ctrl.location.province = undefined; // provincia
+            $ctrl.location.town = undefined; // ciudad
+            $ctrl.location.postal = undefined;
+            $ctrl.location.address = undefined;
+            $ctrl.display_name = undefined;
+            if ($ctrl.map.markers.marker) {
+                geocodingService.reverseSearch($ctrl.map.markers.marker.lat, $ctrl.map.markers.marker.lng, 18,
+                    function (err, data) {
+                        $ctrl.reloadingInfo = false;
+                        if (data && data.address) {
+                            $ctrl.location.country = data.address.country || undefined; // Pais
+                            $ctrl.location.region = data.address.state || undefined; // Comunidad
+                            $ctrl.location.province = data.address.county || undefined; // provincia
+                            $ctrl.location.town = data.address.city || data.address.village || data.address.town || undefined; // ciudad
+                            $ctrl.location.postal = data.address.postcode || undefined;
+                            $ctrl.location.address = data.address.road || data.address.pedestrian || undefined;
+                        }
+                        $ctrl.display_name = buildCompleteAddress($ctrl.location);
+                        $ctrl.map.markers.marker.message = buildCompleteAddress($ctrl.location, true);
+                    }, {}, Authentication.user.langCode);
+            } else {
+                $ctrl.reloadingInfo = false;
+            }
+        };
+
+        var ngOptions = mapUxService.getDefaultOptions();
+        delete ngOptions.l_gohome;
+        delete ngOptions.l_print;
+
+        $ctrl.map = mapUxService.createNgOptions(ngOptions);
+
+        //config map helper
+        angular.extend($ctrl.map, {
+            center: {
+                lat: 40.095,
+                lng: -3.823,
+                zoom: 4
+            },
+            markers: {},
+            events: {
+                markers: {
+                    enable: ['dragend', 'click'],
+                    logic: 'emit'
+                },
+                map: {
+                    enable: ['click', 'focus'],
+                    logic: 'emit'
+                }
+            }
+        });
+
+        if ($ctrl.location) {
+            if ($ctrl.location.position && $ctrl.location.position.coordinates) {
+                setPosition($ctrl.location.position.coordinates[1], $ctrl.location.position.coordinates[0], $ctrl.location.zoom)
+            }
+
+            $ctrl.display_name = buildCompleteAddress($ctrl.location);
+        }
+
+        $ctrl.map.id = $scope.$id;
+
+
+        $ctrl.searchCoords = function () {
+            $ctrl.map.center = {
+                lat: $ctrl.coordsObj.new.lat,
+                lng: $ctrl.coordsObj.new.lng,
+                zoom: 17
+            };
+
+            $ctrl.coordsObj = {
+                current: {
+                    lat: $ctrl.coordsObj.new.lat,
+                    lng: $ctrl.coordsObj.new.lng
+                },
+                new: {
+                    lat: $ctrl.coordsObj.new.lat,
+                    lng: $ctrl.coordsObj.new.lng
+                }
+            };
+
+            mapUxService.getMapWithId($ctrl.map.id, function (map) {
+                map.invalidateSize();
+                map.fireEvent('focus')
+            });
+        };
+
+        $ctrl.applyCoords = function () {
+            $ctrl.coordsObj = {
+                current: {
+                    lat: $ctrl.coordsObj.new.lat,
+                    lng: $ctrl.coordsObj.new.lng
+                },
+                new: {
+                    lat: $ctrl.coordsObj.new.lat,
+                    lng: $ctrl.coordsObj.new.lng
+                }
+            };
+
+            mapUxService.getMapWithId($ctrl.map.id, function (map) {
+                map.invalidateSize();
+                map.fireEvent('focus')
+            });
+
+            if (!$ctrl.disabled) {
+                delete $ctrl.map.markers.marker;
+                setPosition($ctrl.coordsObj.new.lat, $ctrl.coordsObj.new.lng);
+
+                $ctrl.getInfo();
+            }
+        };
+
+        var events = [];
+
+        events.push(
+            $scope.$on('leafletDirectiveMarker.' + $ctrl.map.id + '.click', function (event, args) {
+                args.leafletObject._map.invalidateSize();
+
+                if (!args.leafletObject.getPopup()._isOpen) {
+                    removeMarker();
+                }
+
+            }));
+
+        events.push(
+            $scope.$on('leafletDirectiveMap.' + $ctrl.map.id + '.focus', function (event, args) {
+                args.leafletObject.invalidateSize();
+            }));
+
+        events.push(
+            $scope.$on('leafletDirectiveMap.' + $ctrl.map.id + '.click', function (event, args) {
+                args.leafletObject.invalidateSize();
+
+                if (!$ctrl.disabled) {
+                    var latlng = args.leafletEvent.latlng;
+                    delete $ctrl.map.markers.marker;
+                    setPosition(latlng.lat, latlng.lng, args.leafletObject._zoom);
+
+                    $ctrl.getInfo();
+                }
+            }));
+
+        events.push(
+            $scope.$on('leafletDirectiveMarker.' + $ctrl.map.id + '.dragend', function (event, args) {
+                var point = args.leafletEvent.target._leaflet_events.dragend[0].context._latlng;
+                delete $ctrl.map.markers.marker;
+                setPosition(point.lat, point.lng, args.leafletObject._zoom);
+
+                $ctrl.getInfo();
+            })
+        );
+
+        function setPosition(lat, lng, zoom) {
+            if (!$ctrl.location.position) {
+                $ctrl.location.position = {
+                    type: 'Point'
+                };
+            }
+
+            $ctrl.location.position.coordinates = [lng, lat];
+
+            $ctrl.coordsObj = {
+                current: {
+                    lat: lat,
+                    lng: lng
+                },
+                new: {
+                    lat: lat,
+                    lng: lng
+                }
+            };
+
+            $ctrl.location.zoom = zoom ? zoom : $ctrl.map.center.zoom;
+
+            if (!$ctrl.map.markers.marker) {
+                $ctrl.map.center = {
+                    lat: lat,
+                    lng: lng,
+                    zoom: zoom ? zoom : $ctrl.map.center.zoom
+                };
+                $ctrl.map.markers = {
+                    marker: {
+                        lat: lat,
+                        lng: lng,
+                        draggable: $ctrl.disabled ? false : true,
+                        message: buildCompleteAddress($ctrl.location, true),
+                        compileMessage: true,
+                        getMessageScope: function () {
+                            $scope.removeMarker = removeMarker;
+                            return $scope;
+                        }
+                    }
+                };
+
+            }
+        }
+
+        function removeMarker() {
+            if (!$ctrl.disabled) {
+                $ctrl.map.markers = {};
+                if ($ctrl.location.position) {
+                    delete $ctrl.location.position;
+                }
+
+                $ctrl.getInfo();
+            }
+        }
+
+        function buildCompleteAddress(data, showButton) {
+            var display_name = '';
+
+            display_name += data.address ? data.address : '';
+            display_name += data.postal ? (display_name ? ', ' : '') + data.postal : '';
+            display_name += data.town ? (display_name ? ', ' : '') + data.town : '';
+            display_name += data.province ? (display_name ? ', ' : '') + data.province : '';
+            display_name += data.region ? (display_name ? ', ' : '') + data.region : '';
+            display_name += data.country ? (display_name ? ', ' : '') + data.country : '';
+
+            if (showButton && !$ctrl.disabled) {
+                display_name += '<br><div class="text-right"><button type="button" class="btn btn-warning text-danger btn-xs no-margin" ng-click="removeMarker()"><i class="fa fa-trash"></i></button></div>';
+            }
+
+            return display_name;
+        }
+
+        $ctrl.showMap = false;
+        $timeout(function () {
+            $ctrl.showMap = true;
+            $scope.$apply();
+            mapUxService.getMapWithId($ctrl.map.id, function (map) {
+                map.invalidateSize();
+                map.fireEvent('focus')
+            });
+        }, 500);
+
+        //clear events
+        $ctrl.$onDestroy = function () {
+            angular.forEach(events, function (eventToDestroy) {
+                eventToDestroy();
+            });
+        };
+    }
+]);
+
+angular.module('opengate-angular-js').component('customUiMap', {
+    templateUrl: 'components/views/custom.ui.map.html',
+    controller: 'customUiMapController',
+    bindings: {
+        label: '=',
+        location: '=',
+        required: '=',
+        disabled: '=',
+        onlyMap: '='
     }
 
 });})(window);

@@ -9,7 +9,7 @@
         </div>
     </div>
     <div class="col-xs-12"><small>{{ $ctrl.display_name }}&nbsp;</small></div>
-    <leaflet ng-show="$ctrl.showMap" id="{{ $ctrl.map.id }}" lf-center="$ctrl.map.center" layers="$ctrl.map.layers" controls="$ctrl.map.controls" event-broadcast="$ctrl.map.events" markers="$ctrl.map.markers" width="100%" height="150px"></leaflet>
+    <leaflet ng-if="$ctrl.showMap" id="{{ $ctrl.map.id }}" lf-center="$ctrl.map.center" layers="$ctrl.map.layers" controls="$ctrl.map.controls" event-broadcast="$ctrl.map.events" markers="$ctrl.map.markers" width="100%" height="150px"></leaflet>
     <div class="row" ng-if="!$ctrl.disabled && !$ctrl.onlyMap">
         <div class="col-xs-12 col-md-5 form-group no-margin"><input ng-required="$ctrl.required" type="text" class="form-control" title="{{ 'FORM.TITLE.ADDRESS' | translate }}" placeholder="{{ 'FORM.TITLE.ADDRESS' | translate }}" ng-model="$ctrl.location.address"></div>
         <div class="col-xs-12 col-md-5 form-group no-margin"><input ng-required="$ctrl.required" type="text" class="form-control" title="{{ 'FORM.TITLE.TOWN' | translate }}" placeholder="{{ 'FORM.TITLE.TOWN' | translate }}" ng-model="$ctrl.location.town"></div>

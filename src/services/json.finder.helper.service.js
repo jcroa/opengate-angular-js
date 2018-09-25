@@ -78,6 +78,8 @@ function CollectedJsonFinderHelper() {
             'description': 'device.description',
             'operationalStatus': 'device.operationalStatus',
             'serialNumber': 'device.serialNumber',
+            'topologyPath': 'device.topology.path',
+            'clock': 'device.clock',
             'identifier': 'device.identifier',
             'model': 'device.model',
             'software': 'device.software',

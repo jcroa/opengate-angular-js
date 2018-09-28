@@ -1,8 +1,8 @@
 'use strict';
 
 
-angular.module('opengate-angular-js').controller('customUiSelectDeviceController', ['$scope', '$element', '$attrs', '$api', '$translate', '$doActions',
-    function($scope, $element, $attrs, $api, $translate, $doActions) {
+angular.module('opengate-angular-js').controller('customUiSelectDeviceController', ['$scope', '$element', '$attrs', '$api', '$translate', '$doActions', '$jsonFinderHelper', 'jsonPath',
+    function ($scope, $element, $attrs, $api, $translate, $doActions, $jsonFinderHelper, jsonPath) {
         var selectBuilder = $api().newSelectBuilder();
         var SE = $api().SE;
 
@@ -41,12 +41,23 @@ angular.module('opengate-angular-js').controller('customUiSelectDeviceController
         var ctrl = this;
         ctrl.ownConfig = {
             builder: $api().devicesSearchBuilder().select(selectBuilder),
-            filter: function(search) {
+            filter: function (search) {
                 var filter = {
-                    'or': [
-                        { 'like': { 'provision.administration.identifier': search } },
-                        { 'like': { 'provision.device.specificType': search } },
-                        { 'like': { 'device.specificType': search } }
+                    'or': [{
+                            'like': {
+                                'provision.administration.identifier': search
+                            }
+                        },
+                        {
+                            'like': {
+                                'provision.device.specificType': search
+                            }
+                        },
+                        {
+                            'like': {
+                                'device.specificType': search
+                            }
+                        }
                     ]
                 };
 
@@ -79,11 +90,11 @@ angular.module('opengate-angular-js').controller('customUiSelectDeviceController
             specificType: ctrl.specificType
         };
 
-        ctrl.deviceSelected = function($item, $model) {
+        ctrl.deviceSelected = function ($item, $model) {
             if (ctrl.multiple) {
                 var identifierTmp = [];
 
-                angular.forEach(ctrl.device, function(deviceTmp) {
+                angular.forEach(ctrl.device, function (deviceTmp) {
                     identifierTmp.push(deviceTmp.provision.administration.identifier._current.value);
                 });
 
@@ -100,7 +111,7 @@ angular.module('opengate-angular-js').controller('customUiSelectDeviceController
             }
         };
 
-        ctrl.deviceRemove = function($item, $model) {
+        ctrl.deviceRemove = function ($item, $model) {
             if (ctrl.onRemove) {
                 ctrl.onRemove($item, $model);
             }
@@ -108,25 +119,72 @@ angular.module('opengate-angular-js').controller('customUiSelectDeviceController
 
         };
 
-        if (!ctrl.action) {
-            ctrl.action = {
+        if (!ctrl.actions) {
+            ctrl.actions = [{
                 title: $translate.instant('BUTTON.TITLE.NEW_DEVICE'),
                 icon: 'glyphicon glyphicon-plus-sign',
-                action: function() {
+                action: function () {
                     var actionData = {};
                     if (!!ctrl.specificType) {
                         actionData = {
-                            resourceType: { _current: { value: 'entity.device' } },
-                            provision: { device: { specificType: { _current: { value: ctrl.specificType } } } }
-                        }
+                            resourceType: {
+                                _current: {
+                                    value: 'entity.device'
+                                }
+                            },
+                            provision: {
+                                device: {
+                                    specificType: {
+                                        _current: {
+                                            value: ctrl.specificType
+                                        }
+                                    }
+                                }
+                            }
+                        };
                     }
-                    $doActions.executeModal('createDevice', actionData);
+                    $doActions.executeModal('createDevice', actionData, function (result) {
+                        if (result && result.length > 0) {
+                            ctrl.device = !ctrl.device ? [] : ctrl.device;
+                            ctrl.device.push({
+                                provision: {
+                                    administration: {
+                                        identifier: {
+                                            _current: {
+                                                value: result[0].identifier
+                                            }
+                                        }
+                                    },
+                                    device: {
+                                        identifier: {
+                                            _current: {
+                                                value: result[0].identifier
+                                            }
+                                        }
+                                    }
+                                }
+                            });
+                        }
+                    });
                 },
                 permissions: 'manageEntity'
-            };
+            }, {
+                title: $translate.instant('BUTTON.TITLE.EXECUTE_OPERATION'),
+                icon: 'glyphicon glyphicon-flash',
+                action: function () {
+                    $doActions.executeModal('executeOperation', {
+                        keys: jsonPath(ctrl.device, '$..' + $jsonFinderHelper.provisioned.getPath('identifier') + '._current.value') || [],
+                        entityType: 'GATEWAY'
+                    });
+                },
+                disable: function () {
+                    return !ctrl.device || ctrl.device.length === 0;
+                },
+                permissions: 'executeOperation'
+            }];
         }
 
-        ctrl.$onChanges = function(changesObj) {
+        ctrl.$onChanges = function (changesObj) {
             if (changesObj && changesObj.identifier) {
                 mapIdentifier(changesObj.identifier.currentValue);
             }
@@ -151,21 +209,25 @@ angular.module('opengate-angular-js').controller('customUiSelectDeviceController
                     if (angular.isArray(identifier)) {
                         ctrl.device = [];
 
-                        angular.forEach(identifier, function(idTmp) {
+                        angular.forEach(identifier, function (idTmp) {
                             ctrl.device.push({
                                 provision: {
                                     administration: {
                                         identifier: {
-                                            _current: { value: idTmp }
+                                            _current: {
+                                                value: idTmp
+                                            }
                                         }
                                     },
                                     device: {
                                         identifier: {
-                                            _current: { value: idTmp }
+                                            _current: {
+                                                value: idTmp
+                                            }
                                         }
                                     }
                                 }
-                            })
+                            });
                         });
                     }
                 } else {
@@ -173,12 +235,16 @@ angular.module('opengate-angular-js').controller('customUiSelectDeviceController
                         provision: {
                             administration: {
                                 identifier: {
-                                    _current: { value: ctrl.identifier }
+                                    _current: {
+                                        value: ctrl.identifier
+                                    }
                                 }
                             },
                             device: {
                                 identifier: {
-                                    _current: { value: ctrl.identifier }
+                                    _current: {
+                                        value: ctrl.identifier
+                                    }
                                 }
                             }
                         }

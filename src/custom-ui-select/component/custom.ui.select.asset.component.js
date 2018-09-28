@@ -1,8 +1,8 @@
 'use strict';
 
 
-angular.module('opengate-angular-js').controller('customUiSelectAssetController', ['$scope', '$element', '$attrs', '$api', '$doActions', '$translate',
-    function($scope, $element, $attrs, $api, $doActions, $translate) {
+angular.module('opengate-angular-js').controller('customUiSelectAssetController', ['$scope', '$element', '$attrs', '$api', '$doActions', '$translate', '$jsonFinderHelper', 'jsonPath',
+    function ($scope, $element, $attrs, $api, $doActions, $translate, $jsonFinderHelper, jsonPath) {
         var selectBuilder = $api().newSelectBuilder();
         var SE = $api().SE;
 
@@ -31,12 +31,23 @@ angular.module('opengate-angular-js').controller('customUiSelectAssetController'
         var ctrl = this;
         ctrl.ownConfig = {
             builder: $api().assetsSearchBuilder().select(selectBuilder),
-            filter: function(search) {
+            filter: function (search) {
                 var filter = {
-                    'or': [
-                        { 'like': { 'provision.administration.identifier': search } },
-                        { 'like': { 'provision.asset.specificType': search } },
-                        { 'like': { 'asset.specificType': search } }
+                    'or': [{
+                            'like': {
+                                'provision.administration.identifier': search
+                            }
+                        },
+                        {
+                            'like': {
+                                'provision.asset.specificType': search
+                            }
+                        },
+                        {
+                            'like': {
+                                'asset.specificType': search
+                            }
+                        }
                     ]
                 };
 
@@ -69,11 +80,11 @@ angular.module('opengate-angular-js').controller('customUiSelectAssetController'
             specificType: ctrl.specificType
         };
 
-        ctrl.assetSelected = function($item, $model) {
+        ctrl.assetSelected = function ($item, $model) {
             if (ctrl.multiple) {
                 var identifierTmp = [];
 
-                angular.forEach(ctrl.asset, function(assetTmp) {
+                angular.forEach(ctrl.asset, function (assetTmp) {
                     identifierTmp.push(assetTmp.provision.administration.identifier._current.value);
                 });
 
@@ -90,7 +101,7 @@ angular.module('opengate-angular-js').controller('customUiSelectAssetController'
             }
         };
 
-        ctrl.assetRemove = function($item, $model) {
+        ctrl.assetRemove = function ($item, $model) {
             if (ctrl.onRemove) {
                 ctrl.onRemove($item, $model);
             }
@@ -98,25 +109,59 @@ angular.module('opengate-angular-js').controller('customUiSelectAssetController'
 
         };
 
-        if (!ctrl.action) {
-            ctrl.action = {
-                title: $translate.instant('BUTTON.TITLE.NEW_ASSET'),
+        if (!ctrl.actions) {
+            ctrl.actions = [{
+                title: ctrl.ownConfig.specificType || $translate.instant('BUTTON.TITLE.NEW_ASSET'),
                 icon: 'glyphicon glyphicon-plus-sign',
-                action: function() {
+                action: function () {
                     var actionData = {};
                     if (!!ctrl.specificType) {
                         actionData = {
-                            resourceType: { _current: { value: 'entity.asset' } },
-                            provision: { asset: { specificType: { _current: { value: ctrl.specificType } } } }
-                        }
+                            resourceType: {
+                                _current: {
+                                    value: 'entity.asset'
+                                }
+                            },
+                            provision: {
+                                asset: {
+                                    specificType: {
+                                        _current: {
+                                            value: ctrl.specificType
+                                        }
+                                    }
+                                }
+                            }
+                        };
                     }
-                    $doActions.executeModal('createAsset', actionData);
+                    $doActions.executeModal('createAsset', actionData, function (result) {
+                        if (result && result.length > 0) {
+                            ctrl.asset = !ctrl.asset ? [] : ctrl.asset;
+                            ctrl.asset.push({
+                                provision: {
+                                    administration: {
+                                        identifier: {
+                                            _current: {
+                                                value: result[0].identifier
+                                            }
+                                        }
+                                    },
+                                    asset: {
+                                        identifier: {
+                                            _current: {
+                                                value: result[0].identifier
+                                            }
+                                        }
+                                    }
+                                }
+                            });
+                        }
+                    });
                 },
                 permissions: 'manageEntity'
-            };
+            }];
         }
 
-        ctrl.$onChanges = function(changesObj) {
+        ctrl.$onChanges = function (changesObj) {
             if (changesObj && changesObj.identifier) {
                 mapIdentifier(changesObj.identifier.currentValue);
             }
@@ -141,21 +186,25 @@ angular.module('opengate-angular-js').controller('customUiSelectAssetController'
                     if (angular.isArray(identifier)) {
                         ctrl.asset = [];
 
-                        angular.forEach(identifier, function(idTmp) {
+                        angular.forEach(identifier, function (idTmp) {
                             ctrl.asset.push({
                                 provision: {
                                     administration: {
                                         identifier: {
-                                            _current: { value: idTmp }
+                                            _current: {
+                                                value: idTmp
+                                            }
                                         }
                                     },
                                     asset: {
                                         identifier: {
-                                            _current: { value: idTmp }
+                                            _current: {
+                                                value: idTmp
+                                            }
                                         }
                                     }
                                 }
-                            })
+                            });
                         });
                     }
 
@@ -164,12 +213,16 @@ angular.module('opengate-angular-js').controller('customUiSelectAssetController'
                         provision: {
                             administration: {
                                 identifier: {
-                                    _current: { value: ctrl.identifier }
+                                    _current: {
+                                        value: ctrl.identifier
+                                    }
                                 }
                             },
                             asset: {
                                 identifier: {
-                                    _current: { value: ctrl.identifier }
+                                    _current: {
+                                        value: ctrl.identifier
+                                    }
                                 }
                             }
                         }

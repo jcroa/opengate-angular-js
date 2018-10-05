@@ -2,7 +2,10 @@
 <small class="ux-txt-warning" ng-if="$ctrl.optional" title="{{ 'FORM.FIELD.OPTIONAL' | translate }}">(-)</small>
 <small class="ux-txt-info" ng-if="$ctrl.multiple" title="{{ 'FORM.FIELD.MULTIPLE' | translate }}">
     <span class="fa-stack" style="font-size:0.5em;">
-            <i class="fa fa-clone fa-stack-2x"></i>
-            <i class="fa fa-check fa-stack-1x"></i>
+        <i class="fa fa-clone fa-stack-2x"></i>
+        <i class="fa fa-check fa-stack-1x"></i>
     </span>
+</small>
+<small class="ux-txt-info" ng-if="$ctrl.loading">
+    <span class="fa fa-spinner fa-spin" style="font-size:1.2em;"></span>
 </small>

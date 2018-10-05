@@ -62,7 +62,8 @@ angular.module('opengate-angular-js').controller('customUiSelectSubscriberContro
             rootKey: 'devices',
             collection: [],
             customSelectors: $api().subscribersSearchBuilder().provisioned(),
-            processingData: $entityExtractor.extractSubscribers
+            processingData: $entityExtractor.extractSubscribers,
+            specificType: ctrl.specificType
         };
 
         ctrl.entitySelected = function($item, $model) {
@@ -75,6 +76,10 @@ angular.module('opengate-angular-js').controller('customUiSelectSubscriberContro
         ctrl.entityRemove = function($item, $model) {
             ctrl.onRemove($item, $model);
         };
+
+        if (ctrl.required !== undefined) {
+            ctrl.ngRequired = ctrl.required;
+        }
     }
 ]);
 
@@ -88,7 +93,8 @@ angular.module('opengate-angular-js').component('customUiSelectSubscriber', {
         entity: '=',
         specificType: '@',
         multiple: '<',
-        required: '=',
+        ngRequired: '<',
+        required: '<',
         excludeDevices: '='
     }
 

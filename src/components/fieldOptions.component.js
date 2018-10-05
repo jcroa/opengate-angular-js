@@ -1,7 +1,7 @@
 'use strict';
 
 
-angular.module('opengate-angular-js').controller('fieldOptionsController', ['$scope', '$element', '$attrs', function($scope, $element, $attrs) {
+angular.module('opengate-angular-js').controller('fieldOptionsController', ['$scope', '$element', '$attrs', function ($scope, $element, $attrs) {
     var ctrl = this;
 }]);
 
@@ -11,7 +11,8 @@ angular.module('opengate-angular-js').component('fieldOptions', {
     controller: 'fieldOptionsController',
     bindings: {
         multiple: '<',
-        required: '<'
+        required: '<',
+        loading: '<'
     }
 
 });

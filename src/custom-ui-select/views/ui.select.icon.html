@@ -1,0 +1,23 @@
+<div class="form-group no-margin">
+    <label ng-if="$ctrl.label" for="icon" translate>FORM.LABEL.ICON</label>
+    <div class="{{$ctrl.allowClear ? 'input-group' : ''}}">
+        <ui-select id="icon" name="icon" ng-model="$ctrl.icon" theme="bootstrap" ng-required="$ctrl.required" title="$ctrl.title"
+            ng-disabled="$ctrl.disabled" on-remove="$ctrl.iconRemove($item, $model)" on-select="$ctrl.iconSelected($item, $model)"
+            ng-required="$ctrl.required" allow-clear="$ctrl.allowClear" uis-open-close="$ctrl.onOpenClose(isOpen)">
+            <ui-select-match placeholder="{{ 'FORM.PLACEHOLDER.ICON.CHOOSE' | translate }}" allow-clear="$ctrl.allowClear">
+                <i class="fa {{$select.selected.key}} fa-2x"></i>
+                <span>{{$select.selected.key}}</span>
+            </ui-select-match>
+            <ui-select-choices class="oux-icon-selector" repeat="icon.key as (key, icon) in $ctrl.availableIcons | filter: $select.search  | limitTo: $ctrl.maxIcons">
+                <i class="fa fa-4x" ng-class="icon.key" title="{{icon.key}}"></i>
+                <br />
+                <span ng-bind-html="icon.key| highlight: $select.search"></span>
+            </ui-select-choices>
+        </ui-select>
+        <span class="input-group-btn" ng-if="$ctrl.allowClear">
+            <button type="button" ng-click="$ctrl.icon = undefined" class="btn btn-default">
+                <span class="glyphicon glyphicon-trash"></span>
+            </button>
+        </span>
+    </div>
+</div>

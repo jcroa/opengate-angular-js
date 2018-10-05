@@ -490,14 +490,16 @@
          * @param {*} lon 
          * @param {*} callback 
          * @param {*} optFormat. formato del json respuesta, por defecto se devuelve todo lo que responde el webservce
+         * @param {*} language_code idioma del resultado
          * @return JSON object with data and metadata of this location
          */
-        function reverseSearch(lat, lon, zoom, callback, optFormat) {
+        function reverseSearch(lat, lon, zoom, callback, optFormat, language_code) {
             var resp = $.extend({}, FULL_RESPONSE_TEMPLATE);
 
             var reverseSearchUrl = _baseAddress + '/reverse';
             var url = reverseSearchUrl + '?format=json&lat=' + lat + '&lon=' + lon +
-                '&zoom=' + zoom + '&addressdetails=1';
+                '&zoom=' + zoom + '&addressdetails=1&polygon_geojson=1' + (language_code ? '&accept-language=' + language_code : '');
+
             $http({
                 method: 'GET',
                 url: url

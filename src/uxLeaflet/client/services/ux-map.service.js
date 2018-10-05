@@ -56,22 +56,34 @@ angular.module('uxleaflet')
     googleTerrain: {
         name: 'Google Terrain',
         layerType: 'TERRAIN',
-        type: 'google'
+        type: 'google',
+        layerParams: {
+            maxZoom: 20
+        }
     },
     googleHybrid: {
         name: 'Google Hybrid',
         layerType: 'HYBRID',
-        type: 'google'
+        type: 'google',
+        layerParams: {
+            maxZoom: 20
+        }
     },
     googleRoadmap: {
         name: 'Google Streets',
         layerType: 'ROADMAP',
-        type: 'google'
+        type: 'google',
+        layerParams: {
+            maxZoom: 20
+        }
     },
     googleSatellite: {
         name: 'Google Satellite',
         layerType: 'SATELLITE',
-        type: 'google'
+        type: 'google',
+        layerParams: {
+            maxZoom: 20
+        }
     }
     // google: {
     //     name: 'Google Maps',
@@ -142,9 +154,33 @@ angular.module('uxleaflet')
  * - baselayer configuration
  * It use leafletData
  */
-.service('mapUxService', function($timeout, leafletData, mapExtraApiService, geomUxService, defaultMapOptions, allNgBaseLayers) {
+.service('mapUxService', function($timeout, leafletData, mapExtraApiService, geomUxService, defaultMapOptions, allNgBaseLayers, $translate) {
     var _this = this;
     var _mapUxService = this;
+
+    L.Map.mergeOptions({
+        // false if you want an unruly map
+        sleep: true,
+        // time(ms) until map sleeps on mouseout
+        sleepTime: 750,
+        // time(ms) until map wakes on mouseover
+        wakeTime: 750,
+        // should the user receive wake instrurctions?
+        sleepNote: true,
+        // should hovering wake the map? (non-touch devices only)
+        hoverToWake: true,
+        // a message to inform users about waking the map
+        wakeMessage: $translate.instant('TOASTR.RIGHT_CLICK_ZOOM_ACTIVATION'),
+        wakeMessageTouch: $translate.instant('TOASTR.RIGHT_CLICK_ZOOM_ACTIVATION'),
+        // opacity for the sleeping map
+        sleepOpacity: .9,
+        sleepNoteStyle: {
+            background: 'black',
+            color: 'white',
+            maxWidth: '50%',
+            top: '5px'
+        }
+    });
 
     this.createMapManager = function(scope) {
         if (!scope || !scope.$id) {

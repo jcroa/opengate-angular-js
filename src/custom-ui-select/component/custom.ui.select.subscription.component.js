@@ -1,8 +1,8 @@
 'use strict';
 
 
-angular.module('opengate-angular-js').controller('customUiSelectSubscriptionController', ['$scope', '$element', '$attrs', '$api', '$entityExtractor',
-    function($scope, $element, $attrs, $api, $entityExtractor) {
+angular.module('opengate-angular-js').controller('customUiSelectSubscriptionController', ['$scope', '$element', '$attrs', '$api', '$entityExtractor', '$translate', '$doActions', '$jsonFinderHelper', 'jsonPath',
+    function($scope, $element, $attrs, $api, $entityExtractor, $translate, $doActions, $jsonFinderHelper, jsonPath) {
         var ctrl = this;
         ctrl.ownConfig = {
             builder: $api().subscriptionsSearchBuilder().provisioned(),
@@ -60,7 +60,8 @@ angular.module('opengate-angular-js').controller('customUiSelectSubscriptionCont
             rootKey: 'devices',
             collection: [],
             customSelectors: $api().subscriptionsSearchBuilder().provisioned(),
-            processingData: $entityExtractor.extractSubscriptions
+            processingData: $entityExtractor.extractSubscriptions,
+            specificType: ctrl.specificType
         };
 
         ctrl.entitySelected = function($item, $model) {
@@ -73,6 +74,57 @@ angular.module('opengate-angular-js').controller('customUiSelectSubscriptionCont
         ctrl.entityRemove = function($item, $model) {
             ctrl.onRemove($item, $model);
         };
+
+
+        if (!ctrl.actions) {
+            ctrl.actions = [{
+                title: $translate.instant('BUTTON.TITLE.NEW_SUBSCRIPTION'),
+                icon: 'glyphicon glyphicon-plus-sign',
+                action: function() {
+                    $doActions.executeModal('createSubscription', {}, function (result) {
+                        if (result && result.length > 0) {
+                            ctrl.entity = !ctrl.entity ? [] : ctrl.entity;
+                            ctrl.entity.push({
+                                provision: {
+                                    administration: {
+                                        identifier: {
+                                            _current: {
+                                                value: result[0].identifier
+                                            }
+                                        }
+                                    },
+                                    subscription: {
+                                        identifier: {
+                                            _current: {
+                                                value: result[0].identifier
+                                            }
+                                        }
+                                    }
+                                }
+                            });
+                        }
+                    });
+                },
+                permissions: 'manageEntity'
+            }, {
+                title: $translate.instant('BUTTON.TITLE.EXECUTE_OPERATION'),
+                icon: 'glyphicon glyphicon-flash',
+                action: function () {
+                    $doActions.executeModal('executeOperation', {
+                        keys: jsonPath(ctrl.entity, '$..' + $jsonFinderHelper.subscription.provisioned.getPath('identifier') + '._current.value') || [],
+                        entityType: 'SUBSCRIPTION'
+                    });
+                },
+                disable: function () {
+                    return !ctrl.entity || ctrl.entity.length === 0;
+                },
+                permissions: 'executeOperation'
+            }];
+        }
+
+        if (ctrl.required !== undefined) {
+            ctrl.ngRequired = ctrl.required;
+        }
     }
 ]);
 
@@ -86,8 +138,10 @@ angular.module('opengate-angular-js').component('customUiSelectSubscription', {
         entity: '=',
         specificType: '@',
         multiple: '<',
-        required: '=',
-        excludeDevices: '='
+        ngRequired: '<',
+        required: '<',
+        excludeDevices: '=',
+        action: '=?'
     }
 
 });

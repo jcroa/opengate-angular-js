@@ -73,10 +73,13 @@ function CollectedJsonFinderHelper() {
         value: {
             'specificType': 'device.specificType',
             'location': 'device.location',
+            'entityLocation': 'entity.location',
             'name': 'device.name',
             'description': 'device.description',
             'operationalStatus': 'device.operationalStatus',
             'serialNumber': 'device.serialNumber',
+            'topologyPath': 'device.topology.path',
+            'clock': 'device.clock',
             'identifier': 'device.identifier',
             'model': 'device.model',
             'software': 'device.software',
